@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>《Effective Java》第3章对于所有对象都通用的方法 | 马林康的博客</title><meta name="keywords" content="读书笔记,Effective-Java"><meta name="author" content="马林康"><meta name="copyright" content="马林康"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="第8条：覆盖equals时请遵守通用约定在覆盖equals方法的时候，你必须要遵守它的通用约定。  自反性（reflexive）。对于任何非null的引用值x，x.equals(x)必须返回true。 对称性（symmetric)。对于任何非null的引用值x和y，当且仅当y.equals(x)返回true时，x.equals(y)必须返回true。 传递性（transitive）。对于任何非nu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Effective Java》第3章对于所有对象都通用的方法">
+<meta property="og:url" content="https://malinkang.cn/2016/01/09/effective-java-methods-common-to-all-objects/index.html">
+<meta property="og:site_name" content="马林康的博客">
+<meta property="og:description" content="第8条：覆盖equals时请遵守通用约定在覆盖equals方法的时候，你必须要遵守它的通用约定。  自反性（reflexive）。对于任何非null的引用值x，x.equals(x)必须返回true。 对称性（symmetric)。对于任何非null的引用值x和y，当且仅当y.equals(x)返回true时，x.equals(y)必须返回true。 传递性（transitive）。对于任何非nu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字44.png">
+<meta property="article:published_time" content="2016-01-09T07:18:19.000Z">
+<meta property="article:modified_time" content="2021-01-03T04:07:43.771Z">
+<meta property="article:author" content="马林康">
+<meta property="article:tag" content="读书笔记">
+<meta property="article:tag" content="Effective-Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字44.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://malinkang.cn/2016/01/09/effective-java-methods-common-to-all-objects/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-03 12:07:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" target="_blank" rel="noopener" href="https://leetcode.malinkang.cn/"><i class="fa-fw fas fa-link"></i><span> LeetCode解题</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字44.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马林康的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" target="_blank" rel="noopener" href="https://leetcode.malinkang.cn/"><i class="fa-fw fas fa-link"></i><span> LeetCode解题</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《Effective Java》第3章对于所有对象都通用的方法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2016-01-09T07:18:19.000Z" title="发表于 2016-01-09 15:18:19">2016-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-03T04:07:43.771Z" title="更新于 2021-01-03 12:07:43">2021-01-03</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="第8条：覆盖equals时请遵守通用约定"><a href="#第8条：覆盖equals时请遵守通用约定" class="headerlink" title="第8条：覆盖equals时请遵守通用约定"></a>第8条：覆盖equals时请遵守通用约定</h2><p>在覆盖<code>equals</code>方法的时候，你必须要遵守它的通用约定。</p>
+<ul>
+<li>自反性（reflexive）。对于任何非null的引用值x，<code>x.equals(x)</code>必须返回true。</li>
+<li>对称性（symmetric)。对于任何非null的引用值x和y，当且仅当<code>y.equals(x)</code>返回true时，<code>x.equals(y)</code>必须返回true。</li>
+<li>传递性（transitive）。对于任何非null的引用值x、y和z，如果<code>x.equals(y)</code>返回true，并且<code>y.equals(z)</code>也返回true，那么<code>x.equals(z)</code>也必须返回true。</li>
+<li>一致性（consistent）。对于任何非null的引用值x和y，只要<code>equals</code>的比较操作再对象中所用的信息没有被修改，多次调用<code>x.equals(y)</code>就会一致地返回true，或者一致地返回false。</li>
+<li>对于任何非null的引用值x，<code>x.equals(null)</code>必须返回false。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CaseInsensitiveString</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String s;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CaseInsensitiveString</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s==<span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        <span class="keyword">this</span>.s = s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> CaseInsensitiveString)</span><br><span class="line">            <span class="keyword">return</span> s.equalsIgnoreCase(((CaseInsensitiveString) obj).s);</span><br><span class="line">        <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> String)</span><br><span class="line">            <span class="keyword">return</span> s.equalsIgnoreCase((String) obj);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CaseInsensitiveString cis = <span class="keyword">new</span> CaseInsensitiveString(<span class="string">&quot;Polish&quot;</span>);</span><br><span class="line">String s = <span class="string">&quot;polish&quot;</span>;</span><br><span class="line"><span class="comment">//违反了对称性</span></span><br><span class="line">System.out.println(cis.equals(s)); <span class="comment">//true</span></span><br><span class="line">System.out.println(s.equals(cis)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>一旦违反了<code>equals</code>约定，当其他对象面对你的对象时，你完全不知道这些对象的行为会怎么样。</p>
+<p>为了解决这个问题，只需把企图与<code>String</code>互操作的这段代码从<code>equals</code>方法中去掉就可以了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> obj <span class="keyword">instanceof</span> CaseInsensitiveString</span><br><span class="line">        &amp;&amp; s.equalsIgnoreCase(((CaseInsensitiveString) obj).s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Point</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.x = x;</span><br><span class="line">        <span class="keyword">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!(obj <span class="keyword">instanceof</span> Point))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        Point point = (Point) obj;</span><br><span class="line">        <span class="keyword">return</span> point.x == x &amp;&amp; point.y == y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>扩展这个类，为一个点添加颜色信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Color color;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ColorPoint</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, Color color)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(x, y);</span><br><span class="line">        <span class="keyword">this</span>.color = color;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果完全不提供<code>equals</code>方法，而是直接从<code>Point</code>继承过来，在<code>equals</code>做比较的时候颜色信息就被忽略掉了。编写一个<code>equals</code>方法，只有当它的参数是另一个有色点，并且具有同样的位置和颜色时，它才会返回<code>true</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!(obj <span class="keyword">instanceof</span> ColorPoint))</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj) &amp;&amp; ((ColorPoint) obj).color == color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法的问题在于，你在比较普通点和有色点，以及相反的情形时，可能会得到不同的结果。前一种比较忽略了颜色信息，而后一种比较则总是返回<code>false</code>，因为参数的类型不正确。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Point p = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">ColorPoint cp = <span class="keyword">new</span> ColorPoint(<span class="number">1</span>, <span class="number">2</span>, Color.RED);</span><br><span class="line">System.out.println(p.equals(cp)); <span class="comment">// true</span></span><br><span class="line">System.out.println(cp.equals(p)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>可以做这样的尝试来修正这个问题，让<code>ColorPoint.equals</code>在进行“混合比较”时忽略颜色信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!(obj <span class="keyword">instanceof</span> Point))</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (!(obj <span class="keyword">instanceof</span> ColorPoint))</span><br><span class="line">        <span class="keyword">return</span> obj.equals(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj) &amp;&amp; ((ColorPoint) obj).color == color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方法确实提供了对称性，但是却牺牲了传递性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ColorPoint p1 = <span class="keyword">new</span> ColorPoint(<span class="number">1</span>, <span class="number">2</span>, Color.RED);</span><br><span class="line">Point p2 = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">ColorPoint p3 = <span class="keyword">new</span> ColorPoint(<span class="number">1</span>, <span class="number">2</span>, Color.BLUE);</span><br><span class="line">System.out.println(p1.equals(p2));  <span class="comment">// true</span></span><br><span class="line">System.out.println(p2.equals(p3));  <span class="comment">// true</span></span><br><span class="line">System.out.println(p1.equals(p3));  <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>怎么解决呢？事实上，这是面向对象语言中关于等价关系的一个基本问题。我们<strong>无法在扩展可实例化的类的同时，既增加新的值组件，同时又保留<code>equals</code>约定，</strong>除非愿意放弃面向对象的抽象所带来的优势。</p>
+<p>在<code>equals</code>方法中用<code>getClass</code>测试替代<code>instanceof</code>测试，可以扩展可实例化的类和增加新的值组件，同时保留<code>equals</code>约定：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj == <span class="keyword">null</span> || obj.getClass() != getClass())</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    Point p = (Point) obj;</span><br><span class="line">    <span class="keyword">return</span> p.x == x &amp;&amp; p.y == y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段程序只有当对象具有相同的实现时，才能使对象等同。</p>
+<p>虽然没有一种令人满意的方法可以既扩展不可实例化的类，又增加值组件，但还是有一种不错的权宜之计。根据第16条建议：复合优先于继承。我们不再让<code>ColorPoint</code>扩展<code>Point</code>，而是在<code>ColorPoint</code>中加入一个私有的<code>Point</code>域，以及一个公有的视图方法，此方法返回一个与该有色点处于相同位置的普通<code>Point</code>对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Point point;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Color color;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ColorPoint</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, Color color)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (color == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        point = <span class="keyword">new</span> Point(x, y);</span><br><span class="line">        <span class="keyword">this</span>.color = color;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Point <span class="title">asPoint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> point;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!(obj <span class="keyword">instanceof</span> ColorPoint))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        ColorPoint cp = (ColorPoint) obj;</span><br><span class="line">        <span class="keyword">return</span> cp.point.equals(point) &amp;&amp; cp.color.equals(color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结合所有这些要求，得出了以下实现高质量<code>equals</code>方法的诀窍：</p>
+<ol>
+<li>使用==操作符检查“参数是否为这个对象的引用”。</li>
+<li>使用<code>instanceof</code>操作符检查“参数是否为正确的类型”。</li>
+<li>把参数转换成正确的类型。</li>
+<li>对于该类中的每个“关键”域，检查参数中的域是否与该对象中对应的域相匹配。</li>
+<li>当编写完成了equals方法之后，应该问自己三个问题：它是否是对称的、传递的、一致的？</li>
+</ol>
+<p>下面是最后的告诫：</p>
+<ul>
+<li>覆盖equals时总要覆盖hashCode。</li>
+<li>不要企图让<code>equals</code>方法过于智能。</li>
+<li>不要让equals声明中的Object对象替换为其他的类型。</li>
+</ul>
+<h2 id="第9条：覆盖equals时总要覆盖hashCode"><a href="#第9条：覆盖equals时总要覆盖hashCode" class="headerlink" title="第9条：覆盖equals时总要覆盖hashCode"></a>第9条：覆盖equals时总要覆盖hashCode</h2><p>一个很常见的错误根源在于没有覆盖<code>hashCode</code>方法。在每个覆盖了equals方法的类中，也必须覆盖hashCode方法。如果不这样做的话，就会违法<code>hashCode</code>的通用约定，从而导致该类无法结合所有基于散列的集合一起正常运作，这样的集合包括<code>HashMap</code>、<code>HashSet</code>和<code>Hashtable</code>。</p>
+<p>下面是约定的内容，摘自<code>Object</code>规范。</p>
+<ul>
+<li>在应用程序的执行期间，只要对象的<code>equals</code>方法的比较操作所用到的信息没有被修改，那么对这同一个对象调用多次，<code>hashCode</code>方法都必须始终如一地返回同一个整数。在同一个应用程序的多次执行过程中，每次执行所返回的整数可以不一致。</li>
+<li>如果两个对象根据<code>equals（Object）</code>方法比较是相等的，那么调用这两个对象中任意一个对象的<code>hashCode</code>方法都必须产生同样的整数结果。</li>
+<li>如果两个对象根据<code>equals</code>方法比较是不相等的，那么调用这两个对象任意一个对象的<code>hashCode</code>方法，则不一定要产生不同的整数结果。但程序员应该知道，给不相等的对象产生截然不同的整数结果，有可能提高散列表的性能。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">PhoneNumber</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">short</span> areaCode;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">short</span> prefix;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">short</span> lineNumber;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PhoneNumber</span><span class="params">(<span class="keyword">int</span> areaCode, <span class="keyword">int</span> prefix, <span class="keyword">int</span> lineNumber)</span> </span>&#123;</span><br><span class="line">        rangeCheck(areaCode, <span class="number">999</span>, <span class="string">&quot;area code&quot;</span>);</span><br><span class="line">        rangeCheck(prefix, <span class="number">999</span>, <span class="string">&quot;prefix&quot;</span>);</span><br><span class="line">        rangeCheck(lineNumber, <span class="number">9999</span>, <span class="string">&quot;lineNumber&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.areaCode = (<span class="keyword">short</span>) areaCode;</span><br><span class="line">        <span class="keyword">this</span>.prefix = (<span class="keyword">short</span>) prefix;</span><br><span class="line">        <span class="keyword">this</span>.lineNumber = (<span class="keyword">short</span>) lineNumber;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rangeCheck</span><span class="params">(<span class="keyword">int</span> arg, <span class="keyword">int</span> max, String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg &lt; <span class="number">0</span> || arg &gt; max)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(name + <span class="string">&quot;:&quot;</span> + arg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;PhoneNumber, String&gt; m = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">m.put(<span class="keyword">new</span> PhoneNumber(<span class="number">707</span>, <span class="number">867</span>, <span class="number">5309</span>), <span class="string">&quot;Jenny&quot;</span>);</span><br><span class="line">System.out.println(m.get(<span class="keyword">new</span> PhoneNumber(<span class="number">707</span>, <span class="number">867</span>, <span class="number">5309</span>))); <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+
+<p>一个好的散列函数通常倾向于“为不相等的对象产生不相等的散列码”。这正是<code>hashCode</code>约定中第三条的含义。理想情况下，散列函数应该把集合中不相等的实例均匀地分布到所有可能的散列值上。要想完全达到这种理想的情形是非常困难的。幸运的是，相对接近这种理想情形则并不太困难。下面给出一种简单的解决方法：</p>
+<ol>
+<li><p>把某个非零的常数值，比如说17，保存在一个名为<code>result</code>的<code>int</code>类型的变量中。</p>
+</li>
+<li><p>对于对象中每个关键域f，完成以下步骤：</p>
+<ol>
+<li><p>为该域计算int类型的散列码</p>
+<ol>
+<li>如果该域是boolean类型，则计算（f?1:0）。</li>
+<li>如果该域是byte、char、short或者int类型，则计算(int)f。</li>
+<li>如果该域是long类型，则计算(int)(f^(f&gt;&gt;&gt;32))。</li>
+<li>如果该域是float类型，则计算<code>Float.floatToIntBits(f)</code>。</li>
+<li>如果该域是double类型，则计算<code>Double.doubleToLongBits(f)</code>，然后为得到的long类型计算散列值。</li>
+<li>如果该域是一个对象引用，并且该类的<code>equals</code>方法通过递归地调用<code>equals</code>的方法来比较这个域，则同样为这个域递归地调用<code>hashCode</code>。如果需要更复杂的比较，则为这个域计算一个<code>范式</code>，然后针对这个范式调用<code>hashCode</code>。如果这个域的值为null，则返回0。</li>
+<li>如果该域是一个数组，则要把每一个元素当做单独的域来处理。也就是说，递归地应用上述规则，对每个重要的元素计算一个散列码，然后根据步骤2.2中的做法把这些散列值组合起来。如果数组域中的每个元素都很重要，可以利用发型版本1.5中增加的其中一个<code>Arrays.hashCode</code>方法。</li>
+</ol>
+</li>
+<li><p>按照下面的公式，把步骤2.1中计算得到的散列码c合并到result中：</p>
+<p><code>result = 31 * result + c</code>;</p>
+</li>
+</ol>
+</li>
+<li><p>返回result</p>
+</li>
+<li><p>写完hashCode方法之后，问问自己“相等的实例是否具有相等的散列码”。要编写单元测试来验证你的推断。如果相等的实例有着不相等的散列码，则要找出原因，并修正错误。</p>
+</li>
+</ol>
+<h2 id="第10条：始终要覆盖toString"><a href="#第10条：始终要覆盖toString" class="headerlink" title="第10条：始终要覆盖toString"></a>第10条：始终要覆盖toString</h2><p>虽然java.lang.Object提供了<code>toString</code>方法的一个实现。但它返回的字符串通常并不是用户所期望看到的。它包含类的名称，以及一个“@”符号，接着是散列码的无符号十六进制表示法。toString的通用约定指出，被返回的字符串应该是一个“简洁的，但信息丰富，并且易于阅读的表达形式”。toString的约定进一步指出，“建议所有的子类都覆盖这个方法”。</p>
+<p>提供好的toString实现可以使类用起来更加舒适。当对象传递给println、printf、字符串联操作符（+）以及assert或者被调试器打印出来时，toString方法会被自动调用。</p>
+<p>在实际应用中，toString方法应该返回对象中包含的所有值得关注的信息。</p>
+<h2 id="第11条：谨慎地覆盖clone"><a href="#第11条：谨慎地覆盖clone" class="headerlink" title="第11条：谨慎地覆盖clone"></a>第11条：谨慎地覆盖clone</h2><p><code>Cloneable</code>接口的目的是作为对象的一个<code>mixin</code>接口，表明这样的对象允许克隆（clone）。遗憾的是，它并没有成功地达到这个目的。其主要的缺陷在于，它缺少一个clone方法，Object的clone方法是受保护的（protected）。如果不借助反射，就不能仅仅因为一个对象实现了Cloneable，就可以调用clone方法。</p>
+<p>既然Cloneable并没有包含任何方法，那么它到底有什么作用呢？它决定了Object中受保护的clone方法实现的行为：如果一个类实现了Cloneable，Object的clone方法就返回该对象的逐域拷贝，否则就会抛出CloneNotSupportedException异常。</p>
+<p>如果实现Cloneable接口是要对某个类起到作用，类和它的所有超类都必须遵守一个相当复杂的，不可实施的，并且基本上没有文档说明的协议。由此得到一种语言之外的机制：无需调用构造器就可以创建对象。</p>
+<h2 id="第12条：考虑实现Comparable接口"><a href="#第12条：考虑实现Comparable接口" class="headerlink" title="第12条：考虑实现Comparable接口"></a>第12条：考虑实现Comparable接口</h2><p>compareTo方法并没有在Object中声明。相反，它是Comparable接口中唯一的方法。compareTo方法不但允许进行简单的等同性比较，而且允许执行顺序比较，除此之外，它与Object的equals方法具有相似的特征，它还是个泛型。类实现了<code>Comparable</code>接口的对象数组进行排序就这么简单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(a);</span><br></pre></td></tr></table></figure>
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">马林康</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://malinkang.cn/2016/01/09/effective-java-methods-common-to-all-objects/">https://malinkang.cn/2016/01/09/effective-java-methods-common-to-all-objects/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://malinkang.cn" target="_blank">马林康的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><a class="post-meta__tags" href="/tags/Effective-Java/">Effective-Java</a></div><div class="post_share"><div class="social-share" data-image="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字44.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2016/01/16/effective-java-classes-and-interfaces/"><img class="prev-cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字50.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">《Effective Java》第4章类和接口</div></div></a></div><div class="next-post pull-right"><a href="/2016/01/02/effective-java-creating-and-destroying-objects/"><img class="next-cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字45.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《Effective Java》第2章创建和销毁对象</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2016/01/23/effective-java-generics/" title="《Effective Java》第5章泛型"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字38.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-01-23</div><div class="title">《Effective Java》第5章泛型</div></div></a></div><div><a href="/2016/03/05/effective-java-concurrency/" title="《Effective Java》读书笔记第11章并发"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字39.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-03-05</div><div class="title">《Effective Java》读书笔记第11章并发</div></div></a></div><div><a href="/2016/03/19/thinking-in-java-everything-is-an-object/" title="《Java编程思想》第2章一切都是对象"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字51.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-03-19</div><div class="title">《Java编程思想》第2章一切都是对象</div></div></a></div><div><a href="/2016/06/04/thinking-in-java-strings/" title="《Java编程思想》第13章字符串"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字29.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-06-04</div><div class="title">《Java编程思想》第13章字符串</div></div></a></div><div><a href="/2016/06/11/thinking-in-java-type-information/" title="《Java编程思想》第14章类型信息"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字31.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-06-11</div><div class="title">《Java编程思想》第14章类型信息</div></div></a></div><div><a href="/2016/06/18/thinking-in-java-generics/" title="《Java编程思想》第15章泛型"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字05.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-06-18</div><div class="title">《Java编程思想》第15章泛型</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">马林康</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/malinkang" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/maliinkang" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://weibo.com/maliinkang" target="_blank" title="Weibo"><i class="fab fa-weibo"></i></a><a class="social-icon" href="https://instagram.com/maliinkang" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC8%E6%9D%A1%EF%BC%9A%E8%A6%86%E7%9B%96equals%E6%97%B6%E8%AF%B7%E9%81%B5%E5%AE%88%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="toc-number">1.</span> <span class="toc-text">第8条：覆盖equals时请遵守通用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC9%E6%9D%A1%EF%BC%9A%E8%A6%86%E7%9B%96equals%E6%97%B6%E6%80%BB%E8%A6%81%E8%A6%86%E7%9B%96hashCode"><span class="toc-number">2.</span> <span class="toc-text">第9条：覆盖equals时总要覆盖hashCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC10%E6%9D%A1%EF%BC%9A%E5%A7%8B%E7%BB%88%E8%A6%81%E8%A6%86%E7%9B%96toString"><span class="toc-number">3.</span> <span class="toc-text">第10条：始终要覆盖toString</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC11%E6%9D%A1%EF%BC%9A%E8%B0%A8%E6%85%8E%E5%9C%B0%E8%A6%86%E7%9B%96clone"><span class="toc-number">4.</span> <span class="toc-text">第11条：谨慎地覆盖clone</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC12%E6%9D%A1%EF%BC%9A%E8%80%83%E8%99%91%E5%AE%9E%E7%8E%B0Comparable%E6%8E%A5%E5%8F%A3"><span class="toc-number">5.</span> <span class="toc-text">第12条：考虑实现Comparable接口</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/12/14/bound-services/" title="绑定服务"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="绑定服务"/></a><div class="content"><a class="title" href="/2020/12/14/bound-services/" title="绑定服务">绑定服务</a><time datetime="2020-12-14T11:18:41.000Z" title="发表于 2020-12-14 19:18:41">2020-12-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/07/workmanager-source-analysis/" title="WorkManager源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/指环王.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WorkManager源码分析"/></a><div class="content"><a class="title" href="/2020/12/07/workmanager-source-analysis/" title="WorkManager源码分析">WorkManager源码分析</a><time datetime="2020-12-07T12:40:56.000Z" title="发表于 2020-12-07 20:40:56">2020-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/02/butterknife-source-analysis/" title="ButterKnife源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/疯狂动物城.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ButterKnife源码分析"/></a><div class="content"><a class="title" href="/2020/12/02/butterknife-source-analysis/" title="ButterKnife源码分析">ButterKnife源码分析</a><time datetime="2020-12-02T08:37:06.000Z" title="发表于 2020-12-02 16:37:06">2020-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/27/rxjava-source-analysis/" title="RxJava源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/罗马假日.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RxJava源码分析"/></a><div class="content"><a class="title" href="/2020/11/27/rxjava-source-analysis/" title="RxJava源码分析">RxJava源码分析</a><time datetime="2020-11-27T15:47:34.000Z" title="发表于 2020-11-27 23:47:34">2020-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/25/leakcanary-source-analysis/" title="Leakcanary源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leakcanary源码分析"/></a><div class="content"><a class="title" href="/2020/11/25/leakcanary-source-analysis/" title="Leakcanary源码分析">Leakcanary源码分析</a><time datetime="2020-11-25T12:10:28.000Z" title="发表于 2020-11-25 20:10:28">2020-11-25</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2014 - 2021 By 马林康</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://malinkang.cn/2016/01/09/effective-java-methods-common-to-all-objects/'
+    this.page.identifier = '2016/01/09/effective-java-methods-common-to-all-objects/'
+    this.page.title = '《Effective Java》第3章对于所有对象都通用的方法'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://malinkang.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

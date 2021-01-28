@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>《Java并发编程实战》第13章显式锁 | 马林康的博客</title><meta name="keywords" content="Java并发编程实战"><meta name="author" content="马林康"><meta name="copyright" content="马林康"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="在Java 5.0之前，在协调对共享对象的访问时可以使用的机制只有synchronized和volatile。Java5.0增加了一种新的机制：ReentrantLock。ReentrantLock并不是一种替代内置锁的方法，而是当内置加锁机制不适用时，作为一种可选择的高级功能。 13.1 Lock与ReentrantLockLock接口中定义了一组抽象的加锁操作。与内置加锁机制不同的是，Loc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java并发编程实战》第13章显式锁">
+<meta property="og:url" content="https://malinkang.cn/2016/10/29/java-currency-in-practice-explicit-locks/index.html">
+<meta property="og:site_name" content="马林康的博客">
+<meta property="og:description" content="在Java 5.0之前，在协调对共享对象的访问时可以使用的机制只有synchronized和volatile。Java5.0增加了一种新的机制：ReentrantLock。ReentrantLock并不是一种替代内置锁的方法，而是当内置加锁机制不适用时，作为一种可选择的高级功能。 13.1 Lock与ReentrantLockLock接口中定义了一组抽象的加锁操作。与内置加锁机制不同的是，Loc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字03.png">
+<meta property="article:published_time" content="2016-10-29T02:53:22.000Z">
+<meta property="article:modified_time" content="2021-01-28T06:17:05.371Z">
+<meta property="article:author" content="马林康">
+<meta property="article:tag" content="Java并发编程实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字03.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://malinkang.cn/2016/10/29/java-currency-in-practice-explicit-locks/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-28 14:17:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" target="_blank" rel="noopener" href="https://leetcode.malinkang.cn/"><i class="fa-fw fas fa-link"></i><span> LeetCode解题</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字03.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马林康的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" target="_blank" rel="noopener" href="https://leetcode.malinkang.cn/"><i class="fa-fw fas fa-link"></i><span> LeetCode解题</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《Java并发编程实战》第13章显式锁</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2016-10-29T02:53:22.000Z" title="发表于 2016-10-29 10:53:22">2016-10-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-28T06:17:05.371Z" title="更新于 2021-01-28 14:17:05">2021-01-28</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/ReentrantLock.png" alt="ReentrantLock"></p>
+<p>在<code>Java 5.0</code>之前，在协调对共享对象的访问时可以使用的机制只有<code>synchronized</code>和<code>volatile</code>。Java5.0增加了一种新的机制：<code>ReentrantLock</code>。<code>ReentrantLock</code>并不是一种替代内置锁的方法，而是当内置加锁机制不适用时，作为一种可选择的高级功能。</p>
+<h2 id="13-1-Lock与ReentrantLock"><a href="#13-1-Lock与ReentrantLock" class="headerlink" title="13.1 Lock与ReentrantLock"></a>13.1 Lock与ReentrantLock</h2><p><code>Lock</code>接口中定义了一组抽象的加锁操作。与内置加锁机制不同的是，<code>Lock</code>提供了一种无条件的、可轮询的、定时的以及可中断的锁获取操作，所有加锁和解锁的方法都是显式的。在<code>Lock</code>的实现中必须提供与内部锁相同的内存可见性语义，但在加锁语义、调度算法、顺序保证以及性能特性等方面可以有所不同。</p>
+<p><code>ReentrantLock</code>实现了<code>Lock</code>接口，并提供了与<code>synchronized</code>相同的互斥性和内存可见性。在获取<code>ReentrantLock</code>时，有着与进入同步代码块相同的内存语义，在释放<code>ReentrantLock</code>时，同样有着与退出同步代码块相同的内存语义。此外，与<code>synchronized</code>一样，<code>ReentrantLock</code>还提供了可重入的加锁语义。<code>ReentrantLock</code>支持在<code>Lock</code>接口中定义的所有获取锁模式，并且与<code>synchronized</code>相比，它还为处理锁的不可用性问题提供了更高的灵活性。</p>
+<p>为什么要创建一种与内置锁如此相似的新加锁机制？在大多数情况下，内置锁都能很好地工作，但在功能上存在一些局限性，例如，无法中断一个正在等待获取锁的线程，或者无法在请求获取一个锁时无限地等待下去。内置锁必须在获取该锁的代码块中释放，这就简化了编码工作，并且与异常处理操作实现了很好的交互，但却无法实现非阻塞结构的加锁规则。这些都是使用<code>synchronized</code>的原因，但在某些情况下，一种更灵活的加锁机制通常能提供更好的灵活性或性能。</p>
+<p>Lock接口的标准使用形式比使用内置锁复杂一些：必须在<code>finally</code>块中释放锁。否则，如果在被保护的代码中抛出了异常，那么这个锁永远都无法释放。当使用加锁时，还必须考虑在try块中抛出异常的情况，如果可能使对象处于某种不一致的状态，那么就需要更多的try-catch或try-finally代码块。</p>
+<p>如果没有使用finally来释放Lock，那么相当于启动了一个定时炸弹。当“炸弹爆炸”时，将很难追踪到最初发生错误的位置，因为没有记录应该释放锁的位置和时间。这就是<code>ReentrantLock</code>不能完全替代<code>synchronized</code>的原因：它更加“危险”，因为当程序的执行控制离开被保护的代码块时，不会自动清除锁。虽然在<code>finally</code>块中释放锁并不困难，但也可能忘记。</p>
+<h3 id="13-1-1-轮询锁与定时锁"><a href="#13-1-1-轮询锁与定时锁" class="headerlink" title="13.1.1 轮询锁与定时锁"></a>13.1.1 轮询锁与定时锁</h3><h3 id="13-1-2-可中断的锁获取操作"><a href="#13-1-2-可中断的锁获取操作" class="headerlink" title="13.1.2 可中断的锁获取操作"></a>13.1.2 可中断的锁获取操作</h3><h3 id="13-1-3-非块结构的加锁"><a href="#13-1-3-非块结构的加锁" class="headerlink" title="13.1.3 非块结构的加锁"></a>13.1.3 非块结构的加锁</h3><h2 id="13-2-性能考虑因素"><a href="#13-2-性能考虑因素" class="headerlink" title="13.2 性能考虑因素"></a>13.2 性能考虑因素</h2><h2 id="13-3-公平性"><a href="#13-3-公平性" class="headerlink" title="13.3 公平性"></a>13.3 公平性</h2><p>在<code>ReentrantLock</code>的构造函数中提供了两种公平性选择：创建一个非公平的锁或者一个公平的锁。在公平的锁上，线程将按照它们发出请求的顺序来获得锁，但在非公平的锁上，则允许“插队”：当一个线程请求非公平的锁时，如果再发出请求的同时该锁的状态变为可用，那么这个线程将跳过队列中所有的等待线程并获得这个锁。非公平的<code>ReentrantLock</code>并不提倡“插队”行为，但无法防止某个线程在合适的时候进行“插队”。在公平锁中，如果有另一个线程持有这个锁或者有其他线程在队列中等待这个锁，那么新发出请求的线程将被放入队列中。在非公平锁的锁中，只有当锁被某个线程持有时，新发出请求的线程才会被放入队列中。</p>
+<p>我们为什么不希望所有的锁都是公平的？毕竟，公平是一种好的行为，而不公平则是一种不好的行为。当执行加锁操作时，公平性将由于在挂起线程和恢复线程时存在的开销而极大地降低性能。在大多数情况下，非公平锁的性能要高于公平锁的性能。</p>
+<h2 id="13-4-在synchronized和ReentrantLock之间进行选择"><a href="#13-4-在synchronized和ReentrantLock之间进行选择" class="headerlink" title="13.4 在synchronized和ReentrantLock之间进行选择"></a>13.4 在synchronized和ReentrantLock之间进行选择</h2><p><code>ReentrantLock</code>在加锁和内存上提供的语义与内置锁相同，此外它还提供了一些其他功能，包括定时的锁等待、可中断的锁等待、公平性，以及实现非块结构的加锁。<code>ReentrantLock</code>在性能上似乎优于内置锁，其中在Java 6中略有胜出，而在Java 5.0中则是远远胜出。</p>
+<p>与显式锁相比，内置锁仍然具有很大的优势。内置锁为许多开发人员所熟悉，并且简洁紧凑。<code>ReentrantLock</code>的危险性比同步机制更高，如果忘记在finally块中调用<code>unlock</code>，那么虽然代码表面上能正常运行，但实际上已经埋下了一颗定时炸弹，并很有可能伤及其他代码。仅当内置锁不能满足需求时，才可以考虑使用<code>ReentrantLock</code>。</p>
+<p>在Java 5.0中，内置锁与<code>ReentrantLock</code>相比还有另一个优点：在线程转储中能给出在哪些调用帧中获得了哪些锁，并能够检测和识别发生死锁的线程。JVM并不知道哪些线程持有<code>ReentrantLock</code>，因此在调试使用<code>ReentrantLock</code>的线程的问题时，将起不到帮助作用。Java6解决了这个问题，它提供了一个管理和调试接口，锁可以通过该接口进行注册，从而与<code>ReentrantLock</code>相关的加锁信息就能出现在线程转储中，并通过其他的管理接口和调试接口来访问。与<code>synchronized</code>相比，这些调试消息是一种重要的优势，即便它们大部分都是临时性消息，线程转储中的加锁能给很多程序员带来帮助。<code>ReentrantLock</code>的非块结构特性仍然意味着，获取锁的操作不能与特定的栈帧关联起来，而内置锁可以。</p>
+<p>未来更可能会提升<code>synchronized</code>而不是<code>ReentrantLock</code>的性能。因为<code>synchronized</code>是JVM的内置属性，它能执行一些优化，例如对线程封闭的锁对象的锁消除优化，通过增加锁的粒度来消除内置锁的同步，而如果通过基于类库的锁来实现这些功能，则可能性不大。除非将来需要在Java 5.0上部署应用程序，并且在该平台上确实需要<code>ReentrantLock</code>包含的可伸缩性，否则就性能方面来说，应该选择<code>synchronized</code>而不是<code>ReentrantLock</code>。</p>
+<h2 id="13-5-读写锁"><a href="#13-5-读写锁" class="headerlink" title="13.5 读写锁"></a>13.5 读写锁</h2><p><code>ReentrantLock</code>实现了一种标准的互斥锁：每次最多只有一个线程持有<code>ReentrantLock</code>。但对于维护数据的完成性来说，互斥通常是一种过于强硬的加锁规则，因此也就不必要地限制了并发性。互斥是一种保守的加锁策略，虽然可以避免“写/写”冲突和“写/读”冲突，但同样也避免了“读/读”冲突。在许多情况下，数据结构上的操作都是“读操作”，虽然它们也是可变的并且在某些情况下被修改，但其中大多数访问操作都是读操作。此时，如果能够放宽加锁需求，允许多个执行读操作的线程同时访问数据结构，那么将提升程序的性能。只要每个线程都能确保读取到最新的数据，并且在读取数据时不会有其他的线程修改数据，那么就不会发生问题。在这种情况下就可以使用读/写锁：一个资源可以被多个读操作访问，或者被一个写操作访问，但两者不能同时进行。</p>
+<p><code>ReadWriteLock</code>中暴露了两个Lock对象，其中一个用于读操作，而另一个用于写操作。要读取由<code>ReadWriteLock</code>保护的数据，必须首先获得读取锁，当需要修改<code>ReadWriteLock</code>保护的数据时，必须首先获得写入锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span></span>&#123;</span><br><span class="line">  <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在读写锁实现的加锁策略中，允许多个读操作同时进行，但每次只允许一个写操作。与Lock一样，ReadWriteLock可以采用多种不同的实现方式，这些方式在性能、调度保证、获取优先性、公平性以及加锁语义等方面可能有所不同。</p>
+<p>在读取锁和写入锁之间的交互可以采用多种实现方式。<code>ReadWriteLock</code>中的一些可选操作包括：</p>
+<ul>
+<li><strong>释放优先</strong>。当一个写入操作释放写入锁时，并且队列中同时存在读线程和写线程，那么应该优先选择读线程，写线程，还是最先发出请求的线程。</li>
+<li><strong>读线程插队</strong>。如果锁是由读线程持有，但有写线程正在等待，那么新到达的读线程能否立即获得访问权，还是应该再写线程后面等待？如果允许读线程插队到写线程之前，那么将提高并发性，但却可能造成写线程发生饥饿问题。</li>
+<li><strong>重入性</strong>。读取锁和写入所是否可重入？</li>
+<li><strong>降级</strong>。如果一个线程持有写入锁，那么它能否在不释放该锁的情况下获得读取锁？这可能会使得写入锁被“降级”为读取锁，同时不允许其他写线程修改被保护的资源。</li>
+<li><strong>升级</strong>。读取锁能否优先于其他正在等待的读线程和写线程而升级为一个写入锁？在大多数的读-写锁实现中并不支持升级，因为如果没有显式的升级操作，那么很容易造成死锁。</li>
+</ul>
+<p><code>ReentrantReadWriteLock</code>为这两种锁都提供了可重入的加锁语义。与<code>ReentrantLock</code>类似，<code>ReentrantReadWriteLock</code>在构造时也可以是一个非公平的锁（默认）还是一个公平的锁。在公平的锁中，等待时间最长的线程将优先获取锁。如果这个锁由读线程持有，而另一个线程请求写入锁，那么其他读线程都不能获得读取锁，直到写线程使用完并且释放了写入锁。在非公平的锁中，线程获得访问许可的顺序是不确定的。写线程降级为读线程时可以的，但从读线程升级为写线程则是不可以的。</p>
+<p>与<code>ReentrantLock</code>类似的是，<code>ReentrantReadWriteLock</code>中的写入锁只能有唯一的所有者，并且只能由获得该锁的线程来释放。在Java5.0中，读取锁的行为更类似于<code>Semaphore</code>而不是锁，它只维护活跃的读线程的数量，而不考虑它们的标识。在Java6中修改了这个行为：记录哪些线程已经获得了读者锁。</p>
+<p>当锁的持有时间较长并且大部分操作都不会修改被守护的资源时，那么读-写锁能提高并发性。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">马林康</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://malinkang.cn/2016/10/29/java-currency-in-practice-explicit-locks/">https://malinkang.cn/2016/10/29/java-currency-in-practice-explicit-locks/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://malinkang.cn" target="_blank">马林康的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">Java并发编程实战</a></div><div class="post_share"><div class="social-share" data-image="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字03.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2016/11/05/java-currency-in-practice-building-custom-synchronizers/"><img class="prev-cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻01.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">《Java并发编程实战》第14章构建自定义的同步工具</div></div></a></div><div class="next-post pull-right"><a href="/2016/10/22/java-currency-in-practice-applying-thread-pools/"><img class="next-cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字46.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《Java并发编程实战》第8章线程池的使用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2016/10/08/java-currency-in-practice-building-blocks/" title="《Java并发编程实战》第5章基础构建模块"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字24.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-10-08</div><div class="title">《Java并发编程实战》第5章基础构建模块</div></div></a></div><div><a href="/2016/11/19/java-currency-in-practice-the-java-momory-model/" title="《Java并发编程实战》第16章Java内存模型"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻02.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-11-19</div><div class="title">《Java并发编程实战》第16章Java内存模型</div></div></a></div><div><a href="/2016/09/24/java-currency-in-practice-thread-safety/" title="《Java并发编程实战》第2章线程安全性"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字10.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-09-24</div><div class="title">《Java并发编程实战》第2章线程安全性</div></div></a></div><div><a href="/2016/10/01/java-currency-in-practice-sharing-objects/" title="《Java并发编程实战》第3章对象的共享"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字16.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-10-01</div><div class="title">《Java并发编程实战》第3章对象的共享</div></div></a></div><div><a href="/2016/10/15/java-currency-in-practice-task-execution/" title="《Java并发编程实战》第6章执行任务"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字34.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-10-15</div><div class="title">《Java并发编程实战》第6章执行任务</div></div></a></div><div><a href="/2016/10/22/java-currency-in-practice-applying-thread-pools/" title="《Java并发编程实战》第8章线程池的使用"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字46.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-10-22</div><div class="title">《Java并发编程实战》第8章线程池的使用</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">马林康</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/malinkang" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/maliinkang" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://weibo.com/maliinkang" target="_blank" title="Weibo"><i class="fab fa-weibo"></i></a><a class="social-icon" href="https://instagram.com/maliinkang" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#13-1-Lock%E4%B8%8EReentrantLock"><span class="toc-number">1.</span> <span class="toc-text">13.1 Lock与ReentrantLock</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13-1-1-%E8%BD%AE%E8%AF%A2%E9%94%81%E4%B8%8E%E5%AE%9A%E6%97%B6%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">13.1.1 轮询锁与定时锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-1-2-%E5%8F%AF%E4%B8%AD%E6%96%AD%E7%9A%84%E9%94%81%E8%8E%B7%E5%8F%96%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">13.1.2 可中断的锁获取操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-1-3-%E9%9D%9E%E5%9D%97%E7%BB%93%E6%9E%84%E7%9A%84%E5%8A%A0%E9%94%81"><span class="toc-number">1.3.</span> <span class="toc-text">13.1.3 非块结构的加锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-2-%E6%80%A7%E8%83%BD%E8%80%83%E8%99%91%E5%9B%A0%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">13.2 性能考虑因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-3-%E5%85%AC%E5%B9%B3%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">13.3 公平性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-4-%E5%9C%A8synchronized%E5%92%8CReentrantLock%E4%B9%8B%E9%97%B4%E8%BF%9B%E8%A1%8C%E9%80%89%E6%8B%A9"><span class="toc-number">4.</span> <span class="toc-text">13.4 在synchronized和ReentrantLock之间进行选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-5-%E8%AF%BB%E5%86%99%E9%94%81"><span class="toc-number">5.</span> <span class="toc-text">13.5 读写锁</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/19/deskclock-analysis/" title="系统闹钟源码分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统闹钟源码分析"/></a><div class="content"><a class="title" href="/2021/01/19/deskclock-analysis/" title="系统闹钟源码分析">系统闹钟源码分析</a><time datetime="2021-01-19T01:21:04.000Z" title="发表于 2021-01-19 09:21:04">2021-01-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/14/bound-services/" title="绑定服务"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻05.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="绑定服务"/></a><div class="content"><a class="title" href="/2020/12/14/bound-services/" title="绑定服务">绑定服务</a><time datetime="2020-12-14T11:18:41.000Z" title="发表于 2020-12-14 19:18:41">2020-12-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/07/workmanager-source-analysis/" title="WorkManager源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/指环王.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WorkManager源码分析"/></a><div class="content"><a class="title" href="/2020/12/07/workmanager-source-analysis/" title="WorkManager源码分析">WorkManager源码分析</a><time datetime="2020-12-07T12:40:56.000Z" title="发表于 2020-12-07 20:40:56">2020-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/02/butterknife-source-analysis/" title="ButterKnife源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/疯狂动物城.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ButterKnife源码分析"/></a><div class="content"><a class="title" href="/2020/12/02/butterknife-source-analysis/" title="ButterKnife源码分析">ButterKnife源码分析</a><time datetime="2020-12-02T08:37:06.000Z" title="发表于 2020-12-02 16:37:06">2020-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/27/rxjava-source-analysis/" title="RxJava源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/罗马假日.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RxJava源码分析"/></a><div class="content"><a class="title" href="/2020/11/27/rxjava-source-analysis/" title="RxJava源码分析">RxJava源码分析</a><time datetime="2020-11-27T15:47:34.000Z" title="发表于 2020-11-27 23:47:34">2020-11-27</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2014 - 2021 By 马林康</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://malinkang.cn/2016/10/29/java-currency-in-practice-explicit-locks/'
+    this.page.identifier = '2016/10/29/java-currency-in-practice-explicit-locks/'
+    this.page.title = '《Java并发编程实战》第13章显式锁'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://malinkang.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

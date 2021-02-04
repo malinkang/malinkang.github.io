@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>《Kotlin实战》读书笔记 第7章 运算符重载及其他约定 | 马林康的博客</title><meta name="keywords" content="读书笔记,Kotlin"><meta name="author" content="马林康"><meta name="copyright" content="马林康"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="7.1 重载算术运算符7.1.1 重载二元算术运算12345678data class Point(val x: Int, val y: Int) &amp;#123;    operator fun plus(other: Point): Point &amp;#123;        return Point(x + other.x, y + other.y)    &amp;#125;&amp;#125;val p1 &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Kotlin实战》读书笔记 第7章 运算符重载及其他约定">
+<meta property="og:url" content="https://malinkang.cn/2018/09/09/kotlin-in-action-chapter7/index.html">
+<meta property="og:site_name" content="马林康的博客">
+<meta property="og:description" content="7.1 重载算术运算符7.1.1 重载二元算术运算12345678data class Point(val x: Int, val y: Int) &amp;#123;    operator fun plus(other: Point): Point &amp;#123;        return Point(x + other.x, y + other.y)    &amp;#125;&amp;#125;val p1 &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻09.png">
+<meta property="article:published_time" content="2018-09-09T04:26:55.000Z">
+<meta property="article:modified_time" content="2021-02-04T08:28:47.100Z">
+<meta property="article:author" content="马林康">
+<meta property="article:tag" content="读书笔记">
+<meta property="article:tag" content="Kotlin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻09.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://malinkang.cn/2018/09/09/kotlin-in-action-chapter7/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-02-04 16:28:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">72</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" target="_blank" rel="noopener" href="https://leetcode.malinkang.cn/"><i class="fa-fw fas fa-link"></i><span> LeetCode解题</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻09.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马林康的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" target="_blank" rel="noopener" href="https://leetcode.malinkang.cn/"><i class="fa-fw fas fa-link"></i><span> LeetCode解题</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《Kotlin实战》读书笔记 第7章 运算符重载及其他约定</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2018-09-09T04:26:55.000Z" title="发表于 2018-09-09 12:26:55">2018-09-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-02-04T08:28:47.100Z" title="更新于 2021-02-04 16:28:47">2021-02-04</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="7-1-重载算术运算符"><a href="#7-1-重载算术运算符" class="headerlink" title="7.1 重载算术运算符"></a>7.1 重载算术运算符</h2><h3 id="7-1-1-重载二元算术运算"><a href="#7-1-1-重载二元算术运算" class="headerlink" title="7.1.1 重载二元算术运算"></a>7.1.1 重载二元算术运算</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Point</span></span>(<span class="keyword">val</span> x: <span class="built_in">Int</span>, <span class="keyword">val</span> y: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">plus</span><span class="params">(other: <span class="type">Point</span>)</span></span>: Point &#123;</span><br><span class="line">        <span class="keyword">return</span> Point(x + other.x, y + other.y)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> p1 = Point(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line"><span class="keyword">val</span> p2 = Point(<span class="number">30</span>, <span class="number">40</span>)</span><br><span class="line">println(p1 + p2) <span class="comment">//Point(x=40, y=60)</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> Point.<span class="title">plus</span><span class="params">(other: <span class="type">Point</span>)</span></span>: Point &#123;</span><br><span class="line">    <span class="keyword">return</span> Point(x + other.x, y + other.y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th align="left">表达式</th>
+<th align="left">函数名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">a * b</td>
+<td align="left">times</td>
+</tr>
+<tr>
+<td align="left">a / b</td>
+<td align="left">div</td>
+</tr>
+<tr>
+<td align="left">a % b</td>
+<td align="left">mod</td>
+</tr>
+<tr>
+<td align="left">a + b</td>
+<td align="left">plus</td>
+</tr>
+<tr>
+<td align="left">a - b</td>
+<td align="left">minus</td>
+</tr>
+</tbody></table>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> Point.<span class="title">times</span><span class="params">(scale: <span class="type">Double</span>)</span></span>: Point &#123;</span><br><span class="line">    <span class="keyword">return</span> Point((x * scale).toInt(), (y * scale).toInt())</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> p = Point(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">print(p * <span class="number">1.5</span>) <span class="comment">//Point(x=15, y=30)</span></span><br></pre></td></tr></table></figure>
+
+<p>Kotlin运算符不会自动支持交换性。如果希望用户能够使用15*p以外，还能使用p*1.6，你需要为它定义个单独的运算符：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Double</span>.<span class="title">times</span><span class="params">(p:<span class="type">Point</span>)</span></span>:Point&#123;</span><br><span class="line">    <span class="keyword">return</span> Point((p.x * <span class="keyword">this</span>).toInt(), (p.y * <span class="keyword">this</span>).toInt())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">operator fun Char.times(count: Int): String &#123;</span><br><span class="line">    return toString().repeat(count)</span><br><span class="line">&#125;</span><br><span class="line">println(&#x27;a&#x27; * 3) //aaa</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-1-2-重载符合运算符"><a href="#7-1-2-重载符合运算符" class="headerlink" title="7.1.2 重载符合运算符"></a>7.1.2 重载符合运算符</h3><h3 id="7-1-3-重载一元运算符"><a href="#7-1-3-重载一元运算符" class="headerlink" title="7.1.3 重载一元运算符"></a>7.1.3 重载一元运算符</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> Point.<span class="title">unaryMinus</span><span class="params">()</span></span>:Point&#123;</span><br><span class="line">    <span class="keyword">return</span> Point(-x,-y)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> p = Point(<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">println(-p)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">表达式</th>
+<th align="center">函数名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">+a</td>
+<td align="center">unaryPlus</td>
+</tr>
+<tr>
+<td align="center">-a</td>
+<td align="center">unaryMinus</td>
+</tr>
+<tr>
+<td align="center">!a</td>
+<td align="center">not</td>
+</tr>
+<tr>
+<td align="center">++a，a++</td>
+<td align="center">inc</td>
+</tr>
+<tr>
+<td align="center">–a，a–</td>
+<td align="center">dec</td>
+</tr>
+</tbody></table>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> BigDecimal.<span class="title">inc</span><span class="params">()</span></span> = <span class="keyword">this</span> +BigDecimal.ONE</span><br><span class="line"><span class="keyword">var</span> bd = BigDecimal.ZERO</span><br><span class="line">println(bd++) <span class="comment">//0</span></span><br><span class="line">println(++bd) <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<h2 id="7-2-重载比较运算符"><a href="#7-2-重载比较运算符" class="headerlink" title="7.2 重载比较运算符"></a>7.2 重载比较运算符</h2><h3 id="7-2-1-等号运算符：“equals”"><a href="#7-2-1-等号运算符：“equals”" class="headerlink" title="7.2.1 等号运算符：“equals”"></a>7.2.1 等号运算符：“equals”</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Point</span></span>(<span class="keyword">val</span> x: <span class="built_in">Int</span>, <span class="keyword">val</span> y: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">equals</span><span class="params">(other: <span class="type">Any</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    <span class="comment">//这里使用了恒等运算符===来检查参数与调用equals的对象是否相同。恒等运算符与Java中的==运算符</span></span><br><span class="line">    <span class="comment">//是完全相同的；===运算符不能被重载</span></span><br><span class="line">        <span class="keyword">if</span> (other === <span class="keyword">this</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">if</span> (other !<span class="keyword">is</span> Point) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        <span class="keyword">return</span> other.x == x &amp;&amp; other.y == y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">println(Point(<span class="number">10</span>,<span class="number">20</span>)==Point(<span class="number">10</span>,<span class="number">20</span>)) <span class="comment">//true</span></span><br><span class="line">println(Point(<span class="number">10</span>,<span class="number">20</span>)!=Point(<span class="number">5</span>,<span class="number">5</span>)) <span class="comment">//true</span></span><br><span class="line">println(<span class="literal">null</span> == Point(<span class="number">1</span>,<span class="number">2</span>)) <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-2-排序运算符：compareTo"><a href="#7-2-2-排序运算符：compareTo" class="headerlink" title="7.2.2 排序运算符：compareTo"></a>7.2.2 排序运算符：compareTo</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>(<span class="keyword">val</span> firstName: String, <span class="keyword">val</span> lastName: String) : Comparable&lt;Person&gt; &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">compareTo</span><span class="params">(other: <span class="type">Person</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> compareValuesBy(<span class="keyword">this</span>, other, Person::lastName, Person::firstName)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3-集合与区间的约定"><a href="#7-3-集合与区间的约定" class="headerlink" title="7.3 集合与区间的约定"></a>7.3 集合与区间的约定</h2><h3 id="7-3-1-通过下标来访问元素：“get”和“set”"><a href="#7-3-1-通过下标来访问元素：“get”和“set”" class="headerlink" title="7.3.1 通过下标来访问元素：“get”和“set”"></a>7.3.1 通过下标来访问元素：“get”和“set”</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> Point.<span class="title">get</span><span class="params">(index: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">when</span> (index) &#123;</span><br><span class="line">        <span class="number">0</span> -&gt; x</span><br><span class="line">        <span class="number">1</span> -&gt; y</span><br><span class="line">        <span class="keyword">else</span> -&gt;</span><br><span class="line">            <span class="keyword">throw</span> IndexOutOfBoundsException(<span class="string">&quot;Invalid coordinate <span class="variable">$index</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> p = Point(<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">println(p[<span class="number">1</span>]) <span class="comment">//20</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> MutablePoint.<span class="title">set</span><span class="params">(index: <span class="type">Int</span>, value: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">when</span> (index) &#123;</span><br><span class="line">        <span class="number">0</span> -&gt; x = value</span><br><span class="line">        <span class="number">1</span> -&gt; y = value</span><br><span class="line">        <span class="keyword">else</span> -&gt;</span><br><span class="line">            <span class="keyword">throw</span> IndexOutOfBoundsException(<span class="string">&quot;Invalid coordinate <span class="variable">$index</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> p = MutablePoint(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">p[<span class="number">1</span>] = <span class="number">42</span></span><br><span class="line">println(p) <span class="comment">//MutablePoint(x=10, y=42)</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="7-3-2-“in”的约定"><a href="#7-3-2-“in”的约定" class="headerlink" title="7.3.2 “in”的约定"></a>7.3.2 “in”的约定</h3><p>in运算符，用于检查某个对象是否属于集合。相应的函数叫做<code>contains</code>。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span></span>(<span class="keyword">val</span> upperLeft:Point,<span class="keyword">val</span> lowerRight:Point)</span><br><span class="line"></span><br><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> Rectangle.<span class="title">contains</span><span class="params">(p:<span class="type">Point</span>)</span></span>:<span class="built_in">Boolean</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> p.x <span class="keyword">in</span> upperLeft.x until lowerRight.x &amp;&amp;</span><br><span class="line">            p.y <span class="keyword">in</span> upperLeft.y until lowerRight.y</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> rect = Rectangle(Point(<span class="number">10</span>,<span class="number">20</span>),Point(<span class="number">50</span>,<span class="number">50</span>))</span><br><span class="line">println(Point(<span class="number">20</span>,<span class="number">30</span>) <span class="keyword">in</span> rect) <span class="comment">//true</span></span><br><span class="line">println(Point(<span class="number">5</span>,<span class="number">5</span>) <span class="keyword">in</span> rect) <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-3-rangeTo的约定"><a href="#7-3-3-rangeTo的约定" class="headerlink" title="7.3.3 rangeTo的约定"></a>7.3.3 rangeTo的约定</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> now = LocalDate.now()</span><br><span class="line"><span class="keyword">val</span> vacation = now..now.plusDays(<span class="number">10</span>)</span><br><span class="line">println(now.plusWeeks(<span class="number">1</span>) <span class="keyword">in</span> vacation) <span class="comment">//true</span></span><br><span class="line"><span class="keyword">val</span> n = <span class="number">9</span></span><br><span class="line">println(<span class="number">0</span>..(n+<span class="number">1</span>)) <span class="comment">//0..10</span></span><br><span class="line">(<span class="number">0</span>..n).forEach(::print) <span class="comment">//0123456789</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-4-在“for”循环中使用“iterator”的约定"><a href="#7-3-4-在“for”循环中使用“iterator”的约定" class="headerlink" title="7.3.4 在“for”循环中使用“iterator”的约定"></a>7.3.4 在“for”循环中使用“iterator”的约定</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> ClosedRange<span class="type">&lt;LocalDate&gt;</span>.<span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;LocalDate&gt; =</span><br><span class="line">        <span class="keyword">object</span> : Iterator&lt;LocalDate&gt; &#123;</span><br><span class="line">            <span class="keyword">var</span> current = start</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">hasNext</span><span class="params">()</span></span> = current &lt;= endInclusive</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">next</span><span class="params">()</span></span> = current.apply &#123;</span><br><span class="line">                current = plusDays(<span class="number">1</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="keyword">val</span> newYear = LocalDate.ofYearDay(<span class="number">2017</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">val</span> daysOff = newYear.minusDays(<span class="number">1</span>)..newYear</span><br><span class="line"><span class="keyword">for</span> (dayOff <span class="keyword">in</span> daysOff) &#123;</span><br><span class="line">    println(dayOff)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//    2016-12-31</span></span><br><span class="line"><span class="comment">//    2017-01-01</span></span><br></pre></td></tr></table></figure>
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">马林康</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://malinkang.cn/2018/09/09/kotlin-in-action-chapter7/">https://malinkang.cn/2018/09/09/kotlin-in-action-chapter7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://malinkang.cn" target="_blank">马林康的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><a class="post-meta__tags" href="/tags/Kotlin/">Kotlin</a></div><div class="post_share"><div class="social-share" data-image="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻09.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2018/09/12/kotlin-in-action-chapter8/"><img class="prev-cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻10.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">《Kotlin实战》读书笔记 第8章 Lambda作为形参和返回值</div></div></a></div><div class="next-post pull-right"><a href="/2018/09/06/kotlin-in-action-chapter6/"><img class="next-cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻08.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《Kotlin实战》读书笔记 第6章 Kotlin的类型系统</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2018/08/28/kotlin-in-action-chapter4/" title="《Kotlin实战》读书笔记 第4章 类对象和接口"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻06.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-08-28</div><div class="title">《Kotlin实战》读书笔记 第4章 类对象和接口</div></div></a></div><div><a href="/2018/09/06/kotlin-in-action-chapter6/" title="《Kotlin实战》读书笔记 第6章 Kotlin的类型系统"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻08.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-09-06</div><div class="title">《Kotlin实战》读书笔记 第6章 Kotlin的类型系统</div></div></a></div><div><a href="/2018/09/04/kotlin-in-action-chapter5/" title="《Kotlin实战》读书笔记 第5章 Lambda编程"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻07.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-09-04</div><div class="title">《Kotlin实战》读书笔记 第5章 Lambda编程</div></div></a></div><div><a href="/2018/09/12/kotlin-in-action-chapter8/" title="《Kotlin实战》读书笔记 第8章 Lambda作为形参和返回值"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻10.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-09-12</div><div class="title">《Kotlin实战》读书笔记 第8章 Lambda作为形参和返回值</div></div></a></div><div><a href="/2016/02/27/effective-java-exceptions/" title="《Effective Java》第10章异常"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字27.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-02-27</div><div class="title">《Effective Java》第10章异常</div></div></a></div><div><a href="/2016/04/02/thinking-in-java-controlling-execution/" title="《Java编程思想》第4章控制流程"><img class="cover" src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字35.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-04-02</div><div class="title">《Java编程思想》第4章控制流程</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">马林康</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">72</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/malinkang" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/maliinkang" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://weibo.com/maliinkang" target="_blank" title="Weibo"><i class="fab fa-weibo"></i></a><a class="social-icon" href="https://instagram.com/maliinkang" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E9%87%8D%E8%BD%BD%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.</span> <span class="toc-text">7.1 重载算术运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-1-%E9%87%8D%E8%BD%BD%E4%BA%8C%E5%85%83%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97"><span class="toc-number">1.1.</span> <span class="toc-text">7.1.1 重载二元算术运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-2-%E9%87%8D%E8%BD%BD%E7%AC%A6%E5%90%88%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">7.1.2 重载符合运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-3-%E9%87%8D%E8%BD%BD%E4%B8%80%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.3.</span> <span class="toc-text">7.1.3 重载一元运算符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E9%87%8D%E8%BD%BD%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.</span> <span class="toc-text">7.2 重载比较运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-1-%E7%AD%89%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9A%E2%80%9Cequals%E2%80%9D"><span class="toc-number">2.1.</span> <span class="toc-text">7.2.1 等号运算符：“equals”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-2-%E6%8E%92%E5%BA%8F%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9AcompareTo"><span class="toc-number">2.2.</span> <span class="toc-text">7.2.2 排序运算符：compareTo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E9%9B%86%E5%90%88%E4%B8%8E%E5%8C%BA%E9%97%B4%E7%9A%84%E7%BA%A6%E5%AE%9A"><span class="toc-number">3.</span> <span class="toc-text">7.3 集合与区间的约定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-1-%E9%80%9A%E8%BF%87%E4%B8%8B%E6%A0%87%E6%9D%A5%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0%EF%BC%9A%E2%80%9Cget%E2%80%9D%E5%92%8C%E2%80%9Cset%E2%80%9D"><span class="toc-number">3.1.</span> <span class="toc-text">7.3.1 通过下标来访问元素：“get”和“set”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-2-%E2%80%9Cin%E2%80%9D%E7%9A%84%E7%BA%A6%E5%AE%9A"><span class="toc-number">3.2.</span> <span class="toc-text">7.3.2 “in”的约定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-3-rangeTo%E7%9A%84%E7%BA%A6%E5%AE%9A"><span class="toc-number">3.3.</span> <span class="toc-text">7.3.3 rangeTo的约定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-4-%E5%9C%A8%E2%80%9Cfor%E2%80%9D%E5%BE%AA%E7%8E%AF%E4%B8%AD%E4%BD%BF%E7%94%A8%E2%80%9Citerator%E2%80%9D%E7%9A%84%E7%BA%A6%E5%AE%9A"><span class="toc-number">3.4.</span> <span class="toc-text">7.3.4 在“for”循环中使用“iterator”的约定</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/30/doc-generator/" title="文档生成工具"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文档生成工具"/></a><div class="content"><a class="title" href="/2021/01/30/doc-generator/" title="文档生成工具">文档生成工具</a><time datetime="2021-01-30T07:12:35.000Z" title="发表于 2021-01-30 15:12:35">2021-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/19/deskclock-analysis/" title="系统闹钟源码分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统闹钟源码分析"/></a><div class="content"><a class="title" href="/2021/01/19/deskclock-analysis/" title="系统闹钟源码分析">系统闹钟源码分析</a><time datetime="2021-01-19T01:21:04.000Z" title="发表于 2021-01-19 09:21:04">2021-01-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/14/bound-services/" title="绑定服务"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻05.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="绑定服务"/></a><div class="content"><a class="title" href="/2020/12/14/bound-services/" title="绑定服务">绑定服务</a><time datetime="2020-12-14T11:18:41.000Z" title="发表于 2020-12-14 19:18:41">2020-12-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/07/workmanager-source-analysis/" title="WorkManager源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/指环王.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WorkManager源码分析"/></a><div class="content"><a class="title" href="/2020/12/07/workmanager-source-analysis/" title="WorkManager源码分析">WorkManager源码分析</a><time datetime="2020-12-07T12:40:56.000Z" title="发表于 2020-12-07 20:40:56">2020-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/02/butterknife-source-analysis/" title="ButterKnife源码分析"><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/疯狂动物城.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ButterKnife源码分析"/></a><div class="content"><a class="title" href="/2020/12/02/butterknife-source-analysis/" title="ButterKnife源码分析">ButterKnife源码分析</a><time datetime="2020-12-02T08:37:06.000Z" title="发表于 2020-12-02 16:37:06">2020-12-02</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2014 - 2021 By 马林康</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://malinkang.cn/2018/09/09/kotlin-in-action-chapter7/'
+    this.page.identifier = '2018/09/09/kotlin-in-action-chapter7/'
+    this.page.title = '《Kotlin实战》读书笔记 第7章 运算符重载及其他约定'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://malinkang.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

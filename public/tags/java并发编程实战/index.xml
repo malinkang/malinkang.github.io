@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java并发编程实战 on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/</link>
+    <description>Recent content in Java并发编程实战 on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 19 Nov 2015 10:53:22 +0000</lastBuildDate><atom:link href="https://malinkang.cn/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《Java并发编程实战》第16章Java内存模型</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-the-java-momory-model/</link>
+      <pubDate>Thu, 19 Nov 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-the-java-momory-model/</guid>
+      <description>&lt;p&gt;本章将介绍Java内存模型的底层需求以及锁提供的保证，此外还将介绍在本书给出的一些高层设计原则背后的原理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第15章原子变量与非阻塞同步机制</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-atomic-variables-and-nonblocking-synchronization/</link>
+      <pubDate>Thu, 12 Nov 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-atomic-variables-and-nonblocking-synchronization/</guid>
+      <description>&lt;p&gt;在&lt;code&gt;java.util.concurrent&lt;/code&gt;包的许多类中，例如&lt;code&gt;Semaphore&lt;/code&gt;和&lt;code&gt;ConcurrentLinkedQueue&lt;/code&gt;，都提供了比&lt;code&gt;synchronized&lt;/code&gt;机制更高的性能和可伸缩性。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第14章构建自定义的同步工具</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-building-custom-synchronizers/</link>
+      <pubDate>Thu, 05 Nov 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-building-custom-synchronizers/</guid>
+      <description>&lt;p&gt;类库包含了许多存在状态依赖性的类，例如&lt;code&gt;FutureTask&lt;/code&gt;、&lt;code&gt;Semaphore&lt;/code&gt;和&lt;code&gt;BlockingQueue&lt;/code&gt;等。在这些类的一些操作中有着基于状态的前提条件，例如，不能从一个空的队列中删除元素，或者获取一个尚未结束的任务的计算结果，在这些操作可以执行之前，必须等到队列进入“非空”状态，或者任务进入“已完成”状态。&lt;/p&gt;
+&lt;p&gt;创建状态依赖类的最简单方法通常是在类库中现有状态依赖类的基础上进行构造。如果类库没有提供你需要的功能，那么还可以使用&lt;code&gt;Java&lt;/code&gt;语言和类库提供的底层机制来构造自己的同步机制，包括内置的条件队列、显式的&lt;code&gt;Condition&lt;/code&gt;对象以及&lt;code&gt;AbstractQueuedSynchronizer&lt;/code&gt;框架。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第13章显式锁</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-explicit-locks/</link>
+      <pubDate>Thu, 29 Oct 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-explicit-locks/</guid>
+      <description>&lt;p&gt;在&lt;code&gt;Java 5.0&lt;/code&gt;之前，在协调对共享对象的访问时可以使用的机制只有&lt;code&gt;synchronized&lt;/code&gt;和&lt;code&gt;volatile&lt;/code&gt;。Java5.0增加了一种新的机制：&lt;code&gt;ReentrantLock&lt;/code&gt;。&lt;code&gt;ReentrantLock&lt;/code&gt;并不是一种替代内置锁的方法，而是当内置加锁机制不适用时，作为一种可选择的高级功能。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第8章线程池的使用</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-applying-thread-pools/</link>
+      <pubDate>Thu, 22 Oct 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-applying-thread-pools/</guid>
+      <description>&lt;p&gt;本章将介绍对线程池进行配置与调优的一些高级选项，并分析在使用任务执行框架时需要注意的各种危险，以及一些使用&lt;code&gt;Executor&lt;/code&gt;的高级示例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第6章执行任务</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-task-execution/</link>
+      <pubDate>Thu, 15 Oct 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-task-execution/</guid>
+      <description>&lt;p&gt;大多数并发应用程序都是围绕“任务执行”来构造的，任务通常是一些抽象的且离散的工作单元。通过把应用程序的工作分解到多个任务中，可以简化程序的组织结构，提供一种自然的事务边界来优化错误恢复过程，以及提供一种自然的并行工作结构来提升并发性。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第7章取消与关闭</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-cancellation-and-shutdown/</link>
+      <pubDate>Thu, 15 Oct 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-cancellation-and-shutdown/</guid>
+      <description>&lt;p&gt;任务和线程的启动很容易，在大多数时候，我们都会让它们运行直到结束，或者让它们自行停止。然后，有时候我们希望提前结束任务或线程，或许是因为用户取消了操作，或者应用程序需要被快速关闭。&lt;/p&gt;
+&lt;p&gt;要使任务和线程能安全、快速、可靠地停止下来，并不是一件容易的事。Java没有提供任何机制来安全地终止线程。但它提供了中断（Interruption），这是一种协作机制，能够使一个线程终止另一个线程的当前工作。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第5章基础构建模块</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-building-blocks/</link>
+      <pubDate>Thu, 08 Oct 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-building-blocks/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Java&lt;/code&gt;平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第3章对象的共享</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-sharing-objects/</link>
+      <pubDate>Thu, 01 Oct 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-sharing-objects/</guid>
+      <description>&lt;p&gt;我们已经知道了同步代码块和同步方法可以确保以原子的方式执行操作，但一种常见的误解是，认为关键字&lt;code&gt;synchronized&lt;/code&gt;只能用于实现原子性或者确定临界区。同步还有另一个重要的方面：内存可见性（Memory Visibility）。我们不仅希望防止某个线程正在使用对象状态而另一个线程在同时修改该状态，而且希望确保当一个线程修改了对象状态后，其他线程能够看到发生的状态变化。如果没有同步，那么这种情况就无法实现。你可以通过显式的同步或者类库中内置的同步来保证对象被安全地发布。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>《Java并发编程实战》第2章线程安全性</title>
+      <link>https://malinkang.cn/post/java-currency-in-practice-thread-safety/</link>
+      <pubDate>Thu, 24 Sep 2015 10:53:22 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/java-currency-in-practice-thread-safety/</guid>
+      <description>&lt;p&gt;一个对象是否需要是线程安全的，取决于它是否被多个线程访问。这指的是在程序中访问对象的方式，而不是对象要实现的功能。要使得对象时线程安全的，需要采用同步机制来协同对对象可变状态的访问。如果无法实现协同，那么可能会导致数据破坏以及其他不该出现的结果。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

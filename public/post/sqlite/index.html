@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>sqlite常用语法总结 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/sqlite/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="sqlite常用语法总结" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/sqlite/" />
+<meta property="article:published_time" content="2014-03-26T17:23:24+00:00" />
+<meta property="article:modified_time" content="2014-03-26T17:23:24+00:00" />
+<meta itemprop="name" content="sqlite常用语法总结">
+<meta itemprop="description" content="">
+<meta itemprop="datePublished" content="2014-03-26T17:23:24+00:00" />
+<meta itemprop="dateModified" content="2014-03-26T17:23:24+00:00" />
+<meta itemprop="wordCount" content="2782">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="sqlite常用语法总结"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">sqlite常用语法总结</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-03-26 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#唯一性约束unique">唯一性约束<code>UNIQUE</code></a></li>
+    <li><a href="#主键约束">主键约束</a></li>
+    <li><a href="#not-null约束"><code>NOT NULL</code>约束</a></li>
+    <li><a href="#check约束"><code>check</code>约束</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1创建表">1.创建表</h1>
+<p>SQLite数据类型</p>
+<p>integer：整数值</p>
+<p>real：浮点数</p>
+<p>text:文本</p>
+<p>blob：二进制大对象</p>
+<p>NULL</p>
+<h2 id="唯一性约束unique">唯一性约束<code>UNIQUE</code></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span><span class="n">name</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span><span class="n">phone</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;UNKNOWN&#39;</span><span class="p">,</span><span class="k">UNIQUE</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">));</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Jerry&#39;</span><span class="p">,</span><span class="s1">&#39;UNKNOWN&#39;</span><span class="p">);</span>
+<span class="o">//</span><span class="err">再次插入会出现错误</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Jerry&#39;</span><span class="p">,</span><span class="s1">&#39;UNKNOWN&#39;</span><span class="p">);</span>
+<span class="n">Error</span><span class="p">:</span> <span class="k">UNIQUE</span> <span class="k">constraint</span> <span class="n">failed</span><span class="p">:</span> <span class="n">Contacts</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Contacts</span><span class="p">.</span><span class="n">phone</span>
+<span class="o">//</span><span class="err">插入成功，因为</span><span class="n">name自身不是唯一的</span><span class="err">，但是</span><span class="n">name和phone合起来是唯一的</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Jerry&#39;</span><span class="p">,</span><span class="s1">&#39;555-1212&#39;</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>NULL不等于任何值，甚至不等于其他的NULL所以不会出现NULL冲突。</p>
+<h2 id="主键约束">主键约束</h2>
+<h2 id="not-null约束"><code>NOT NULL</code>约束</h2>
+<h2 id="check约束"><code>check</code>约束</h2>
+<p>check约束允许定义表达式来测试要插入或者更新的字段值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql">
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Foo</span> <span class="p">(</span> <span class="n">x</span> <span class="nb">INTEGER</span><span class="p">,</span><span class="n">y</span> <span class="nb">INTEGER</span> <span class="k">CHECK</span> <span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="n">x</span><span class="p">),</span> <span class="n">z</span> <span class="nb">INTEGER</span> <span class="k">CHECK</span> <span class="p">(</span><span class="n">z</span><span class="o">&gt;</span><span class="k">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)));</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Foo</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Foo</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="o">//</span><span class="err">不满足条件出错</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Foo</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">Error</span><span class="p">:</span> <span class="k">CHECK</span> <span class="k">constraint</span> <span class="n">failed</span><span class="p">:</span> <span class="n">Foo</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>SQLite提供了5种可能的冲突解决方案来解决冲突：<code>replace</code>、<code>ignore</code>、<code>fail</code>、<code>abort</code>、<code>rollback</code>。</p>
+<p><code>replace</code>：当违反了唯一性约束时，新记录会替代原来的记录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span><span class="n">name</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span><span class="n">phone</span> <span class="nb">TEXT</span> <span class="k">UNIQUE</span> <span class="k">ON</span> <span class="n">CONFLICT</span> <span class="k">REPLACE</span><span class="p">);</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Jerry&#39;</span><span class="p">,</span><span class="s1">&#39;12345678&#39;</span><span class="p">);</span><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">,</span><span class="s1">&#39;12345678&#39;</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Contacts</span><span class="p">;</span>
+
+
+<span class="mi">2</span><span class="o">|</span><span class="n">Tom</span><span class="o">|</span><span class="mi">12345678</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql">
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">COMPANY</span><span class="p">(</span>
+   <span class="n">ID</span> <span class="nb">INT</span> <span class="k">PRIMARY</span> <span class="k">KEY</span>     <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+   <span class="n">NAME</span>           <span class="nb">TEXT</span>    <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+   <span class="n">AGE</span>            <span class="nb">INT</span>     <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+   <span class="n">ADDRESS</span>        <span class="nb">CHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+   <span class="n">SALARY</span>         <span class="nb">REAL</span>    <span class="k">DEFAULT</span> <span class="mi">50000</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span>
+   <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">NAME</span><span class="p">,</span><span class="n">AGE</span><span class="p">)</span> <span class="k">ON</span> <span class="n">CONFLICT</span> <span class="k">REPLACE</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s2">&#34;MLK&#34;</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="s2">&#34;ABC&#34;</span><span class="p">,</span><span class="mi">20000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="o">//</span><span class="err">替换上一条</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s2">&#34;MLK&#34;</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="s2">&#34;ABC&#34;</span><span class="p">,</span><span class="mi">20000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="o">//</span><span class="err">替换上一条</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s2">&#34;MLK&#34;</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="s2">&#34;EFG&#34;</span><span class="p">,</span><span class="mi">10000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s2">&#34;MLK&#34;</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="s2">&#34;EFG&#34;</span><span class="p">,</span><span class="mi">10000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">COMPANY</span><span class="p">;</span>
+<span class="o">//</span><span class="err">查询结果</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">MLK</span><span class="o">|</span><span class="mi">22</span><span class="o">|</span><span class="n">EFG</span><span class="o">|</span><span class="mi">10000</span><span class="p">.</span><span class="mi">0</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">MLK</span><span class="o">|</span><span class="mi">23</span><span class="o">|</span><span class="n">EFG</span><span class="o">|</span><span class="mi">10000</span><span class="p">.</span><span class="mi">0</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ignore</code>：违反唯一性约束，将忽略新的记录。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql">
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span><span class="n">name</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span><span class="n">phone</span> <span class="nb">TEXT</span> <span class="k">UNIQUE</span> <span class="k">ON</span> <span class="n">CONFLICT</span> <span class="k">IGNORE</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Jerry&#39;</span><span class="p">,</span><span class="s1">&#39;12345678&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Contacts</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">phone</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">,</span><span class="s1">&#39;12345678&#39;</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Contacts</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Jerry</span><span class="o">|</span><span class="mi">12345678</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>fail</code>：当约束发生时，SQLite终止命令，但是不恢复约束违反之前已经修改的记录。也就是说，在约束违法发生前的改变都保留。例如，如果update命令在第100行违法约束，那么前99行已经修改的记录不会回滚。对第100行和之外的改变不会发生，因为命令已经终止了。</p>
+<p>abort：当约束违反发生时，SQLite恢复命令所做的所有改变并终止命令。abort是SQLite中所有操作的默认解决方法，也是SQL标准定义的行为。</p>
+<p>rollback：当约束违反发生时，SQLite执行回滚，终止当前命令和整个事务。</p>
+<h5 id="like操作符和glob操作符">LIKE操作符和GLOB操作符</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql">
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Persons</span> <span class="p">(</span><span class="n">Id</span> <span class="nb">Integer</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">LastName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">FirstName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Address</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span><span class="n">City</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Adams&#39;</span><span class="p">,</span><span class="s1">&#39;John&#39;</span><span class="p">,</span><span class="s1">&#39;Oxford Street&#39;</span><span class="p">,</span><span class="s1">&#39;London&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">,</span><span class="s1">&#39;George&#39;</span><span class="p">,</span><span class="s1">&#39;Fifth Avenue&#39;</span><span class="p">,</span><span class="s1">&#39;New York&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">,</span><span class="s1">&#39;Thomas&#39;</span><span class="p">,</span><span class="s1">&#39;Changan&#39;</span><span class="p">,</span><span class="s1">&#39;Beijing&#39;</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">Bush</span><span class="o">|</span><span class="n">George</span><span class="o">|</span><span class="n">Fifth</span> <span class="n">Avenue</span><span class="o">|</span><span class="k">New</span> <span class="n">York</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+
+<span class="o">//</span><span class="err">从</span><span class="n">Persons表中获取居住在以N开始的城市里的人</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">City</span> <span class="k">LIKE</span> <span class="s1">&#39;N%&#39;</span><span class="p">;</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">Bush</span><span class="o">|</span><span class="n">George</span><span class="o">|</span><span class="n">Fifth</span> <span class="n">Avenue</span><span class="o">|</span><span class="k">New</span> <span class="n">York</span>
+<span class="o">//</span><span class="err">从</span> <span class="s2">&#34;Persons&#34;</span> <span class="err">表中选取居住在包含</span> <span class="s2">&#34;lon&#34;</span> <span class="err">的城市里的人</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">City</span> <span class="k">LIKE</span> <span class="s1">&#39;%lon%&#39;</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+
+<span class="o">//</span><span class="err">从</span> <span class="s2">&#34;Persons&#34;</span> <span class="err">表中选取居住在以</span> <span class="s2">&#34;g&#34;</span> <span class="err">结尾的城市里的人</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">City</span> <span class="k">LIKE</span> <span class="s1">&#39;%g&#39;</span><span class="p">;</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>通配符
+%   替代一个或多个字符
+_   仅替代一个字符
+[charlist]  字符列中的任何单一字符
+[^charlist]
+或者
+[!charlist]
+不在字符列中的任何单一字符</p>
+<p>GLOB操作符在行为上与LIKE操作符相似。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">City</span> <span class="n">GLOB</span> <span class="s1">&#39;B*&#39;</span><span class="p">;</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+<span class="mi">4</span><span class="o">|</span><span class="n">Gates</span><span class="o">|</span><span class="n">Bill</span><span class="o">|</span><span class="n">Xuanwumen10</span><span class="o">|</span><span class="n">Beijing</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="in-操作符">IN 操作符</h5>
+<p>IN 操作符允许我们在 WHERE 子句中规定多个值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Persons</span> <span class="p">(</span><span class="n">Id</span> <span class="nb">Integer</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">LastName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">FirstName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Address</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span><span class="n">City</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Adams&#39;</span><span class="p">,</span><span class="s1">&#39;John&#39;</span><span class="p">,</span><span class="s1">&#39;Oxford Street&#39;</span><span class="p">,</span><span class="s1">&#39;London&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">,</span><span class="s1">&#39;George&#39;</span><span class="p">,</span><span class="s1">&#39;Fifth Avenue&#39;</span><span class="p">,</span><span class="s1">&#39;New York&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">,</span><span class="s1">&#39;Thomas&#39;</span><span class="p">,</span><span class="s1">&#39;Changan&#39;</span><span class="p">,</span><span class="s1">&#39;Beijing&#39;</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">Bush</span><span class="o">|</span><span class="n">George</span><span class="o">|</span><span class="n">Fifth</span> <span class="n">Avenue</span><span class="o">|</span><span class="k">New</span> <span class="n">York</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+
+<span class="o">//</span><span class="err">从列表中选取姓氏为</span><span class="n">Adams和Carter的人</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">LastName</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;Adams&#39;</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">);</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="between-操作符">BetWeen 操作符</h5>
+<p>操作符 BETWEEN &hellip; AND会选取介于两个值之间的数据范围。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql">
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Persons</span> <span class="p">(</span><span class="n">Id</span> <span class="nb">Integer</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">LastName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">FirstName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Address</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span><span class="n">City</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Adams&#39;</span><span class="p">,</span><span class="s1">&#39;John&#39;</span><span class="p">,</span><span class="s1">&#39;Oxford Street&#39;</span><span class="p">,</span><span class="s1">&#39;London&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">,</span><span class="s1">&#39;George&#39;</span><span class="p">,</span><span class="s1">&#39;Fifth Avenue&#39;</span><span class="p">,</span><span class="s1">&#39;New York&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">,</span><span class="s1">&#39;Thomas&#39;</span><span class="p">,</span><span class="s1">&#39;Changan&#39;</span><span class="p">,</span><span class="s1">&#39;Beijing&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">values</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;Gates&#39;</span><span class="p">,</span><span class="s1">&#39;Bill&#39;</span><span class="p">,</span><span class="s1">&#39;Xuanwumen10&#39;</span><span class="p">,</span><span class="s1">&#39;Beijing&#39;</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">Bush</span><span class="o">|</span><span class="n">George</span><span class="o">|</span><span class="n">Fifth</span> <span class="n">Avenue</span><span class="o">|</span><span class="k">New</span> <span class="n">York</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+<span class="mi">4</span><span class="o">|</span><span class="n">Gates</span><span class="o">|</span><span class="n">Bill</span><span class="o">|</span><span class="n">Xuanwumen10</span><span class="o">|</span><span class="n">Beijing</span>
+
+<span class="o">//</span><span class="err">以字母顺序显示介于</span> <span class="s2">&#34;Adams&#34;</span><span class="err">（包括）和</span> <span class="s2">&#34;Carter&#34;</span><span class="err">之间的人</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">LastName</span> <span class="k">BETWEEN</span> <span class="s1">&#39;Adams&#39;</span> <span class="k">AND</span> <span class="s1">&#39;Carter&#39;</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">Bush</span><span class="o">|</span><span class="n">George</span><span class="o">|</span><span class="n">Fifth</span> <span class="n">Avenue</span><span class="o">|</span><span class="k">New</span> <span class="n">York</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+
+<span class="o">//</span><span class="err">显示上述范围之外的人，使用</span><span class="n">NOT操作符</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">WHERE</span> <span class="n">LastName</span> <span class="k">NOT</span> <span class="k">BETWEEN</span> <span class="s1">&#39;Adams&#39;</span> <span class="k">AND</span> <span class="s1">&#39;Carter&#39;</span><span class="p">;</span>
+<span class="mi">4</span><span class="o">|</span><span class="n">Gates</span><span class="o">|</span><span class="n">Bill</span><span class="o">|</span><span class="n">Xuanwumen10</span><span class="o">|</span><span class="n">Beijing</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="alias-别名">Alias 别名</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Persons</span> <span class="p">(</span><span class="n">Id</span> <span class="nb">Integer</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">LastName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">FirstName</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Address</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span><span class="n">City</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Adams&#39;</span><span class="p">,</span><span class="s1">&#39;John&#39;</span><span class="p">,</span><span class="s1">&#39;Oxford Street&#39;</span><span class="p">,</span><span class="s1">&#39;London&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">,</span><span class="s1">&#39;George&#39;</span><span class="p">,</span><span class="s1">&#39;Fifth Avenue&#39;</span><span class="p">,</span><span class="s1">&#39;New York&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">,</span><span class="s1">&#39;Thomas&#39;</span><span class="p">,</span><span class="s1">&#39;Changan&#39;</span><span class="p">,</span><span class="s1">&#39;Beijing&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Persons</span> <span class="k">values</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;Gates&#39;</span><span class="p">,</span><span class="s1">&#39;Bill&#39;</span><span class="p">,</span><span class="s1">&#39;Xuanwumen10&#39;</span><span class="p">,</span><span class="s1">&#39;Beijing&#39;</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Persons</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">Adams</span><span class="o">|</span><span class="n">John</span><span class="o">|</span><span class="n">Oxford</span> <span class="n">Street</span><span class="o">|</span><span class="n">London</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">Bush</span><span class="o">|</span><span class="n">George</span><span class="o">|</span><span class="n">Fifth</span> <span class="n">Avenue</span><span class="o">|</span><span class="k">New</span> <span class="n">York</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span><span class="o">|</span><span class="n">Changan</span><span class="o">|</span><span class="n">Beijing</span>
+<span class="mi">4</span><span class="o">|</span><span class="n">Gates</span><span class="o">|</span><span class="n">Bill</span><span class="o">|</span><span class="n">Xuanwumen10</span><span class="o">|</span><span class="n">Beijing</span>
+
+<span class="k">SELECT</span> <span class="n">LastName</span> <span class="k">As</span> <span class="n">Family</span><span class="p">,</span><span class="n">FirstName</span> <span class="k">As</span> <span class="n">Name</span> <span class="k">FROM</span> <span class="n">Persons</span><span class="p">;</span>
+<span class="n">Adams</span><span class="o">|</span><span class="n">John</span>
+<span class="n">Bush</span><span class="o">|</span><span class="n">George</span>
+<span class="n">Carter</span><span class="o">|</span><span class="n">Thomas</span>
+<span class="n">Gates</span><span class="o">|</span><span class="n">Bill</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="null值">Null值</h5>
+<p>如果表中的某个列是可选的，那么我们可以在不向该列添加值的情况下插入新记录或更新已有的记录。这意味着该字段将以 NULL 值保存。</p>
+<p>无法比较 NULL 和 0；它们是不等价的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">//</span><span class="err">选取在</span> <span class="s2">&#34;Address&#34;</span> <span class="err">列中带有</span> <span class="k">NULL</span> <span class="err">值的记录</span>
+<span class="k">SELECT</span> <span class="n">LastName</span><span class="p">,</span><span class="n">FirstName</span><span class="p">,</span><span class="n">Address</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">Where</span> <span class="n">Address</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
+<span class="o">//</span><span class="err">选取在</span> <span class="s2">&#34;Address&#34;</span> <span class="err">列中不带有</span> <span class="k">NULL</span> <span class="err">值的记录</span>
+ <span class="k">SELECT</span> <span class="n">LastName</span><span class="p">,</span><span class="n">FirstName</span><span class="p">,</span><span class="n">Address</span> <span class="k">FROM</span> <span class="n">Persons</span> <span class="k">Where</span> <span class="n">Address</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="union和union-all操作符">UNION和UNION ALL操作符</h5>
+<p>UINON操作符用于合并两个或多个SELECT语句的结果集。</p>
+<p>请注意，UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Employees_China</span> <span class="p">(</span><span class="n">E_ID</span> <span class="nb">Integer</span><span class="p">,</span><span class="n">E_Name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_China</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">01</span><span class="p">,</span><span class="s1">&#39;Zhang,Hua&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_China</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">02</span><span class="p">,</span><span class="s1">&#39;Wang,Wei&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_China</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">03</span><span class="p">,</span><span class="s1">&#39;Carter,Thomas&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_China</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">04</span><span class="p">,</span><span class="s1">&#39;Yang,Ming&#39;</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="n">E_Name</span> <span class="k">FROM</span> <span class="n">Employees_China</span><span class="p">;</span>
+<span class="n">E_ID</span>        <span class="n">E_Name</span>
+<span class="c1">----------  ----------
+</span><span class="c1"></span><span class="mi">1</span>           <span class="n">Zhang</span><span class="p">,</span><span class="n">Hua</span>
+<span class="mi">2</span>           <span class="n">Wang</span><span class="p">,</span><span class="n">Wei</span>
+<span class="mi">3</span>           <span class="n">Carter</span><span class="p">,</span><span class="n">Tho</span>
+<span class="mi">4</span>           <span class="n">Yang</span><span class="p">,</span><span class="n">Ming</span>
+
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Employees_USA</span> <span class="p">(</span><span class="n">E_ID</span> <span class="nb">Integer</span><span class="p">,</span><span class="n">E_Name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_USA</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">01</span><span class="p">,</span><span class="s1">&#39;Adams,John&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_USA</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">02</span><span class="p">,</span><span class="s1">&#39;Bush,George&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_USA</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">02</span><span class="p">,</span><span class="s1">&#39;Carter,Thomas&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Employees_USA</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">04</span><span class="p">,</span><span class="s1">&#39;Gates,Bill&#39;</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Employees_USA</span><span class="p">;</span>
+<span class="n">E_ID</span>        <span class="n">E_Name</span>
+<span class="c1">----------  ----------
+</span><span class="c1"></span><span class="mi">1</span>           <span class="n">Adams</span><span class="p">,</span><span class="n">John</span>
+<span class="mi">2</span>           <span class="n">Bush</span><span class="p">,</span><span class="n">Georg</span>
+<span class="mi">3</span>           <span class="n">Carter</span><span class="p">,</span><span class="n">Tho</span>
+<span class="mi">4</span>           <span class="n">Gates</span><span class="p">,</span><span class="n">Bill</span>
+<span class="o">//</span><span class="err">使用</span><span class="n">UNION命令</span> <span class="k">UNION</span> <span class="err">命令只会选取不同的值。</span>
+<span class="k">SELECT</span> <span class="n">E_Name</span> <span class="k">FROM</span> <span class="n">Employees_China</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="n">E_Name</span> <span class="k">From</span> <span class="n">Employees_USA</span><span class="p">;</span>
+<span class="n">E_Name</span>
+<span class="c1">----------
+</span><span class="c1"></span><span class="n">Adams</span><span class="p">,</span><span class="n">John</span>
+<span class="n">Bush</span><span class="p">,</span><span class="n">Georg</span>
+<span class="n">Carter</span><span class="p">,</span><span class="n">Tho</span>
+<span class="n">Gates</span><span class="p">,</span><span class="n">Bill</span>
+<span class="n">Wang</span><span class="p">,</span><span class="n">Wei</span>
+<span class="n">Yang</span><span class="p">,</span><span class="n">Ming</span>
+<span class="n">Zhang</span><span class="p">,</span><span class="n">Hua</span>
+<span class="o">//</span><span class="err">使用</span> <span class="k">UNION</span> <span class="k">ALL</span> <span class="err">命令</span>
+
+<span class="k">SELECT</span> <span class="n">E_Name</span> <span class="k">FROM</span> <span class="n">Employees_China</span> <span class="k">UNION</span> <span class="k">ALL</span> <span class="k">SELECT</span> <span class="n">E_Name</span> <span class="k">From</span> <span class="n">Employees_USA</span><span class="p">;</span>
+
+<span class="n">E_Name</span>
+<span class="c1">----------
+</span><span class="c1"></span><span class="n">Zhang</span><span class="p">,</span><span class="n">Hua</span>
+<span class="n">Wang</span><span class="p">,</span><span class="n">Wei</span>
+<span class="n">Carter</span><span class="p">,</span><span class="n">Tho</span>
+<span class="n">Yang</span><span class="p">,</span><span class="n">Ming</span>
+<span class="n">Adams</span><span class="p">,</span><span class="n">John</span>
+<span class="n">Bush</span><span class="p">,</span><span class="n">Georg</span>
+<span class="n">Carter</span><span class="p">,</span><span class="n">Tho</span>
+<span class="n">Gates</span><span class="p">,</span><span class="n">Bill</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="group-by">GROUP BY</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Orders</span> <span class="p">(</span><span class="n">O_Id</span> <span class="nb">Integer</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">OrderDate</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">OrderPrice</span> <span class="nb">Integer</span><span class="p">,</span><span class="n">Customer</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Orders</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;2008/12/29&#39;</span><span class="p">,</span><span class="s1">&#39;1000&#39;</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Orders</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;2008/11/23&#39;</span><span class="p">,</span><span class="s1">&#39;1600&#39;</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Orders</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;2008/10/05&#39;</span><span class="p">,</span><span class="s1">&#39;700&#39;</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Orders</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;2008/9/28&#39;</span><span class="p">,</span><span class="s1">&#39;300&#39;</span><span class="p">,</span><span class="s1">&#39;Bush&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Orders</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;2008/8/6&#39;</span><span class="p">,</span><span class="s1">&#39;2000&#39;</span><span class="p">,</span><span class="s1">&#39;Adams&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">Orders</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;2008/7/21&#39;</span><span class="p">,</span><span class="s1">&#39;100&#39;</span><span class="p">,</span><span class="s1">&#39;Carter&#39;</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">Orders</span><span class="p">;</span>
+<span class="mi">1</span><span class="o">|</span><span class="mi">2008</span><span class="o">/</span><span class="mi">12</span><span class="o">/</span><span class="mi">29</span><span class="o">|</span><span class="mi">1000</span><span class="o">|</span><span class="n">Bush</span>
+<span class="mi">2</span><span class="o">|</span><span class="mi">2008</span><span class="o">/</span><span class="mi">11</span><span class="o">/</span><span class="mi">23</span><span class="o">|</span><span class="mi">1600</span><span class="o">|</span><span class="n">Carter</span>
+<span class="mi">3</span><span class="o">|</span><span class="mi">2008</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="mi">05</span><span class="o">|</span><span class="mi">700</span><span class="o">|</span><span class="n">Bush</span>
+<span class="mi">4</span><span class="o">|</span><span class="mi">2008</span><span class="o">/</span><span class="mi">9</span><span class="o">/</span><span class="mi">28</span><span class="o">|</span><span class="mi">300</span><span class="o">|</span><span class="n">Bush</span>
+<span class="mi">5</span><span class="o">|</span><span class="mi">2008</span><span class="o">/</span><span class="mi">8</span><span class="o">/</span><span class="mi">6</span><span class="o">|</span><span class="mi">2000</span><span class="o">|</span><span class="n">Adams</span>
+<span class="mi">6</span><span class="o">|</span><span class="mi">2008</span><span class="o">/</span><span class="mi">7</span><span class="o">/</span><span class="mi">21</span><span class="o">|</span><span class="mi">100</span><span class="o">|</span><span class="n">Carter</span>
+
+<span class="k">SELECT</span> <span class="n">Customer</span><span class="p">,</span><span class="k">SUM</span><span class="p">(</span><span class="n">OrderPrice</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">Orders</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">Customer</span><span class="p">;</span>
+<span class="n">Adams</span><span class="o">|</span><span class="mi">2000</span>
+<span class="n">Bush</span><span class="o">|</span><span class="mi">2000</span>
+<span class="n">Carter</span><span class="o">|</span><span class="mi">1700</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="limit">Limit</h5>
+<p>创建表</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">COMPANY</span> <span class="p">(</span><span class="n">ID</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">NAME</span> <span class="nb">TEXT</span><span class="p">,</span><span class="n">AGE</span> <span class="nb">INTEGER</span><span class="p">,</span><span class="n">ADDRESS</span> <span class="nb">TEXT</span><span class="p">,</span><span class="n">SALARY</span> <span class="nb">REAL</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Paul&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="s1">&#39;California&#39;</span><span class="p">,</span><span class="mi">2000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Allen&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;Texas&#39;</span><span class="p">,</span><span class="mi">1500</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Teddy&#39;</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="s1">&#39;Norway&#39;</span><span class="p">,</span><span class="mi">2000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;Rich-Mond&#39;</span><span class="p">,</span><span class="mi">6500</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;David&#39;</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="s1">&#39;Texas&#39;</span><span class="p">,</span><span class="mi">8500</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;Kim&#39;</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="s1">&#39;South-Hall&#39;</span><span class="p">,</span><span class="mi">4500</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="s1">&#39;James&#39;</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="s1">&#39;Houston&#39;</span><span class="p">,</span><span class="mi">3500</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">COMPANY</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1|Paul|32|California|2000.0
+2|Allen|25|Texas|1500.0
+3|Teddy|23|Norway|2000.0
+4|Mark|25|Rich-Mond|6500.0
+5|David|27|Texas|8500.0
+6|Kim|22|South-Hall|4500.0
+7|James|24|Houston|3500.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">LIMIT</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>3|Teddy|23|Norway|2000.0
+4|Mark|25|Rich-Mond|6500.0
+5|David|27|Texas|8500.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">LIMIT</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1|Paul|32|California|2000.0
+2|Allen|25|Texas|1500.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">LIMIT</span> <span class="mi">2</span> <span class="k">OFFSET</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1|Paul|32|California|2000.0
+2|Allen|25|Texas|1500.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">LIMIT</span> <span class="mi">2</span> <span class="k">OFFSET</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>3|Teddy|23|Norway|2000.0
+4|Mark|25|Rich-Mond|6500.0</p>
+<h5 id="joins">Joins</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">COMPANY</span> <span class="p">(</span> <span class="n">ID</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span><span class="n">NAME</span> <span class="nb">TEXT</span><span class="p">,</span><span class="n">AGE</span> <span class="nb">INTEGER</span><span class="p">,</span><span class="n">ADDRESS</span> <span class="nb">TEXT</span><span class="p">,</span><span class="n">SALARY</span> <span class="k">READ</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Paul&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="s1">&#39;California&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Allen&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;Texas&#39;</span><span class="p">,</span><span class="mi">15000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Teddy&#39;</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="s1">&#39;Norway&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;Rich-Mond&#39;</span><span class="p">,</span><span class="mi">65000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;David&#39;</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="s1">&#39;Texas&#39;</span><span class="p">,</span><span class="mi">85000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;Kim&#39;</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="s1">&#39;South-Hall&#39;</span><span class="p">,</span><span class="mi">45000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="s1">&#39;James&#39;</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="s1">&#39;Houston&#39;</span><span class="p">,</span><span class="mi">10000</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">DEPARTMENT</span><span class="p">(</span> <span class="n">ID</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span> <span class="n">DEPT</span> <span class="nb">TEXT</span> <span class="p">,</span><span class="n">EMP_ID</span> <span class="nb">TEXT</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">DEPARTMENT</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;IT Billing&#39;</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">DEPARTMENT</span>  <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Engineering&#39;</span><span class="p">,</span> <span class="mi">2</span> <span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">DEPARTMENT</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Finance&#39;</span><span class="p">,</span> <span class="mi">7</span> <span class="p">);</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>交叉连接（CROSS JOIN）把第一个表的每一行与第二个表的每一行进行匹配。如果两个输入表分别有 x 和 y 列，则结果表有 x+y 列。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">EMP_ID</span><span class="p">,</span><span class="n">NAME</span><span class="p">,</span><span class="n">DEPT</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">DEPARTMENT</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1|Paul|IT Billing
+2|Paul|Engineering
+7|Paul|Finance
+1|Allen|IT Billing
+2|Allen|Engineering
+7|Allen|Finance
+1|Teddy|IT Billing
+2|Teddy|Engineering
+7|Teddy|Finance
+1|Mark|IT Billing
+2|Mark|Engineering
+7|Mark|Finance
+1|David|IT Billing
+2|David|Engineering
+7|David|Finance
+1|Kim|IT Billing
+2|Kim|Engineering
+7|Kim|Finance
+1|James|IT Billing
+2|James|Engineering
+7|James|Finance</p>
+<p>内连接（INNER JOIN）根据连接谓词结合两个表（table1 和 table2）的列值来创建一个新的结果表。查询会把 table1 中的每一行与 table2 中的每一行进行比较，找到所有满足连接谓词的行的匹配对。当满足连接谓词时，A 和 B 行的每个匹配对的列值会合并成一个结果行。
+内连接（INNER JOIN）是最常见的连接类型，是默认的连接类型。INNER 关键字是可选的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">EMP_ID</span><span class="p">,</span> <span class="n">NAME</span><span class="p">,</span> <span class="n">DEPT</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">DEPARTMENT</span> <span class="k">ON</span> <span class="n">COMPANY</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">DEPARTMENT</span><span class="p">.</span><span class="n">EMP_ID</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1|Paul|IT Billing
+2|Allen|Engineering
+7|James|Finance</p>
+<p>外连接（OUTER JOIN）是内连接（INNER JOIN）的扩展。虽然 SQL 标准定义了三种类型的外连接：LEFT、RIGHT、FULL，但 SQLite 只支持 左外连接（LEFT OUTER JOIN）。
+外连接（OUTER JOIN）声明条件的方法与内连接（INNER JOIN）是相同的，使用 ON、USING 或 NATURAL 关键字来表达。最初的结果表以相同的方式进行计算。一旦主连接计算完成，外连接（OUTER JOIN）将从一个或两个表中任何未连接的行合并进来，外连接的列使用 NULL 值，将它们附加到结果表中。
+下面是左外连接（LEFT OUTER JOIN）的语法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">EMP_ID</span><span class="p">,</span> <span class="n">NAME</span><span class="p">,</span> <span class="n">DEPT</span> <span class="k">FROM</span> <span class="n">COMPANY</span> <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">DEPARTMENT</span> <span class="k">ON</span> <span class="n">COMPANY</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">DEPARTMENT</span><span class="p">.</span><span class="n">EMP_ID</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1|Paul|IT Billing
+2|Allen|Engineering
+|Teddy|
+|Mark|
+|David|
+|Kim|
+7|James|Finance</p>
+<ul>
+<li><a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">SQLite</a></li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2014-03-26
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/android-studio-plugins/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Android Studio常用插件</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/thinking-in-java-concurrency/">
+            <span class="next-text nav-default">《Java编程思想》第21章并发</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

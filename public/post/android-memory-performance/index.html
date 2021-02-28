@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android优化之内存优化 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="目录 使用内存效率更高的代码结构 谨慎使用服务 使用经过优化的数据容器 谨慎对待代码抽象 针对序列化数据使用精简版-protobuf 避免内存抖动 移除会" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/android-memory-performance/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Android优化之内存优化" />
+<meta property="og:description" content="目录 使用内存效率更高的代码结构 谨慎使用服务 使用经过优化的数据容器 谨慎对待代码抽象 针对序列化数据使用精简版-protobuf 避免内存抖动 移除会" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/android-memory-performance/" />
+<meta property="article:published_time" content="2019-03-05T15:10:02+08:00" />
+<meta property="article:modified_time" content="2019-03-05T15:10:02+08:00" />
+<meta itemprop="name" content="Android优化之内存优化">
+<meta itemprop="description" content="目录 使用内存效率更高的代码结构 谨慎使用服务 使用经过优化的数据容器 谨慎对待代码抽象 针对序列化数据使用精简版-protobuf 避免内存抖动 移除会">
+<meta itemprop="datePublished" content="2019-03-05T15:10:02+08:00" />
+<meta itemprop="dateModified" content="2019-03-05T15:10:02+08:00" />
+<meta itemprop="wordCount" content="3024">
+
+
+
+<meta itemprop="keywords" content="Android," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android优化之内存优化"/>
+<meta name="twitter:description" content="目录 使用内存效率更高的代码结构 谨慎使用服务 使用经过优化的数据容器 谨慎对待代码抽象 针对序列化数据使用精简版-protobuf 避免内存抖动 移除会"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android优化之内存优化</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-05 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#目录">目录</a></li>
+    <li><a href="#使用内存效率更高的代码结构使用内存效率更高的代码结构">使用内存效率更高的代码结构使用内存效率更高的代码结构</a>
+      <ul>
+        <li><a href="#谨慎使用服务">谨慎使用服务</a></li>
+        <li><a href="#使用经过优化的数据容器">使用经过优化的数据容器</a></li>
+        <li><a href="#谨慎对待代码抽象">谨慎对待代码抽象</a></li>
+        <li><a href="#针对序列化数据使用精简版-protobuf">针对序列化数据使用精简版 Protobuf</a></li>
+        <li><a href="#避免内存抖动">避免内存抖动</a></li>
+      </ul>
+    </li>
+    <li><a href="#移除会占用大量内存的资源和库">移除会占用大量内存的资源和库</a>
+      <ul>
+        <li><a href="#缩减总体-apk-大小">缩减总体 APK 大小</a></li>
+        <li><a href="#使用-dagger-2-实现依赖注入">使用 Dagger 2 实现依赖注入</a></li>
+        <li><a href="#谨慎使用外部库">谨慎使用外部库</a></li>
+      </ul>
+    </li>
+    <li><a href="#设备分级">设备分级</a></li>
+    <li><a href="#减少bitmap占用的内存">减少bitmap占用的内存</a></li>
+    <li><a href="#防止bitmap占用资源多大导致oom">防止bitmap占用资源多大导致OOM</a>
+      <ul>
+        <li><a href="#图片按需加载">图片按需加载</a></li>
+        <li><a href="#统一的bitmap加载器">统一的bitmap加载器</a></li>
+        <li><a href="#图片存在像素浪费">图片存在像素浪费</a></li>
+      </ul>
+    </li>
+    <li><a href="#内存泄露的检测与修改">内存泄露的检测与修改</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="目录">目录</h2>
+<ul>
+<li>
+<p><a href="https://github.com/malinkang/AndroidInterview/blob/master/%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96.md#%E4%BD%BF%E7%94%A8%E5%86%85%E5%AD%98%E6%95%88%E7%8E%87%E6%9B%B4%E9%AB%98%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E4%BD%BF%E7%94%A8%E5%86%85%E5%AD%98%E6%95%88%E7%8E%87%E6%9B%B4%E9%AB%98%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84">使用内存效率更高的代码结构</a></p>
+<ul>
+<li>
+<p>谨慎使用服务</p>
+</li>
+<li>
+<p>使用经过优化的数据容器</p>
+</li>
+<li>
+<p>谨慎对待代码抽象</p>
+</li>
+<li>
+<p>针对序列化数据使用精简版-protobuf</p>
+</li>
+<li>
+<p>避免内存抖动</p>
+</li>
+</ul>
+</li>
+<li>
+<p>移除会占用大量内存的资源和库</p>
+<ul>
+<li>缩减总体 apk大小</li>
+<li>使用-dagger-2-实现依赖注入</li>
+<li>谨慎使用外部库</li>
+</ul>
+</li>
+<li>
+<p>减少bitmap占用的内存</p>
+<ul>
+<li>防止bitmap占用资源多大导致OOM</li>
+<li>图片按需加载</li>
+<li>统一的bitmap加载器</li>
+<li>图片存在像素浪费</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用内存效率更高的代码结构使用内存效率更高的代码结构">使用内存效率更高的代码结构使用内存效率更高的代码结构</h2>
+<p>某些 Android 功能、Java 类和代码结构所使用的内存往往多于其他功能、类和结构。您可以在代码中选择效率更高的替代方案，以尽可能降低应用的内存使用量。</p>
+<h3 id="谨慎使用服务">谨慎使用服务</h3>
+<p>在不需要某项服务时让其保持运行状态，是 Android 应用可能犯下的<strong>最严重的内存管理错误之一</strong>。如果您的应用需要某项<a href="https://developer.android.com/guide/components/services.html">服务</a>在后台执行工作，请不要让其保持运行状态，除非其需要运行作业。请注意在服务完成任务后使其停止运行。否则，您可能会在无意中导致内存泄漏。</p>
+<p>在您启动某项服务后，系统更倾向于让此服务的进程始终保持运行状态。这种行为会导致服务进程代价十分高昂，因为一旦服务使用了某部分 RAM，那么这部分 RAM 就不再可供其他进程使用。这会减少系统可以在 LRU 缓存中保留的缓存进程数量，从而降低应用切换效率。当内存紧张，并且系统无法维护足够的进程以托管当前运行的所有服务时，这甚至可能导致系统出现颠簸。</p>
+<p>您通常应该避免使用持久性服务，因为它们会对可用内存提出持续性的要求。我们建议您采用 <code>JobScheduler</code>JobScheduler 等替代实现方式。要详细了解如何使用 <code>JobScheduler</code> 调度后台进程，请参阅<a href="https://developer.android.com/topic/performance/background-optimization.html">后台优化</a>。</p>
+<p>如果您必须使用某项服务，则限制此服务的生命周期的最佳方式是使用 <code>IntentService</code>，它会在处理完启动它的 intent 后立即自行结束。有关详情，请参阅<a href="https://developer.android.com/training/run-background-service/index.html">在后台服务中运行</a>。</p>
+<h3 id="使用经过优化的数据容器">使用经过优化的数据容器</h3>
+<p>编程语言所提供的部分类并未针对移动设备做出优化。例如，常规 <code>HashMap</code> 实现的内存效率可能十分低下，因为每个映射都需要分别对应一个单独的条目对象。</p>
+<p>Android 框架包含几个经过优化的数据容器，包括 <code>SparseArray</code>、<code>SparseBooleanArray</code> 和 <code>LongSparseArray</code>。 例如，<code>SparseArray</code> 类的效率更高，因为它们可以避免系统需要对键（有时还对值）进行自动装箱（这会为每个条目分别再创建 1-2 个对象）。</p>
+<p>如果需要，您可以随时切换到原始数组以获得非常精简的数据结构</p>
+<h3 id="谨慎对待代码抽象">谨慎对待代码抽象</h3>
+<p>开发者往往会将抽象简单地当做一种良好的编程做法，因为抽象可以提高代码灵活性和维护性。不过，抽象的代价很高：通常它们需要更多的代码才能执行，需要更多的时间和更多的 RAM 才能将代码映射到内存中。因此，如果抽象没有带来显著的好处，您就应该避免使用抽象。</p>
+<h3 id="针对序列化数据使用精简版-protobuf">针对序列化数据使用精简版 Protobuf</h3>
+<p><a href="https://developers.google.com/protocol-buffers/docs/overview">协议缓冲区</a>是 Google 设计的一种无关乎语言和平台，并且可扩展的机制，用于对结构化数据进行序列化。该机制与 XML 类似，但更小、更快也更简单。如果您决定针对数据使用 Protobuf，则应始终在客户端代码中使用精简版 Protobuf。常规 Protobuf 会生成极其冗长的代码，这会导致应用出现多种问题，例如 RAM 使用量增多、APK 大小显著增加以及执行速度变慢。</p>
+<p>有关详情，请参阅 <a href="https://android.googlesource.com/platform/external/protobuf/+/master/java/README.md#installation-lite-version-with-maven">Protobuf 自述文件</a>中的“精简版”部分。</p>
+<h3 id="避免内存抖动">避免内存抖动</h3>
+<h2 id="移除会占用大量内存的资源和库">移除会占用大量内存的资源和库</h2>
+<h3 id="缩减总体-apk-大小">缩减总体 APK 大小</h3>
+<p>您可以通过缩减应用的总体大小来显著降低应用的内存使用量。位图大小、资源、动画帧数和第三方库都会影响 APK 的大小。Android Studio 和 Android SDK 提供了可帮助您缩减资源和外部依赖项大小的多种工具。这些工具支持现代代码收缩方法，例如 <a href="https://developer.android.com/studio/build/shrink-code">R8 编译</a>。（Android Studio 3.3 及更低版本使用 ProGuard，而不是 R8 编译。）</p>
+<p>要详细了解如何缩减 APK 的总体大小，请参阅<a href="https://developer.android.com/topic/performance/reduce-apk-size.html">有关如何缩减应用大小的指南</a>。</p>
+<h3 id="使用-dagger-2-实现依赖注入">使用 Dagger 2 实现依赖注入</h3>
+<p>依赖注入框架可以简化您编写的代码，并提供一个可供您进行测试及其他配置更改的自适应环境。</p>
+<p>如果您打算在应用中使用依赖注入框架，请考虑使用 <a href="http://dagger.dev/">Dagger 2</a>。Dagger 不使用反射来扫描您应用的代码。Dagger 的静态编译时实现意味着它可以在 Android 应用中使用，而不会带来不必要的运行时代价或内存消耗量。</p>
+<p>其他使用反射的依赖注入框架倾向于通过扫描代码中的注释来初始化进程。此过程可能需要更多的 CPU 周期和 RAM，并可能在应用启动时导致出现明显的延迟。</p>
+<h3 id="谨慎使用外部库">谨慎使用外部库</h3>
+<p>外部库代码通常不是针对移动环境编写的，在移动客户端上运行时可能效率低下。如果您决定使用外部库，则可能需要针对移动设备优化该库。在决定是否使用该库之前，请提前规划，并在代码大小和 RAM 消耗量方面对库进行分析。</p>
+<p>即使是一些针对移动设备进行了优化的库，也可能因实现方式不同而导致问题。例如，一个库可能使用的是精简版 Protobuf，而另一个库使用的是 Micro Protobuf，导致您的应用出现两种不同的 Protobuf 实现。日志记录、分析、图像加载框架和缓存以及许多您意料之外的其他功能的不同实现都可能导致这种情况。</p>
+<p>虽然 <a href="https://developer.android.com/tools/help/proguard.html">ProGuard</a> 可以使用适当的标记移除 API 和资源，但无法移除库的大型内部依赖项。您所需要的这些库中的功能可能需要较低级别的依赖项。如果存在以下情况，这就特别容易导致出现问题：您使用某个库中的 <code>Activity</code> 子类（往往会有大量的依赖项）、库使用反射（这很常见，意味着您需要花费大量的时间手动调整 ProGuard 以使其运行）等。</p>
+<p>此外，请避免仅针对数十个功能中的一两个功能使用共享库。您一定不希望产生大量您甚至根本用不到的代码和开销。在考虑是否使用某个库时，请查找与您的需求十分契合的实现。否则，您可以决定自己去创建实现。</p>
+<h2 id="设备分级">设备分级</h2>
+<p>使用类似 device-year-class 的策略对设备分级，对于低端机用户可以关闭复杂的动画，或者是某些功能；使用 565 格式的图片，使用更小的缓存内存等。在现实环境下，不是每个用户的设备都跟我们的测试机一样高端，在开发过程我们要学会思考功能要不要对低端机开启、在系统资源吃紧的时候能不能做降级。</p>
+<h2 id="减少bitmap占用的内存">减少bitmap占用的内存</h2>
+<h2 id="防止bitmap占用资源多大导致oom">防止bitmap占用资源多大导致OOM</h2>
+<p>Android 2.x 系统 BitmapFactory.Options 里面隐藏的的inNativeAlloc反射打开后，申请的bitmap就不会算在external中。对于Android 4.x系统，可采用facebook的fresco库，即可把图片资源放于native中。</p>
+<h3 id="图片按需加载">图片按需加载</h3>
+<p>即图片的大小不应该超过view的大小。在把图片载入内存之前，我们需要先计算出一个合适的inSampleSize缩放比例，避免不必要的大图载入。对此，我们可以重载drawable与ImageView，例如在Activity ondestroy时，检测图片大小与View的大小，若超过，可以上报或提示。</p>
+<h3 id="统一的bitmap加载器">统一的bitmap加载器</h3>
+<p>Picasso、Fresco都是比较出名的加载库，同样微信也有自己的库ImageLoader。加载库的好处在于将版本差异、大小处理对使用者不感知。有了统一的bitmap加载器，我们可以在加载bitmap时，若发生OOM(try catch方式)，可以通过清除cache，降低bitmap format(ARGB8888/RBG565/ARGB4444/ALPHA8)等方式，重新尝试。</p>
+<h3 id="图片存在像素浪费">图片存在像素浪费</h3>
+<p>对于.9图，美工可能在出图时在拉伸与非拉伸区域都有大量的像素重复。通过获取图片的像素ARGB值，计算连续相同的像素区域，自定义算法判定这些区域是否可以缩放。关键也是需要将这些工作做到系统化，可及时发现问题，解决问题。</p>
+<h2 id="内存泄露的检测与修改">内存泄露的检测与修改</h2>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developer.android.com/topic/performance/memory-overview">内存管理概览</a></li>
+<li><a href="https://developer.android.com/topic/performance/memory-management">进程间的内存分配</a></li>
+<li><a href="https://developer.android.com/topic/performance/memory">管理应用内存</a></li>
+<li><a href="https://mp.weixin.qq.com/s/b_lFfL1mDrNVKj_VAcA2ZA?">微信Android内存申请分析</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Z7oMv0IgKWNkhLon_hFakg">微信Android内存优化杂谈</a></li>
+<li><a href="https://mp.weixin.qq.com/s/KtGfi5th-4YHOZsEmTOsjg?">微信 Android 终端内存优化实践</a></li>
+<li><a href="https://github.com/square/leakcanary">leakcanary</a></li>
+<li><a href="https://tech.meituan.com/2017/04/14/oom-analysis.html">Android OOM案例分析 - 美团技术团队</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-05
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android/">Android</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/android-start-performance/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Android启动优化</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/android-crash-performance/">
+            <span class="next-text nav-default">Android崩溃优化</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

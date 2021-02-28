@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>kotlin基础 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="2.1 基础要素：函数和变量 2.1.1 Hello,world! 1 2 3 fun main(args: Array&amp;lt;String&amp;gt;) { println(&amp;#34;Hello, world!&amp;#34;) } 2.1.2 函数 1 2 3 4 5 6 7 fun main(args: Array&amp;lt;String&amp;gt;) { println(max(1,2)) } fun max(a:Int,b:Int):Int{ return if(a&amp;gt;b) a else b } 表达式函数体 函数体由单个表达式构成的，可以用这" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/kotlin-basic/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="kotlin基础" />
+<meta property="og:description" content="2.1 基础要素：函数和变量 2.1.1 Hello,world! 1 2 3 fun main(args: Array&lt;String&gt;) { println(&#34;Hello, world!&#34;) } 2.1.2 函数 1 2 3 4 5 6 7 fun main(args: Array&lt;String&gt;) { println(max(1,2)) } fun max(a:Int,b:Int):Int{ return if(a&gt;b) a else b } 表达式函数体 函数体由单个表达式构成的，可以用这" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/kotlin-basic/" />
+<meta property="article:published_time" content="2018-08-25T12:26:55+00:00" />
+<meta property="article:modified_time" content="2018-08-25T12:26:55+00:00" />
+<meta itemprop="name" content="kotlin基础">
+<meta itemprop="description" content="2.1 基础要素：函数和变量 2.1.1 Hello,world! 1 2 3 fun main(args: Array&lt;String&gt;) { println(&#34;Hello, world!&#34;) } 2.1.2 函数 1 2 3 4 5 6 7 fun main(args: Array&lt;String&gt;) { println(max(1,2)) } fun max(a:Int,b:Int):Int{ return if(a&gt;b) a else b } 表达式函数体 函数体由单个表达式构成的，可以用这">
+<meta itemprop="datePublished" content="2018-08-25T12:26:55+00:00" />
+<meta itemprop="dateModified" content="2018-08-25T12:26:55+00:00" />
+<meta itemprop="wordCount" content="1281">
+
+
+
+<meta itemprop="keywords" content="Kotlin," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="kotlin基础"/>
+<meta name="twitter:description" content="2.1 基础要素：函数和变量 2.1.1 Hello,world! 1 2 3 fun main(args: Array&lt;String&gt;) { println(&#34;Hello, world!&#34;) } 2.1.2 函数 1 2 3 4 5 6 7 fun main(args: Array&lt;String&gt;) { println(max(1,2)) } fun max(a:Int,b:Int):Int{ return if(a&gt;b) a else b } 表达式函数体 函数体由单个表达式构成的，可以用这"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">kotlin基础</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-08-25 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#21-基础要素函数和变量">2.1 基础要素：函数和变量</a>
+      <ul>
+        <li><a href="#211-helloworld">2.1.1 Hello,world!</a></li>
+        <li><a href="#212-函数">2.1.2 函数</a></li>
+        <li><a href="#213-变量">2.1.3 变量</a></li>
+        <li><a href="#214--更简单的字符串格式化字符串模版">2.1.4  更简单的字符串格式化：字符串模版</a></li>
+      </ul>
+    </li>
+    <li><a href="#22-类和属性">2.2 类和属性</a>
+      <ul>
+        <li><a href="#221-属性">2.2.1 属性</a></li>
+        <li><a href="#222-自定义访问器">2.2.2 自定义访问器</a></li>
+        <li><a href="#223-kotlin源码布局目录和包">2.2.3 Kotlin源码布局：目录和包</a></li>
+      </ul>
+    </li>
+    <li><a href="#23-表示和处理选择枚举和when">2.3 表示和处理选择：枚举和“when”</a>
+      <ul>
+        <li><a href="#231-声明枚举类">2.3.1 声明枚举类</a></li>
+        <li><a href="#232-使用when处理枚举类">2.3.2 使用“when”处理枚举类</a></li>
+        <li><a href="#233-在when结构上使用任意对象">2.3.3 在“when”结构上使用任意对象</a></li>
+        <li><a href="#234-使用不带参数的when">2.3.4 使用不带参数的“when”</a></li>
+        <li><a href="#235-智能转换合并类型检查和转换">2.3.5 智能转换：合并类型检查和转换</a></li>
+        <li><a href="#236-重构用when替代if">2.3.6 重构：用“when”替代“if”</a></li>
+        <li><a href="#237-代码块作为if和when的分支">2.3.7 代码块作为“if”和“when”的分支</a></li>
+      </ul>
+    </li>
+    <li><a href="#24-迭代事物while循环和for循环">2.4 迭代事物：“while”循环和“for”循环</a>
+      <ul>
+        <li><a href="#241-while循环">2.4.1 “while”循环</a></li>
+        <li><a href="#242-迭代数字区间和数列">2.4.2 迭代数字：区间和数列</a></li>
+        <li><a href="#243-迭代map">2.4.3 迭代map</a></li>
+        <li><a href="#244-使用in检查集合和区间的成员">2.4.4 使用“in”检查集合和区间的成员</a></li>
+      </ul>
+    </li>
+    <li><a href="#25-kotlin中的异常">2.5 Kotlin中的异常</a>
+      <ul>
+        <li><a href="#251-try-catch和finally">2.5.1 “try” “catch”和“finally”</a></li>
+        <li><a href="#252-try作为表达式">2.5.2 “try”作为表达式</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="21-基础要素函数和变量">2.1 基础要素：函数和变量</h2>
+<h3 id="211-helloworld">2.1.1 Hello,world!</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;Hello, world!&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="212-函数">2.1.2 函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">max</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Int</span><span class="p">,</span><span class="n">b</span><span class="p">:</span><span class="n">Int</span><span class="p">):</span><span class="n">Int</span><span class="p">{</span>
+    <span class="k">return</span> <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">&gt;</span><span class="n">b</span><span class="p">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">b</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="表达式函数体">表达式函数体</h4>
+<p>函数体由单个表达式构成的，可以用这个表达式作为完整的函数体，并去掉花括号和<code>return</code>语句：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">max</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Int</span><span class="p">,</span><span class="n">b</span><span class="p">:</span><span class="n">Int</span><span class="p">):</span><span class="n">Int</span> <span class="p">=</span> <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">&gt;</span><span class="n">b</span><span class="p">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">b</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果函数体写在花括号中，我们说这个函数有<code>代码块体（block body)</code>。如果它直接返回一个表达式，它就有<code>表达式体（expression body）</code>。</p>
+<p>可以进一步简化<code>max</code>函数，省掉返回类型：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">max</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Int</span><span class="p">,</span><span class="n">b</span><span class="p">:</span><span class="n">Int</span><span class="p">)</span> <span class="p">=</span> <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">&gt;</span><span class="n">b</span><span class="p">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">b</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="213-变量">2.1.3 变量</h3>
+<h4 id="可变变量和不可变量">可变变量和不可变量</h4>
+<p>val（来自value）不可变引用。使用val声明的变量不能在初始化之后再次赋值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">VariablesDemo</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="m">1</span>
+    <span class="k">val</span> <span class="py">b</span> <span class="p">=</span> <span class="m">2</span>
+
+    <span class="nd">@JvmField</span> <span class="c1">//不能修饰private
+</span><span class="c1"></span>    <span class="k">val</span> <span class="py">c</span> <span class="p">=</span> <span class="m">3</span>
+
+
+    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="py">d</span> <span class="p">=</span> <span class="m">4</span>
+        <span class="nd">@JvmField</span>
+        <span class="k">val</span> <span class="py">e</span> <span class="p">=</span> <span class="m">5</span>
+        <span class="k">val</span> <span class="py">f</span> <span class="p">=</span> <span class="m">6</span>
+        <span class="k">const</span> <span class="k">val</span> <span class="py">g</span> <span class="p">=</span> <span class="m">7</span>
+        <span class="k">private</span> <span class="k">const</span> <span class="k">val</span> <span class="py">h</span> <span class="p">=</span> <span class="m">8</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>反编译</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">VariablesDemo</span> <span class="o">{</span>
+   <span class="kd">private</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="c1">//set get 略
+</span><span class="c1"></span>   <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">2</span><span class="o">;</span> <span class="c1">//只有get方法 略
+</span><span class="c1"></span>   <span class="nd">@JvmField</span> 
+   <span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">3</span><span class="o">;</span> <span class="c1">//没有set get方法 
+</span><span class="c1"></span>   <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="n">4</span><span class="o">;</span> <span class="c1">//有set get方法 略
+</span><span class="c1"></span>   <span class="nd">@JvmField</span>
+   <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="n">5</span><span class="o">;</span> 
+   <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">6</span><span class="o">;</span> <span class="c1">//const修饰的是public 没有则是private
+</span><span class="c1"></span>   <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">g</span> <span class="o">=</span> <span class="n">7</span><span class="o">;</span>
+   <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">8</span><span class="o">;</span> <span class="c1">//用private修饰的
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="214--更简单的字符串格式化字符串模版">2.1.4  更简单的字符串格式化：字符串模版</h3>
+<h2 id="22-类和属性">2.2 类和属性</h2>
+<h3 id="221-属性">2.2.1 属性</h3>
+<h3 id="222-自定义访问器">2.2.2 自定义访问器</h3>
+<h3 id="223-kotlin源码布局目录和包">2.2.3 Kotlin源码布局：目录和包</h3>
+<h2 id="23-表示和处理选择枚举和when">2.3 表示和处理选择：枚举和“when”</h2>
+<h3 id="231-声明枚举类">2.3.1 声明枚举类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="n">Color</span> <span class="o">{</span>
+
+    <span class="n">RED</span><span class="o">(</span><span class="n">255</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">),</span> <span class="n">ORANGE</span><span class="o">(</span><span class="n">255</span><span class="o">,</span> <span class="n">165</span><span class="o">,</span> <span class="n">0</span><span class="o">),</span> <span class="n">YELLOW</span><span class="o">(</span><span class="n">255</span><span class="o">,</span> <span class="n">255</span><span class="o">,</span> <span class="n">0</span><span class="o">),</span>
+    <span class="n">GREEN</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">255</span><span class="o">,</span> <span class="n">0</span><span class="o">),</span> <span class="n">BLUE</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">255</span><span class="o">),</span> <span class="n">INDIGO</span><span class="o">(</span><span class="n">75</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">130</span><span class="o">),</span> <span class="n">VIOLET</span><span class="o">(</span><span class="n">238</span><span class="o">,</span> <span class="n">130</span><span class="o">,</span> <span class="n">238</span><span class="o">);</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">r</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">g</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">b</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">Color</span><span class="o">(</span><span class="kt">int</span> <span class="n">r</span><span class="o">,</span> <span class="kt">int</span> <span class="n">g</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">rgb</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">256</span> <span class="o">+</span> <span class="n">g</span><span class="o">)</span> <span class="o">*</span> <span class="n">256</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">enum</span> <span class="k">class</span> <span class="nc">Color</span> <span class="k">constructor</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">r</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="k">private</span> <span class="k">val</span> <span class="py">g</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="k">private</span> <span class="k">val</span> <span class="py">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="n">RED</span><span class="p">(</span><span class="m">255</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="n">ORANGE</span><span class="p">(</span><span class="m">255</span><span class="p">,</span> <span class="m">165</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="n">YELLOW</span><span class="p">(</span><span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span>
+    <span class="n">GREEN</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="n">BLUE</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">255</span><span class="p">),</span> <span class="n">INDIGO</span><span class="p">(</span><span class="m">75</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">130</span><span class="p">),</span> <span class="n">VIOLET</span><span class="p">(</span><span class="m">238</span><span class="p">,</span> <span class="m">130</span><span class="p">,</span> <span class="m">238</span><span class="p">);</span>
+
+    <span class="k">private</span> <span class="k">fun</span> <span class="nf">rgb</span><span class="p">():</span> <span class="n">Int</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">r</span> <span class="p">*</span> <span class="m">256</span> <span class="p">+</span> <span class="n">g</span><span class="p">)</span> <span class="p">*</span> <span class="m">256</span> <span class="p">+</span> <span class="n">b</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="232-使用when处理枚举类">2.3.2 使用“when”处理枚举类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">getMnemonic</span><span class="p">(</span><span class="n">color</span><span class="p">:</span> <span class="n">Color</span><span class="p">)</span> <span class="p">=</span>
+        <span class="k">when</span> <span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">RED</span> <span class="o">-&gt;</span> <span class="s2">&#34;Richard&#34;</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">ORANGE</span> <span class="o">-&gt;</span> <span class="s2">&#34;Of&#34;</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span> <span class="o">-&gt;</span> <span class="s2">&#34;York&#34;</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">GREEN</span> <span class="o">-&gt;</span> <span class="s2">&#34;Gave&#34;</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span> <span class="o">-&gt;</span> <span class="s2">&#34;Battle&#34;</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">INDIGO</span> <span class="o">-&gt;</span> <span class="s2">&#34;In&#34;</span>
+            <span class="n">Color</span><span class="p">.</span><span class="n">VIOLET</span> <span class="o">-&gt;</span> <span class="s2">&#34;Vain&#34;</span>
+        <span class="p">}</span>
+
+<span class="n">println</span><span class="p">(</span><span class="n">getMnemonic</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span><span class="p">))</span> <span class="c1">//Battle
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">getWarmth</span><span class="p">(</span><span class="n">color</span><span class="p">:</span> <span class="n">Color</span><span class="p">)</span> <span class="p">=</span> <span class="k">when</span> <span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Color</span><span class="p">.</span><span class="n">RED</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">ORANGE</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span> <span class="o">-&gt;</span> <span class="s2">&#34;warm&#34;</span>
+    <span class="n">Color</span><span class="p">.</span><span class="n">GREEN</span> <span class="o">-&gt;</span> <span class="s2">&#34;neutral&#34;</span>
+    <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">INDIGO</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">VIOLET</span> <span class="o">-&gt;</span> <span class="s2">&#34;cold&#34;</span>
+<span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="n">getWarmth</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">ORANGE</span><span class="p">))</span> <span class="c1">//Warm
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="233-在when结构上使用任意对象">2.3.3 在“when”结构上使用任意对象</h3>
+<p>Kotlin中的when结构比Java中的Switch强大得多。Switch要求必须使用常量作为分支条件，when允许使用任何对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">mix</span><span class="p">(</span><span class="n">c1</span><span class="p">:</span> <span class="n">Color</span><span class="p">,</span> <span class="n">c2</span><span class="p">:</span> <span class="n">Color</span><span class="p">)</span> <span class="p">=</span>
+        <span class="k">when</span> <span class="p">(</span><span class="n">setOf</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">setOf</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">RED</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">.</span><span class="n">ORANGE</span>
+            <span class="n">setOf</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">.</span><span class="n">GREEN</span>
+            <span class="n">setOf</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">Color</span><span class="p">.</span><span class="n">VIOLET</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">.</span><span class="n">INDIGO</span>
+            <span class="k">else</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="n">Exception</span><span class="p">(</span><span class="s2">&#34;Dirty color&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="234-使用不带参数的when">2.3.4 使用不带参数的“when”</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">mixOptimized</span><span class="p">(</span><span class="n">c1</span><span class="p">:</span> <span class="n">Color</span><span class="p">,</span> <span class="n">c2</span><span class="p">:</span> <span class="n">Color</span><span class="p">)</span> <span class="p">=</span>
+        <span class="k">when</span> <span class="p">{</span>
+            <span class="p">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">RED</span> <span class="o">&amp;&amp;</span> <span class="n">c2</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span><span class="p">)</span> <span class="o">||</span>
+                    <span class="p">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span> <span class="o">&amp;&amp;</span> <span class="n">c2</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">RED</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">.</span><span class="n">ORANGE</span>
+            <span class="p">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span> <span class="o">&amp;&amp;</span> <span class="n">c2</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span><span class="p">)</span> <span class="o">||</span>
+                    <span class="p">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span> <span class="o">&amp;&amp;</span> <span class="n">c2</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">YELLOW</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">.</span><span class="n">GREEN</span>
+            <span class="p">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span> <span class="o">&amp;&amp;</span> <span class="n">c2</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">VIOLET</span><span class="p">)</span> <span class="o">||</span>
+                    <span class="p">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">VIOLET</span> <span class="o">&amp;&amp;</span> <span class="n">c2</span> <span class="o">==</span> <span class="n">Color</span><span class="p">.</span><span class="n">BLUE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">.</span><span class="n">INDIGO</span>
+            <span class="k">else</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="n">Exception</span><span class="p">(</span><span class="s2">&#34;Dirty color&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="235-智能转换合并类型检查和转换">2.3.5 智能转换：合并类型检查和转换</h3>
+<h3 id="236-重构用when替代if">2.3.6 重构：用“when”替代“if”</h3>
+<h3 id="237-代码块作为if和when的分支">2.3.7 代码块作为“if”和“when”的分支</h3>
+<h2 id="24-迭代事物while循环和for循环">2.4 迭代事物：“while”循环和“for”循环</h2>
+<h3 id="241-while循环">2.4.1 “while”循环</h3>
+<h3 id="242-迭代数字区间和数列">2.4.2 迭代数字：区间和数列</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$i</span><span class="s2"> &#34;</span><span class="p">)</span> <span class="c1">//0 1 2 3 4 5 6 7 8 9 10 
+</span><span class="c1"></span><span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">10</span> <span class="n">step</span> <span class="m">2</span><span class="p">){</span>
+    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$i</span><span class="s2"> &#34;</span><span class="p">)</span> <span class="c1">//0 2 4 6 8 10
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">//递减
+</span><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">10</span> <span class="n">downTo</span> <span class="m">5</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$i</span><span class="s2"> &#34;</span><span class="p">)</span> <span class="c1">//10 9 8 7 6 5 
+</span><span class="c1"></span><span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">10</span> <span class="n">downTo</span> <span class="m">5</span> <span class="n">step</span> <span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$i</span><span class="s2"> &#34;</span><span class="p">)</span> <span class="c1">//10 8 6 
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">//不包含
+</span><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span> <span class="n">until</span> <span class="m">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$i</span><span class="s2"> &#34;</span><span class="p">)</span> <span class="c1">//1 2 3 4 5 6 7 8 9
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="243-迭代map">2.4.3 迭代map</h3>
+<h3 id="244-使用in检查集合和区间的成员">2.4.4 使用“in”检查集合和区间的成员</h3>
+<h2 id="25-kotlin中的异常">2.5 Kotlin中的异常</h2>
+<h3 id="251-try-catch和finally">2.5.1 “try” “catch”和“finally”</h3>
+<h3 id="252-try作为表达式">2.5.2 “try”作为表达式</h3>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.kotlincn.net/docs/reference/control-flow.html">控制流</a></li>
+<li><a href="https://www.kotlincn.net/docs/reference/returns.html">返回和跳转</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-08-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/kotlin/">Kotlin</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/kotlin-in-action-chapter4/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">《Kotlin实战》读书笔记 第4章 类对象和接口</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/kotlin-in-action-chapter3/">
+            <span class="next-text nav-default">《Kotlin实战》读书笔记 第3章 函数的定义与调用</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

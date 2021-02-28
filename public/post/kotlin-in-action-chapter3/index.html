@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《Kotlin实战》读书笔记 第3章 函数的定义与调用 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="3.1 在kotlin中创建集合 1 2 3 4 5 6 7 val set = hashSetOf(1, 7, 53) val list = arrayListOf(1, 7, 53) val map = hashMapOf(1 to &amp;#34;one&amp;#34;, 7 to &amp;#34;seven&amp;#34;, 53 to &amp;#34;fifty-three&amp;#34;) //kotlin的javaClass等价于Java的" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/kotlin-in-action-chapter3/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《Kotlin实战》读书笔记 第3章 函数的定义与调用" />
+<meta property="og:description" content="3.1 在kotlin中创建集合 1 2 3 4 5 6 7 val set = hashSetOf(1, 7, 53) val list = arrayListOf(1, 7, 53) val map = hashMapOf(1 to &#34;one&#34;, 7 to &#34;seven&#34;, 53 to &#34;fifty-three&#34;) //kotlin的javaClass等价于Java的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/kotlin-in-action-chapter3/" />
+<meta property="article:published_time" content="2018-08-25T12:26:55+00:00" />
+<meta property="article:modified_time" content="2018-08-25T12:26:55+00:00" />
+<meta itemprop="name" content="《Kotlin实战》读书笔记 第3章 函数的定义与调用">
+<meta itemprop="description" content="3.1 在kotlin中创建集合 1 2 3 4 5 6 7 val set = hashSetOf(1, 7, 53) val list = arrayListOf(1, 7, 53) val map = hashMapOf(1 to &#34;one&#34;, 7 to &#34;seven&#34;, 53 to &#34;fifty-three&#34;) //kotlin的javaClass等价于Java的">
+<meta itemprop="datePublished" content="2018-08-25T12:26:55+00:00" />
+<meta itemprop="dateModified" content="2018-08-25T12:26:55+00:00" />
+<meta itemprop="wordCount" content="2521">
+
+
+
+<meta itemprop="keywords" content="Kotlin," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《Kotlin实战》读书笔记 第3章 函数的定义与调用"/>
+<meta name="twitter:description" content="3.1 在kotlin中创建集合 1 2 3 4 5 6 7 val set = hashSetOf(1, 7, 53) val list = arrayListOf(1, 7, 53) val map = hashMapOf(1 to &#34;one&#34;, 7 to &#34;seven&#34;, 53 to &#34;fifty-three&#34;) //kotlin的javaClass等价于Java的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《Kotlin实战》读书笔记 第3章 函数的定义与调用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-08-25 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#31-在kotlin中创建集合">3.1 在kotlin中创建集合</a></li>
+    <li><a href="#32-让函数更好调用">3.2 让函数更好调用</a>
+      <ul>
+        <li><a href="#321-命名参数">3.2.1 命名参数</a></li>
+        <li><a href="#322-默认参数值">3.2.2 默认参数值</a></li>
+        <li><a href="#323-消除静态工具类顶层函数和属性">3.2.3 消除静态工具类：顶层函数和属性</a></li>
+      </ul>
+    </li>
+    <li><a href="#33-给别人的类添加方法扩展函数和属性">3.3 给别人的类添加方法：扩展函数和属性</a>
+      <ul>
+        <li><a href="#331-导入和扩展函数">3.3.1 导入和扩展函数</a></li>
+        <li><a href="#332-从java中调用扩展函数">3.3.2 从Java中调用扩展函数</a></li>
+        <li><a href="#333-作为扩展函数的工具函数">3.3.3 作为扩展函数的工具函数</a></li>
+        <li><a href="#334-不可重写的扩展函数">3.3.4 不可重写的扩展函数</a></li>
+        <li><a href="#334-扩展属性">3.3.4 扩展属性</a></li>
+      </ul>
+    </li>
+    <li><a href="#34-处理集合可变参数中缀调用和库的支持">3.4 处理集合：可变参数、中缀调用和库的支持</a>
+      <ul>
+        <li><a href="#341-扩展java集合的api">3.4.1 扩展Java集合的API</a></li>
+        <li><a href="#342-可变参数让函数支持任意数量的参数">3.4.2 可变参数：让函数支持任意数量的参数</a></li>
+        <li><a href="#343-键值对的处理中缀调用和解构声明">3.4.3 键值对的处理：中缀调用和解构声明</a></li>
+      </ul>
+    </li>
+    <li><a href="#35-字符串和正则表达式的处理">3.5 字符串和正则表达式的处理</a>
+      <ul>
+        <li><a href="#351-分割字符串">3.5.1 分割字符串</a></li>
+        <li><a href="#352-正则表达式和三重引号的字符串">3.5.2 正则表达式和三重引号的字符串</a></li>
+        <li><a href="#353-多行三重引号的字符串">3.5.3 多行三重引号的字符串</a></li>
+      </ul>
+    </li>
+    <li><a href="#36-让你的代码更简洁局部函数和扩展">3.6 让你的代码更简洁：局部函数和扩展</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="31-在kotlin中创建集合">3.1 在kotlin中创建集合</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">set</span> <span class="p">=</span> <span class="n">hashSetOf</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">53</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">arrayListOf</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">53</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">map</span> <span class="p">=</span> <span class="n">hashMapOf</span><span class="p">(</span><span class="m">1</span> <span class="n">to</span> <span class="s2">&#34;one&#34;</span><span class="p">,</span> <span class="m">7</span> <span class="n">to</span> <span class="s2">&#34;seven&#34;</span><span class="p">,</span> <span class="m">53</span> <span class="n">to</span> <span class="s2">&#34;fifty-three&#34;</span><span class="p">)</span>
+<span class="c1">//kotlin的javaClass等价于Java的getClass()
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="k">set</span><span class="p">.</span><span class="n">javaClass</span><span class="p">)</span>  <span class="c1">//class java.util.HashSet
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">javaClass</span><span class="p">)</span> <span class="c1">//class java.util.ArrayList
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="n">javaClass</span><span class="p">)</span> <span class="c1">//class java.util.HashMap
+</span></code></pre></td></tr></table>
+</div>
+</div><p><code>Kotlin</code>没有采用它自己的集合类，而是采用的标准的<code>Java</code>集合类。<code>Kotlin</code>可以更容易与Java代码交互。当从<code>Kotlin</code>中调用<code>Java</code>函数的时候，不用转换它的集合类来匹配<code>Java</code>的类，反之亦然。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">strings</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s2">&#34;first&#34;</span><span class="p">,</span><span class="s2">&#34;second&#34;</span><span class="p">,</span><span class="s2">&#34;fourteenth&#34;</span><span class="p">)</span>
+<span class="c1">//获取最后一个元素
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">strings</span><span class="p">.</span><span class="n">last</span><span class="p">())</span>
+<span class="k">val</span> <span class="py">numbers</span> <span class="p">=</span> <span class="n">setOf</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">14</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+<span class="c1">//得到一个数字列表的最大值
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">max</span><span class="p">())</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="32-让函数更好调用">3.2 让函数更好调用</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="nf">joinToString</span><span class="p">(</span><span class="n">collection</span><span class="p">:</span><span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;,</span><span class="n">separator</span><span class="p">:</span><span class="n">String</span><span class="p">,</span>
+<span class="n">prefix</span><span class="p">:</span><span class="n">String</span><span class="p">,</span><span class="n">postfix</span><span class="p">:</span><span class="n">String</span><span class="p">):</span><span class="n">String</span><span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">StringBuilder</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">((</span><span class="n">index</span><span class="p">,</span><span class="n">element</span><span class="p">)</span> <span class="k">in</span> <span class="n">collection</span><span class="p">.</span><span class="n">withIndex</span><span class="p">()){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">index</span><span class="p">&gt;</span><span class="m">0</span><span class="p">)</span> <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">postfix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">joinToString</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="s2">&#34;;&#34;</span><span class="p">,</span><span class="s2">&#34;(&#34;</span><span class="p">,</span><span class="s2">&#34;)&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="321-命名参数">3.2.1 命名参数</h3>
+<p>当调用一个<code>kotlin</code>定义的函数时，可以显式地标明一些参数的名称。如果在调用一个函数时，指明一个参数的名称，为了避免混淆，那它之后的所有参数都要标明名称。当调用Java的函数时，不能采用命名参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"> <span class="n">println</span><span class="p">(</span><span class="n">joinToString</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="n">separator</span> <span class="p">=</span><span class="s2">&#34;;&#34;</span><span class="p">,</span><span class="n">prefix</span> <span class="p">=</span> <span class="s2">&#34;(&#34;</span><span class="p">,</span><span class="n">postfix</span> <span class="p">=</span> <span class="s2">&#34;)&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="322-默认参数值">3.2.2 默认参数值</h3>
+<p>在<code>Kotlin</code>中，可以在声明函数的时候，指定参数的默认值，这样就可以避免创建重载的函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="nf">joinToString</span><span class="p">(</span><span class="n">collection</span><span class="p">:</span><span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;,</span>
+                     <span class="n">separator</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;,&#34;</span><span class="p">,</span>
+                     <span class="n">prefix</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+                     <span class="n">postfix</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span><span class="p">):</span><span class="n">String</span><span class="p">{</span>
+   <span class="c1">//...
+</span><span class="c1"></span><span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">println</span><span class="p">(</span><span class="n">joinToString</span><span class="p">(</span><span class="n">list</span><span class="p">))</span> <span class="c1">// 1,2,3
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">joinToString</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="s2">&#34;;&#34;</span><span class="p">))</span> <span class="c1">//1;2;3
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">joinToString</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="s2">&#34;;&#34;</span><span class="p">,</span><span class="s2">&#34;(&#34;</span><span class="p">,</span><span class="s2">&#34;)&#34;</span><span class="p">))</span> <span class="c1">//(1;2;3)
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">joinToString</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="n">prefix</span> <span class="p">=</span> <span class="s2">&#34;(&#34;</span><span class="p">))</span> <span class="c1">//(1,2,3
+</span></code></pre></td></tr></table>
+</div>
+</div><p>当使用常规的调用语法时，必须按照函数声明中定义的参数顺序来给定参数，可以省略的只有排在末尾的参数。如果使用命名参数，可以省略中间的一些参数，也可以以你想要的任意顺序只给定你需要的参数：</p>
+<p>当你从<code>Java</code>中调用<code>Kotlin</code>函数的时候必须显式地指定所有参数值。如果需要从Java代码中做频繁的调用，而且希望它能对<code>Java</code>的调用者更简便，可以用<code>@JvmOverloads</code>注解它。这个指示编译器生成如下重载函数。</p>
+<p>扩展函数需要进行导入才能使用它。</p>
+<p><img src="../.gitbook/assets/image.png" alt=""></p>
+<h3 id="323-消除静态工具类顶层函数和属性">3.2.3 消除静态工具类：顶层函数和属性</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">package</span> <span class="nn">strings</span>
+<span class="k">fun</span> <span class="nf">joinToString</span><span class="p">(</span><span class="o">..</span><span class="p">.):</span> <span class="n">String</span><span class="p">{</span><span class="o">..</span><span class="p">.}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里它会编译成如下的Java代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">strings</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JoinKt</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">joinToString</span><span class="o">(...){...}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到Kotlin编译生成的类的名称，对应于包含函数的文件的名称。这个文件中的所有顶层函数编译为这个类的静态函数。</p>
+<p>要改变包含Kotlin顶层函数的生成的类的名称，需要为这个文件添加@JvmName的注解，将其放到这个文件的开头，位于包名的前面：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="nd">@file</span><span class="p">:</span><span class="n">JvmName</span><span class="p">(</span><span class="s2">&#34;StringFunctions&#34;</span><span class="p">)</span>
+<span class="k">package</span> <span class="nn">strings</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="顶层属性">顶层属性</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">const</span> <span class="k">val</span> <span class="py">UNIX_LINE_SEPARATOR</span> <span class="p">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="33-给别人的类添加方法扩展函数和属性">3.3 给别人的类添加方法：扩展函数和属性</h2>
+<p>添加扩展函数就是把你要扩展的类或者接口的名称，放到即将添加的函数前面。这个类的名称被称为接收者类型；用来调用这个扩展函数的那个对象，叫做接收者对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">String</span><span class="p">.</span><span class="n">lastChar</span><span class="p">():</span> <span class="n">Char</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">length</span><span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">println</span><span class="p">(</span><span class="s2">&#34;Kotlin&#34;</span><span class="p">.</span><span class="n">lastChar</span><span class="p">())</span> <span class="c1">// n
+</span></code></pre></td></tr></table>
+</div>
+</div><p>在扩展函数中，可以像其他成员函数一样用this。而且也可以像普通的成员函数一样，省略它。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">String</span><span class="p">.</span><span class="n">lastChar</span><span class="p">():</span> <span class="n">Char</span> <span class="p">=</span> <span class="k">get</span><span class="p">(</span><span class="n">length</span><span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在扩展函数中，可以直接访问被扩展的类的其他方法和属性，就好像是在这个类自己的方法中访问它们一样。和在类内部定义的方法不同的是，扩展函数不能访问私有的或者受保护的成员。 </p>
+<h3 id="331-导入和扩展函数">3.3.1 导入和扩展函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">import</span> <span class="nn">strings.lastChar</span>
+<span class="c1">//import strings.* //也可以用*来导入
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="s2">&#34;Kotlin&#34;</span><span class="p">.</span><span class="n">lastChar</span><span class="p">())</span> <span class="c1">// n
+</span></code></pre></td></tr></table>
+</div>
+</div><p>可以使用关键字as来修改导入的类或者函数名称，可以避免重名函数的冲突。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">import</span> <span class="nn">strings.lastChar</span> <span class="k">as</span> <span class="n">last</span>
+<span class="n">println</span><span class="p">(</span><span class="s2">&#34;Kotlin&#34;</span><span class="p">.</span><span class="n">last</span><span class="p">())</span> <span class="c1">// n
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="332-从java中调用扩展函数">3.3.2 从Java中调用扩展函数</h3>
+<p>和顶层函数一样，包含这个函数的Java类的名称，是由这个函数声明的文件名称决定的。假设它声明在一个叫做StringUtil.kt的文件中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">StringUtilKt</span><span class="o">.</span><span class="na">lastChar</span><span class="o">(</span><span class="s">&#34;Java&#34;</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="333-作为扩展函数的工具函数">3.3.3 作为扩展函数的工具函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="nf">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="n">joinToString</span><span class="p">(</span>
+                     <span class="n">separator</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;,&#34;</span><span class="p">,</span>
+                     <span class="n">prefix</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+                     <span class="n">postfix</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span><span class="p">):</span><span class="n">String</span><span class="p">{</span>
+
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">StringBuilder</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">((</span><span class="n">index</span><span class="p">,</span><span class="n">element</span><span class="p">)</span> <span class="k">in</span> <span class="n">withIndex</span><span class="p">()){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">index</span><span class="p">&gt;</span><span class="m">0</span><span class="p">)</span> <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">postfix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="n">separator</span> <span class="p">=</span> <span class="s2">&#34;;&#34;</span><span class="p">,</span><span class="n">prefix</span> <span class="p">=</span> <span class="s2">&#34;(&#34;</span><span class="p">,</span><span class="n">postfix</span> <span class="p">=</span> <span class="s2">&#34;)&#34;</span><span class="p">))</span> <span class="c1">//(1;2;3)
+</span></code></pre></td></tr></table>
+</div>
+</div><p>扩展函数的静态性质也决定了扩展函数不能被子类重写。</p>
+<h3 id="334-不可重写的扩展函数">3.3.4 不可重写的扩展函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">View</span> <span class="p">{</span>
+    <span class="k">open</span> <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s2">&#34;View clicked&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">Button</span><span class="p">:</span><span class="n">View</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s2">&#34;Button clicked&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">view</span><span class="p">:</span><span class="n">View</span> <span class="p">=</span> <span class="n">Button</span><span class="p">()</span>
+<span class="n">view</span><span class="p">.</span><span class="n">click</span><span class="p">()</span> <span class="c1">//Button clicked
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">View</span><span class="p">.</span><span class="n">showoff</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s2">&#34;I&#39;m a view!&#34;</span><span class="p">)</span>
+<span class="k">fun</span> <span class="nf">Button</span><span class="p">.</span><span class="n">showoff</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s2">&#34;I&#39;m a button!&#34;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">view</span><span class="p">:</span><span class="n">View</span> <span class="p">=</span> <span class="n">Button</span><span class="p">()</span>
+<span class="n">view</span><span class="p">.</span><span class="n">showoff</span><span class="p">()</span> <span class="c1">//I&#39;m a view!
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="334-扩展属性">3.3.4 扩展属性</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">String</span><span class="p">.</span><span class="n">lastChar</span><span class="p">:</span> <span class="n">Char</span>
+    <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="k">get</span><span class="p">(</span><span class="n">length</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">println</span><span class="p">(</span><span class="s2">&#34;Kotlin&#34;</span><span class="p">.</span><span class="n">lastChar</span><span class="p">)</span> <span class="c1">//n
+</span><span class="c1"></span><span class="k">val</span> <span class="py">sb</span> <span class="p">=</span> <span class="n">StringBuilder</span><span class="p">(</span><span class="s2">&#34;Kotlin?&#34;</span><span class="p">)</span> 
+<span class="n">sb</span><span class="p">.</span><span class="n">lastChar</span> <span class="p">=</span> <span class="sc">&#39;!&#39;</span>
+<span class="n">println</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span> <span class="c1">//Kotlin!
+</span></code></pre></td></tr></table>
+</div>
+</div><h2 id="34-处理集合可变参数中缀调用和库的支持">3.4 处理集合：可变参数、中缀调用和库的支持</h2>
+<h3 id="341-扩展java集合的api">3.4.1 扩展Java集合的API</h3>
+<h3 id="342-可变参数让函数支持任意数量的参数">3.4.2 可变参数：让函数支持任意数量的参数</h3>
+<p>Kotlin可变参数是在参数上使用vararg修饰符。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">public</span> <span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="nf">listOf</span><span class="p">(</span><span class="k">vararg</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;{</span><span class="o">..</span><span class="p">.}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在<code>Java</code>中可以按原样传递数组，而<code>kotlin</code>则要求你显式地解包数组，以便每个数组元素在函数中能作为单独的参数来调用。从技术的角度来讲，这个功能被称为<code>展开运算符</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s2">&#34;args:&#34;</span><span class="p">,*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="c1">//[args:, one, two, three]
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="343-键值对的处理中缀调用和解构声明">3.4.3 键值对的处理：中缀调用和解构声明</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"> <span class="k">val</span> <span class="py">map</span> <span class="p">=</span> <span class="n">hashMapOf</span><span class="p">(</span><span class="m">1</span> <span class="n">to</span> <span class="s2">&#34;one&#34;</span><span class="p">,</span> <span class="m">7</span> <span class="n">to</span> <span class="s2">&#34;seven&#34;</span><span class="p">,</span> <span class="m">53</span> <span class="n">to</span> <span class="s2">&#34;fifty-three&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这行代码中的单词to不是内置的结构，而是一种特殊的函数调用，被称为中缀调用。</p>
+<p>在中缀调用中，没有添加额外的分隔符，函数名称是直接放在目标对象名称和参数之间的。以下两种调用方式是等价的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="m">1.</span><span class="n">to</span><span class="p">(</span><span class="s2">&#34;one&#34;</span><span class="p">)</span>
+<span class="m">1</span> <span class="n">to</span> <span class="s2">&#34;one&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>中缀调用可以与只有一个参数的函数一起使用，无论是普通的函数还是扩展函数。要允许使用中缀符号调用函数，需要使用infix修饰符来标记它。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">public</span> <span class="k">infix</span> <span class="k">fun</span> <span class="p">&lt;</span><span class="nc">A</span><span class="p">,</span> <span class="nc">B</span><span class="p">&gt;</span> <span class="nf">A</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">that</span><span class="p">:</span> <span class="n">B</span><span class="p">):</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">Pair</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">that</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以直接用Pair的内容来初始化两个变量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="err">(</span><span class="py">number</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="p">=</span> <span class="m">1</span> <span class="n">to</span> <span class="s2">&#34;one&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个功能称为解构声明。用to函数创建一个pair，然后用解构声明来展开。</p>
+<h2 id="35-字符串和正则表达式的处理">3.5 字符串和正则表达式的处理</h2>
+<h3 id="351-分割字符串">3.5.1 分割字符串</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span><span class="o">[]</span> <span class="n">strings</span><span class="o">=</span><span class="s">&#34;12.345-6.A&#34;</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;.&#34;</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">strings</span><span class="o">.</span><span class="na">length</span><span class="o">);</span> <span class="c1">//0
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Java的split方法将一个正则表达式作为参数，并根据表达式将字符串分割成多个字符串。这里点（.）是表示任何字符的正则表达式。</p>
+<p>Kotlin把这个令人费解的函数隐藏了，作为替换，提供了一些名为split的，具有不同参数的重载的扩展函数。用来承载正则表达式的值需要一个Regex类型，而不是String，这样确保了当有一个字符串传递给这些函数的时候，不会被当做正则表达式。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">println</span><span class="p">(</span><span class="s2">&#34;12.345-6.A&#34;</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\\</span><span class="s2">.|-&#34;</span><span class="p">.</span><span class="n">toRegex</span><span class="p">()))</span> <span class="c1">//[12, 345, 6, A]
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Kotlin中的split扩展函数的其他重载支持任意数量的纯文本字符串分隔符：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">println</span><span class="p">(</span><span class="s2">&#34;12.345-6.A&#34;</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;.&#34;</span><span class="p">,</span><span class="s2">&#34;-&#34;</span><span class="p">))</span> <span class="c1">//[12, 345, 6, A]
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="352-正则表达式和三重引号的字符串">3.5.2 正则表达式和三重引号的字符串</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">parsePath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">directory</span> <span class="p">=</span> <span class="n">path</span><span class="p">.</span><span class="n">substringBeforeLast</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">)</span>
+    <span class="k">val</span> <span class="py">fullName</span> <span class="p">=</span> <span class="n">path</span><span class="p">.</span><span class="n">substringAfterLast</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">)</span>
+    <span class="k">val</span> <span class="py">fileName</span> <span class="p">=</span> <span class="n">fullName</span><span class="p">.</span><span class="n">substringBeforeLast</span><span class="p">(</span><span class="s2">&#34;.&#34;</span><span class="p">)</span>
+    <span class="k">val</span> <span class="py">extension</span> <span class="p">=</span> <span class="n">fullName</span><span class="p">.</span><span class="n">substringAfterLast</span><span class="p">(</span><span class="s2">&#34;.&#34;</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;Dir: </span><span class="si">$directory</span><span class="s2">, name: </span><span class="si">$fileName</span><span class="s2">, ext: </span><span class="si">$extension</span><span class="s2">&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="353-多行三重引号的字符串">3.5.3 多行三重引号的字符串</h3>
+<h2 id="36-让你的代码更简洁局部函数和扩展">3.6 让你的代码更简洁：局部函数和扩展</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="k">val</span> <span class="py">id</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">address</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+
+<span class="k">fun</span> <span class="nf">saveUser</span><span class="p">(</span><span class="n">user</span><span class="p">:</span><span class="n">User</span><span class="p">){</span>
+    <span class="c1">//重复的字段检查
+</span><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">()){</span>
+        <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span>
+                <span class="s2">&#34;Can&#39;t save user </span><span class="si">${user.id}</span><span class="s2">:empty Name&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">address</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">()){</span>
+        <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span>
+                <span class="s2">&#34;Can&#39;t save user </span><span class="si">${user.id}</span><span class="s2">:empty Address&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">//保存user到数据库
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">saveUser</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">validate</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span><span class="n">value</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">fieldName</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span>
+                    <span class="s2">&#34;Can&#39;t save user </span><span class="si">${user.id}</span><span class="s2">:empty </span><span class="si">$fieldName</span><span class="s2">&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">user</span><span class="p">,</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="s2">&#34;Name&#34;</span><span class="p">)</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">user</span><span class="p">,</span><span class="n">user</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="s2">&#34;Address&#34;</span><span class="p">)</span>
+    <span class="c1">//保存user到数据库
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>因为局部函数可以访问所在函数中的所有参数和变量。我们可以利用这一点，去冗余的User参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">saveUser</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">validate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">fieldName</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span>
+                    <span class="s2">&#34;Can&#39;t save user </span><span class="si">${user.id}</span><span class="s2">:empty </span><span class="si">$fieldName</span><span class="s2">&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="s2">&#34;Name&#34;</span><span class="p">)</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="s2">&#34;Address&#34;</span><span class="p">)</span>
+    <span class="c1">//保存user到数据库
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">User</span><span class="p">.</span><span class="n">validateBeforeSave</span><span class="p">(){</span>
+    <span class="k">fun</span> <span class="nf">validate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">fieldName</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span>
+                    <span class="s2">&#34;Can&#39;t save user </span><span class="si">$id</span><span class="s2">:empty </span><span class="si">$fieldName</span><span class="s2">&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s2">&#34;Name&#34;</span><span class="p">)</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">address</span><span class="p">,</span><span class="s2">&#34;Address&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">fun</span> <span class="nf">saveUser</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">validateBeforeSave</span><span class="p">()</span>
+    <span class="c1">//保存user到数据库
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-08-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/kotlin/">Kotlin</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/kotlin-basic/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">kotlin基础</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/paging-library-overview/">
+            <span class="next-text nav-default">Paging 库概述</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/git/</link>
+    <description>Recent content in Git on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 25 Nov 2016 11:22:54 +0000</lastBuildDate><atom:link href="https://malinkang.cn/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git使用</title>
+      <link>https://malinkang.cn/post/git-usage/</link>
+      <pubDate>Fri, 25 Nov 2016 11:22:54 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/git-usage/</guid>
+      <description>git remote 1 2 3 git remote add origin git@gitee.com:malinkang/learngit.git #添加远程仓库 git remote remove origin #删除远程仓库 git remote -v #查看远程仓库地址 分支 1 2 3 4 5 6 7 git checkout -b v2.0.0 #创建分支 git checkout v1.0.0 #切换分支 git merge v1.0.0 #</description>
+    </item>
+    
+  </channel>
+</rss>

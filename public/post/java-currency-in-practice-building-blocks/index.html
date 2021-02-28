@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《Java并发编程实战》第5章基础构建模块 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="Java平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/java-currency-in-practice-building-blocks/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《Java并发编程实战》第5章基础构建模块" />
+<meta property="og:description" content="Java平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/java-currency-in-practice-building-blocks/" />
+<meta property="article:published_time" content="2015-10-08T10:53:22+00:00" />
+<meta property="article:modified_time" content="2015-10-08T10:53:22+00:00" />
+<meta itemprop="name" content="《Java并发编程实战》第5章基础构建模块">
+<meta itemprop="description" content="Java平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。">
+<meta itemprop="datePublished" content="2015-10-08T10:53:22+00:00" />
+<meta itemprop="dateModified" content="2015-10-08T10:53:22+00:00" />
+<meta itemprop="wordCount" content="805">
+
+
+
+<meta itemprop="keywords" content="Java并发编程实战," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《Java并发编程实战》第5章基础构建模块"/>
+<meta name="twitter:description" content="Java平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《Java并发编程实战》第5章基础构建模块</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2015-10-08 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#51-同步容器类">5.1 同步容器类</a>
+      <ul>
+        <li><a href="#511-同步容器类的问题">5.1.1 同步容器类的问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#52-并发容器">5.2 并发容器</a>
+      <ul>
+        <li><a href="#521-concurrenthashmap">5.2.1 ConcurrentHashMap</a></li>
+        <li><a href="#522-额外的原子map操作">5.2.2 额外的原子Map操作</a></li>
+        <li><a href="#523-copyonwritearraylist">5.2.3 CopyOnWriteArrayList</a></li>
+      </ul>
+    </li>
+    <li><a href="#53-阻塞队列和生产消费者模式">5.3 阻塞队列和生产消费者模式</a></li>
+    <li><a href="#54-阻塞方法与中断方法">5.4 阻塞方法与中断方法</a></li>
+    <li><a href="#55-同步工具类">5.5 同步工具类</a>
+      <ul>
+        <li><a href="#551-闭锁">5.5.1 闭锁</a></li>
+        <li><a href="#552-futuretask">5.5.2 FutureTask</a></li>
+        <li><a href="#553-信号量">5.5.3 信号量</a></li>
+        <li><a href="#554-栅栏">5.5.4 栅栏</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><code>Java</code>平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。</p>
+<h2 id="51-同步容器类">5.1 同步容器类</h2>
+<p>同步容器类包括<code>Vector</code>和<code>Hashtable</code>，二者都是早期JDK的一部分，此外还包括在JDK1.2中添加的一些功能相似的类，这些同步的封装器类是由<code>Collections.synchronizedXxx</code>等工厂方法创建的。这些类实现线程安全的方式是：将它们的状态封装起来，并对每个公有方法都进行同步，使得每次只有一个线程能访问容器的状态。</p>
+<h3 id="511-同步容器类的问题">5.1.1 同步容器类的问题</h3>
+<ul>
+<li>性能低下</li>
+<li>不允许迭代时修改，并发修改异常</li>
+</ul>
+<h2 id="52-并发容器">5.2 并发容器</h2>
+<p>Java5.0提供了多种并发容器类来改进同步容器的性能。同步容器将所有对容器状态的访问都串行话，以实现他们的线程安全性。这种方法的代价是严重降低并发性，当多个线程竞争容器的锁时，吞吐量将严重减低。</p>
+<p>另一方面，并发容器是针对多个线程并发访问设计的。在Java5.0中增加了ConcurrentHashMap，用来替代同步且基于散列的Map，以及CopyOnWriteArrayList，用于在遍历操作为主要操作的情况下代替同步的List。在新的ConcurrentMap接口中增加了对一些常见符合操作的支持，例如“若没有则添加”、替换以及有条件删除等。</p>
+<p>正如ConcurrentHashMap用于替代基于散列的同步Map，Java6也引入了ConcurrentSkipListMap和ConcurrentSkipListSet，分别作为同步的SortedMap和SortedSet的并发替代品。</p>
+<h3 id="521-concurrenthashmap">5.2.1 ConcurrentHashMap</h3>
+<h3 id="522-额外的原子map操作">5.2.2 额外的原子Map操作</h3>
+<h3 id="523-copyonwritearraylist">5.2.3 CopyOnWriteArrayList</h3>
+<h2 id="53-阻塞队列和生产消费者模式">5.3 阻塞队列和生产消费者模式</h2>
+<h2 id="54-阻塞方法与中断方法">5.4 阻塞方法与中断方法</h2>
+<h2 id="55-同步工具类">5.5 同步工具类</h2>
+<h3 id="551-闭锁">5.5.1 闭锁</h3>
+<h3 id="552-futuretask">5.5.2 FutureTask</h3>
+<h3 id="553-信号量">5.5.3 信号量</h3>
+<h3 id="554-栅栏">5.5.4 栅栏</h3>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2015-10-08
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">Java并发编程实战</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/java-currency-in-practice-cancellation-and-shutdown/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">《Java并发编程实战》第7章取消与关闭</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/java-currency-in-practice-sharing-objects/">
+            <span class="next-text nav-default">《Java并发编程实战》第3章对象的共享</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

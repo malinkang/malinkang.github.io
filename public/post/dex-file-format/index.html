@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Dex文件格式分析 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="在刚学习Java的时候我们都会写一个HelloWorld的示例。
+1 2 3 4 5  public class HelloWorld{ public static void main(String[] args){ System.out.println(&amp;#34;Hello,world!&amp;#34;); } }   然后通过javac命令编译成字节码，然后调用java命令机执行字节码。我们如何像java一样在命令行里直接在命令行输出Hello,world!呢。具体要执行如下操作：
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/dex-file-format/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Dex文件格式分析" />
+<meta property="og:description" content="在刚学习Java的时候我们都会写一个HelloWorld的示例。
+
+
+1
+2
+3
+4
+5
+
+
+public class HelloWorld{
+    public static void main(String[] args){
+        System.out.println(&#34;Hello,world!&#34;);
+    }
+}
+
+
+然后通过javac命令编译成字节码，然后调用java命令机执行字节码。我们如何像java一样在命令行里直接在命令行输出Hello,world!呢。具体要执行如下操作：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/dex-file-format/" />
+<meta property="article:published_time" content="2019-09-27T10:04:55+08:00" />
+<meta property="article:modified_time" content="2019-09-27T10:04:55+08:00" />
+<meta itemprop="name" content="Dex文件格式分析">
+<meta itemprop="description" content="在刚学习Java的时候我们都会写一个HelloWorld的示例。
+
+
+1
+2
+3
+4
+5
+
+
+public class HelloWorld{
+    public static void main(String[] args){
+        System.out.println(&#34;Hello,world!&#34;);
+    }
+}
+
+
+然后通过javac命令编译成字节码，然后调用java命令机执行字节码。我们如何像java一样在命令行里直接在命令行输出Hello,world!呢。具体要执行如下操作：">
+<meta itemprop="datePublished" content="2019-09-27T10:04:55+08:00" />
+<meta itemprop="dateModified" content="2019-09-27T10:04:55+08:00" />
+<meta itemprop="wordCount" content="908">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dex文件格式分析"/>
+<meta name="twitter:description" content="在刚学习Java的时候我们都会写一个HelloWorld的示例。
+
+
+1
+2
+3
+4
+5
+
+
+public class HelloWorld{
+    public static void main(String[] args){
+        System.out.println(&#34;Hello,world!&#34;);
+    }
+}
+
+
+然后通过javac命令编译成字节码，然后调用java命令机执行字节码。我们如何像java一样在命令行里直接在命令行输出Hello,world!呢。具体要执行如下操作："/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Dex文件格式分析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-09-27 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#dex文件格式概貌">Dex文件格式概貌</a></li>
+    <li><a href="#头部信息">头部信息</a></li>
+    <li><a href="#string_ids数据结构">string_ids数据结构</a></li>
+    <li><a href="#type_ids数据结构">type_ids数据结构</a></li>
+    <li><a href="#proto_ids数据结构">proto_ids数据结构</a></li>
+    <li><a href="#field_ids数据结构">field_ids数据结构</a></li>
+    <li><a href="#method_ids数据结构">method_ids数据结构</a></li>
+    <li><a href="#class_defs数据结构">class_defs数据结构</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>在刚学习Java的时候我们都会写一个<code>HelloWorld</code>的示例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hello,world!&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后通过<code>javac</code>命令编译成字节码，然后调用<code>java</code>命令机执行字节码。我们如何像<code>java</code>一样在命令行里直接在命令行输出<code>Hello,world!</code>呢。具体要执行如下操作：</p>
+<p>将<code>.class</code>文件转换成<code>.dex</code>文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">dx --dex --output<span class="o">=</span>HelloWorld.dex HelloWorld.class
+</code></pre></td></tr></table>
+</div>
+</div><p>将<code>dex</code>文件推送到<code>sd</code>卡上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">adb push HelloWorld.dex /sdcard/
+</code></pre></td></tr></table>
+</div>
+</div><p>执行字节码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">adb shell
+dalvikvm -cp /sdcard/HelloWorld.dex HelloWorld
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="dex文件格式概貌">Dex文件格式概貌</h2>
+<p>Dex文件结构如下图所示。</p>
+<p><img src="/images/Center.png" alt="img"></p>
+<p>Dex文件对应的对象是<a href="https://android.googlesource.com/platform/dalvik/+/android-4.4.2_r2/libdex/DexFile.h#500">DexFile</a>，定义如下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">DexFile</span> <span class="p">{</span>
+    <span class="cm">/* directly-mapped &#34;opt&#34; header */</span>
+    <span class="k">const</span> <span class="n">DexOptHeader</span><span class="o">*</span> <span class="n">pOptHeader</span><span class="p">;</span>
+    <span class="cm">/* pointers to directly-mapped structs and arrays in base DEX */</span>
+    <span class="k">const</span> <span class="n">DexHeader</span><span class="o">*</span>    <span class="n">pHeader</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexStringId</span><span class="o">*</span>  <span class="n">pStringIds</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexTypeId</span><span class="o">*</span>    <span class="n">pTypeIds</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexFieldId</span><span class="o">*</span>   <span class="n">pFieldIds</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexMethodId</span><span class="o">*</span>  <span class="n">pMethodIds</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexProtoId</span><span class="o">*</span>   <span class="n">pProtoIds</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexClassDef</span><span class="o">*</span>  <span class="n">pClassDefs</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">DexLink</span><span class="o">*</span>      <span class="n">pLinkData</span><span class="p">;</span>
+    <span class="cm">/*
+</span><span class="cm">     * These are mapped out of the &#34;auxillary&#34; section, and may not be
+</span><span class="cm">     * included in the file.
+</span><span class="cm">     */</span>
+    <span class="k">const</span> <span class="n">DexClassLookup</span><span class="o">*</span> <span class="n">pClassLookup</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">void</span><span class="o">*</span>         <span class="n">pRegisterMapPool</span><span class="p">;</span>       <span class="c1">// RegisterMapClassPool
+</span><span class="c1"></span>    <span class="cm">/* points to start of DEX file data */</span>
+    <span class="k">const</span> <span class="n">u1</span><span class="o">*</span>           <span class="n">baseAddr</span><span class="p">;</span>
+    <span class="cm">/* track memory overhead for auxillary structures */</span>
+    <span class="kt">int</span>                 <span class="n">overhead</span><span class="p">;</span>
+    <span class="cm">/* additional app-specific data structures associated with the DEX */</span>
+    <span class="c1">//void*               auxData;
+</span><span class="c1"></span><span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>首先从宏观上来说dex的文件结果很简单，实际上是由多个不同结构的数据体以首尾相接的方式拼接而成。各个成员的解释如下：</p>
+<table>
+<thead>
+<tr>
+<th>数据名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>header</td>
+<td>dex文件头部，记录整个dex文件的相关属性</td>
+</tr>
+<tr>
+<td>string_ids</td>
+<td>字符串数据索引，记录了每个字符串在数据区的偏移量</td>
+</tr>
+<tr>
+<td>type_ids</td>
+<td>类似数据索引，记录了每个类型的字符串索引</td>
+</tr>
+<tr>
+<td>proto_ids</td>
+<td></td>
+</tr>
+<tr>
+<td>field_ids</td>
+<td>存储成员变量信息，包括变量名、类型等</td>
+</tr>
+<tr>
+<td>method_ids</td>
+<td>存储成员函数信息包括函数名、参数和返回值类型等</td>
+</tr>
+<tr>
+<td>class_defs</td>
+<td>存储类的信息</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Dex文件重要的数据内容都存在data区域里。一些数据结构会通过如xx_off这样的成员变量指向文件的某个位置，从该位置开始，存储了对应数据结构的内容，而xx_off的位置一般落在data区域里</td>
+</tr>
+<tr>
+<td>link_data</td>
+<td>理论上是预留区域，没有特别的作用。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="头部信息">头部信息</h2>
+<p>查看刚才生成的<code>dex</code>的十六进制</p>
+<p><img src="/images/image-20190927104628357.png" alt="image-20190927104628357"></p>
+<p><code>Header</code>的大小固定为<code>0x70</code>,偏移地址从<code>0x00</code>到<code>0x70</code>。</p>
+<p><code>Header</code>包含的字段和各个字段的长度如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>address</th>
+<th>Name</th>
+<th>size/byte</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Magic Number</td>
+<td>8</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="string_ids数据结构">string_ids数据结构</h2>
+<h2 id="type_ids数据结构">type_ids数据结构</h2>
+<h2 id="proto_ids数据结构">proto_ids数据结构</h2>
+<h2 id="field_ids数据结构">field_ids数据结构</h2>
+<h2 id="method_ids数据结构">method_ids数据结构</h2>
+<h2 id="class_defs数据结构">class_defs数据结构</h2>
+<h2 id="参考">参考</h2>
+<ul>
+<li>
+<p><a href="https://blog.csdn.net/jiangwei0910410003/article/details/50668549">Android逆向之旅&mdash;解析编译之后的Dex文件格式</a></p>
+</li>
+<li>
+<p><a href="https://www.jianshu.com/p/f7f0a712ddfe">Dex文件格式详解</a></p>
+</li>
+<li>
+<p><a href="https://book.douban.com/subject/27617785/">Android应用安全防护和逆向分析第7章</a></p>
+</li>
+<li>
+<p><a href="https://book.douban.com/subject/33390277/">深入理解Android第3章</a></p>
+</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-09-27
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/improve-app-performance-with-kotlin-coroutines/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Improve App Performance With Kotlin Coroutines</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/android-activity-launch-process/">
+            <span class="next-text nav-default">Activity的启动流程</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

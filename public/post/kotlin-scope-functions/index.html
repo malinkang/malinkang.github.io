@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Kotlin作用域函数 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="Kotlin标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个lambda表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：let、run、with、apply 以及also。
+这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表达式的结果是什么。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/kotlin-scope-functions/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Kotlin作用域函数" />
+<meta property="og:description" content="Kotlin标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个lambda表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：let、run、with、apply 以及also。
+这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表达式的结果是什么。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/kotlin-scope-functions/" />
+<meta property="article:published_time" content="2018-07-27T15:05:51+08:00" />
+<meta property="article:modified_time" content="2018-07-27T15:05:51+08:00" />
+<meta itemprop="name" content="Kotlin作用域函数">
+<meta itemprop="description" content="Kotlin标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个lambda表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：let、run、with、apply 以及also。
+这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表达式的结果是什么。">
+<meta itemprop="datePublished" content="2018-07-27T15:05:51+08:00" />
+<meta itemprop="dateModified" content="2018-07-27T15:05:51+08:00" />
+<meta itemprop="wordCount" content="554">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kotlin作用域函数"/>
+<meta name="twitter:description" content="Kotlin标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个lambda表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：let、run、with、apply 以及also。
+这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表达式的结果是什么。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Kotlin作用域函数</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-07-27 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><code>Kotlin</code>标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个<code>lambda</code>表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：<code>let</code>、<code>run</code>、<code>with</code>、<code>apply</code> 以及<code>also</code>。</p>
+<p>这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表达式的结果是什么。</p>
+<p>由于作用域函数本质上都非常相似，因此了解它们之间的区别很重要。每个作用域函数之间有两个主要区别：</p>
+<ul>
+<li>引用上下文对象的方式</li>
+<li>返回值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>对象引用</th>
+<th>返回值</th>
+<th>是否是扩展函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>let</code></td>
+<td><code>it</code></td>
+<td>Lambda 表达式结果</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><code>this</code></td>
+<td>Lambda 表达式结果</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>-</td>
+<td>Lambda 表达式结果</td>
+<td>不是：调用无需上下文对象</td>
+</tr>
+<tr>
+<td><code>with</code></td>
+<td><code>this</code></td>
+<td>Lambda 表达式结果</td>
+<td>不是：把上下文对象当做参数</td>
+</tr>
+<tr>
+<td><code>apply</code></td>
+<td><code>this</code></td>
+<td>上下文对象</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>also</code></td>
+<td><code>it</code></td>
+<td>上下文对象</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">data</span> <span class="kd">class</span> <span class="nf">Person</span><span class="o">(</span><span class="n">val</span> <span class="n">name</span><span class="o">:</span> <span class="n">String</span><span class="o">,</span> <span class="n">var</span> <span class="n">age</span><span class="o">:</span> <span class="n">Int</span><span class="o">,</span> <span class="n">var</span> <span class="n">city</span><span class="o">:</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">moveTo</span><span class="o">(</span><span class="n">city</span><span class="o">:</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">city</span> <span class="o">=</span> <span class="n">city</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">incrementAge</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">age</span><span class="o">++</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//let
+</span><span class="c1"></span><span class="k">val</span> <span class="py">p1</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="s2">&#34;Amsterdam&#34;</span><span class="p">).</span><span class="n">let</span> <span class="p">{</span>
+    <span class="k">it</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="s2">&#34;London&#34;</span><span class="p">)</span>
+    <span class="k">it</span><span class="p">.</span><span class="n">incrementAge</span><span class="p">()</span>
+    <span class="k">it</span>
+<span class="p">}</span>
+<span class="c1">// apply
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">p2</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="s2">&#34;Amsterdam&#34;</span><span class="p">).</span><span class="n">apply</span> <span class="p">{</span>
+    <span class="n">moveTo</span><span class="p">(</span><span class="s2">&#34;London&#34;</span><span class="p">)</span>
+    <span class="n">incrementAge</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+<span class="c1">// also
+</span><span class="c1"></span><span class="k">val</span> <span class="py">p3</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="s2">&#34;Amsterdam&#34;</span><span class="p">).</span><span class="n">also</span> <span class="p">{</span>
+    <span class="k">it</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="s2">&#34;London&#34;</span><span class="p">)</span>
+    <span class="k">it</span><span class="p">.</span><span class="n">incrementAge</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+<span class="c1">// with
+</span><span class="c1"></span><span class="k">val</span> <span class="py">p4</span> <span class="p">=</span> <span class="n">with</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="s2">&#34;Amsterdam&#34;</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">moveTo</span><span class="p">(</span><span class="s2">&#34;London&#34;</span><span class="p">)</span>
+    <span class="n">incrementAge</span><span class="p">()</span>
+    <span class="k">this</span>
+<span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="n">p4</span><span class="p">)</span>
+<span class="c1">//run 
+</span><span class="c1">//run和with两个很相似，区别run是扩展函数 with不是
+</span><span class="c1"></span><span class="k">val</span> <span class="py">p5</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="s2">&#34;Amsterdam&#34;</span><span class="p">).</span><span class="n">run</span> <span class="p">{</span>
+    <span class="n">moveTo</span><span class="p">(</span><span class="s2">&#34;London&#34;</span><span class="p">)</span>
+    <span class="n">incrementAge</span><span class="p">()</span>
+    <span class="k">this</span>
+<span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="n">p5</span><span class="p">)</span>
+<span class="c1">//run
+</span><span class="c1"></span><span class="k">val</span> <span class="py">p6</span> <span class="p">=</span> <span class="n">run</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="s2">&#34;Amsterdam&#34;</span><span class="p">)</span>
+    <span class="n">person</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="s2">&#34;London&#34;</span><span class="p">)</span>
+    <span class="n">person</span><span class="p">.</span><span class="n">incrementAge</span><span class="p">()</span>
+    <span class="n">person</span>
+<span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="n">p6</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.kotlincn.net/docs/reference/scope-functions.html">作用域函数</a></li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-07-27
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/paging-library-overview/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Paging 库概述</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/kotlin-functions/">
+            <span class="next-text nav-default">Kotlin函数</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

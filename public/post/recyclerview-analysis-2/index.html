@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Recyclerview源码分析二 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="在上一篇文章中，我们主要分析了RecyclerView中的几个重要的内部类。今天我们就把它们串起来，看它们分别是如何工作的。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/recyclerview-analysis-2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Recyclerview源码分析二" />
+<meta property="og:description" content="在上一篇文章中，我们主要分析了RecyclerView中的几个重要的内部类。今天我们就把它们串起来，看它们分别是如何工作的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/recyclerview-analysis-2/" />
+<meta property="article:published_time" content="2020-09-03T16:39:09+08:00" />
+<meta property="article:modified_time" content="2020-09-03T16:39:09+08:00" />
+<meta itemprop="name" content="Recyclerview源码分析二">
+<meta itemprop="description" content="在上一篇文章中，我们主要分析了RecyclerView中的几个重要的内部类。今天我们就把它们串起来，看它们分别是如何工作的。">
+<meta itemprop="datePublished" content="2020-09-03T16:39:09+08:00" />
+<meta itemprop="dateModified" content="2020-09-03T16:39:09+08:00" />
+<meta itemprop="wordCount" content="1531">
+
+
+
+<meta itemprop="keywords" content="Android,RecyclerView," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Recyclerview源码分析二"/>
+<meta name="twitter:description" content="在上一篇文章中，我们主要分析了RecyclerView中的几个重要的内部类。今天我们就把它们串起来，看它们分别是如何工作的。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Recyclerview源码分析二</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-09-03 </span>
+        
+        
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>在上一篇文章中，我们主要分析了<code>RecyclerView</code>中的几个重要的内部类。今天我们就把它们串起来，看它们分别是如何工作的。</p>
+<p><code>RecyclerView</code>继承自<code>ViewGroup</code>。所以肯定是通过<code>addView</code>的方式来将所有的<code>item</code>添加进来的。所以在分析过程中，我先找到<code>addView</code>的调用位置，然后一步步倒推，看<code>view</code>是如何获取的。</p>
+<p>首先，在创建<code>ChildHelper</code>时传入的<code>Callback</code>中调用了<code>addView()</code>方法。除了调用了<code>addView()</code>之外，还调用了<code>removeViewAt</code>等方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initChildrenHelper</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">mChildHelper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ChildHelper</span><span class="o">(</span><span class="k">new</span> <span class="n">ChildHelper</span><span class="o">.</span><span class="na">Callback</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getChildCount</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getChildCount</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addView</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">VERBOSE_TRACING</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">TraceCompat</span><span class="o">.</span><span class="na">beginSection</span><span class="o">(</span><span class="s">&#34;RV addView&#34;</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="c1">//调用ViewGroup的addView
+</span><span class="c1"></span>            <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">index</span><span class="o">);</span>
+            <span class="c1">//...
+</span><span class="c1"></span>        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">indexOfChild</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">indexOfChild</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeViewAt</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">View</span> <span class="n">child</span> <span class="o">=</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getChildAt</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+            <span class="c1">//...
+</span><span class="c1"></span>            <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">removeViewAt</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+            <span class="c1">//...
+</span><span class="c1"></span>        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="n">View</span> <span class="nf">getChildAt</span><span class="o">(</span><span class="kt">int</span> <span class="n">offset</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getChildAt</span><span class="o">(</span><span class="n">offset</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeAllViews</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">//...
+</span><span class="c1"></span>            <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">removeAllViews</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="n">ViewHolder</span> <span class="nf">getChildViewHolder</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">getChildViewHolderInt</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">attachViewToParent</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">,</span>
+                <span class="n">ViewGroup</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">layoutParams</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//...        
+</span><span class="c1"></span>            <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">attachViewToParent</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="n">layoutParams</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">detachViewFromParent</span><span class="o">(</span><span class="kt">int</span> <span class="n">offset</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//...
+</span><span class="c1"></span>            <span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">detachViewFromParent</span><span class="o">(</span><span class="n">offset</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onEnteredHiddenState</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">ViewHolder</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">getChildViewHolderInt</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">vh</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">vh</span><span class="o">.</span><span class="na">onEnteredHiddenState</span><span class="o">(</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLeftHiddenState</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">ViewHolder</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">getChildViewHolderInt</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">vh</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">vh</span><span class="o">.</span><span class="na">onLeftHiddenState</span><span class="o">(</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>接下来，看何时执行<code>Callback</code>中的回调方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//ChildHelper addView方法
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">addView</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">hidden</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">offset</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">mCallback</span><span class="o">.</span><span class="na">getChildCount</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">getOffset</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">mBucket</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">offset</span><span class="o">,</span> <span class="n">hidden</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hidden</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">hideViewInternal</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">//执行add方法
+</span><span class="c1"></span>    <span class="n">mCallback</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="c1">//LayoutManager的addViewInt方法
+</span><span class="c1"></span><span class="kd">private</span> <span class="kt">void</span> <span class="nf">addViewInt</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">disappearing</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//....
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">holder</span><span class="o">.</span><span class="na">wasReturnedFromScrap</span><span class="o">()</span> <span class="o">||</span> <span class="n">holder</span><span class="o">.</span><span class="na">isScrap</span><span class="o">())</span> <span class="o">{</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">child</span><span class="o">.</span><span class="na">getParent</span><span class="o">()</span> <span class="o">==</span> <span class="n">mRecyclerView</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// it was not a scrap but a valid child
+</span><span class="c1"></span>        <span class="c1">// ensure in correct position
+</span><span class="c1"></span>        <span class="c1">//...
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//调用addView方法
+</span><span class="c1"></span>        <span class="n">mChildHelper</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+        <span class="n">lp</span><span class="o">.</span><span class="na">mInsetsDirty</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mSmoothScroller</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mSmoothScroller</span><span class="o">.</span><span class="na">isRunning</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">mSmoothScroller</span><span class="o">.</span><span class="na">onChildAttachedToWindow</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">lp</span><span class="o">.</span><span class="na">mPendingInvalidate</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">holder</span><span class="o">.</span><span class="na">itemView</span><span class="o">.</span><span class="na">invalidate</span><span class="o">();</span>
+        <span class="n">lp</span><span class="o">.</span><span class="na">mPendingInvalidate</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">//LayoutManager的addView
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addView</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">addViewInt</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>通过一路追踪，我们追踪到了<code>LayoutManager</code>的<code>addView</code>方法。接下来就是找，在哪里获取的view，然后调用的<code>addView</code>方法。这里我们以<code>LinearLayoutManager</code>为例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//LiearLayoutManager layoutChunk方法
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">layoutChunk</span><span class="o">(</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">Recycler</span> <span class="n">recycler</span><span class="o">,</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">State</span> <span class="n">state</span><span class="o">,</span>
+        <span class="n">LayoutState</span> <span class="n">layoutState</span><span class="o">,</span> <span class="n">LayoutChunkResult</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//获取view
+</span><span class="c1"></span>    <span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">layoutState</span><span class="o">.</span><span class="na">next</span><span class="o">(</span><span class="n">recycler</span><span class="o">);</span>
+    <span class="n">RecyclerView</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">params</span> <span class="o">=</span> <span class="o">(</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">getLayoutParams</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">layoutState</span><span class="o">.</span><span class="na">mScrapList</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mShouldReverseLayout</span> <span class="o">==</span> <span class="o">(</span><span class="n">layoutState</span><span class="o">.</span><span class="na">mLayoutDirection</span>
+                <span class="o">==</span> <span class="n">LayoutState</span><span class="o">.</span><span class="na">LAYOUT_START</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">addView</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">addView</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="o">}</span>
+    <span class="c1">//...
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>LinearLayoutManager</code>调用<code>LayoutState</code>的<code>next</code>方法获取<code>view</code>。<code>LayoutState</code>是一个工具类，用来保存<code>LayoutManager</code>填充时的临时状态。<code>LayoutState</code>方法调用了<code>Recycler</code>的<code>getViewForPosition</code>方法获取<code>ViewHolder</code>。
+对于<code>getViewForPosition</code>之后的逻辑，涉及到<code>RecyclerView</code>的缓存，比较复杂，所以单独放到下一篇去讲。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">
+<span class="n">View</span> <span class="nf">next</span><span class="o">(</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">Recycler</span> <span class="n">recycler</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mScrapList</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">nextViewFromScrapList</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">final</span> <span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">recycler</span><span class="o">.</span><span class="na">getViewForPosition</span><span class="o">(</span><span class="n">mCurrentPosition</span><span class="o">);</span>
+    <span class="n">mCurrentPosition</span> <span class="o">+=</span> <span class="n">mItemDirection</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">view</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>那么又是谁调用了<code>layoutChunk</code>呢。我们继续追踪：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//LinearLayoutManager fill方法
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">fill</span><span class="o">(</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">Recycler</span> <span class="n">recycler</span><span class="o">,</span> <span class="n">LayoutState</span> <span class="n">layoutState</span><span class="o">,</span>
+        <span class="n">RecyclerView</span><span class="o">.</span><span class="na">State</span> <span class="n">state</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">stopOnFocusable</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//        
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">remainingSpace</span> <span class="o">=</span> <span class="n">layoutState</span><span class="o">.</span><span class="na">mAvailable</span> <span class="o">+</span> <span class="n">layoutState</span><span class="o">.</span><span class="na">mExtraFillSpace</span><span class="o">;</span>
+    <span class="n">LayoutChunkResult</span> <span class="n">layoutChunkResult</span> <span class="o">=</span> <span class="n">mLayoutChunkResult</span><span class="o">;</span>
+    <span class="c1">//不断循环获得新的item用于填充，直到没有填充空间
+</span><span class="c1"></span>    <span class="k">while</span> <span class="o">((</span><span class="n">layoutState</span><span class="o">.</span><span class="na">mInfinite</span> <span class="o">||</span> <span class="n">remainingSpace</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">layoutState</span><span class="o">.</span><span class="na">hasMore</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">layoutChunkResult</span><span class="o">.</span><span class="na">resetInternal</span><span class="o">();</span>
+        <span class="c1">//...
+</span><span class="c1"></span>        <span class="n">layoutChunk</span><span class="o">(</span><span class="n">recycler</span><span class="o">,</span> <span class="n">state</span><span class="o">,</span> <span class="n">layoutState</span><span class="o">,</span> <span class="n">layoutChunkResult</span><span class="o">);</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">start</span> <span class="o">-</span> <span class="n">layoutState</span><span class="o">.</span><span class="na">mAvailable</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>fill</code>方法被<code>LinearLayoutManager</code>的<code>onLayoutChildren</code>方法调用。由于调用的次数比较多，而且代码比较长，这里就不贴代码了。</p>
+<p><code>onLayoutChildren</code>方法被<code>RecyclerView</code>的<code>dispatchLayoutStep1</code>和<code>dispatchLayoutStep2</code>调用，而这两个方法也在<code>RecyclerView</code>的<code>onMeasure</code>和<code>onLayout</code>方法调用。至此，<code>RecyclerView</code>整个流程分析完成。最后我们用一张图来总结一下。</p>
+<p><img src="/images/recyclerview-2.png" alt=""></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-09-03
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android/">Android</a>
+          <a href="/tags/recyclerview/">RecyclerView</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/recyclerview-analysis-3/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Recyclerview源码分析三</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/recyclerview-analysis-1/">
+            <span class="next-text nav-default">Recyclerview源码分析一</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

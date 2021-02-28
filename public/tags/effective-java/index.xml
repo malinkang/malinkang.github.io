@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Effective Java on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/effective-java/</link>
+    <description>Recent content in Effective Java on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 12 Mar 2016 09:02:08 +0000</lastBuildDate><atom:link href="https://malinkang.cn/tags/effective-java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《Effective Java》第12章序列化</title>
+      <link>https://malinkang.cn/post/effective-java-serialization/</link>
+      <pubDate>Sat, 12 Mar 2016 09:02:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-serialization/</guid>
+      <description>对象序列化（object serialization）API，提供了一个框架，用来将对象编码成字节流，并从字节流编码中重新构建对象。“将一个对</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第11章并发</title>
+      <link>https://malinkang.cn/post/effective-java-concurrency/</link>
+      <pubDate>Sat, 05 Mar 2016 09:02:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-concurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第10章异常</title>
+      <link>https://malinkang.cn/post/effective-java-exceptions/</link>
+      <pubDate>Sat, 27 Feb 2016 09:02:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-exceptions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第9章通用程序设计</title>
+      <link>https://malinkang.cn/post/effective-java-general-programming/</link>
+      <pubDate>Sat, 20 Feb 2016 09:02:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-general-programming/</guid>
+      <description>第45条：将局部变量的作用域最小化 要使局部变量的作用域最小化，最有力的方法就是在第一次使用它的地方声明。 循环中提供了特殊的机会来将变量的作用</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第8章方法</title>
+      <link>https://malinkang.cn/post/effective-java-methods/</link>
+      <pubDate>Sat, 13 Feb 2016 09:02:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-methods/</guid>
+      <description>第38条：检查参数的有效性 对于公有的方法，要用Javadoc的@throws标签在文档中说明违反参数值会抛出的异常。一旦在文档中记录了对于方</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第7章lambda表达式和流</title>
+      <link>https://malinkang.cn/post/effective-java-lambdas-and-streams/</link>
+      <pubDate>Sat, 06 Feb 2016 09:02:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-lambdas-and-streams/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第6章枚举和注解</title>
+      <link>https://malinkang.cn/post/effective-java-enums-and-annotations/</link>
+      <pubDate>Sat, 30 Jan 2016 17:35:20 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-enums-and-annotations/</guid>
+      <description>第30条：用enum代替int常量 在编程语言中还没有引入枚举类型之前，表示枚举类型的常量模式是声明一组具名的int常量，每个类型成员一个常量</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第5章泛型</title>
+      <link>https://malinkang.cn/post/effective-java-generics/</link>
+      <pubDate>Sat, 23 Jan 2016 17:34:59 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-generics/</guid>
+      <description>第26条：请不要在新代码中使用原生态类型 声明中具有一个或者多个类型参数（type parameter）的类或者接口就是泛型类或者接口。泛型类和</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第4章类和接口</title>
+      <link>https://malinkang.cn/post/effective-java-classes-and-interfaces/</link>
+      <pubDate>Sat, 16 Jan 2016 17:34:17 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-classes-and-interfaces/</guid>
+      <description>第13条：使类和成员的可访问性最小化 区分一个组件设计得好不好，唯一重要的因素在于，它对于外部的其他组件而言，是否隐藏了其内部数据和其他实现细</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第3章对于所有对象都通用的方法</title>
+      <link>https://malinkang.cn/post/effective-java-methods-common-to-all-objects/</link>
+      <pubDate>Sat, 09 Jan 2016 15:18:19 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-methods-common-to-all-objects/</guid>
+      <description>第8条：覆盖equals时请遵守通用约定 在覆盖equals方法的时候，你必须要遵守它的通用约定。 自反性（reflexive）。对于任何非nu</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》第2章创建和销毁对象</title>
+      <link>https://malinkang.cn/post/effective-java-creating-and-destroying-objects/</link>
+      <pubDate>Sat, 02 Jan 2016 14:18:11 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-creating-and-destroying-objects/</guid>
+      <description>第1条：考虑用静态工厂方法替代构造器 创建类实例最常用的方法就是提供一个公有的构造器。此外，还可以提供一个公有的静态工厂方法（static factory m</description>
+    </item>
+    
+  </channel>
+</rss>

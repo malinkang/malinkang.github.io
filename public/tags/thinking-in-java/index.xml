@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thinking in Java on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/thinking-in-java/</link>
+    <description>Recent content in Thinking in Java on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 30 Jul 2013 13:39:36 +0000</lastBuildDate><atom:link href="https://malinkang.cn/tags/thinking-in-java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《Java编程思想》第21章并发</title>
+      <link>https://malinkang.cn/post/thinking-in-java-concurrency/</link>
+      <pubDate>Tue, 30 Jul 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-concurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第20章注解</title>
+      <link>https://malinkang.cn/post/thinking-in-java-annotations/</link>
+      <pubDate>Tue, 23 Jul 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-annotations/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第19章枚举类型</title>
+      <link>https://malinkang.cn/post/thinking-in-java-enumerated-types/</link>
+      <pubDate>Tue, 16 Jul 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-enumerated-types/</guid>
+      <description>19.1 基本enum特性 调用enum的values()方法，可以遍历enum实例。values()方法返回enum实例的数组，而且该数组中的元素严</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第18章I/O系统</title>
+      <link>https://malinkang.cn/post/thinking-in-java-i-o/</link>
+      <pubDate>Tue, 09 Jul 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-i-o/</guid>
+      <description>1.File类 1.1 目录列表器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 //: io/DirList.java // Display a directory listing using regular expressions. // {Args: &amp;#34;D.*\.java&amp;#34;} import java.util.regex.*; import java.io.*; import java.util.*; public class DirList</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第17章容器深入研究</title>
+      <link>https://malinkang.cn/post/thinking-in-java-containers-in-depth/</link>
+      <pubDate>Tue, 02 Jul 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-containers-in-depth/</guid>
+      <description>1.完整的容器分类法 2.填充容器 与Arrays版本一样，此fill()方法也是只复制同一个对象引用来填充整个容器的，并且只对List对象有用</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第16章数组</title>
+      <link>https://malinkang.cn/post/thinking-in-java-arrays/</link>
+      <pubDate>Tue, 25 Jun 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-arrays/</guid>
+      <description>1.数组为什么特殊 数组与其他种类的容器之间的区别有三方面：效率、类型和保存基本类型的能力。在Java中，数组是一种效率最高的存储和随机访问对</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第15章泛型</title>
+      <link>https://malinkang.cn/post/thinking-in-java-generics/</link>
+      <pubDate>Tue, 18 Jun 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-generics/</guid>
+      <description>一般的类和方法，只能使用具体的类型：要么是基本类型，要么是自定义的类。如果要编写可以应用于多种类型的代码，这种刻板的限制对代码的束缚就会很大</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第14章类型信息</title>
+      <link>https://malinkang.cn/post/thinking-in-java-type-information/</link>
+      <pubDate>Tue, 11 Jun 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-type-information/</guid>
+      <description>14.1 为什么需要RTTI 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 abstract class Shape{ void draw(){ System.out.println(this + &amp;#34;.draw()&amp;#34;); } abstract public String toString(); } class Circle extends Shape{ public String</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第13章字符串</title>
+      <link>https://malinkang.cn/post/thinking-in-java-strings/</link>
+      <pubDate>Tue, 04 Jun 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-strings/</guid>
+      <description>第13章 字符串 13.1 不可变String 1 2 3 4 5 6 7 8 9 10 11 12 13 public class Immutable { public static String upcase(String s){ return s.toUpperCase(); } public static void main(String[] args) { String q = &amp;#34;howdy&amp;#34;; System.out.println(q); String qq = upcase(q); System.out.println(qq); System.out.println(q); } } 当把q传给upca</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第12章通过异常处理错误</title>
+      <link>https://malinkang.cn/post/thinking-in-java-error-handling-with-exceptions/</link>
+      <pubDate>Tue, 28 May 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-error-handling-with-exceptions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第11章持有对象</title>
+      <link>https://malinkang.cn/post/thinking-in-java-holding-your-objects/</link>
+      <pubDate>Tue, 21 May 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-holding-your-objects/</guid>
+      <description>第11章 持有对象 1.泛型和类型安全的容器 Apple和Orange都放置在了容器中，然后将它们取出。正常情况下，Java编译器会报告警告信息，</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第10章内部类</title>
+      <link>https://malinkang.cn/post/thinking-in-java-inner-classes/</link>
+      <pubDate>Tue, 14 May 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-inner-classes/</guid>
+      <description>1.创建内部类 创建内部类的方式就是把类的定义置于外围类的里面。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 public class Parcel1 { class Contents</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第9章接口</title>
+      <link>https://malinkang.cn/post/thinking-in-java-interfaces/</link>
+      <pubDate>Tue, 07 May 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-interfaces/</guid>
+      <description>1.抽象类和抽象方法 2.接口 3.完全解耦 4.Java的多重继承 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 public interface CanFight { void fight(); }</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第8章多态</title>
+      <link>https://malinkang.cn/post/thinking-in-java-polymorphism/</link>
+      <pubDate>Tue, 30 Apr 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-polymorphism/</guid>
+      <description>8.1 再论向上转型 对某个对象的引用视为对其基类型的引用的做法被称作向上转型。 单独创建一个奏乐符（Note）类： 1 2 3 4 5 6 7 //: polymorphism/music/Note.java // Notes to play on musical instruments. package</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第7章复用类</title>
+      <link>https://malinkang.cn/post/thinking-in-java-reusing-classes/</link>
+      <pubDate>Tue, 23 Apr 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-reusing-classes/</guid>
+      <description>7.1 组合语法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 //: reusing/SprinklerSystem.java // Composition for code reuse. class WaterSource { private String s; WaterSource() { System.out.println(&amp;#34;WaterSource()&amp;#34;); s = &amp;#34;Constructed&amp;#34;; } public String toString() { return s; } } public class</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第6章访问权限控制</title>
+      <link>https://malinkang.cn/post/thinking-in-java-access-control/</link>
+      <pubDate>Tue, 16 Apr 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-access-control/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第5章初始化与清理</title>
+      <link>https://malinkang.cn/post/thinking-in-java-initialization-and-cleanup/</link>
+      <pubDate>Tue, 09 Apr 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-initialization-and-cleanup/</guid>
+      <description>随着计算机革命的发展，“不安全”的编程方式已逐渐成为编程代价高昂的主因之一。 初始化和清理（cleanup）正是涉及安全的两个问题。C++引入</description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第4章控制流程</title>
+      <link>https://malinkang.cn/post/thinking-in-java-controlling-execution/</link>
+      <pubDate>Tue, 02 Apr 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-controlling-execution/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第3章操作符</title>
+      <link>https://malinkang.cn/post/thinking-in-java-operators/</link>
+      <pubDate>Tue, 26 Mar 2013 13:39:36 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-operators/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>《Java编程思想》第2章一切都是对象</title>
+      <link>https://malinkang.cn/post/thinking-in-java-everything-is-an-object/</link>
+      <pubDate>Tue, 19 Mar 2013 16:26:34 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/thinking-in-java-everything-is-an-object/</guid>
+      <description>2.2 必须由你创建所有对象 2.2.1 存储到什么地方 2.2.2 特例：基本类型 在程序设计中经常用到一系列类型，它们需要特殊对待。可以把它们想象成“基本”类型。之所以</description>
+    </item>
+    
+  </channel>
+</rss>

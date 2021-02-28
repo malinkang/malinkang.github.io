@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>源码分析 on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</link>
+    <description>Recent content in 源码分析 on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 19 Jan 2021 09:21:04 +0000</lastBuildDate><atom:link href="https://malinkang.cn/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>系统闹钟源码分析</title>
+      <link>https://malinkang.cn/post/deskclock-analysis/</link>
+      <pubDate>Tue, 19 Jan 2021 09:21:04 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/deskclock-analysis/</guid>
+      <description>核心类 UI部分 DeskClock：主界面，由ViewPager实现。 DeskClockFragment：首页四个Fragment的基类。 Al</description>
+    </item>
+    
+    <item>
+      <title>WorkManager源码分析</title>
+      <link>https://malinkang.cn/post/workmanager-source-analysis/</link>
+      <pubDate>Mon, 07 Dec 2020 20:40:56 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/workmanager-source-analysis/</guid>
+      <description>WorkManager WorkManger是一个单例对象, 但是从例子代码中没有看的调用初始化的地方。通过文档可知 WorkManager有两种初始化方式: 应用启动</description>
+    </item>
+    
+    <item>
+      <title>ButterKnife源码分析</title>
+      <link>https://malinkang.cn/post/butterknife-source-analysis/</link>
+      <pubDate>Wed, 02 Dec 2020 16:37:06 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/butterknife-source-analysis/</guid>
+      <description>本文分析的源码为8.4.0。 项目结构 butterknife包含ButterKnife核心的Api，如ButterKnife。butterkn</description>
+    </item>
+    
+    <item>
+      <title>RxJava源码分析</title>
+      <link>https://malinkang.cn/post/rxjava-source-analysis/</link>
+      <pubDate>Fri, 27 Nov 2020 23:47:34 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/rxjava-source-analysis/</guid>
+      <description>RxJava创建过程 create() 调用create()创建Observable。 1 2 3 4 5 6 7 8 9 10 11 Observable.create(new ObservableOnSubscribe&amp;lt;Integer&amp;gt;() { @Override public void subscribe(@NonNull ObservableEmitter&amp;lt;Integer&amp;gt; emitter) throws Throwable { emitter.onNext(2); } }).subscribe(new Consumer&amp;lt;Integer&amp;gt;() { @Override public void accept(Integer integer) throws Throwable {</description>
+    </item>
+    
+    <item>
+      <title>Leakcanary源码分析</title>
+      <link>https://malinkang.cn/post/leakcanary-source-analysis/</link>
+      <pubDate>Wed, 25 Nov 2020 20:10:28 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/leakcanary-source-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Glide源码分析</title>
+      <link>https://malinkang.cn/post/glide-source-analysis/</link>
+      <pubDate>Wed, 25 Nov 2020 20:07:31 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/glide-source-analysis/</guid>
+      <description>Glide源码分析 Glide的使用非常简单只需要调用with、load into三个方法。 1 2 3 GlideApp.with(this) .load(url) .into(imageView); 接下来，我们依次分析这三个方法。 with() 1 2 3</description>
+    </item>
+    
+    <item>
+      <title>Okio源码分析</title>
+      <link>https://malinkang.cn/post/okio-source-analysis/</link>
+      <pubDate>Wed, 25 Nov 2020 20:07:14 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/okio-source-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Okhttp源码分析</title>
+      <link>https://malinkang.cn/post/okhttp-source-analysis/</link>
+      <pubDate>Wed, 25 Nov 2020 20:01:47 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/okhttp-source-analysis/</guid>
+      <description>Okhttp基本流程分析 基本流程 创建RequestBody 创建Request 创建OkhttpClient 调用newCall创建Call对象 执</description>
+    </item>
+    
+    <item>
+      <title>ARouter源码分析</title>
+      <link>https://malinkang.cn/post/arouter-source-analysis/</link>
+      <pubDate>Tue, 24 Nov 2020 11:14:29 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/arouter-source-analysis/</guid>
+      <description>ARouter原理如下 编译期，会扫描@Route注解，将注解里的信息封装成一个RouteMeta对象。并生成一个辅助类ARouter$$Gr</description>
+    </item>
+    
+    <item>
+      <title>wms</title>
+      <link>https://malinkang.cn/post/framework-wms/</link>
+      <pubDate>Mon, 16 Mar 2020 15:16:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-wms/</guid>
+      <description>Window WindowManagerService 1 2 3 4 5 6 7 8 9 //frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java public static WindowManagerService main(final Context context, final InputManagerService im, final boolean haveInputMethods, final boolean showBootMsgs, final boolean onlyCore, WindowManagerPolicy policy) { DisplayThread.getHandler().runWithScissors(() -&amp;gt; sInstance = new WindowManagerService(context, im, haveInputMethods, showBootMsgs, onlyCore, policy), 0); return sInstance; } 1 2 3 4 5 6 7 8 //frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java public IWindowSession openSession(IWindowSessionCallback callback, IInputMethodClient client, IInputContext inputContext) { if (client == null)</description>
+    </item>
+    
+    <item>
+      <title>setContentView发生了什么</title>
+      <link>https://malinkang.cn/post/framework-setcontentview/</link>
+      <pubDate>Sun, 23 Feb 2020 17:19:13 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-setcontentview/</guid>
+      <description>1 2 3 frameworks/base/core/java/android/view/ViewManager.java frameworks/base/core/java/android/view/WindowManager.java frameworks/base/core/java/android/view/WindowManagerImpl.java 流程图 创建Window和WindowManager的过程 {% plantuml %} &amp;ndash;&amp;gt;Activity:attach() Activity&amp;ndash;&amp;gt;Window: 创建Window Activity&amp;ndash;&amp;gt;ContextImpl: getSystemService ContextImpl&amp;ndash;&amp;gt;SystemServiceRegistry: getSystemService SystemServiceRegistry&amp;ndash;&amp;gt; Activity: 返回WindowManagerIm</description>
+    </item>
+    
+    <item>
+      <title>AMS分析</title>
+      <link>https://malinkang.cn/post/framework-ams/</link>
+      <pubDate>Sat, 22 Feb 2020 14:48:10 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-ams/</guid>
+      <description>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 public void setSystemProcess() { try { ServiceManager.addService(Context.ACTIVITY_SERVICE, this, /*</description>
+    </item>
+    
+    <item>
+      <title>Parcel源码分析</title>
+      <link>https://malinkang.cn/post/framework-parcel/</link>
+      <pubDate>Thu, 20 Feb 2020 15:11:27 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-parcel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>添加和获取服务</title>
+      <link>https://malinkang.cn/post/framework-add-and-get-service/</link>
+      <pubDate>Sat, 15 Feb 2020 17:03:15 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-add-and-get-service/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>获取ServiceManager</title>
+      <link>https://malinkang.cn/post/framework-get-sm/</link>
+      <pubDate>Sat, 08 Feb 2020 09:44:44 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-get-sm/</guid>
+      <description>&lt;p&gt;&lt;code&gt;ServiceManager&lt;/code&gt;的&lt;code&gt;addService&lt;/code&gt;和&lt;code&gt;getService&lt;/code&gt;方法都会首先调用&lt;code&gt;getIServiceManager&lt;/code&gt;来获取&lt;code&gt;ServiceManager&lt;/code&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>启动ServiceManager</title>
+      <link>https://malinkang.cn/post/framework-start-sm/</link>
+      <pubDate>Sat, 01 Feb 2020 22:07:20 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-start-sm/</guid>
+      <description>&lt;p&gt;&lt;code&gt;ServiceManager&lt;/code&gt;在&lt;code&gt;init.rc&lt;/code&gt;中启动的。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//system/core/rootdir/init.rc
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;servicemanager&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;system&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;servicemanager&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;core&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;system&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;group&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;system&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;critical&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;onrestart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;restart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;healthd&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;onrestart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;restart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zygote&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;onrestart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;restart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;media&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;onrestart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;restart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;surfaceflinger&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;onrestart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;restart&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;drm&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Binder驱动分析</title>
+      <link>https://malinkang.cn/post/framework-binder-driver/</link>
+      <pubDate>Sat, 25 Jan 2020 09:44:44 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-binder-driver/</guid>
+      <description>参考 理解Android Binder机制(1/3)：驱动篇</description>
+    </item>
+    
+    <item>
+      <title>SystemServer启动流程</title>
+      <link>https://malinkang.cn/post/framework-systemserver/</link>
+      <pubDate>Sat, 18 Jan 2020 14:04:10 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-systemserver/</guid>
+      <description>&lt;p&gt;&lt;code&gt;SystemServer&lt;/code&gt;进程主要用于创建系统服务，我们熟知的AMS、WMS和PMS都是由它来创建的。&lt;/p&gt;
+&lt;p&gt;一旦在&lt;code&gt;init.rc&lt;/code&gt;中为&lt;code&gt;Zygote&lt;/code&gt;制定了启动参数&lt;code&gt;--start-system-server&lt;/code&gt;，那么&lt;code&gt;ZygoteInit&lt;/code&gt;就会调用&lt;code&gt;startSystemServer&lt;/code&gt;来启动&lt;code&gt;SystemServer&lt;/code&gt;集成。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Zygote进程启动流程</title>
+      <link>https://malinkang.cn/post/framework-zygote/</link>
+      <pubDate>Sat, 11 Jan 2020 15:01:48 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-zygote/</guid>
+      <description>&lt;p&gt;在Android系统中，应用程序进程以及运行系统的关键服务的&lt;code&gt;SystemServer&lt;/code&gt;进程都是由&lt;code&gt;Zygote&lt;/code&gt;进程来创建的，我们也将它称为孵化器。它通过&lt;code&gt;fork&lt;/code&gt;（复制进程）的形式来创建应用程序进程和&lt;code&gt;SystemServer&lt;/code&gt;进程。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>init启动流程分析</title>
+      <link>https://malinkang.cn/post/framework-init/</link>
+      <pubDate>Sat, 04 Jan 2020 15:01:48 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-init/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bindService流程分析</title>
+      <link>https://malinkang.cn/post/framework-bind-service/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/framework-bind-service/</guid>
+      <description>{%plantuml%} &amp;ndash;&amp;gt; ContextWrapper: bindService ContextWrapper&amp;ndash;&amp;gt; ContextImpl: bindService ContextImpl&amp;ndash;&amp;gt; ContextImpl: bindServiceCommon ContextImpl&amp;ndash;&amp;gt; LoadedApk: getServiceDispatcher LoadedApk&amp;ndash;&amp;gt; ServiceDispatcher: 创建ServiceDispatcher ServiceDispatcher&amp;ndash;&amp;gt; InnerConnection: 创建InnerConnection LoadedApk&amp;ndash;&amp;gt; ContextImpl: 返回ServiceDispat</description>
+    </item>
+    
+    <item>
+      <title>Retrofit源码分析</title>
+      <link>https://malinkang.cn/post/retrofit-source-analysis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/retrofit-source-analysis/</guid>
+      <description>Retrofit源码分析 流程分析 Retrofit执行流程可以分为两部分： 创建ServiceMethod。 调用ServiceMethod的in</description>
+    </item>
+    
+  </channel>
+</rss>

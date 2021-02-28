@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android运行时权限 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="权限的作用是保护 Android 用户的隐私。Android 应用必须请求权限才能访问敏感的用户数据（例如联系人和短信）以及某些系统功能（例如相机和互联网）。" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/runtime-permissions/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Android运行时权限" />
+<meta property="og:description" content="权限的作用是保护 Android 用户的隐私。Android 应用必须请求权限才能访问敏感的用户数据（例如联系人和短信）以及某些系统功能（例如相机和互联网）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/runtime-permissions/" />
+<meta property="article:published_time" content="2018-12-24T20:25:35+00:00" />
+<meta property="article:modified_time" content="2018-12-24T20:25:35+00:00" />
+<meta itemprop="name" content="Android运行时权限">
+<meta itemprop="description" content="权限的作用是保护 Android 用户的隐私。Android 应用必须请求权限才能访问敏感的用户数据（例如联系人和短信）以及某些系统功能（例如相机和互联网）。">
+<meta itemprop="datePublished" content="2018-12-24T20:25:35+00:00" />
+<meta itemprop="dateModified" content="2018-12-24T20:25:35+00:00" />
+<meta itemprop="wordCount" content="3975">
+
+
+
+<meta itemprop="keywords" content="Android," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android运行时权限"/>
+<meta name="twitter:description" content="权限的作用是保护 Android 用户的隐私。Android 应用必须请求权限才能访问敏感的用户数据（例如联系人和短信）以及某些系统功能（例如相机和互联网）。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android运行时权限</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-24 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#权限审批">权限审批</a>
+      <ul>
+        <li><a href="#危险权限的请求提示">危险权限的请求提示</a></li>
+      </ul>
+    </li>
+    <li><a href="#保护级别">保护级别</a>
+      <ul>
+        <li><a href="#普通权限">普通权限</a></li>
+        <li><a href="#签名权限">签名权限</a></li>
+        <li><a href="#危险权限">危险权限</a></li>
+      </ul>
+    </li>
+    <li><a href="#特殊权限">特殊权限</a></li>
+    <li><a href="#检查权限">检查权限</a>
+      <ul>
+        <li><a href="#确定应用是否已获得权限">确定应用是否已获得权限</a></li>
+        <li><a href="#说明您的应用为何需要获取权限">说明您的应用为何需要获取权限</a></li>
+        <li><a href="#请求权限">请求权限</a></li>
+      </ul>
+    </li>
+    <li><a href="#单次授权">单次授权</a></li>
+    <li><a href="#自动重置未使用的应用的权限">自动重置未使用的应用的权限</a></li>
+    <li><a href="#参考">参考</a></li>
+    <li><a href="#代码">代码</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>权限的作用是保护 Android 用户的隐私。Android 应用必须请求权限才能访问敏感的用户数据（例如联系人和短信）以及某些系统功能（例如相机和互联网）。系统可能会自动授予权限，也可能会提示用户批准请求，具体取决于访问的功能。</p>
+<p>Android 安全架构的设计主旨是：在默认情况下，任何应用都没有权限执行会对其他应用、操作系统或用户带来不利影响的任何操作。这包括读取或写入用户的私有数据（例如联系人或电子邮件）、读取或写入其他应用的文件、执行网络访问、使设备保持唤醒状态等。</p>
+<h2 id="权限审批">权限审批</h2>
+<p>应用必须通过在<a href="https://developer.android.com/guide/topics/manifest/manifest-intro?hl=zh-cn">应用清单</a>中添加 <a href="https://developer.android.com/guide/topics/manifest/uses-permission-element?hl=zh-cn"><code>&lt;uses-permission&gt;</code></a> 标记来公开所需的权限。例如，需要发送短信的应用会在清单中添加以下代码行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+          <span class="na">package=</span><span class="s">&#34;com.example.snazzyapp&#34;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&#34;android.permission.SEND_SMS&#34;</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;application</span> <span class="err">...</span><span class="nt">&gt;</span>
+        ...
+    <span class="nt">&lt;/application&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果您的应用在清单中列出普通权限（即不会给用户隐私或设备操作带来太大风险的权限），系统会自动将这些权限授予应用。</p>
+<p>如果您的应用在清单中列出危险权限（即可能影响用户隐私或设备正常操作的权限），如上面的 <code>SEND_SMS</code> 权限，必须由用户明确同意授予这些权限。</p>
+<h3 id="危险权限的请求提示">危险权限的请求提示</h3>
+<p>仅危险权限需要用户同意。Android 请求用户授予危险权限的方式取决于用户设备上搭载的 Android 版本和应用的目标系统版本。</p>
+<h4 id="运行时请求android-60-及更高版本">运行时请求（Android 6.0 及更高版本）</h4>
+<p>如果设备搭载的是 Android 6.0（API 级别 23）或更高版本，并且应用的 <a href="https://developer.android.com/guide/topics/manifest/uses-sdk-element?hl=zh-cn#target"><code>targetSdkVersion</code></a> 是 23 或更高版本，用户在安装时不会收到任何应用权限的通知。您的应用必须在运行时请求用户授予危险权限。当应用请求权限时，用户会看到一个系统对话框（如图 1 左图所示），告知用户应用正在尝试访问的权限组。该对话框包括<strong>拒绝</strong>和<strong>允许</strong>按钮。</p>
+<p>如果用户拒绝权限请求，当应用下次请求该权限时，该对话框将包含一个复选框，选中它即表示用户不想再收到权限提示（请参阅图 1 右图）。</p>
+<p><img src="https://developer.android.com/images/permissions/runtime_permission_request_2x.png?hl=zh-cn" alt="图 1. 初始权限对话框（左）和包含关闭进一步请求的选项的二次权限请求（右）"></p>
+<p>如果用户选中<strong>不再询问</strong>复选框并点按<strong>拒绝</strong>，当您以后尝试请求相同权限时，系统不会再提示用户。</p>
+<p>即使用户授予应用所请求的权限，您也不能指望始终拥有该权限。用户也可以选择在系统设置中逐一启用和停用权限。您应始终在运行时检查并请求权限，以防发生运行时错误 (<code>SecurityException</code>)。</p>
+<h4 id="安装时请求android-511-及更低版本">安装时请求（Android 5.1.1 及更低版本）</h4>
+<p>如果设备搭载的是 Android 5.1.1（API 级别 22）或更低版本，或者应用在任何版本的 Android 上运行时其 <a href="https://developer.android.com/guide/topics/manifest/uses-sdk-element?hl=zh-cn#target"><code>targetSdkVersion</code></a> 是 22 或更低版本，系统将在安装时自动请求用户向应用授予所有危险权限（请参见图 2）。</p>
+<p><img src="https://developer.android.com/images/permissions/install_time_permissions_dialog_2x.png?hl=zh-cn" alt="图 2. 安装时权限对话框"></p>
+<p>如果用户点击<strong>接受</strong>，系统将授予应用请求的所有权限。如果用户拒绝权限请求，系统将取消安装应用。</p>
+<h2 id="保护级别">保护级别</h2>
+<p>权限分为几个保护级别。保护级别影响着是否需要运行时权限请求。</p>
+<p>有三种保护级别会影响第三方应用：普通、签名和危险权限。如需查看特定权限所拥有的保护级别，请访问<a href="https://developer.android.com/reference/android/Manifest.permission?hl=zh-cn">权限 API 参考页面</a>。</p>
+<h3 id="普通权限">普通权限</h3>
+<p>普通权限涵盖以下情况：应用需要访问其沙盒外部的数据或资源，但对用户隐私或其他应用的操作带来的风险很小。例如，设置时区的权限就是普通权限。</p>
+<p>如果应用在清单中声明需要普通权限，系统会在安装时自动向应用授予该权限。系统不会提示用户授予普通权限，用户也无法撤消这些权限。</p>
+<h3 id="签名权限">签名权限</h3>
+<p>系统在安装时授予这些应用权限，但仅会在尝试使用某权限的应用签名证书为定义该权限的同一证书时才会授予。</p>
+<h3 id="危险权限">危险权限</h3>
+<p>危险权限涵盖以下情况：应用需要的数据或资源涉及用户隐私信息，或者可能对用户存储的数据或其他应用的操作产生影响。例如，能够读取用户的联系人属于危险权限。如果应用声明其需要危险权限，必须由用户向应用明确授予该权限。在用户批准该权限之前，应用无法提供依赖于该权限的功能。</p>
+<h2 id="特殊权限">特殊权限</h2>
+<p>有几项权限的行为与普通权限及危险权限都不同。<code>SYSTEM_ALERT_WINDOW</code> 和 <code>WRITE_SETTINGS</code> 特别敏感，因此大多数应用不应该使用它们。</p>
+<p>在大多数情况下，应用必须在清单中声明 <code>SYSTEM_ALERT_WINDOW</code> 权限，并发送请求用户授权的 intent。系统将向用户显示详细管理屏幕，以响应该 intent。</p>
+<p>从 Android 11（API 级别 30）开始，调用 <code>ACTION_MANAGE_OVERLAY_PERMISSION</code> intent 操作的应用不能指定软件包。当应用调用包含此 intent 操作的 intent 时，必须由用户先选择想要授予或撤消哪些应用的权限。此行为可以让权限的授予更有目的性，从而达到保护用户的目的。</p>
+<h2 id="检查权限">检查权限</h2>
+<p>如果应用需要一项危险权限，那么每次执行需要该权限的操作时，您都必须检查是否具有该权限。在<code> Android 6.0</code>（API 级别 23）及更高版本中，用户可以随时从任何应用撤消危险权限。</p>
+<h3 id="确定应用是否已获得权限">确定应用是否已获得权限</h3>
+<p>如需检查用户是否已向您的应用授予特定权限，请将该权限传入 <code>ContextCompat.checkSelfPermission()</code>方法。根据您的应用是否具有相应权限，此方法会返回 <code>PERMISSION_GRANTED</code>或 <code>PERMISSION_DENIED</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">if</span> <span class="p">(</span><span class="n">ContextCompat</span><span class="p">.</span><span class="n">checkSelfPermission</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="n">Manifest</span><span class="p">.</span><span class="n">permission</span><span class="p">.</span><span class="n">READ_PHONE_STATE</span><span class="p">)</span> <span class="o">==</span>  <span class="n">PackageManager</span><span class="p">.</span><span class="n">PERMISSION_DENIED</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//权限被拒
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="说明您的应用为何需要获取权限">说明您的应用为何需要获取权限</h3>
+<p>如果 <code>ContextCompat.checkSelfPermission()</code> 方法返回 <code>PERMISSION_DENIED</code>，请调用 <code>shouldShowRequestPermissionRationale()</code>。如果此方法返回 <code>true</code>，请向用户显示指导界面。请在此界面中说明用户希望启用的功能为何需要特定权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//用户授权成功或者点击禁止不再询问时返回false
+</span><span class="c1"></span><span class="n">ActivityCompat</span><span class="p">.</span><span class="n">shouldShowRequestPermissionRationale</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">Manifest</span><span class="p">.</span><span class="n">permission</span><span class="p">.</span><span class="n">READ_PHONE_STATE</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="请求权限">请求权限</h3>
+<p>用户查看指导界面后或者 <code>shouldShowRequestPermissionRationale()</code> 的返回值表明您这次不需要显示指导界面后，您可以请求权限。用户会看到系统权限对话框，并可在其中选择是否向您的应用授予特定权限。</p>
+<p>按照历来的做法，您可以在权限请求过程中<strong>自行管理请求代码</strong>，并将此请求代码包含在您的权限回调逻辑中。另一种选择是使用 AndroidX 库中包含的 <a href="https://developer.android.com/reference/androidx/activity/result/contract/ActivityResultContracts.RequestPermission?hl=zh-cn"><code>RequestPermission</code></a> 协定类，您可在其中<strong>允许系统代为管理权限请求代码</strong>。由于使用 <code>RequestPermission</code> 协定类可简化逻辑，因此，<strong>建议您尽可能使用该方法</strong>。</p>
+<h4 id="允许系统管理权限请求代码">允许系统管理权限请求代码</h4>
+<p>如需允许系统管理与权限请求相关联的请求代码，请在您模块的 <code>build.gradle</code> 文件中<a href="https://developer.android.com/jetpack/androidx/releases/activity?hl=zh-cn#declaring_dependencies">添加 <code>androidx.activity</code> 库的依赖项</a>。请使用该库的 1.2.0 版或更高版本。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">implementation</span> <span class="s2">&#34;androidx.activity:activity-ktx:1.2.0-beta01&#34;</span>
+  	<span class="c1">// 不依赖会报错 https://stackoverflow.com/questions/62771948/new-result-api-error-can-only-use-lower-16-bits-for-requestcode
+</span><span class="c1"></span>    <span class="n">implementation</span> <span class="s1">&#39;androidx.fragment:fragment-ktx:1.3.0-beta01&#39;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后，您可以使用以下某个类：</p>
+<ul>
+<li>如需请求一项权限，请使用 <a href="https://developer.android.com/reference/androidx/activity/result/contract/ActivityResultContracts.RequestPermission?hl=zh-cn"><code>RequestPermission</code></a>。</li>
+<li>如需同时请求多项权限，请使用 <a href="https://developer.android.com/reference/androidx/activity/result/contract/ActivityResultContracts.RequestMultiplePermissions?hl=zh-cn"><code>RequestMultiplePermissions</code></a>。</li>
+</ul>
+<p>以下步骤显示了如何使用 <code>RequestPermission</code> 协定类。使用 <code>RequestMultiplePermissions</code> 协定类的流程几乎与此相同。</p>
+<ol>
+<li>
+<p>在 Activity 或 Fragment 的初始化逻辑中，将 <a href="https://developer.android.com/reference/androidx/activity/result/ActivityResultCallback?hl=zh-cn"><code>ActivityResultCallback</code></a> 的实现传入对 <code>registerForActivityResult()</code> 的调用。<code>ActivityResultCallback</code> 定义应用如何处理用户对权限请求的响应。保留对 <code>registerForActivityResult()</code>（类型为 <a href="https://developer.android.com/reference/androidx/activity/result/ActivityResultLauncher?hl=zh-cn"><code>ActivityResultLauncher</code></a>）的返回值的引用。</p>
+</li>
+<li>
+<p>如需在必要时显示系统权限对话框，请对您在上一步中保存的 <code>ActivityResultLauncher</code> 实例调用 <a href="https://developer.android.com/reference/androidx/activity/result/ActivityResultLauncher?hl=zh-cn#launch(I)"><code>launch()</code></a> 方法。</p>
+<p>调用 <code>launch()</code> 之后，系统会显示系统权限对话框。当用户做出选择后，系统会异步调用您在上一步中定义的 <code>ActivityResultCallback</code> 实现。</p>
+</li>
+</ol>
+<p>以下代码段展示了如何处理权限响应：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// Register the permissions callback, which handles the user&#39;s response to the
+</span><span class="c1">// system permissions dialog. Save the return value, an instance of
+</span><span class="c1">// ActivityResultLauncher. You can use either a val, as shown in this snippet,
+</span><span class="c1">// or a lateinit var in your onAttach() or onCreate() method.
+</span><span class="c1"></span><span class="k">val</span> <span class="py">requestPermissionLauncher</span> <span class="p">=</span>
+    <span class="n">registerForActivityResult</span><span class="p">(</span><span class="n">RequestPermission</span><span class="p">()</span>
+    <span class="p">)</span> <span class="p">{</span> <span class="n">isGranted</span><span class="p">:</span> <span class="n">Boolean</span> <span class="o">-&gt;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isGranted</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Permission is granted. Continue the action or workflow in your
+</span><span class="c1"></span>            <span class="c1">// app.
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Explain to the user that the feature is unavailable because the
+</span><span class="c1"></span>            <span class="c1">// features requires a permission that the user has denied. At the
+</span><span class="c1"></span>            <span class="c1">// same time, respect the user&#39;s decision. Don&#39;t link to system
+</span><span class="c1"></span>            <span class="c1">// settings in an effort to convince the user to change their
+</span><span class="c1"></span>            <span class="c1">// decision.
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以下代码段演示了检查权限并根据需要向用户请求权限的建议流程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">when</span> <span class="p">{</span>
+    <span class="n">ContextCompat</span><span class="p">.</span><span class="n">checkSelfPermission</span><span class="p">(</span>
+            <span class="n">CONTEXT</span><span class="p">,</span>
+            <span class="n">Manifest</span><span class="p">.</span><span class="n">permission</span><span class="p">.</span><span class="n">REQUESTED_PERMISSION</span>
+            <span class="p">)</span> <span class="o">==</span> <span class="n">PackageManager</span><span class="p">.</span><span class="n">PERMISSION_GRANTED</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="c1">// You can use the API that requires the permission.
+</span><span class="c1"></span>    <span class="p">}</span>
+    <span class="n">shouldShowRequestPermissionRationale</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="c1">// In an educational UI, explain to the user why your app requires this
+</span><span class="c1"></span>        <span class="c1">// permission for a specific feature to behave as expected. In this UI,
+</span><span class="c1"></span>        <span class="c1">// include a &#34;cancel&#34; or &#34;no thanks&#34; button that allows the user to
+</span><span class="c1"></span>        <span class="c1">// continue using your app without granting the permission.
+</span><span class="c1"></span>        <span class="n">showInContextUI</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="c1">// You can directly ask for the permission.
+</span><span class="c1"></span>        <span class="c1">// The registered ActivityResultCallback gets the result of this request.
+</span><span class="c1"></span>        <span class="n">requestPermissionLauncher</span><span class="p">.</span><span class="n">launch</span><span class="p">(</span>
+                <span class="n">Manifest</span><span class="p">.</span><span class="n">permission</span><span class="p">.</span><span class="n">REQUESTED_PERMISSION</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="自行管理权限请求代码">自行管理权限请求代码</h4>
+<p>作为<a href="https://developer.android.com/training/permissions/requesting?hl=zh-cn#allow-system-manage-request-code">允许系统管理权限请求代码</a>的替代方法，您可以自行管理权限请求代码。为此，请在对 <code>requestPermissions()</code> 的调用中添加请求代码。</p>
+<p>以下代码段演示了如何使用请求代码来请求权限：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">when</span> <span class="p">{</span>
+    <span class="n">ContextCompat</span><span class="p">.</span><span class="n">checkSelfPermission</span><span class="p">(</span>
+            <span class="n">CONTEXT</span><span class="p">,</span>
+            <span class="n">Manifest</span><span class="p">.</span><span class="n">permission</span><span class="p">.</span><span class="n">REQUESTED_PERMISSION</span>
+            <span class="p">)</span> <span class="o">==</span> <span class="n">PackageManager</span><span class="p">.</span><span class="n">PERMISSION_GRANTED</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="c1">// You can use the API that requires the permission.
+</span><span class="c1"></span>        <span class="n">performAction</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span>
+    <span class="p">}</span>
+    <span class="n">ActivityCompat</span><span class="p">.</span><span class="n">shouldShowRequestPermissionRationale</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="c1">// In an educational UI, explain to the user why your app requires this
+</span><span class="c1"></span>        <span class="c1">// permission for a specific feature to behave as expected. In this UI,
+</span><span class="c1"></span>        <span class="c1">// include a &#34;cancel&#34; or &#34;no thanks&#34; button that allows the user to
+</span><span class="c1"></span>        <span class="c1">// continue using your app without granting the permission.
+</span><span class="c1"></span>        <span class="n">showInContextUI</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="c1">// You can directly ask for the permission.
+</span><span class="c1"></span>        <span class="n">ActivityCompat</span><span class="p">.</span><span class="n">requestPermissions</span><span class="p">(</span><span class="n">CONTEXT</span><span class="p">,</span>
+                <span class="n">arrayOf</span><span class="p">(</span><span class="n">Manifest</span><span class="p">.</span><span class="n">permission</span><span class="p">.</span><span class="n">REQUESTED_PERMISSION</span><span class="p">),</span>
+                <span class="n">REQUEST_CODE</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当用户响应系统权限对话框后，系统就会调用应用的 <code>onRequestPermissionsResult()</code> 实现。系统会传入用户对权限对话框的响应以及您定义的请求代码，如以下代码段所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">override</span> <span class="k">fun</span> <span class="nf">onRequestPermissionsResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span>
+        <span class="n">permissions</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;,</span> <span class="n">grantResults</span><span class="p">:</span> <span class="n">IntArray</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">when</span> <span class="p">(</span><span class="n">requestCode</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">PERMISSION_REQUEST_CODE</span> <span class="o">-&gt;</span> <span class="p">{</span>
+            <span class="c1">// If request is cancelled, the result arrays are empty.
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">((</span><span class="n">grantResults</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">()</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">grantResults</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">PackageManager</span><span class="p">.</span><span class="n">PERMISSION_GRANTED</span><span class="p">))</span> <span class="p">{</span>
+                <span class="c1">// Permission is granted. Continue the action or workflow
+</span><span class="c1"></span>                <span class="c1">// in your app.
+</span><span class="c1"></span>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="c1">// Explain to the user that the feature is unavailable because
+</span><span class="c1"></span>                <span class="c1">// the features requires a permission that the user has denied.
+</span><span class="c1"></span>                <span class="c1">// At the same time, respect the user&#39;s decision. Don&#39;t link to
+</span><span class="c1"></span>                <span class="c1">// system settings in an effort to convince the user to change
+</span><span class="c1"></span>                <span class="c1">// their decision.
+</span><span class="c1"></span>            <span class="p">}</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Add other &#39;when&#39; lines to check for other
+</span><span class="c1"></span>        <span class="c1">// permissions this app might request.
+</span><span class="c1"></span>        <span class="k">else</span> <span class="o">-&gt;</span> <span class="p">{</span>
+            <span class="c1">// Ignore all other requests.
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="单次授权">单次授权</h2>
+<p>从 <strong>Android 11（API 级别 30）<strong>开始，每当您的应用请求与位置、麦克风或相机相关的权限时，面向用户的权限对话框都会包含</strong>仅限这一次</strong>选项，如图 1 所示。如果用户在对话框中选择此选项，系统会向应用授予临时的单次授权。</p>
+<p><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/leetcode/one-time-prompt.svg" alt="在该对话框中有三个按钮，“仅限这一次”选项是其中的第二个按钮。"></p>
+<p>然后，应用可以在一段时间内访问相关数据，具体时间取决于应用的行为和用户的操作：</p>
+<ul>
+<li>当应用的 Activity 可见时，应用可以访问相关数据。</li>
+<li>如果用户将应用转为后台运行，应用可以在短时间内继续访问相关数据。</li>
+<li>如果您在 Activity 可见时启动了一项前台服务，并且用户随后将您的应用转到后台，那么您的应用可以继续访问相关数据，直到该前台服务停止。</li>
+<li>如果用户撤消单次授权（例如在系统设置中撤消），无论您是否启动了前台服务，应用都无法访问相关数据。与任何权限一样，如果用户撤消了应用的单次授权，应用进程就会终止。</li>
+</ul>
+<p>当用户下次打开应用并且应用中的某项功能请求访问位置信息、麦克风或摄像头时，系统会再次提示用户授予权限。</p>
+<h2 id="自动重置未使用的应用的权限">自动重置未使用的应用的权限</h2>
+<p>如果应用以 Android 11（API 级别 30）或更高版本为目标平台并且数月未使用，系统会通过自动重置用户已授予应用的运行时敏感权限保护用户数据。此操作与用户在系统设置中查看权限并将应用的访问权限级别更改为<strong>拒绝</strong>的做法效果一样。</p>
+<p>如果应用遵循了有关<a href="https://developer.android.com/training/permissions/requesting?hl=zh-cn">在运行时请求权限</a>的最佳做法，那么您不必对应用进行任何更改。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developer.android.com/guide/topics/permissions/overview?hl=zh-cn">权限概览</a></li>
+<li><a href="https://developer.android.com/training/permissions/declaring?hl=zh-cn">声明应用权限</a></li>
+<li><a href="https://developer.android.com/training/permissions/requesting?hl=zh-cn">请求应用权限</a></li>
+<li><a href="https://developer.android.com/training/permissions/usage-notes?hl=zh-cn">应用权限最佳做法</a></li>
+<li><a href="https://developer.android.com/guide/topics/permissions/default-handlers?hl=zh-cn">仅在默认处理程序中使用的权限</a></li>
+<li><a href="https://developer.android.com/guide/topics/permissions/defining?hl=zh-cn">定义自定义应用权限</a></li>
+</ul>
+<h2 id="代码">代码</h2>
+<ul>
+<li><a href="https://github.com/android/permissions-samples">permissions-samples</a></li>
+<li><a href="https://github.com/tbruyelle/RxPermissions">RxPermissions</a></li>
+<li><a href="https://github.com/permissions-dispatcher/PermissionsDispatcher">PermissionsDispatcher</a></li>
+<li><a href="https://github.com/googlesamples/easypermissions">easypermissions</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-12-24
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android/">Android</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/up/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">关于自我提升的思考</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/kotlin-in-action-chapter8/">
+            <span class="next-text nav-default">《Kotlin实战》读书笔记 第8章 Lambda作为形参和返回值</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

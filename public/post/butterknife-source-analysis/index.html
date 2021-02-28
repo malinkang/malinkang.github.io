@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ButterKnife源码分析 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="本文分析的源码为8.4.0。 项目结构 butterknife包含ButterKnife核心的Api，如ButterKnife。butterkn" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/butterknife-source-analysis/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="ButterKnife源码分析" />
+<meta property="og:description" content="本文分析的源码为8.4.0。 项目结构 butterknife包含ButterKnife核心的Api，如ButterKnife。butterkn" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/butterknife-source-analysis/" />
+<meta property="article:published_time" content="2020-12-02T16:37:06+00:00" />
+<meta property="article:modified_time" content="2020-12-02T16:37:06+00:00" />
+<meta itemprop="name" content="ButterKnife源码分析">
+<meta itemprop="description" content="本文分析的源码为8.4.0。 项目结构 butterknife包含ButterKnife核心的Api，如ButterKnife。butterkn">
+<meta itemprop="datePublished" content="2020-12-02T16:37:06+00:00" />
+<meta itemprop="dateModified" content="2020-12-02T16:37:06+00:00" />
+<meta itemprop="wordCount" content="6790">
+
+
+
+<meta itemprop="keywords" content="源码分析," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ButterKnife源码分析"/>
+<meta name="twitter:description" content="本文分析的源码为8.4.0。 项目结构 butterknife包含ButterKnife核心的Api，如ButterKnife。butterkn"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ButterKnife源码分析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-12-02 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文分析的源码为<code>8.4.0</code>。</p>
+<h4 id="项目结构">项目结构</h4>
+<p><img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/butterknife-1.png" alt="butterknife-1"></p>
+<p><code>butterknife</code>包含ButterKnife核心的Api，如ButterKnife。<code>butterknife-annotations</code>包含了所有定义的注解。<code>butterknife-compiler</code>包含了生成模板代码的代码。这里我们重点研究ButterKnife是如何生成模板代码以及在我们的类中是如何调用的。</p>
+<h4 id="核心类">核心类</h4>
+<p><code>ViewBinding</code>是一个接口，有两个直接的子类<code>FieldViewBinding</code>和<code>MethodViewBinding</code>。</p>
+<p><code>FieldViewBinding</code>封装了使用<code>@BindView</code>注解的Field的信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span><span class="c1">//字段名
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="n">TypeName</span> <span class="n">type</span><span class="o">;</span><span class="c1">//类型
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">required</span><span class="o">;</span><span class="c1">//是否必须
+</span></code></pre></td></tr></table>
+</div>
+</div><p><code>MethodViewBinding</code>封装了使用<code>@OnClick</code>等注解注解的方法的信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span><span class="c1">//方法名
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Parameter</span><span class="o">&gt;</span> <span class="n">parameters</span><span class="o">;</span><span class="c1">//方法参数
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">required</span><span class="o">;</span><span class="c1">//是否必须
+</span></code></pre></td></tr></table>
+</div>
+</div><p>注解@ListenerClass代表一个监听器的类，作用在如@OnClick等事件监听的注解上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Retention</span><span class="o">(</span><span class="n">RUNTIME</span><span class="o">)</span> <span class="nd">@Target</span><span class="o">(</span><span class="n">ANNOTATION_TYPE</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">ListenerClass</span> <span class="o">{</span>
+  <span class="n">String</span> <span class="nf">targetType</span><span class="o">();</span><span class="c1">//目标类型
+</span><span class="c1"></span>  <span class="cm">/** Name of the setter method on the {@linkplain #targetType() target type} for the listener. */</span>
+  <span class="n">String</span> <span class="nf">setter</span><span class="o">();</span><span class="c1">//将该类设置给目标类型的方法
+</span><span class="c1"></span>  <span class="cm">/**
+</span><span class="cm">   * Name of the method on the {@linkplain #targetType() target type} to remove the listener. If
+</span><span class="cm">   * empty {@link #setter()} will be used by default.
+</span><span class="cm">   */</span>
+  <span class="n">String</span> <span class="nf">remover</span><span class="o">()</span> <span class="k">default</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+  <span class="cm">/** Fully-qualified class name of the listener type. */</span>
+  <span class="n">String</span> <span class="nf">type</span><span class="o">();</span>
+
+  <span class="cm">/** Enum which declares the listener callback methods. Mutually exclusive to {@link #method()}. */</span>
+  <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Enum</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">callbacks</span><span class="o">()</span> <span class="k">default</span> <span class="n">NONE</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+
+  <span class="cm">/**
+</span><span class="cm">   * Method data for single-method listener callbacks. Mutually exclusive with {@link #callbacks()}
+</span><span class="cm">   * and an error to specify more than one value.
+</span><span class="cm">   */</span>
+  <span class="n">ListenerMethod</span><span class="o">[]</span> <span class="nf">method</span><span class="o">()</span> <span class="k">default</span> <span class="o">{</span> <span class="o">};</span>
+
+  <span class="cm">/** Default value for {@link #callbacks()}. */</span>
+  <span class="kd">enum</span> <span class="n">NONE</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>@ListenerMethod注解代表一个监听类的方法，因为类里面可能有多个方法，所以是一个数组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Retention</span><span class="o">(</span><span class="n">RUNTIME</span><span class="o">)</span> <span class="nd">@Target</span><span class="o">(</span><span class="n">FIELD</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">ListenerMethod</span> <span class="o">{</span>
+  <span class="cm">/** Name of the listener method for which this annotation applies. */</span>
+  <span class="n">String</span> <span class="nf">name</span><span class="o">();</span>
+
+  <span class="cm">/** List of method parameters. If the type is not a primitive it must be fully-qualified. */</span>
+  <span class="n">String</span><span class="o">[]</span> <span class="nf">parameters</span><span class="o">()</span> <span class="k">default</span> <span class="o">{</span> <span class="o">};</span>
+
+  <span class="cm">/** Primitive or fully-qualified return type of the listener method. May also be {@code void}. */</span>
+  <span class="n">String</span> <span class="nf">returnType</span><span class="o">()</span> <span class="k">default</span> <span class="s">&#34;void&#34;</span><span class="o">;</span>
+
+  <span class="cm">/** If {@link #returnType()} is not {@code void} this value is returned when no binding exists. */</span>
+  <span class="n">String</span> <span class="nf">defaultReturn</span><span class="o">()</span> <span class="k">default</span> <span class="s">&#34;null&#34;</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>@OnClick</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Target</span><span class="o">(</span><span class="n">METHOD</span><span class="o">)</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="n">CLASS</span><span class="o">)</span>
+<span class="nd">@ListenerClass</span><span class="o">(</span>
+    <span class="n">targetType</span> <span class="o">=</span> <span class="s">&#34;android.view.View&#34;</span><span class="o">,</span>
+    <span class="n">setter</span> <span class="o">=</span> <span class="s">&#34;setOnClickListener&#34;</span><span class="o">,</span>
+    <span class="n">type</span> <span class="o">=</span> <span class="s">&#34;butterknife.internal.DebouncingOnClickListener&#34;</span><span class="o">,</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="nd">@ListenerMethod</span><span class="o">(</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&#34;doClick&#34;</span><span class="o">,</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="s">&#34;android.view.View&#34;</span>
+    <span class="o">)</span>
+<span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">OnClick</span> <span class="o">{</span>
+  <span class="cm">/** View IDs to which the method will be bound. */</span>
+  <span class="nd">@IdRes</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">value</span><span class="o">()</span> <span class="k">default</span> <span class="o">{</span> <span class="n">View</span><span class="o">.</span><span class="na">NO_ID</span> <span class="o">};</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ViewBindings</code>封装了一个View的所有<code>ViewBinding</code>。例如在SimpleActivity中有如下代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@BindView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">hello</span><span class="o">)</span> <span class="n">Button</span> <span class="n">hello</span><span class="o">;</span><span class="c1">//对应封装成一个FieldViewBinding
+</span><span class="c1"></span><span class="nd">@OnClick</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">hello</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Hello, views!&#34;</span><span class="o">,</span> <span class="n">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">headerViews</span><span class="o">,</span> <span class="n">ALPHA_FADE</span><span class="o">);</span><span class="c1">//对应封装成一个MethodViewBinding
+</span><span class="c1"></span><span class="o">}</span>
+<span class="nd">@OnLongClick</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">hello</span><span class="o">)</span> <span class="kt">boolean</span> <span class="nf">sayGetOffMe</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Let go of me!&#34;</span><span class="o">,</span> <span class="n">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span><span class="c1">//对应封装成一个MethodViewBinding
+</span><span class="c1"></span>    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里<code>R.id.hello</code>这个view对应的ViewBindings包含一个FieldViewBinding和两个MethodViewBinding。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">ViewBindings</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Id</span> <span class="n">id</span><span class="o">;</span> <span class="c1">//View对应的id
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">ListenerClass</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">ListenerMethod</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">MethodViewBinding</span><span class="o">&gt;&gt;&gt;</span> <span class="n">methodBindings</span> <span class="o">=</span>
+      <span class="k">new</span> <span class="n">LinkedHashMap</span><span class="o">&lt;&gt;();</span><span class="c1">//Map用于存储多个MethodViewBinding
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="n">FieldViewBinding</span> <span class="n">fieldBinding</span><span class="o">;</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里使用 Map&lt;ListenerMethod, Set<!-- raw HTML omitted -->来存储MethodViewBinding。因为同一个ListenerMethod可能对应多个MethodViewBinding。比如下面代码就是一个ListenerMethod就对应了两个MethodViewBinding。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">  <span class="nd">@OnClick</span><span class="o">({</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">hello</span><span class="o">})</span><span class="kt">void</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Hello, views!&#34;</span><span class="o">,</span> <span class="n">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">headerViews</span><span class="o">,</span> <span class="n">ALPHA_FADE</span><span class="o">);</span>
+  <span class="o">}</span>
+  <span class="nd">@OnClick</span><span class="o">({</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">hello</span><span class="o">})</span><span class="kt">void</span> <span class="nf">sayHello2</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Hello, views!&#34;</span><span class="o">,</span> <span class="n">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">headerViews</span><span class="o">,</span> <span class="n">ALPHA_FADE</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>BindingSet</code>可以看做是一个类里面所有所有Binding信息。同时还负责生成代码的逻辑。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">BindingSet</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">TypeName</span> <span class="n">targetTypeName</span><span class="o">;</span><span class="c1">//
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ClassName</span> <span class="n">bindingClassName</span><span class="o">;</span><span class="c1">//生成辅助类的类名
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">isFinal</span><span class="o">;</span><span class="c1">//是否是final类型
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ViewBindings</span><span class="o">&gt;</span> <span class="n">viewBindings</span><span class="o">;</span><span class="c1">//用于存储ViewBinding
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">FieldCollectionViewBinding</span><span class="o">&gt;</span> <span class="n">collectionBindings</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ResourceBinding</span><span class="o">&gt;</span> <span class="n">resourceBindings</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BindingSet</span> <span class="n">parentBinding</span><span class="o">;</span><span class="c1">//父parentBinding
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>ResourceBinding是一个接口，有两个实现类FieldResourceBinding和FieldDrawableBinding。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//例如  @BindColor(android.R.color.black) @ColorInt int blackColor;
+</span><span class="c1">//将会生成代码    target.blackColor = ContextCompat.getColor(context, android.R.color.black);
+</span><span class="c1">//ResourceMethod方法指的是生成代码的对象
+</span><span class="c1"></span><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FieldResourceBinding</span> <span class="kd">implements</span> <span class="n">ResourceBinding</span> <span class="o">{</span>
+    <span class="kd">enum</span> <span class="n">Type</span> <span class="o">{</span>
+        <span class="n">BITMAP</span><span class="o">(</span><span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="n">BindingSet</span><span class="o">.</span><span class="na">BITMAP_FACTORY</span><span class="o">,</span> <span class="s">&#34;decodeResource&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">1</span><span class="o">)),</span>
+        <span class="n">BOOL</span><span class="o">(</span><span class="s">&#34;getBoolean&#34;</span><span class="o">),</span>
+        <span class="n">COLOR</span><span class="o">(</span><span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="n">BindingSet</span><span class="o">.</span><span class="na">CONTEXT_COMPAT</span><span class="o">,</span> <span class="s">&#34;getColor&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span>
+                <span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">&#34;getColor&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">23</span><span class="o">)),</span>
+        <span class="n">COLOR_STATE_LIST</span><span class="o">(</span><span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="n">BindingSet</span><span class="o">.</span><span class="na">CONTEXT_COMPAT</span><span class="o">,</span> <span class="s">&#34;getColorStateList&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span>
+                <span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">&#34;getColorStateList&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">23</span><span class="o">)),</span>
+        <span class="n">DIMEN_AS_INT</span><span class="o">(</span><span class="s">&#34;getDimensionPixelSize&#34;</span><span class="o">),</span>
+        <span class="n">DIMEN_AS_FLOAT</span><span class="o">(</span><span class="s">&#34;getDimension&#34;</span><span class="o">),</span>
+        <span class="n">FLOAT</span><span class="o">(</span><span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="n">BindingSet</span><span class="o">.</span><span class="na">UTILS</span><span class="o">,</span> <span class="s">&#34;getFloat&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">1</span><span class="o">)),</span>
+        <span class="n">INT</span><span class="o">(</span><span class="s">&#34;getInteger&#34;</span><span class="o">),</span>
+        <span class="n">INT_ARRAY</span><span class="o">(</span><span class="s">&#34;getIntArray&#34;</span><span class="o">),</span>
+        <span class="n">STRING</span><span class="o">(</span><span class="s">&#34;getString&#34;</span><span class="o">),</span>
+        <span class="n">STRING_ARRAY</span><span class="o">(</span><span class="s">&#34;getStringArray&#34;</span><span class="o">),</span>
+        <span class="n">TEXT_ARRAY</span><span class="o">(</span><span class="s">&#34;getTextArray&#34;</span><span class="o">),</span>
+        <span class="n">TYPED_ARRAY</span><span class="o">(</span><span class="s">&#34;obtainTypedArray&#34;</span><span class="o">);</span>
+
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ResourceMethod</span><span class="o">&gt;</span> <span class="n">methods</span><span class="o">;</span>
+
+        <span class="n">Type</span><span class="o">(</span><span class="n">ResourceMethod</span><span class="o">...</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">ResourceMethod</span><span class="o">&gt;</span> <span class="n">methodList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">methods</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+            <span class="n">Collections</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">methodList</span><span class="o">,</span> <span class="n">methods</span><span class="o">);</span>
+            <span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">methodList</span><span class="o">);</span>
+            <span class="n">Collections</span><span class="o">.</span><span class="na">reverse</span><span class="o">(</span><span class="n">methodList</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">methods</span> <span class="o">=</span> <span class="n">unmodifiableList</span><span class="o">(</span><span class="n">methodList</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">Type</span><span class="o">(</span><span class="n">String</span> <span class="n">methodName</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">methods</span> <span class="o">=</span> <span class="n">singletonList</span><span class="o">(</span><span class="k">new</span> <span class="n">ResourceMethod</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">methodName</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
+        <span class="o">}</span>
+
+        <span class="n">ResourceMethod</span> <span class="nf">methodForSdk</span><span class="o">(</span><span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">ResourceMethod</span> <span class="n">method</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">sdk</span> <span class="o">&lt;=</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">method</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">AssertionError</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">//资源方法
+</span><span class="c1"></span>    <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">ResourceMethod</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">ResourceMethod</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">ClassName</span> <span class="n">typeName</span><span class="o">;</span><span class="c1">//类名 
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span><span class="c1">//方法名
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">requiresResources</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">sdk</span><span class="o">;</span><span class="c1">//sdk版本号 因为sdk版本号不一样，调用的方法可能不一样。
+</span><span class="c1"></span>
+        <span class="n">ResourceMethod</span><span class="o">(</span><span class="n">ClassName</span> <span class="n">typeName</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">requiresResources</span><span class="o">,</span> <span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">typeName</span> <span class="o">=</span> <span class="n">typeName</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">requiresResources</span> <span class="o">=</span> <span class="n">requiresResources</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">sdk</span> <span class="o">=</span> <span class="n">sdk</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">ResourceMethod</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">sdk</span><span class="o">,</span> <span class="n">other</span><span class="o">.</span><span class="na">sdk</span><span class="o">);</span><span class="c1">//按照sdk排序
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//构造函数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Id</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Type</span> <span class="n">type</span><span class="o">;</span>
+
+    <span class="n">FieldResourceBinding</span><span class="o">(</span><span class="n">Id</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Type</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">type</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Id</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">requiresResources</span><span class="o">(</span><span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">type</span><span class="o">.</span><span class="na">methodForSdk</span><span class="o">(</span><span class="n">sdk</span><span class="o">).</span><span class="na">requiresResources</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">CodeBlock</span> <span class="nf">render</span><span class="o">(</span><span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ResourceMethod</span> <span class="n">method</span> <span class="o">=</span> <span class="n">type</span><span class="o">.</span><span class="na">methodForSdk</span><span class="o">(</span><span class="n">sdk</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">typeName</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">requiresResources</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">CodeBlock</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;target.$L = res.$L($L)&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">name</span><span class="o">,</span> <span class="n">id</span><span class="o">.</span><span class="na">code</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">CodeBlock</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;target.$L = context.$L($L)&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">name</span><span class="o">,</span> <span class="n">id</span><span class="o">.</span><span class="na">code</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">requiresResources</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">CodeBlock</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;target.$L = $T.$L(res, $L)&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">typeName</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">name</span><span class="o">,</span>
+                    <span class="n">id</span><span class="o">.</span><span class="na">code</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">CodeBlock</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;target.$L = $T.$L(context, $L)&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">typeName</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">name</span><span class="o">,</span>
+                <span class="n">id</span><span class="o">.</span><span class="na">code</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="解析注解">解析注解</h4>
+<p>知道各个类的作用之后，下一步工作就是了解如何解析这些标注了注解的字段和方法的信息，并封装成类。
+ButterKnife解析这些信息的类为<code>ButterKnifeProcessor</code>，解析的工作由<code>findAndParseTargets</code>方法完成。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">&gt;</span> <span class="nf">findAndParseTargets</span><span class="o">(</span><span class="n">RoundEnvironment</span> <span class="n">env</span><span class="o">)</span> <span class="o">{</span>   <span class="c1">//使用Map存储BindingSet.Builder避免同一个类重复创建BindingSet.Builder
+</span><span class="c1"></span>    <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="n">builderMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashMap</span><span class="o">&lt;&gt;();</span><span class="c1">//
+</span><span class="c1"></span>    <span class="n">Set</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">erasedTargetNames</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashSet</span><span class="o">&lt;&gt;();</span><span class="c1">//
+</span><span class="c1"></span>    <span class="n">scanForRClasses</span><span class="o">(</span><span class="n">env</span><span class="o">);</span>
+    <span class="c1">// Process each @BindArray element.
+</span><span class="c1"></span>    <span class="c1">//获取注解@BindArray的Element
+</span><span class="c1"></span>    <span class="k">for</span> <span class="o">(</span><span class="n">Element</span> <span class="n">element</span> <span class="o">:</span> <span class="n">env</span><span class="o">.</span><span class="na">getElementsAnnotatedWith</span><span class="o">(</span><span class="n">BindArray</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(!</span><span class="n">SuperficialValidation</span><span class="o">.</span><span class="na">validateElement</span><span class="o">(</span><span class="n">element</span><span class="o">))</span> <span class="k">continue</span><span class="o">;</span>
+      <span class="k">try</span> <span class="o">{</span>
+        <span class="n">parseResourceArray</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="n">builderMap</span><span class="o">,</span> <span class="n">erasedTargetNames</span><span class="o">);</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">logParsingError</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="n">BindArray</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>findAndParseTargets</code>获取不同注解对应的Element，然后调用对应的parse方法来解析。</p>
+<h5 id="解析bindview">解析@BindView</h5>
+<p><code>parseBindView</code>解析<code>@BindView</code>注解的Element。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">parseBindView</span><span class="o">(</span><span class="n">Element</span> <span class="n">element</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="n">builderMap</span><span class="o">,</span>
+  <span class="n">Set</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">erasedTargetNames</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//验证注解是否使用正确
+</span><span class="c1"></span>    <span class="kt">boolean</span> <span class="n">hasError</span> <span class="o">=</span> <span class="n">isInaccessibleViaGeneratedCode</span><span class="o">(</span><span class="n">BindView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;fields&#34;</span><span class="o">,</span> <span class="n">element</span><span class="o">)</span>
+        <span class="o">||</span> <span class="n">isBindingInWrongPackage</span><span class="o">(</span><span class="n">BindView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+
+    <span class="n">TypeMirror</span> <span class="n">elementType</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">asType</span><span class="o">();</span>
+    <span class="n">TypeElement</span> <span class="n">enclosingElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeElement</span><span class="o">)</span> <span class="n">element</span><span class="o">.</span><span class="na">getEnclosingElement</span><span class="o">();</span>
+    <span class="c1">//例如当@BindView T view; 这时候就是一个TypeKind.TYPEVAR类型
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">elementType</span><span class="o">.</span><span class="na">getKind</span><span class="o">()</span> <span class="o">==</span> <span class="n">TypeKind</span><span class="o">.</span><span class="na">TYPEVAR</span><span class="o">)</span> <span class="o">{</span><span class="c1">//泛型类型
+</span><span class="c1"></span>      <span class="n">TypeVariable</span> <span class="n">typeVariable</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeVariable</span><span class="o">)</span> <span class="n">elementType</span><span class="o">;</span>
+      <span class="n">elementType</span> <span class="o">=</span> <span class="n">typeVariable</span><span class="o">.</span><span class="na">getUpperBound</span><span class="o">();</span><span class="c1">//获取上边界
+</span><span class="c1"></span>    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">isSubtypeOfType</span><span class="o">(</span><span class="n">elementType</span><span class="o">,</span> <span class="n">VIEW_TYPE</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isInterface</span><span class="o">(</span><span class="n">elementType</span><span class="o">))</span> <span class="o">{</span><span class="c1">//判断field的类型
+</span><span class="c1"></span>      <span class="k">if</span> <span class="o">(</span><span class="n">elementType</span><span class="o">.</span><span class="na">getKind</span><span class="o">()</span> <span class="o">==</span> <span class="n">TypeKind</span><span class="o">.</span><span class="na">ERROR</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">note</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s field with unresolved type (%s) &#34;</span>
+                <span class="o">+</span> <span class="s">&#34;must elsewhere be generated as a View or interface. (%s.%s)&#34;</span><span class="o">,</span>
+            <span class="n">BindView</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">elementType</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+            <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s fields must extend from View or be an interface. (%s.%s)&#34;</span><span class="o">,</span>
+            <span class="n">BindView</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+            <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+        <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasError</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">BindView</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">value</span><span class="o">();</span><span class="c1">//获取id
+</span><span class="c1"></span>    <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">builderMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">);</span><span class="c1">//创建  BindingSet.Builder
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">builder</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">ViewBindings</span> <span class="n">viewBindings</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">getViewBinding</span><span class="o">(</span><span class="n">getId</span><span class="o">(</span><span class="n">id</span><span class="o">));</span>
+      <span class="c1">//当FieldBinding已经存在说明已经绑定过了。重复绑定将抛异常
+</span><span class="c1"></span>      <span class="k">if</span> <span class="o">(</span><span class="n">viewBindings</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">viewBindings</span><span class="o">.</span><span class="na">getFieldBinding</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">FieldViewBinding</span> <span class="n">existingBinding</span> <span class="o">=</span> <span class="n">viewBindings</span><span class="o">.</span><span class="na">getFieldBinding</span><span class="o">();</span>
+
+        <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;Attempt to use @%s for an already bound ID %d on &#39;%s&#39;. (%s.%s)&#34;</span><span class="o">,</span>
+            <span class="n">BindView</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">id</span><span class="o">,</span> <span class="n">existingBinding</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span>
+            <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+        <span class="k">return</span><span class="o">;</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="n">builder</span> <span class="o">=</span> <span class="n">getOrCreateBindingBuilder</span><span class="o">(</span><span class="n">builderMap</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span><span class="c1">//获取FieldName
+</span><span class="c1"></span>    <span class="n">TypeName</span> <span class="n">type</span> <span class="o">=</span> <span class="n">TypeName</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">elementType</span><span class="o">);</span><span class="c1">//获取Field的Type
+</span><span class="c1"></span>    <span class="kt">boolean</span> <span class="n">required</span> <span class="o">=</span> <span class="n">isFieldRequired</span><span class="o">(</span><span class="n">element</span><span class="o">);</span><span class="c1">//是否必须
+</span><span class="c1"></span>    <span class="n">builder</span><span class="o">.</span><span class="na">addField</span><span class="o">(</span><span class="n">getId</span><span class="o">(</span><span class="n">id</span><span class="o">),</span> <span class="k">new</span> <span class="n">FieldViewBinding</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">type</span><span class="o">,</span> <span class="n">required</span><span class="o">));</span>
+    <span class="c1">// Add the type-erased version to the valid binding targets set.
+</span><span class="c1"></span>    <span class="n">erasedTargetNames</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">);</span>
+<span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>isInaccessibleViaGeneratedCode</code>方法用于通过修饰符来判断字段是否能够被生成的代码访问。由于ButterKnife的原理是通过辅助类来完成findViewById的操作，所以必须引用原来的的字段，因此不能设置为private</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">target</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="na">findRequiredViewAsType</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">title</span><span class="o">,</span> <span class="s">&#34;field &#39;title&#39;&#34;</span><span class="o">,</span> <span class="n">TextView</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>isInaccessibleViaGeneratedCode方法的源码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isInaccessibleViaGeneratedCode</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Annotation</span><span class="o">&gt;</span> <span class="n">annotationClass</span><span class="o">,</span>
+  <span class="n">String</span> <span class="n">targetThing</span><span class="o">,</span> <span class="n">Element</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">hasError</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="n">TypeElement</span> <span class="n">enclosingElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeElement</span><span class="o">)</span> <span class="n">element</span><span class="o">.</span><span class="na">getEnclosingElement</span><span class="o">();</span>
+    <span class="c1">// Verify method modifiers.
+</span><span class="c1"></span>    <span class="n">Set</span><span class="o">&lt;</span><span class="n">Modifier</span><span class="o">&gt;</span> <span class="n">modifiers</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">modifiers</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">PRIVATE</span><span class="o">)</span> <span class="o">||</span> <span class="n">modifiers</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">STATIC</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s %s must not be private or static. (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">targetThing</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+          <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// Verify containing type.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">enclosingElement</span><span class="o">.</span><span class="na">getKind</span><span class="o">()</span> <span class="o">!=</span> <span class="n">CLASS</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">,</span> <span class="s">&#34;@%s %s may only be contained in classes. (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">targetThing</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+          <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// Verify containing class visibility is not private.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">enclosingElement</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="n">PRIVATE</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">,</span> <span class="s">&#34;@%s %s may not be contained in private classes. (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">targetThing</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+          <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">hasError</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="解析方法注解">解析方法注解</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Annotation</span><span class="o">&gt;</span> <span class="n">listener</span> <span class="o">:</span> <span class="n">LISTENERS</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">findAndParseListener</span><span class="o">(</span><span class="n">env</span><span class="o">,</span> <span class="n">listener</span><span class="o">,</span> <span class="n">builderMap</span><span class="o">,</span> <span class="n">erasedTargetNames</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">findAndParseListener</span><span class="o">(</span><span class="n">RoundEnvironment</span> <span class="n">env</span><span class="o">,</span>
+      <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Annotation</span><span class="o">&gt;</span> <span class="n">annotationClass</span><span class="o">,</span>
+      <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="n">builderMap</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">erasedTargetNames</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">Element</span> <span class="n">element</span> <span class="o">:</span> <span class="n">env</span><span class="o">.</span><span class="na">getElementsAnnotatedWith</span><span class="o">(</span><span class="n">annotationClass</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(!</span><span class="n">SuperficialValidation</span><span class="o">.</span><span class="na">validateElement</span><span class="o">(</span><span class="n">element</span><span class="o">))</span> <span class="k">continue</span><span class="o">;</span>
+      <span class="k">try</span> <span class="o">{</span>
+        <span class="n">parseListenerAnnotation</span><span class="o">(</span><span class="n">annotationClass</span><span class="o">,</span> <span class="n">element</span><span class="o">,</span> <span class="n">builderMap</span><span class="o">,</span> <span class="n">erasedTargetNames</span><span class="o">);</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StringWriter</span> <span class="n">stackTrace</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringWriter</span><span class="o">();</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">(</span><span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">stackTrace</span><span class="o">));</span>
+
+        <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;Unable to generate view binder for @%s.\n\n%s&#34;</span><span class="o">,</span>
+            <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">stackTrace</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">parseListenerAnnotation</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Annotation</span><span class="o">&gt;</span> <span class="n">annotationClass</span><span class="o">,</span> <span class="n">Element</span> <span class="n">element</span><span class="o">,</span>
+      <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="n">builderMap</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">erasedTargetNames</span><span class="o">)</span>
+      <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="c1">// This should be guarded by the annotation&#39;s @Target but it&#39;s worth a check for safe casting.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(!(</span><span class="n">element</span> <span class="k">instanceof</span> <span class="n">ExecutableElement</span><span class="o">)</span> <span class="o">||</span> <span class="n">element</span><span class="o">.</span><span class="na">getKind</span><span class="o">()</span> <span class="o">!=</span> <span class="n">METHOD</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+          <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;@%s annotation must be on a method.&#34;</span><span class="o">,</span> <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">()));</span>
+    <span class="o">}</span>
+
+    <span class="n">ExecutableElement</span> <span class="n">executableElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">ExecutableElement</span><span class="o">)</span> <span class="n">element</span><span class="o">;</span>
+    <span class="n">TypeElement</span> <span class="n">enclosingElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeElement</span><span class="o">)</span> <span class="n">element</span><span class="o">.</span><span class="na">getEnclosingElement</span><span class="o">();</span>
+    <span class="c1">// Assemble information on the method.
+</span><span class="c1"></span>    <span class="n">Annotation</span> <span class="n">annotation</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">annotationClass</span><span class="o">);</span>
+    <span class="n">Method</span> <span class="n">annotationValue</span> <span class="o">=</span> <span class="n">annotationClass</span><span class="o">.</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">&#34;value&#34;</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">annotationValue</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">()</span> <span class="o">!=</span> <span class="kt">int</span><span class="o">[].</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+          <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;@%s annotation value() type not int[].&#34;</span><span class="o">,</span> <span class="n">annotationClass</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">ids</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">[])</span> <span class="n">annotationValue</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">annotation</span><span class="o">);</span><span class="c1">//通过反射获取值
+</span><span class="c1"></span>    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">executableElement</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span><span class="c1">//方法名
+</span><span class="c1"></span>    <span class="kt">boolean</span> <span class="n">required</span> <span class="o">=</span> <span class="n">isListenerRequired</span><span class="o">(</span><span class="n">executableElement</span><span class="o">);</span>
+    <span class="c1">// Verify that the method and its containing class are accessible via generated code.
+</span><span class="c1"></span>    <span class="kt">boolean</span> <span class="n">hasError</span> <span class="o">=</span> <span class="n">isInaccessibleViaGeneratedCode</span><span class="o">(</span><span class="n">annotationClass</span><span class="o">,</span> <span class="s">&#34;methods&#34;</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+    <span class="n">hasError</span> <span class="o">|=</span> <span class="n">isBindingInWrongPackage</span><span class="o">(</span><span class="n">annotationClass</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+    <span class="c1">//发现重复的id
+</span><span class="c1"></span>    <span class="n">Integer</span> <span class="n">duplicateId</span> <span class="o">=</span> <span class="n">findDuplicate</span><span class="o">(</span><span class="n">ids</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">duplicateId</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s annotation for method contains duplicate ID %d. (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">duplicateId</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+          <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">ListenerClass</span> <span class="n">listener</span> <span class="o">=</span> <span class="n">annotationClass</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">ListenerClass</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">listener</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+          <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;No @%s defined on @%s.&#34;</span><span class="o">,</span> <span class="n">ListenerClass</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span>
+              <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">()));</span>
+    <span class="o">}</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">id</span> <span class="o">:</span> <span class="n">ids</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">id</span> <span class="o">==</span> <span class="n">NO_ID</span><span class="o">.</span><span class="na">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ids</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(!</span><span class="n">required</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;ID-free binding must not be annotated with @Optional. (%s.%s)&#34;</span><span class="o">,</span>
+                <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+            <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+          <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s annotation contains invalid ID %d. (%s.%s)&#34;</span><span class="o">,</span>
+              <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">id</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+              <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+          <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">ListenerMethod</span> <span class="n">method</span><span class="o">;</span>
+    <span class="n">ListenerMethod</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="na">method</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">methods</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;Multiple listener methods specified on @%s.&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">()));</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">methods</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">listener</span><span class="o">.</span><span class="na">callbacks</span><span class="o">()</span> <span class="o">!=</span> <span class="n">ListenerClass</span><span class="o">.</span><span class="na">NONE</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+            <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;Both method() and callback() defined on @%s.&#34;</span><span class="o">,</span>
+                <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">()));</span>
+      <span class="o">}</span>
+      <span class="n">method</span> <span class="o">=</span> <span class="n">methods</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="n">Method</span> <span class="n">annotationCallback</span> <span class="o">=</span> <span class="n">annotationClass</span><span class="o">.</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">&#34;callback&#34;</span><span class="o">);</span>
+      <span class="n">Enum</span><span class="o">&lt;?&gt;</span> <span class="n">callback</span> <span class="o">=</span> <span class="o">(</span><span class="n">Enum</span><span class="o">&lt;?&gt;)</span> <span class="n">annotationCallback</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">annotation</span><span class="o">);</span>
+      <span class="n">Field</span> <span class="n">callbackField</span> <span class="o">=</span> <span class="n">callback</span><span class="o">.</span><span class="na">getDeclaringClass</span><span class="o">().</span><span class="na">getField</span><span class="o">(</span><span class="n">callback</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
+      <span class="n">method</span> <span class="o">=</span> <span class="n">callbackField</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">ListenerMethod</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">method</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+            <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;No @%s defined on @%s&#39;s %s.%s.&#34;</span><span class="o">,</span> <span class="n">ListenerMethod</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span>
+                <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">callback</span><span class="o">.</span><span class="na">getDeclaringClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">(),</span>
+                <span class="n">callback</span><span class="o">.</span><span class="na">name</span><span class="o">()));</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Verify that the method has equal to or less than the number of parameters as the listener.
+</span><span class="c1"></span>    <span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">VariableElement</span><span class="o">&gt;</span> <span class="n">methodParameters</span> <span class="o">=</span> <span class="n">executableElement</span><span class="o">.</span><span class="na">getParameters</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">methodParameters</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">().</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s methods can have at most %s parameter(s). (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">().</span><span class="na">length</span><span class="o">,</span>
+          <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// Verify method return type matches the listener.
+</span><span class="c1"></span>    <span class="n">TypeMirror</span> <span class="n">returnType</span> <span class="o">=</span> <span class="n">executableElement</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">returnType</span> <span class="k">instanceof</span> <span class="n">TypeVariable</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">TypeVariable</span> <span class="n">typeVariable</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeVariable</span><span class="o">)</span> <span class="n">returnType</span><span class="o">;</span>
+      <span class="n">returnType</span> <span class="o">=</span> <span class="n">typeVariable</span><span class="o">.</span><span class="na">getUpperBound</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">returnType</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">returnType</span><span class="o">()))</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s methods must have a &#39;%s&#39; return type. (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">method</span><span class="o">.</span><span class="na">returnType</span><span class="o">(),</span>
+          <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasError</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">Parameter</span><span class="o">[]</span> <span class="n">parameters</span> <span class="o">=</span> <span class="n">Parameter</span><span class="o">.</span><span class="na">NONE</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">methodParameters</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">parameters</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Parameter</span><span class="o">[</span><span class="n">methodParameters</span><span class="o">.</span><span class="na">size</span><span class="o">()];</span>
+      <span class="n">BitSet</span> <span class="n">methodParameterUsed</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BitSet</span><span class="o">(</span><span class="n">methodParameters</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+      <span class="n">String</span><span class="o">[]</span> <span class="n">parameterTypes</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">();</span>
+      <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">methodParameters</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">VariableElement</span> <span class="n">methodParameter</span> <span class="o">=</span> <span class="n">methodParameters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="n">TypeMirror</span> <span class="n">methodParameterType</span> <span class="o">=</span> <span class="n">methodParameter</span><span class="o">.</span><span class="na">asType</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">methodParameterType</span> <span class="k">instanceof</span> <span class="n">TypeVariable</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">TypeVariable</span> <span class="n">typeVariable</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeVariable</span><span class="o">)</span> <span class="n">methodParameterType</span><span class="o">;</span>
+          <span class="n">methodParameterType</span> <span class="o">=</span> <span class="n">typeVariable</span><span class="o">.</span><span class="na">getUpperBound</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">parameterTypes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">methodParameterUsed</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">continue</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">isSubtypeOfType</span><span class="o">(</span><span class="n">methodParameterType</span><span class="o">,</span> <span class="n">parameterTypes</span><span class="o">[</span><span class="n">j</span><span class="o">])</span>
+              <span class="o">||</span> <span class="n">isInterface</span><span class="o">(</span><span class="n">methodParameterType</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">parameters</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Parameter</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="n">TypeName</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">methodParameterType</span><span class="o">));</span>
+            <span class="n">methodParameterUsed</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+            <span class="k">break</span><span class="o">;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">parameters</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+          <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;Unable to match @&#34;</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">annotationClass</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">())</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34; method arguments. (&#34;</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">())</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;.&#39;</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">())</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;)&#39;</span><span class="o">);</span>
+          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">parameters</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">Parameter</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;\n\n  Parameter #&#34;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;: &#34;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">methodParameters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">).</span><span class="na">asType</span><span class="o">().</span><span class="na">toString</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;\n    &#34;</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+              <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;did not match any listener parameters&#34;</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+              <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;matched listener parameter #&#34;</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">getListenerPosition</span><span class="o">()</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;: &#34;</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">getType</span><span class="o">());</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+          <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;\n\nMethods may have up to &#34;</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">().</span><span class="na">length</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34; parameter(s):\n&#34;</span><span class="o">);</span>
+          <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">parameterType</span> <span class="o">:</span> <span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;\n  &#34;</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">parameterType</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span>
+              <span class="s">&#34;\n\nThese may be listed in any order but will be searched for from top to bottom.&#34;</span><span class="o">);</span>
+          <span class="n">error</span><span class="o">(</span><span class="n">executableElement</span><span class="o">,</span> <span class="n">builder</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+          <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">MethodViewBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MethodViewBinding</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">parameters</span><span class="o">),</span> <span class="n">required</span><span class="o">);</span>
+    <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">getOrCreateBindingBuilder</span><span class="o">(</span><span class="n">builderMap</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">);</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">id</span> <span class="o">:</span> <span class="n">ids</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(!</span><span class="n">builder</span><span class="o">.</span><span class="na">addMethod</span><span class="o">(</span><span class="n">getId</span><span class="o">(</span><span class="n">id</span><span class="o">),</span> <span class="n">listener</span><span class="o">,</span> <span class="n">method</span><span class="o">,</span> <span class="n">binding</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;Multiple listener methods with return value specified for ID %d. (%s.%s)&#34;</span><span class="o">,</span>
+            <span class="n">id</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+        <span class="k">return</span><span class="o">;</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">// Add the type-erased version to the valid binding targets set.
+</span><span class="c1"></span>    <span class="n">erasedTargetNames</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="解析资源绑定">解析资源绑定</h5>
+<p>解析资源的代码基本都差不多。这里只给出parseResourceString的源码和注释。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">parseResourceString</span><span class="o">(</span><span class="n">Element</span> <span class="n">element</span><span class="o">,</span>
+      <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="n">builderMap</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">erasedTargetNames</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">hasError</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="n">TypeElement</span> <span class="n">enclosingElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeElement</span><span class="o">)</span> <span class="n">element</span><span class="o">.</span><span class="na">getEnclosingElement</span><span class="o">();</span>
+
+    <span class="c1">// Verify that the target type is String.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(!</span><span class="n">STRING_TYPE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">asType</span><span class="o">().</span><span class="na">toString</span><span class="o">()))</span> <span class="o">{</span>
+      <span class="n">error</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="s">&#34;@%s field type must be &#39;String&#39;. (%s.%s)&#34;</span><span class="o">,</span>
+          <span class="n">BindString</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">enclosingElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">(),</span>
+          <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">());</span>
+      <span class="n">hasError</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Verify common generated code restrictions.
+</span><span class="c1"></span>    <span class="n">hasError</span> <span class="o">|=</span> <span class="n">isInaccessibleViaGeneratedCode</span><span class="o">(</span><span class="n">BindString</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;fields&#34;</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+    <span class="n">hasError</span> <span class="o">|=</span> <span class="n">isBindingInWrongPackage</span><span class="o">(</span><span class="n">BindString</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasError</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Assemble information on the field.
+</span><span class="c1"></span>    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">BindString</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">value</span><span class="o">();</span>
+
+    <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">getOrCreateBindingBuilder</span><span class="o">(</span><span class="n">builderMap</span><span class="o">,</span> <span class="n">enclosingElement</span><span class="o">);</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span>
+        <span class="k">new</span> <span class="n">FieldResourceBinding</span><span class="o">(</span><span class="n">getId</span><span class="o">(</span><span class="n">id</span><span class="o">),</span> <span class="n">name</span><span class="o">,</span> <span class="n">FieldResourceBinding</span><span class="o">.</span><span class="na">Type</span><span class="o">.</span><span class="na">STRING</span><span class="o">));</span>
+
+    <span class="n">erasedTargetNames</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">enclosingElement</span><span class="o">);</span>
+  <span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="设置parentbinding">设置parentBinding</h5>
+<p>在findAndParseTargets最后几行代码的作用是为解析出来的BindingSet.Builder设置parentBinding</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="n">Deque</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;&gt;</span> <span class="n">entries</span> <span class="o">=</span>
+        <span class="k">new</span> <span class="n">ArrayDeque</span><span class="o">&lt;&gt;(</span><span class="n">builderMap</span><span class="o">.</span><span class="na">entrySet</span><span class="o">());</span>
+    <span class="n">Map</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">&gt;</span> <span class="n">bindingMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="k">while</span> <span class="o">(!</span><span class="n">entries</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">TypeElement</span><span class="o">,</span> <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="na">removeFirst</span><span class="o">();</span>
+      <span class="n">TypeElement</span> <span class="n">type</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+      <span class="n">BindingSet</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+      <span class="n">TypeElement</span> <span class="n">parentType</span> <span class="o">=</span> <span class="n">findParentType</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">erasedTargetNames</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">parentType</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span><span class="c1">//没有parentBinding，不是某各类的子类
+</span><span class="c1"></span>        <span class="n">bindingMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">BindingSet</span> <span class="n">parentBinding</span> <span class="o">=</span> <span class="n">bindingMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">parentType</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">parentBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">builder</span><span class="o">.</span><span class="na">setParent</span><span class="o">(</span><span class="n">parentBinding</span><span class="o">);</span>
+          <span class="n">bindingMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="c1">// Has a superclass binding but we haven&#39;t built it yet. Re-enqueue for later.
+</span><span class="c1"></span>          <span class="n">entries</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="n">entry</span><span class="o">);</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="生成代码">生成代码</h4>
+<p>生成代码主要由BindingSet的brewJava方法完成。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">   <span class="n">JavaFile</span> <span class="nf">brewJava</span><span class="o">(</span><span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">JavaFile</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="n">bindingClassName</span><span class="o">.</span><span class="na">packageName</span><span class="o">(),</span> <span class="n">createType</span><span class="o">(</span><span class="n">sdk</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">addFileComment</span><span class="o">(</span><span class="s">&#34;Generated code from Butter Knife. Do not modify!&#34;</span><span class="o">)</span><span class="c1">//添加注释
+</span><span class="c1"></span>                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">TypeSpec</span> <span class="nf">createType</span><span class="o">(</span><span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">TypeSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">result</span> <span class="o">=</span> <span class="n">TypeSpec</span><span class="o">.</span><span class="na">classBuilder</span><span class="o">(</span><span class="n">bindingClassName</span><span class="o">.</span><span class="na">simpleName</span><span class="o">())</span><span class="c1">//类名
+</span><span class="c1"></span>                <span class="o">.</span><span class="na">addModifiers</span><span class="o">(</span><span class="n">PUBLIC</span><span class="o">);</span><span class="c1">//修饰符
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">isFinal</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addModifiers</span><span class="o">(</span><span class="n">FINAL</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">parentBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">superclass</span><span class="o">(</span><span class="n">parentBinding</span><span class="o">.</span><span class="na">bindingClassName</span><span class="o">);</span><span class="c1">//添加父类
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addSuperinterface</span><span class="o">(</span><span class="n">UNBINDER</span><span class="o">);</span><span class="c1">//添加接口UnBinder
+</span><span class="c1"></span>        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">hasTargetField</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addField</span><span class="o">(</span><span class="n">targetTypeName</span><span class="o">,</span> <span class="s">&#34;target&#34;</span><span class="o">,</span> <span class="n">PRIVATE</span><span class="o">);</span><span class="c1">//添加字段target
+</span><span class="c1"></span>        <span class="o">}</span>
+        <span class="c1">//
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(!</span><span class="n">constructorNeedsView</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">// Add a delegating constructor with a target type + view signature for reflective use.
+</span><span class="c1"></span>            <span class="n">result</span><span class="o">.</span><span class="na">addMethod</span><span class="o">(</span><span class="n">createBindingViewDelegateConstructor</span><span class="o">(</span><span class="n">targetTypeName</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">addMethod</span><span class="o">(</span><span class="n">createBindingConstructor</span><span class="o">(</span><span class="n">targetTypeName</span><span class="o">,</span> <span class="n">sdk</span><span class="o">));</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">hasViewBindings</span><span class="o">()</span> <span class="o">||</span> <span class="n">parentBinding</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addMethod</span><span class="o">(</span><span class="n">createBindingUnbindMethod</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">targetTypeName</span><span class="o">));</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>createBindingConstructor创建构造函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">MethodSpec</span> <span class="nf">createBindingConstructor</span><span class="o">(</span><span class="n">TypeName</span> <span class="n">targetType</span><span class="o">,</span> <span class="kt">int</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">MethodSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">constructor</span> <span class="o">=</span> <span class="n">MethodSpec</span><span class="o">.</span><span class="na">constructorBuilder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">addAnnotation</span><span class="o">(</span><span class="n">UI_THREAD</span><span class="o">)</span><span class="c1">//添加注解
+</span><span class="c1"></span>            <span class="o">.</span><span class="na">addModifiers</span><span class="o">(</span><span class="n">PUBLIC</span><span class="o">);</span><span class="c1">//添加修饰符
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">hasMethodBindings</span><span class="o">())</span> <span class="o">{</span><span class="c1">//如果没有MethodBinding就不用声明成final类型
+</span><span class="c1"></span>        <span class="n">constructor</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="n">targetType</span><span class="o">,</span> <span class="s">&#34;target&#34;</span><span class="o">,</span> <span class="n">FINAL</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">constructor</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="n">targetType</span><span class="o">,</span> <span class="s">&#34;target&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">constructorNeedsView</span><span class="o">())</span> <span class="o">{</span><span class="c1">//当构造函数需要View
+</span><span class="c1"></span>        <span class="n">constructor</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="n">VIEW</span><span class="o">,</span> <span class="s">&#34;source&#34;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">constructor</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="n">CONTEXT</span><span class="o">,</span> <span class="s">&#34;context&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasUnqualifiedResourceBindings</span><span class="o">())</span> <span class="o">{</span><span class="c1">//添加SuppressWarnings注解
+</span><span class="c1"></span>        <span class="c1">// Aapt can change IDs out from underneath us, just suppress since all will work at runtime.
+</span><span class="c1"></span>        <span class="n">constructor</span><span class="o">.</span><span class="na">addAnnotation</span><span class="o">(</span><span class="n">AnnotationSpec</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="n">SuppressWarnings</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addMember</span><span class="o">(</span><span class="s">&#34;value&#34;</span><span class="o">,</span> <span class="s">&#34;$S&#34;</span><span class="o">,</span> <span class="s">&#34;ResourceType&#34;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">parentBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span><span class="c1">//添加父类构造方法的调用
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">parentBinding</span><span class="o">.</span><span class="na">constructorNeedsView</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;super(target, source)&#34;</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">constructorNeedsView</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;super(target, source.getContext())&#34;</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;super(target, context)&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">constructor</span><span class="o">.</span><span class="na">addCode</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasTargetField</span><span class="o">())</span> <span class="o">{</span><span class="c1">//
+</span><span class="c1"></span>        <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;this.target = target&#34;</span><span class="o">);</span>
+        <span class="n">constructor</span><span class="o">.</span><span class="na">addCode</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasViewBindings</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hasViewLocal</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">// Local variable in which all views will be temporarily stored.
+</span><span class="c1"></span>            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$T view&#34;</span><span class="o">,</span> <span class="n">VIEW</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">ViewBindings</span> <span class="n">bindings</span> <span class="o">:</span> <span class="n">viewBindings</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">addViewBindings</span><span class="o">(</span><span class="n">constructor</span><span class="o">,</span> <span class="n">bindings</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">FieldCollectionViewBinding</span> <span class="n">binding</span> <span class="o">:</span> <span class="n">collectionBindings</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$L&#34;</span><span class="o">,</span> <span class="n">binding</span><span class="o">.</span><span class="na">render</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">resourceBindings</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addCode</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">//
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(!</span><span class="n">resourceBindings</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">constructorNeedsView</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$T context = source.getContext()&#34;</span><span class="o">,</span> <span class="n">CONTEXT</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hasResourceBindingsNeedingResource</span><span class="o">(</span><span class="n">sdk</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$T res = context.getResources()&#34;</span><span class="o">,</span> <span class="n">RESOURCES</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">ResourceBinding</span> <span class="n">binding</span> <span class="o">:</span> <span class="n">resourceBindings</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">constructor</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$L&#34;</span><span class="o">,</span> <span class="n">binding</span><span class="o">.</span><span class="na">render</span><span class="o">(</span><span class="n">sdk</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">constructor</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>addViewBindings用于添加ViewBindings对象所对应的表达式。当只有FieldViewBinding时直接生成代码 <code>target.title = Utils.findRequiredViewAsType(source, R.id.title, &quot;field 'title'&quot;, TextView.class);</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">addViewBindings</span><span class="o">(</span><span class="n">MethodSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">result</span><span class="o">,</span> <span class="n">ViewBindings</span> <span class="n">bindings</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">bindings</span><span class="o">.</span><span class="na">isSingleFieldBinding</span><span class="o">())</span> <span class="o">{</span><span class="c1">//如果只有FieldBinding
+</span><span class="c1"></span>        <span class="c1">// Optimize the common case where there&#39;s a single binding directly to a field.
+</span><span class="c1"></span>        <span class="n">FieldViewBinding</span> <span class="n">fieldBinding</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getFieldBinding</span><span class="o">();</span>
+        <span class="n">CodeBlock</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">CodeBlock</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;target.$L = &#34;</span><span class="o">,</span> <span class="n">fieldBinding</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="c1">//当type是View类型不需要强制转换
+</span><span class="c1"></span>        <span class="kt">boolean</span> <span class="n">requiresCast</span> <span class="o">=</span> <span class="n">requiresCast</span><span class="o">(</span><span class="n">fieldBinding</span><span class="o">.</span><span class="na">getType</span><span class="o">());</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">requiresCast</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">fieldBinding</span><span class="o">.</span><span class="na">isRequired</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;source.findViewById($L)&#34;</span><span class="o">,</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">code</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;$T.find&#34;</span><span class="o">,</span> <span class="n">UTILS</span><span class="o">);</span><span class="c1">//Utils.findRequiredViewAsType(source,12345,
+</span><span class="c1"></span>            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">fieldBinding</span><span class="o">.</span><span class="na">isRequired</span><span class="o">()</span> <span class="o">?</span> <span class="s">&#34;RequiredView&#34;</span> <span class="o">:</span> <span class="s">&#34;OptionalView&#34;</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">requiresCast</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;AsType&#34;</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;(source, $L&#34;</span><span class="o">,</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">code</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">fieldBinding</span><span class="o">.</span><span class="na">isRequired</span><span class="o">()</span> <span class="o">||</span> <span class="n">requiresCast</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;, $S&#34;</span><span class="o">,</span> <span class="n">asHumanDescription</span><span class="o">(</span><span class="n">singletonList</span><span class="o">(</span><span class="n">fieldBinding</span><span class="o">)));</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">requiresCast</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;, $T.class&#34;</span><span class="o">,</span> <span class="n">fieldBinding</span><span class="o">.</span><span class="na">getRawType</span><span class="o">());</span>
+            <span class="o">}</span>
+            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;)&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$L&#34;</span><span class="o">,</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="c1">//如同时存在FieldViewBinding和MethodViewBinding
+</span><span class="c1"></span>  <span class="c1">//先生成    view = Utils.findRequiredView(source, R.id.hello, &#34;field &#39;hello&#39;, method &#39;sayHello&#39;, method &#39;sayHello2&#39;, and method &#39;sayGetOffMe&#39;&#34;);
+</span><span class="c1">//调用addFieldBindings方法生成    target.hello = Utils.castView(view, R.id.hello, &#34;field &#39;hello&#39;&#34;, Button.class);
+</span><span class="c1"></span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">ViewBinding</span><span class="o">&gt;</span> <span class="n">requiredViewBindings</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getRequiredBindings</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">requiredViewBindings</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;view = source.findViewById($L)&#34;</span><span class="o">,</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">code</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(!</span><span class="n">bindings</span><span class="o">.</span><span class="na">isBoundToRoot</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;view = $T.findRequiredView(source, $L, $S)&#34;</span><span class="o">,</span> <span class="n">UTILS</span><span class="o">,</span>
+                <span class="n">bindings</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">code</span><span class="o">,</span> <span class="n">asHumanDescription</span><span class="o">(</span><span class="n">requiredViewBindings</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="n">addFieldBindings</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">bindings</span><span class="o">);</span>
+    <span class="n">addMethodBindings</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">bindings</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">addFieldBindings</span><span class="o">(</span><span class="n">MethodSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">result</span><span class="o">,</span> <span class="n">ViewBindings</span> <span class="n">bindings</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">FieldViewBinding</span> <span class="n">fieldBinding</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getFieldBinding</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">fieldBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">requiresCast</span><span class="o">(</span><span class="n">fieldBinding</span><span class="o">.</span><span class="na">getType</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;target.$L = $T.castView(view, $L, $S, $T.class)&#34;</span><span class="o">,</span>
+                    <span class="n">fieldBinding</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">UTILS</span><span class="o">,</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">code</span><span class="o">,</span>
+                    <span class="n">asHumanDescription</span><span class="o">(</span><span class="n">singletonList</span><span class="o">(</span><span class="n">fieldBinding</span><span class="o">)),</span> <span class="n">fieldBinding</span><span class="o">.</span><span class="na">getRawType</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;target.$L = view&#34;</span><span class="o">,</span> <span class="n">fieldBinding</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">addMethodBindings</span><span class="o">(</span><span class="n">MethodSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">result</span><span class="o">,</span> <span class="n">ViewBindings</span> <span class="n">bindings</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Map</span><span class="o">&lt;</span><span class="n">ListenerClass</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">ListenerMethod</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">MethodViewBinding</span><span class="o">&gt;&gt;&gt;</span> <span class="n">classMethodBindings</span> <span class="o">=</span>
+            <span class="n">bindings</span><span class="o">.</span><span class="na">getMethodBindings</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">classMethodBindings</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// We only need to emit the null check if there are zero required bindings.
+</span><span class="c1"></span>    <span class="kt">boolean</span> <span class="n">needsNullChecked</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getRequiredBindings</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">needsNullChecked</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">beginControlFlow</span><span class="o">(</span><span class="s">&#34;if (view != null)&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Add the view reference to the binding.
+</span><span class="c1"></span>    <span class="n">String</span> <span class="n">fieldName</span> <span class="o">=</span> <span class="s">&#34;viewSource&#34;</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">bindName</span> <span class="o">=</span> <span class="s">&#34;source&#34;</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">bindings</span><span class="o">.</span><span class="na">isBoundToRoot</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">fieldName</span> <span class="o">=</span> <span class="s">&#34;view&#34;</span> <span class="o">+</span> <span class="n">bindings</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">value</span><span class="o">;</span>
+        <span class="n">bindName</span> <span class="o">=</span> <span class="s">&#34;view&#34;</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$L = $N&#34;</span><span class="o">,</span> <span class="n">fieldName</span><span class="o">,</span> <span class="n">bindName</span><span class="o">);</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">ListenerClass</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">ListenerMethod</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">MethodViewBinding</span><span class="o">&gt;&gt;&gt;</span> <span class="n">e</span>
+            <span class="o">:</span> <span class="n">classMethodBindings</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">ListenerClass</span> <span class="n">listener</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">ListenerMethod</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">MethodViewBinding</span><span class="o">&gt;&gt;</span> <span class="n">methodBindings</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+
+        <span class="n">TypeSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">TypeSpec</span><span class="o">.</span><span class="na">anonymousClassBuilder</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">superclass</span><span class="o">(</span><span class="n">ClassName</span><span class="o">.</span><span class="na">bestGuess</span><span class="o">(</span><span class="n">listener</span><span class="o">.</span><span class="na">type</span><span class="o">()));</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">ListenerMethod</span> <span class="n">method</span> <span class="o">:</span> <span class="n">getListenerMethods</span><span class="o">(</span><span class="n">listener</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">MethodSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">callbackMethod</span> <span class="o">=</span> <span class="n">MethodSpec</span><span class="o">.</span><span class="na">methodBuilder</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">name</span><span class="o">())</span>
+                    <span class="o">.</span><span class="na">addAnnotation</span><span class="o">(</span><span class="n">Override</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">addModifiers</span><span class="o">(</span><span class="n">PUBLIC</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">returns</span><span class="o">(</span><span class="n">bestGuess</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">returnType</span><span class="o">()));</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">parameterTypes</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">parameterTypes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">callbackMethod</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="n">bestGuess</span><span class="o">(</span><span class="n">parameterTypes</span><span class="o">[</span><span class="n">i</span><span class="o">]),</span> <span class="s">&#34;p&#34;</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="kt">boolean</span> <span class="n">hasReturnType</span> <span class="o">=</span> <span class="o">!</span><span class="s">&#34;void&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">returnType</span><span class="o">());</span>
+            <span class="n">CodeBlock</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">CodeBlock</span><span class="o">.</span><span class="na">builder</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">hasReturnType</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;return &#34;</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">methodBindings</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="n">MethodViewBinding</span> <span class="n">binding</span> <span class="o">:</span> <span class="n">methodBindings</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;target.$L(&#34;</span><span class="o">,</span> <span class="n">binding</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+                    <span class="n">List</span><span class="o">&lt;</span><span class="n">Parameter</span><span class="o">&gt;</span> <span class="n">parameters</span> <span class="o">=</span> <span class="n">binding</span><span class="o">.</span><span class="na">getParameters</span><span class="o">();</span>
+                    <span class="n">String</span><span class="o">[]</span> <span class="n">listenerParameters</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">parameters</span><span class="o">();</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;, &#34;</span><span class="o">);</span>
+                        <span class="o">}</span>
+
+                        <span class="n">Parameter</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                        <span class="kt">int</span> <span class="n">listenerPosition</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="na">getListenerPosition</span><span class="o">();</span>
+
+                        <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">requiresCast</span><span class="o">(</span><span class="n">listenerParameters</span><span class="o">[</span><span class="n">listenerPosition</span><span class="o">]))</span> <span class="o">{</span>
+                            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;$T.&lt;$T&gt;castParam(p$L, $S, $L, $S, $L)&#34;</span><span class="o">,</span> <span class="n">UTILS</span><span class="o">,</span> <span class="n">parameter</span><span class="o">.</span><span class="na">getType</span><span class="o">(),</span>
+                                    <span class="n">listenerPosition</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">name</span><span class="o">(),</span> <span class="n">listenerPosition</span><span class="o">,</span> <span class="n">binding</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">i</span><span class="o">);</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;p$L&#34;</span><span class="o">,</span> <span class="n">listenerPosition</span><span class="o">);</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                    <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;);\n&#34;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">hasReturnType</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;$L;\n&#34;</span><span class="o">,</span> <span class="n">method</span><span class="o">.</span><span class="na">defaultReturn</span><span class="o">());</span>
+            <span class="o">}</span>
+            <span class="n">callbackMethod</span><span class="o">.</span><span class="na">addCode</span><span class="o">(</span><span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+            <span class="n">callback</span><span class="o">.</span><span class="na">addMethod</span><span class="o">(</span><span class="n">callbackMethod</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="kt">boolean</span> <span class="n">requiresRemoval</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="na">remover</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">!=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">listenerField</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">requiresRemoval</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">TypeName</span> <span class="n">listenerClassName</span> <span class="o">=</span> <span class="n">bestGuess</span><span class="o">(</span><span class="n">listener</span><span class="o">.</span><span class="na">type</span><span class="o">());</span>
+            <span class="n">listenerField</span> <span class="o">=</span> <span class="n">fieldName</span> <span class="o">+</span> <span class="o">((</span><span class="n">ClassName</span><span class="o">)</span> <span class="n">listenerClassName</span><span class="o">).</span><span class="na">simpleName</span><span class="o">();</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$L = $L&#34;</span><span class="o">,</span> <span class="n">listenerField</span><span class="o">,</span> <span class="n">callback</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="n">VIEW_TYPE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">listener</span><span class="o">.</span><span class="na">targetType</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;(($T) $N).$L($L)&#34;</span><span class="o">,</span> <span class="n">bestGuess</span><span class="o">(</span><span class="n">listener</span><span class="o">.</span><span class="na">targetType</span><span class="o">()),</span> <span class="n">bindName</span><span class="o">,</span>
+                    <span class="n">listener</span><span class="o">.</span><span class="na">setter</span><span class="o">(),</span> <span class="n">requiresRemoval</span> <span class="o">?</span> <span class="n">listenerField</span> <span class="o">:</span> <span class="n">callback</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">addStatement</span><span class="o">(</span><span class="s">&#34;$N.$L($L)&#34;</span><span class="o">,</span> <span class="n">bindName</span><span class="o">,</span> <span class="n">listener</span><span class="o">.</span><span class="na">setter</span><span class="o">(),</span>
+                    <span class="n">requiresRemoval</span> <span class="o">?</span> <span class="n">listenerField</span> <span class="o">:</span> <span class="n">callback</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">needsNullChecked</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">endControlFlow</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="调用辅助方法">调用辅助方法</h4>
+<p>我们在类中通过调用ButterKnife的bind方法来调用辅助类的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@NonNull</span> <span class="nd">@UiThread</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Unbinder</span> <span class="nf">bind</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">target</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">View</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">createBinding</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">source</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="n">Unbinder</span> <span class="nf">createBinding</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">target</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">View</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">targetClass</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">debug</span><span class="o">)</span> <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Looking up binding for &#34;</span> <span class="o">+</span> <span class="n">targetClass</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="n">Constructor</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Unbinder</span><span class="o">&gt;</span> <span class="n">constructor</span> <span class="o">=</span> <span class="n">findBindingConstructorForClass</span><span class="o">(</span><span class="n">targetClass</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">constructor</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">Unbinder</span><span class="o">.</span><span class="na">EMPTY</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="c1">//noinspection TryWithIdenticalCatches Resolves to API 19+ only type.
+</span><span class="c1"></span>    <span class="k">try</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">constructor</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">source</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalAccessException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Unable to invoke &#34;</span> <span class="o">+</span> <span class="n">constructor</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InstantiationException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Unable to invoke &#34;</span> <span class="o">+</span> <span class="n">constructor</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InvocationTargetException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Throwable</span> <span class="n">cause</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">getCause</span><span class="o">();</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">cause</span> <span class="k">instanceof</span> <span class="n">RuntimeException</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="o">(</span><span class="n">RuntimeException</span><span class="o">)</span> <span class="n">cause</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">cause</span> <span class="k">instanceof</span> <span class="n">Error</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="o">(</span><span class="n">Error</span><span class="o">)</span> <span class="n">cause</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Unable to create binding instance.&#34;</span><span class="o">,</span> <span class="n">cause</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+ <span class="nd">@Nullable</span> <span class="nd">@CheckResult</span> <span class="nd">@UiThread</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="n">Constructor</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Unbinder</span><span class="o">&gt;</span> <span class="nf">findBindingConstructorForClass</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">cls</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Constructor</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Unbinder</span><span class="o">&gt;</span> <span class="n">bindingCtor</span> <span class="o">=</span> <span class="n">BINDINGS</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">cls</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">bindingCtor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">debug</span><span class="o">)</span> <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;HIT: Cached in binding map.&#34;</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">bindingCtor</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">String</span> <span class="n">clsName</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">clsName</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;android.&#34;</span><span class="o">)</span> <span class="o">||</span> <span class="n">clsName</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;java.&#34;</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">debug</span><span class="o">)</span> <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;MISS: Reached framework class. Abandoning search.&#34;</span><span class="o">);</span>
+      <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+      <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">bindingClass</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">clsName</span> <span class="o">+</span> <span class="s">&#34;_ViewBinding&#34;</span><span class="o">);</span>
+      <span class="c1">//noinspection unchecked
+</span><span class="c1"></span>      <span class="n">bindingCtor</span> <span class="o">=</span> <span class="o">(</span><span class="n">Constructor</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Unbinder</span><span class="o">&gt;)</span> <span class="n">bindingClass</span><span class="o">.</span><span class="na">getConstructor</span><span class="o">(</span><span class="n">cls</span><span class="o">,</span> <span class="n">View</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">debug</span><span class="o">)</span> <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;HIT: Loaded binding class and constructor.&#34;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">debug</span><span class="o">)</span> <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Not found. Trying superclass &#34;</span> <span class="o">+</span> <span class="n">cls</span><span class="o">.</span><span class="na">getSuperclass</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+      <span class="n">bindingCtor</span> <span class="o">=</span> <span class="n">findBindingConstructorForClass</span><span class="o">(</span><span class="n">cls</span><span class="o">.</span><span class="na">getSuperclass</span><span class="o">());</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchMethodException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Unable to find binding constructor for &#34;</span> <span class="o">+</span> <span class="n">clsName</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">BINDINGS</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">cls</span><span class="o">,</span> <span class="n">bindingCtor</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">bindingCtor</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-12-02
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/workmanager-source-analysis/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">WorkManager源码分析</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/rxjava-source-analysis/">
+            <span class="next-text nav-default">RxJava源码分析</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

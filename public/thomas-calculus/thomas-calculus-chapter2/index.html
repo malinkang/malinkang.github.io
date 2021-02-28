@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>第2章 极限与连续性 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="2.2.2 极限法则 **定理1（极限法则）**若$L, M, c$和$k$是实数，并且 $$ \lim _{x \rightarrow c} f(x)=L, \lim _{x \rightarrow c} g(x)=M $$ 则有 （1）和法则 $$ \lim _{x \rightarrow c}(f(x)&#43;g(x))=L&#43;M $$ 两个函数之和的极限" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/thomas-calculus/thomas-calculus-chapter2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c12ac5d6e912b28ec1fcd71d47773cc8112a03296d4ff03660135b54f0923299.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="第2章 极限与连续性" />
+<meta property="og:description" content="2.2.2 极限法则 **定理1（极限法则）**若$L, M, c$和$k$是实数，并且 $$ \lim _{x \rightarrow c} f(x)=L, \lim _{x \rightarrow c} g(x)=M $$ 则有 （1）和法则 $$ \lim _{x \rightarrow c}(f(x)&#43;g(x))=L&#43;M $$ 两个函数之和的极限" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/thomas-calculus/thomas-calculus-chapter2/" />
+<meta property="article:published_time" content="2019-04-16T16:22:46+08:00" />
+<meta property="article:modified_time" content="2019-04-16T16:22:46+08:00" />
+<meta itemprop="name" content="第2章 极限与连续性">
+<meta itemprop="description" content="2.2.2 极限法则 **定理1（极限法则）**若$L, M, c$和$k$是实数，并且 $$ \lim _{x \rightarrow c} f(x)=L, \lim _{x \rightarrow c} g(x)=M $$ 则有 （1）和法则 $$ \lim _{x \rightarrow c}(f(x)&#43;g(x))=L&#43;M $$ 两个函数之和的极限">
+<meta itemprop="datePublished" content="2019-04-16T16:22:46+08:00" />
+<meta itemprop="dateModified" content="2019-04-16T16:22:46+08:00" />
+<meta itemprop="wordCount" content="806">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="第2章 极限与连续性"/>
+<meta name="twitter:description" content="2.2.2 极限法则 **定理1（极限法则）**若$L, M, c$和$k$是实数，并且 $$ \lim _{x \rightarrow c} f(x)=L, \lim _{x \rightarrow c} g(x)=M $$ 则有 （1）和法则 $$ \lim _{x \rightarrow c}(f(x)&#43;g(x))=L&#43;M $$ 两个函数之和的极限"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <div class="post-content">
+    <h3 id="222-极限法则">2.2.2 极限法则</h3>
+<p>**定理1（极限法则）**若$L, M, c$和$k$是实数，并且</p>
+<p>$$
+\lim _{x \rightarrow c} f(x)=L, \lim _{x \rightarrow c} g(x)=M
+$$
+则有</p>
+<p>（1）和法则</p>
+<p>$$
+\lim _{x \rightarrow c}(f(x)+g(x))=L+M
+$$</p>
+<p>两个函数之和的极限等于它们的极限之和。</p>
+<p>（2） 差法则</p>
+<p>$$
+\lim _{x \rightarrow c}(f(x)-g(x))=L-M
+$$</p>
+<p>两个函数之差的极限等于它们的极限之差。</p>
+<p>（3）积法则</p>
+<p>$$
+\lim _{x \rightarrow c}(f(x) \cdot g(x))=L \cdot M
+$$</p>
+<p>两个函数乘积的极限等于它们的极限的乘积。</p>
+<p>（4）常数倍法则</p>
+<p>$$
+\lim _{x \rightarrow c}(k \cdot f(x))=k \cdot L
+$$</p>
+<p>常数与函数相乘的极限等于常数与函数极限的相乘。</p>
+<p>（5）商法则</p>
+<p>$$
+\lim _{x \rightarrow c} \frac{f(x)}{g(x)}=\frac{L}{M}, \quad M \neq 0
+$$</p>
+<p>两个函数之商的极限等于它们的极限之商，假定分母的极限不为零。</p>
+<p>（6）幂法则</p>
+<p>若$r$和$s$是不含公因数的整数，且$s\neq 0$,则</p>
+<p>$$
+\lim _{x \rightarrow c}(f(x))^{r / s}=L^{r / s}
+$$</p>
+<p>假定$L^{r/s}$是实数，函数的有理数幂的极限等于函数极限的幂，假定极限幂是实数。</p>
+<p><strong>定理2（多项式的极限）</strong> 若$P(x)=a_{n}x^{n}+a_{n-1}x^{n-1}+\cdots+a_{0}$
+则</p>
+<p>$\lim _{x \rightarrow c}P(x)=P(c)=a_{n} c^{n}+a_{n-1} c^{n-1}+\cdots+a_{0}$</p>
+<p><strong>定理3（有理数的极限）</strong> 若$P(x)$和$Q(x)$是多项式，且$Q(c)\neq 0$，则
+$$
+\lim _{x \rightarrow c} \frac{P(x)}{Q(x)}=\frac{P( c )}{Q( c )}
+$$</p>
+<h3 id="223-用代数方法消去零分母">2.2.3 用代数方法消去零分母</h3>
+<p>\begin{aligned}
+\lim _{x \rightarrow 1} \frac{x^{2}+x-2}{x^{2}-x} &amp;= \frac{x^{2}+x-2}{x^{2}-x} \newline
+&amp;= \frac{(x-1)(x+2)}{x(x-1)} \newline
+&amp;=\frac{x+2}{x} \newline
+\end{aligned}</p>
+<h3 id="225-夹层定理">2.2.5 夹层定理</h3>
+<p>**定理4（夹层定理）**假设对于包含$c$的某个开区间内的所有$x$（$x=c$本身可能除外），有$g(x) \leqslant f(x) \leqslant h(x)$，同时假设$\lim _{x \rightarrow c} g(x)=\lim _{x \rightarrow c} h(x)=L$，那么$\lim _{x \rightarrow c} f(x)=L$。</p>
+<p><strong>定理5</strong> 如果在包含$c$的某个开区间内（$x=c$本身可能除外）有$f(x) \leqslant g(x)$,且当$x \rightarrow c$时$f$和$g$都存在极限，那么
+$$
+\lim _{x \rightarrow c} f(x) \leqslant \lim _{x \rightarrow c} g(x)
+$$</p>
+<h2 id="23极限的精确定义">2.3极限的精确定义</h2>
+<h3 id="231-极限的定义">2.3.1 极限的定义</h3>
+<p><strong>定义</strong>令$f(x)$在围绕$x_{0}$的一个开区间上定义，在本身可能除外，如果对于每个数$\varepsilon&gt;0$存在一个对应的数$\delta&gt;0$使得对于所有$x$，</p>
+<p>$$
+0&lt;\left|x-x_{0}\right|&lt;\delta \Rightarrow|f(x)-L|&lt;\varepsilon
+$$
+我们就说$f(x)$当$x \rightarrow x$时的极限$L$，并写成</p>
+<p>$$
+\lim _{x \rightarrow x_{0}} f(x)=L
+$$</p>
+
+  </div>
+</article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

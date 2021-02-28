@@ -1,0 +1,3141 @@
+<!DOCTYPE html>
+<html><head>
+<title>《算法》读书笔记 第3章 查找</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#31-%e7%ac%a6%e5%8f%b7%e8%a1%a8" v-on:click="closeDrawer" id="31-符号表-nav">
+										 3.1 符号表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#311-api" v-on:click="closeDrawer" id="311-api-nav">
+										 3.1.1 API
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#312-%e6%9c%89%e5%ba%8f%e7%ac%a6%e5%8f%b7%e8%a1%a8" v-on:click="closeDrawer" id="312-有序符号表-nav">
+										 3.1.2 有序符号表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#313-%e7%94%a8%e4%be%8b%e4%b8%be%e4%be%8b" v-on:click="closeDrawer" id="313-用例举例-nav">
+										 3.1.3 用例举例
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#314-%e6%97%a0%e5%ba%8f%e9%93%be%e8%a1%a8%e4%b8%ad%e7%9a%84%e9%a1%ba%e5%ba%8f%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="314-无序链表中的顺序查找-nav">
+										 3.1.4 无序链表中的顺序查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#315-%e6%9c%89%e5%ba%8f%e6%95%b0%e7%bb%84%e4%b8%ad%e7%9a%84%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="315-有序数组中的二分查找-nav">
+										 3.1.5 有序数组中的二分查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#316-%e5%af%b9%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be%e7%9a%84%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="316-对二分查找的分析-nav">
+										 3.1.6 对二分查找的分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#317-%e9%a2%84%e8%a7%88" v-on:click="closeDrawer" id="317-预览-nav">
+										 3.1.7 预览
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#32-%e4%ba%8c%e5%8f%89%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="32-二叉查找树-nav">
+										 3.2 二叉查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#321-%e5%9f%ba%e6%9c%ac%e5%ae%9e%e7%8e%b0" v-on:click="closeDrawer" id="321-基本实现-nav">
+										 3.2.1 基本实现
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3211-%e6%95%b0%e6%8d%ae%e8%a1%a8%e7%a4%ba" v-on:click="closeDrawer" id="3211-数据表示-nav">
+										 3.2.1.1 数据表示
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3212-%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="3212-查找-nav">
+										 3.2.1.2 查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#33-%e5%b9%b3%e8%a1%a1%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="33-平衡查找树-nav">
+										 3.3 平衡查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#331-2-3%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="331-2-3查找树-nav">
+										 3.3.1 2-3查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3311-%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="3311-查找-nav">
+										 3.3.1.1 查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3312-%e5%90%912-%e7%bb%93%e7%82%b9%e4%b8%ad%e6%8f%92%e5%85%a5%e6%96%b0%e9%94%ae" v-on:click="closeDrawer" id="3312-向2-结点中插入新键-nav">
+										 3.3.1.2 向2-结点中插入新键
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#332-%e7%ba%a2%e9%bb%91%e4%ba%8c%e5%8f%89%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="332-红黑二叉查找树-nav">
+										 3.3.2 红黑二叉查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#333-%e5%ae%9e%e7%8e%b0" v-on:click="closeDrawer" id="333-实现-nav">
+										 3.3.3 实现
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#334-%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="334-删除操作-nav">
+										 3.3.4 删除操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#335-%e7%ba%a2%e9%bb%91%e6%a0%91%e7%9a%84%e6%80%a7%e8%b4%a8" v-on:click="closeDrawer" id="335-红黑树的性质-nav">
+										 3.3.5 红黑树的性质
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#34-%e6%95%a3%e5%88%97%e8%a1%a8" v-on:click="closeDrawer" id="34-散列表-nav">
+										 3.4 散列表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#341-%e6%95%a3%e5%88%97%e5%87%bd%e6%95%b0" v-on:click="closeDrawer" id="341-散列函数-nav">
+										 3.4.1 散列函数
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3411-%e5%85%b8%e5%9e%8b%e4%be%8b%e5%ad%90" v-on:click="closeDrawer" id="3411-典型例子-nav">
+										 3.4.1.1 典型例子
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3412-%e6%ad%a3%e6%95%b4%e6%95%b0" v-on:click="closeDrawer" id="3412-正整数-nav">
+										 3.4.1.2 正整数
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3413-%e6%b5%ae%e7%82%b9%e6%95%b0" v-on:click="closeDrawer" id="3413-浮点数-nav">
+										 3.4.1.3 浮点数
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3414-%e5%ad%97%e7%ac%a6%e4%b8%b2" v-on:click="closeDrawer" id="3414-字符串-nav">
+										 3.4.1.4 字符串
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3415-%e7%bb%84%e5%90%88%e9%94%ae" v-on:click="closeDrawer" id="3415-组合键-nav">
+										 3.4.1.5 组合键
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3416-java%e7%9a%84%e7%ba%a6%e5%ae%9a" v-on:click="closeDrawer" id="3416-java的约定-nav">
+										 3.4.1.6 Java的约定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3417-%e5%b0%86hashcode%e7%9a%84%e8%bf%94%e5%9b%9e%e5%80%bc%e8%bd%ac%e6%8d%a2%e4%b8%ba%e4%b8%80%e4%b8%aa%e6%95%b0%e7%bb%84%e7%b4%a2%e5%bc%95" v-on:click="closeDrawer" id="3417-将hashcode的返回值转换为一个数组索引-nav">
+										 3.4.1.7 将hashCode()的返回值转换为一个数组索引
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3418-%e8%87%aa%e5%ae%9a%e4%b9%89%e7%9a%84hashcode%e6%96%b9%e6%b3%95" v-on:click="closeDrawer" id="3418-自定义的hashcode方法-nav">
+										 3.4.1.8 自定义的hashCode()方法
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3419-%e8%bd%af%e7%bc%93%e5%ad%98" v-on:click="closeDrawer" id="3419-软缓存-nav">
+										 3.4.1.9 软缓存
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#342-%e5%9f%ba%e4%ba%8e%e6%8b%89%e9%93%be%e6%b3%95%e7%9a%84%e6%95%a3%e5%88%97%e8%a1%a8" v-on:click="closeDrawer" id="342-基于拉链法的散列表-nav">
+										 3.4.2 基于拉链法的散列表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3421-%e6%95%a3%e5%88%97%e8%a1%a8%e7%9a%84%e5%a4%a7%e5%b0%8f" v-on:click="closeDrawer" id="3421-散列表的大小-nav">
+										 3.4.2.1 散列表的大小
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3422-%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="3422-删除操作-nav">
+										 3.4.2.2 删除操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3423-%e6%9c%89%e5%ba%8f%e6%80%a7%e7%9b%b8%e5%85%b3%e7%9a%84%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="3423-有序性相关的操作-nav">
+										 3.4.2.3 有序性相关的操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#343-%e5%9f%ba%e4%ba%8e%e7%ba%bf%e6%80%a7%e6%8e%a2%e6%b5%8b%e6%b3%95%e7%9a%84%e6%95%a3%e5%88%97%e8%a1%a8" v-on:click="closeDrawer" id="343-基于线性探测法的散列表-nav">
+										 3.4.3 基于线性探测法的散列表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3431-%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="3431-删除操作-nav">
+										 3.4.3.1 删除操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3432-%e9%94%ae%e7%b0%87" v-on:click="closeDrawer" id="3432-键簇-nav">
+										 3.4.3.2 键簇
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3433-%e7%ba%bf%e6%80%a7%e6%8e%a2%e6%b5%8b%e6%b3%95%e7%9a%84%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="3433-线性探测法的性能分析-nav">
+										 3.4.3.3 线性探测法的性能分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#344-%e8%b0%83%e6%95%b4%e6%95%b0%e7%bb%84%e5%a4%a7%e5%b0%8f" v-on:click="closeDrawer" id="344-调整数组大小-nav">
+										 3.4.4 调整数组大小
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3441-%e6%8b%89%e9%93%be%e6%b3%95" v-on:click="closeDrawer" id="3441-拉链法-nav">
+										 3.4.4.1 拉链法
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3442-%e5%9d%87%e6%91%8a%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="3442-均摊分析-nav">
+										 3.4.4.2 均摊分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#345-%e5%86%85%e5%ad%98%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="345-内存分析-nav">
+										 3.4.5 内存分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#31-%e7%ac%a6%e5%8f%b7%e8%a1%a8" v-on:click="closeDrawer" id="31-符号表-nav">
+										 3.1 符号表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#311-api" v-on:click="closeDrawer" id="311-api-nav">
+										 3.1.1 API
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#312-%e6%9c%89%e5%ba%8f%e7%ac%a6%e5%8f%b7%e8%a1%a8" v-on:click="closeDrawer" id="312-有序符号表-nav">
+										 3.1.2 有序符号表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#313-%e7%94%a8%e4%be%8b%e4%b8%be%e4%be%8b" v-on:click="closeDrawer" id="313-用例举例-nav">
+										 3.1.3 用例举例
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#314-%e6%97%a0%e5%ba%8f%e9%93%be%e8%a1%a8%e4%b8%ad%e7%9a%84%e9%a1%ba%e5%ba%8f%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="314-无序链表中的顺序查找-nav">
+										 3.1.4 无序链表中的顺序查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#315-%e6%9c%89%e5%ba%8f%e6%95%b0%e7%bb%84%e4%b8%ad%e7%9a%84%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="315-有序数组中的二分查找-nav">
+										 3.1.5 有序数组中的二分查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#316-%e5%af%b9%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be%e7%9a%84%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="316-对二分查找的分析-nav">
+										 3.1.6 对二分查找的分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#317-%e9%a2%84%e8%a7%88" v-on:click="closeDrawer" id="317-预览-nav">
+										 3.1.7 预览
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#32-%e4%ba%8c%e5%8f%89%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="32-二叉查找树-nav">
+										 3.2 二叉查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#321-%e5%9f%ba%e6%9c%ac%e5%ae%9e%e7%8e%b0" v-on:click="closeDrawer" id="321-基本实现-nav">
+										 3.2.1 基本实现
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3211-%e6%95%b0%e6%8d%ae%e8%a1%a8%e7%a4%ba" v-on:click="closeDrawer" id="3211-数据表示-nav">
+										 3.2.1.1 数据表示
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3212-%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="3212-查找-nav">
+										 3.2.1.2 查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#33-%e5%b9%b3%e8%a1%a1%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="33-平衡查找树-nav">
+										 3.3 平衡查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#331-2-3%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="331-2-3查找树-nav">
+										 3.3.1 2-3查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3311-%e6%9f%a5%e6%89%be" v-on:click="closeDrawer" id="3311-查找-nav">
+										 3.3.1.1 查找
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3312-%e5%90%912-%e7%bb%93%e7%82%b9%e4%b8%ad%e6%8f%92%e5%85%a5%e6%96%b0%e9%94%ae" v-on:click="closeDrawer" id="3312-向2-结点中插入新键-nav">
+										 3.3.1.2 向2-结点中插入新键
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#332-%e7%ba%a2%e9%bb%91%e4%ba%8c%e5%8f%89%e6%9f%a5%e6%89%be%e6%a0%91" v-on:click="closeDrawer" id="332-红黑二叉查找树-nav">
+										 3.3.2 红黑二叉查找树
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#333-%e5%ae%9e%e7%8e%b0" v-on:click="closeDrawer" id="333-实现-nav">
+										 3.3.3 实现
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#334-%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="334-删除操作-nav">
+										 3.3.4 删除操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#335-%e7%ba%a2%e9%bb%91%e6%a0%91%e7%9a%84%e6%80%a7%e8%b4%a8" v-on:click="closeDrawer" id="335-红黑树的性质-nav">
+										 3.3.5 红黑树的性质
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#34-%e6%95%a3%e5%88%97%e8%a1%a8" v-on:click="closeDrawer" id="34-散列表-nav">
+										 3.4 散列表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#341-%e6%95%a3%e5%88%97%e5%87%bd%e6%95%b0" v-on:click="closeDrawer" id="341-散列函数-nav">
+										 3.4.1 散列函数
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3411-%e5%85%b8%e5%9e%8b%e4%be%8b%e5%ad%90" v-on:click="closeDrawer" id="3411-典型例子-nav">
+										 3.4.1.1 典型例子
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3412-%e6%ad%a3%e6%95%b4%e6%95%b0" v-on:click="closeDrawer" id="3412-正整数-nav">
+										 3.4.1.2 正整数
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3413-%e6%b5%ae%e7%82%b9%e6%95%b0" v-on:click="closeDrawer" id="3413-浮点数-nav">
+										 3.4.1.3 浮点数
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3414-%e5%ad%97%e7%ac%a6%e4%b8%b2" v-on:click="closeDrawer" id="3414-字符串-nav">
+										 3.4.1.4 字符串
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3415-%e7%bb%84%e5%90%88%e9%94%ae" v-on:click="closeDrawer" id="3415-组合键-nav">
+										 3.4.1.5 组合键
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3416-java%e7%9a%84%e7%ba%a6%e5%ae%9a" v-on:click="closeDrawer" id="3416-java的约定-nav">
+										 3.4.1.6 Java的约定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3417-%e5%b0%86hashcode%e7%9a%84%e8%bf%94%e5%9b%9e%e5%80%bc%e8%bd%ac%e6%8d%a2%e4%b8%ba%e4%b8%80%e4%b8%aa%e6%95%b0%e7%bb%84%e7%b4%a2%e5%bc%95" v-on:click="closeDrawer" id="3417-将hashcode的返回值转换为一个数组索引-nav">
+										 3.4.1.7 将hashCode()的返回值转换为一个数组索引
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3418-%e8%87%aa%e5%ae%9a%e4%b9%89%e7%9a%84hashcode%e6%96%b9%e6%b3%95" v-on:click="closeDrawer" id="3418-自定义的hashcode方法-nav">
+										 3.4.1.8 自定义的hashCode()方法
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3419-%e8%bd%af%e7%bc%93%e5%ad%98" v-on:click="closeDrawer" id="3419-软缓存-nav">
+										 3.4.1.9 软缓存
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#342-%e5%9f%ba%e4%ba%8e%e6%8b%89%e9%93%be%e6%b3%95%e7%9a%84%e6%95%a3%e5%88%97%e8%a1%a8" v-on:click="closeDrawer" id="342-基于拉链法的散列表-nav">
+										 3.4.2 基于拉链法的散列表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3421-%e6%95%a3%e5%88%97%e8%a1%a8%e7%9a%84%e5%a4%a7%e5%b0%8f" v-on:click="closeDrawer" id="3421-散列表的大小-nav">
+										 3.4.2.1 散列表的大小
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3422-%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="3422-删除操作-nav">
+										 3.4.2.2 删除操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3423-%e6%9c%89%e5%ba%8f%e6%80%a7%e7%9b%b8%e5%85%b3%e7%9a%84%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="3423-有序性相关的操作-nav">
+										 3.4.2.3 有序性相关的操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#343-%e5%9f%ba%e4%ba%8e%e7%ba%bf%e6%80%a7%e6%8e%a2%e6%b5%8b%e6%b3%95%e7%9a%84%e6%95%a3%e5%88%97%e8%a1%a8" v-on:click="closeDrawer" id="343-基于线性探测法的散列表-nav">
+										 3.4.3 基于线性探测法的散列表
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3431-%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="3431-删除操作-nav">
+										 3.4.3.1 删除操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3432-%e9%94%ae%e7%b0%87" v-on:click="closeDrawer" id="3432-键簇-nav">
+										 3.4.3.2 键簇
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3433-%e7%ba%bf%e6%80%a7%e6%8e%a2%e6%b5%8b%e6%b3%95%e7%9a%84%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="3433-线性探测法的性能分析-nav">
+										 3.4.3.3 线性探测法的性能分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#344-%e8%b0%83%e6%95%b4%e6%95%b0%e7%bb%84%e5%a4%a7%e5%b0%8f" v-on:click="closeDrawer" id="344-调整数组大小-nav">
+										 3.4.4 调整数组大小
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3441-%e6%8b%89%e9%93%be%e6%b3%95" v-on:click="closeDrawer" id="3441-拉链法-nav">
+										 3.4.4.1 拉链法
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#3442-%e5%9d%87%e6%91%8a%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="3442-均摊分析-nav">
+										 3.4.4.2 均摊分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#345-%e5%86%85%e5%ad%98%e5%88%86%e6%9e%90" v-on:click="closeDrawer" id="345-内存分析-nav">
+										 3.4.5 内存分析
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    《算法》读书笔记 第3章 查找
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2016-03-01 14:33
+                        </time>
+                        
+
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                                &nbsp;
+                            
+                                <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0">读书笔记</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <h2 id="31-符号表">3.1 符号表</h2>
+<h3 id="311-api">3.1.1 API</h3>
+<h3 id="312-有序符号表">3.1.2 有序符号表</h3>
+<h3 id="313-用例举例">3.1.3 用例举例</h3>
+<h3 id="314-无序链表中的顺序查找">3.1.4 无序链表中的顺序查找</h3>
+<h3 id="315-有序数组中的二分查找">3.1.5 有序数组中的二分查找</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> edu.princeton.cs.algs4.BinarySearch<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by malk on 2018/12/25.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BinarySearchST</span><span style="color:#f92672">&lt;</span>Key <span style="color:#66d9ef">extends</span> Comparable<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;,</span> Value<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Key<span style="color:#f92672">[]</span> keys<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Value<span style="color:#f92672">[]</span> values<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> N<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">BinarySearchST</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        keys <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Key<span style="color:#f92672">[])</span> <span style="color:#66d9ef">new</span> Comparable<span style="color:#f92672">[</span>capacity<span style="color:#f92672">];</span>
+        values <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Value<span style="color:#f92672">[])</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span>capacity<span style="color:#f92672">];</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        put<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> get<span style="color:#f92672">(</span>key<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> N<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> size<span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Value <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isEmpty<span style="color:#f92672">())</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> rank<span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;</span> N <span style="color:#f92672">&amp;&amp;</span> keys<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>key<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> values<span style="color:#f92672">[</span>i<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//基于有序数组的二分查找
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">rank</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> lo <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> hi <span style="color:#f92672">=</span> N <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>lo <span style="color:#f92672">&lt;=</span> hi<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> lo <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>hi <span style="color:#f92672">-</span> lo<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 2<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>keys<span style="color:#f92672">[</span>mid<span style="color:#f92672">]);</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> hi <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> lo <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> mid<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//如果未找到则返回lo，lo是一个临界值，lo位置的数据比key大，lo+1位置的数据比key小
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//可以看下图的二分查找排名
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> lo<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">,</span> Value value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//通过二分查找查找key
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> rank<span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+        <span style="color:#75715e">//存在key
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;</span> N <span style="color:#f92672">&amp;&amp;</span> keys<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>key<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            values<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//插入新元素前将所有较大的键向后移动一格
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> N<span style="color:#f92672">;</span> j <span style="color:#f92672">&gt;</span> i<span style="color:#f92672">;</span> j<span style="color:#f92672">--)</span> <span style="color:#f92672">{</span>
+            keys<span style="color:#f92672">[</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> keys<span style="color:#f92672">[</span>j <span style="color:#f92672">-</span> 1<span style="color:#f92672">];</span>
+            values<span style="color:#f92672">[</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> values<span style="color:#f92672">[</span>j <span style="color:#f92672">-</span> 1<span style="color:#f92672">];</span>
+        <span style="color:#f92672">}</span>
+        keys<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> key<span style="color:#f92672">;</span>
+        values<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+        N<span style="color:#f92672">++;</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p><img src="../.gitbook/assets/image%20%289%29.png" alt="&#x4E8C;&#x5206;&#x67E5;&#x627E;&#x6392;&#x540D;&#x8F68;&#x8FF9;"></p>
+<h3 id="316-对二分查找的分析">3.1.6 对二分查找的分析</h3>
+<h3 id="317-预览">3.1.7 预览</h3>
+<h2 id="32-二叉查找树">3.2 二叉查找树</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> edu.princeton.cs.algs4.Queue<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by malk on 2018/12/25.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BST</span><span style="color:#f92672">&lt;</span>Key <span style="color:#66d9ef">extends</span> Comparable<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;,</span> Value<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Node root<span style="color:#f92672">;</span> <span style="color:#75715e">//二叉查找树的根节点
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">private</span> Key key<span style="color:#f92672">;</span> <span style="color:#75715e">//键
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">private</span> Value value<span style="color:#f92672">;</span> <span style="color:#75715e">//值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">private</span> Node left<span style="color:#f92672">,</span> right<span style="color:#f92672">;</span> <span style="color:#75715e">//指向子树的链接
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> N<span style="color:#f92672">;</span> <span style="color:#75715e">//以该 节点为跟的子树中的结点总数
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">,</span> Value value<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> N<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">key</span> <span style="color:#f92672">=</span> key<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">N</span> <span style="color:#f92672">=</span> N<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> size<span style="color:#f92672">(</span>root<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">N</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Value <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> get<span style="color:#f92672">(</span>root<span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Value <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">,</span> Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> get<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> get<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">,</span> Value value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        root <span style="color:#f92672">=</span> put<span style="color:#f92672">(</span>root<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">,</span> Key key<span style="color:#f92672">,</span> Value value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//如果key存在于以x为根节点的子树中则更新它的值;
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//否则将一key和value为键值对的新节点插入到该子树中
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">,</span> 1<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">=</span> put<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span> <span style="color:#f92672">=</span> put<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+        x<span style="color:#f92672">.</span><span style="color:#a6e22e">N</span> <span style="color:#f92672">=</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Key <span style="color:#a6e22e">min</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> min<span style="color:#f92672">(</span>root<span style="color:#f92672">).</span><span style="color:#a6e22e">key</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> min<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Key <span style="color:#a6e22e">max</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> max<span style="color:#f92672">(</span>root<span style="color:#f92672">).</span><span style="color:#a6e22e">key</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> max<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Key <span style="color:#a6e22e">floor</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Node x <span style="color:#f92672">=</span> floor<span style="color:#f92672">(</span>root<span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">floor</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">,</span> Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> floor<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        Node t <span style="color:#f92672">=</span> floor<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>t <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> t<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Key <span style="color:#a6e22e">select</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> k<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> select<span style="color:#f92672">(</span>root<span style="color:#f92672">,</span> k<span style="color:#f92672">).</span><span style="color:#a6e22e">key</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">select</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> k<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>t <span style="color:#f92672">&gt;</span> k<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> select<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">,</span> k<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>t <span style="color:#f92672">&lt;</span> k<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> select<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">,</span> k <span style="color:#f92672">-</span> t <span style="color:#f92672">-</span> 1<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">rank</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> rank<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> root<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">rank</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">,</span> Node x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> rank<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> 1 <span style="color:#f92672">+</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> rank<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">deleteMin</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        root <span style="color:#f92672">=</span> deleteMin<span style="color:#f92672">(</span>root<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">deleteMin</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">;</span>
+        x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">=</span> deleteMin<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">);</span>
+        x<span style="color:#f92672">.</span><span style="color:#a6e22e">N</span> <span style="color:#f92672">=</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        root <span style="color:#f92672">=</span> delete<span style="color:#f92672">(</span>root<span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> Node <span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">,</span> Key key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">=</span> delete<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span> <span style="color:#f92672">=</span> delete<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">,</span> key<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">;</span>
+            Node t <span style="color:#f92672">=</span> x<span style="color:#f92672">;</span>
+            x <span style="color:#f92672">=</span> min<span style="color:#f92672">(</span>t<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">);</span>
+            x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span> <span style="color:#f92672">=</span> deleteMin<span style="color:#f92672">(</span>t<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">);</span>
+            x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span> <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        x<span style="color:#f92672">.</span><span style="color:#a6e22e">N</span> <span style="color:#f92672">=</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> size<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> x<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Iterable<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">keys</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> keys<span style="color:#f92672">(</span>min<span style="color:#f92672">(),</span> max<span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Iterable<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">keys</span><span style="color:#f92672">(</span>Key lo<span style="color:#f92672">,</span> Key hi<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Queue<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Queue<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;();</span>
+        keys<span style="color:#f92672">(</span>root<span style="color:#f92672">,</span> queue<span style="color:#f92672">,</span> lo<span style="color:#f92672">,</span> hi<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> queue<span style="color:#f92672">;</span>
+
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">keys</span><span style="color:#f92672">(</span>Node x<span style="color:#f92672">,</span> Queue<span style="color:#f92672">&lt;</span>Key<span style="color:#f92672">&gt;</span> queue<span style="color:#f92672">,</span> Key lo<span style="color:#f92672">,</span> Key hi<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> cmplo <span style="color:#f92672">=</span> lo<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">int</span> cmphi <span style="color:#f92672">=</span> hi<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmplo <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> keys<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">,</span> queue<span style="color:#f92672">,</span> lo<span style="color:#f92672">,</span> hi<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmplo <span style="color:#f92672">&lt;=</span> 0 <span style="color:#f92672">&amp;&amp;</span> cmphi <span style="color:#f92672">&gt;=</span> 0<span style="color:#f92672">)</span> queue<span style="color:#f92672">.</span><span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmphi <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> keys<span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">,</span> queue<span style="color:#f92672">,</span> lo<span style="color:#f92672">,</span> hi<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="321-基本实现">3.2.1 基本实现</h3>
+<h4 id="3211-数据表示">3.2.1.1 数据表示</h4>
+<h4 id="3212-查找">3.2.1.2 查找</h4>
+<h2 id="33-平衡查找树">3.3 平衡查找树</h2>
+<h3 id="331-2-3查找树">3.3.1 2-3查找树</h3>
+<h4 id="3311-查找">3.3.1.1 查找</h4>
+<h4 id="3312-向2-结点中插入新键">3.3.1.2 向2-结点中插入新键</h4>
+<h3 id="332-红黑二叉查找树">3.3.2 红黑二叉查找树</h3>
+<h3 id="333-实现">3.3.3 实现</h3>
+<h3 id="334-删除操作">3.3.4 删除操作</h3>
+<h3 id="335-红黑树的性质">3.3.5 红黑树的性质</h3>
+<h2 id="34-散列表">3.4 散列表</h2>
+<p>如果所有的键都是小整数，我们可以用一个数组来实现无序的符号表，将键作为数组的索引而数组中键<code>i</code>处存储的就是它对应的值。这样我们就可以快速访问任意键的值。散列表是这种简易方法的扩展并能够处理更加复杂的类型的键。我们需要用算术操作将键转化为数组的索引来访问数组中的键值对。</p>
+<p>使用散列的查找算法分为两步。第一步是用散列函数将被查找的键转化为数组的一个索引。理想情况下，不同的键都能转化为不同的索引值。当然，这只是理想情况，所以我们需要面对两个或者多个键都会散列到相同的索引值的情况。因此，散列查找的第二步就是一个<code>处理碰撞冲突</code>的过程。解决碰撞的方法有两种：拉链法和线性探测法。</p>
+<h3 id="341-散列函数">3.4.1 散列函数</h3>
+<p>如果我们有一个能够保存M个键值对的数组，那么我们就需要一个能够将任意键转换为该数组范围内的索引的散列函数。我们要找的散列函数因应该易于计算并且能够均匀分布所有的键，即对于任意键，0到M-1之间的每个整数都相等的可能性与之对应。</p>
+<p>散列函数和键的类型有关。严格地说，对于每种类型的键我们都需要一个与之对应的散列函数。</p>
+<h4 id="3411-典型例子">3.4.1.1 典型例子</h4>
+<p>略</p>
+<h4 id="3412-正整数">3.4.1.2 正整数</h4>
+<p>将整数散列最常用方法是<code>除留余数法</code>。我们选择大小为素数M的数组，对于任意正整数<code>k</code>，计算<code>k</code>除以<code>M</code>的余数。如果<code>M</code>不是素数，我们可能无法利用键中包含的所有信息，这可能导致我们无法均匀地散列散列值。</p>
+<h4 id="3413-浮点数">3.4.1.3 浮点数</h4>
+<p>如果键是0到1之间的实数，我们可以将它乘以M并四舍五入得到一个0到<code>M-1</code>之间的索引值。尽管这个方法很容易理解，但它是有缺陷的，因为这种情况下高位起的作用更大，最低位对散列的结果没有影响（被四舍五入忽略掉了）。修正这个问题的办法是将键表示位二进制然后再使用除留余数法。</p>
+<h4 id="3414-字符串">3.4.1.4 字符串</h4>
+<p>除留余数法也可以处理较长的键，例如字符串，我们只需将它们当做大整数即可。例如，下面的代码就能够用除留余数法计算字符串<code>S</code>的散列值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> hash <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span> i<span style="color:#f92672">++)</span>
+    hash <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>R <span style="color:#f92672">*</span> hash <span style="color:#f92672">+</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">charAt</span><span style="color:#f92672">(</span>i<span style="color:#f92672">))</span> <span style="color:#f92672">%</span> M<span style="color:#f92672">;</span>
+</code></pre></div><p><code>Java</code>的<code>chartAt()</code>函数能够返回一个<code>char</code>值，即一个非负16位整数。如果R比任何字符的值都大，这种计算相当于将字符串当作一个N位的R进制值，将它除以M并取余。一种叫<code>[Horner方法](https://en.wikipedia.org/wiki/Horner%27s_method)</code>的经典算法用N次乘法、加法和取余来计算一个字符串的散列值。只要R最够小，不造成溢出，那么结果就能够如我们所愿，落在0至M-1之内。使用一个较小的素数，例如31，可以保证字符串中所有字符都能发挥作用。<code>Java</code>的<code>String</code>的默认实现使用了一个类似的方法。（这部分没看明白）</p>
+<h4 id="3415-组合键">3.4.1.5 组合键</h4>
+<h4 id="3416-java的约定">3.4.1.6 Java的约定</h4>
+<p>每种数据类型都需要相应的散列函数，于是Java令所有数据类型都继承了一个能够返回一个32位整数的<code>hashCode()</code>方法。</p>
+<h4 id="3417-将hashcode的返回值转换为一个数组索引">3.4.1.7 将hashCode()的返回值转换为一个数组索引</h4>
+<p>因为我们需要的是数组的索引而不是一个32位的整数，我们在实现中会将默认的<code>hashCode()</code>方法和除留余数法结合起来产生一个0到<code>M-1</code>的整数，方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">hash</span><span style="color:#f92672">(</span>Key x<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">.</span><span style="color:#a6e22e">hashCode</span><span style="color:#f92672">()</span> <span style="color:#f92672">&amp;</span> 0x7fffffff<span style="color:#f92672">)</span> <span style="color:#f92672">%</span> M<span style="color:#f92672">;}</span>
+</code></pre></div><p>这段代码会将符号位屏蔽（将一个32位整数变为一个31位非负整数），然后用除留余数法计算它除以M的余数。在使用这样的代码时我们一般会将数组的大小M取为素数以充分利用原散列值的所有位。</p>
+<h4 id="3418-自定义的hashcode方法">3.4.1.8 自定义的hashCode()方法</h4>
+<h4 id="3419-软缓存">3.4.1.9 软缓存</h4>
+<p>如果散列值的计算很耗时，那么我们或许可以将每个键的散列值缓存起来，即在每个键中使用一个hash变量来保存它的<code>hashCode()</code>的返回值。第一次调用<code>hashCode()</code>方法时，我们需要计算对象的散列值，但之后对<code>hashCode()</code>方法的调用会直接返回<code>hash</code>变量的值。</p>
+<h3 id="342-基于拉链法的散列表">3.4.2 基于拉链法的散列表</h3>
+<h4 id="3421-散列表的大小">3.4.2.1 散列表的大小</h4>
+<h4 id="3422-删除操作">3.4.2.2 删除操作</h4>
+<h4 id="3423-有序性相关的操作">3.4.2.3 有序性相关的操作</h4>
+<h3 id="343-基于线性探测法的散列表">3.4.3 基于线性探测法的散列表</h3>
+<h4 id="3431-删除操作">3.4.3.1 删除操作</h4>
+<h4 id="3432-键簇">3.4.3.2 键簇</h4>
+<h4 id="3433-线性探测法的性能分析">3.4.3.3 线性探测法的性能分析</h4>
+<h3 id="344-调整数组大小">3.4.4 调整数组大小</h3>
+<h4 id="3441-拉链法">3.4.4.1 拉链法</h4>
+<h4 id="3442-均摊分析">3.4.4.2 均摊分析</h4>
+<h3 id="345-内存分析">3.4.5 内存分析</h3>
+
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2016-03-01</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/okhttp-interceptors/">
+                    Next<br>自定义Okhttp拦截器
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/react-native-1/">
+                    Previous<br>React Native for Android 入门
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

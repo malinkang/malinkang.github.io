@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html><head>
+<title>MultiType和AdapterDelegates源码分析</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#multitype" v-on:click="closeDrawer" id="multitype-nav">
+										 MultiType
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#adapterdelegate" v-on:click="closeDrawer" id="adapterdelegate-nav">
+										 AdapterDelegate
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#multitype" v-on:click="closeDrawer" id="multitype-nav">
+										 MultiType
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#adapterdelegate" v-on:click="closeDrawer" id="adapterdelegate-nav">
+										 AdapterDelegate
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    MultiType和AdapterDelegates源码分析
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2017-11-03 09:03
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p><a href="https://github.com/drakeet/MultiType">MultiType</a>和<a href="https://github.com/sockeqwe/AdapterDelegates">AdapterDelegates</a>两个库都是对<code>RecyclerView</code>的<code>Adapter</code>进行封装的库，可以快速实现多种布局类型的<code>RecyclerView</code>。两个库的核心思想都是封装一个实体我们暂时命名为<code>ItemViewBinder</code>，用来提供布局资源和绑定数据。对于多种类型的Adapter存在多个<code>ItemViewBinder</code>对象，如<code>AItemViewBinder</code>、<code>BItemViewBinder</code>，我们可以使用一个集合来存放这些<code>ItemViewBinder</code>此外，还需要建立viewtype和绑定实体之间的一一对应关系，在<code>onCreateViewHolder</code>和<code>onBindViewHolder</code>中通过viewtype来获取对应的<code>ItemViewBinder</code>类实现提供布局资源和数据绑定。下面我们来分别看看两个库的实现方式。</p>
+<h3 id="multitype">MultiType</h3>
+<p>MultiType的<code>ItemViewBinder</code>类就是封装的实体类。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemViewBinder</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> VH <span style="color:#66d9ef">extends</span> ViewHolder<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">abstract</span> <span style="color:#a6e22e">@NonNull</span> VH <span style="color:#a6e22e">onCreateViewHolder</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> LayoutInflater inflater<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> ViewGroup parent<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onBindViewHolder</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> VH holder<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> T item<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>TypePool用来存放多个<code>ItemViewBinder</code>类，并绑定数据的Model类型实现viewtype和<code>ItemViewBinder</code>一一对应的关系。TypePool是一个接口，MultiTypePool是他的直接子类。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MultiTypePool</span> <span style="color:#66d9ef">implements</span> TypePool <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">@NonNull</span> <span style="color:#66d9ef">final</span> List<span style="color:#f92672">&lt;</span>Class<span style="color:#f92672">&lt;?&gt;&gt;</span> classes<span style="color:#f92672">;</span> <span style="color:#75715e">//用来存放model的Class
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">@NonNull</span> <span style="color:#66d9ef">final</span> List<span style="color:#f92672">&lt;</span>ItemViewBinder<span style="color:#f92672">&lt;?,</span> <span style="color:#f92672">?&gt;&gt;</span> binders<span style="color:#f92672">;</span> <span style="color:#75715e">//存放ItemViewBinder
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">@NonNull</span> <span style="color:#66d9ef">final</span> List<span style="color:#f92672">&lt;</span>Linker<span style="color:#f92672">&lt;?&gt;&gt;</span> linkers<span style="color:#f92672">;</span><span style="color:#75715e">//对于相同的model类型，可能有多个布局这时候需要自己提供viewtype
+</span><span style="color:#75715e"></span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypePool with default lists.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypePool</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">classes</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">binders</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">linkers</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypePool with default lists and a specified initial capacity.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param initialCapacity the initial capacity of the list
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypePool</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> initialCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">classes</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>initialCapacity<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">binders</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>initialCapacity<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">linkers</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>initialCapacity<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypePool with specified lists.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param classes the list for classes
+</span><span style="color:#75715e">     * @param binders the list for binders
+</span><span style="color:#75715e">     * @param linkers the list for linkers
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypePool</span><span style="color:#f92672">(</span>
+        <span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;</span>Class<span style="color:#f92672">&lt;?&gt;&gt;</span> classes<span style="color:#f92672">,</span>
+        <span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;</span>ItemViewBinder<span style="color:#f92672">&lt;?,</span> <span style="color:#f92672">?&gt;&gt;</span> binders<span style="color:#f92672">,</span>
+        <span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;</span>Linker<span style="color:#f92672">&lt;?&gt;&gt;</span> linkers<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">classes</span> <span style="color:#f92672">=</span> classes<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">binders</span> <span style="color:#f92672">=</span> binders<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">linkers</span> <span style="color:#f92672">=</span> linkers<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">register</span><span style="color:#f92672">(</span>
+        <span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T<span style="color:#f92672">&gt;</span> clazz<span style="color:#f92672">,</span>
+        <span style="color:#a6e22e">@NonNull</span> ItemViewBinder<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> <span style="color:#f92672">?&gt;</span> binder<span style="color:#f92672">,</span>
+        <span style="color:#a6e22e">@NonNull</span> Linker<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> linker<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        classes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span>
+        binders<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>binder<span style="color:#f92672">);</span>
+        linkers<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>linker<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">unregister</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?&gt;</span> clazz<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">boolean</span> removed <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> classes<span style="color:#f92672">.</span><span style="color:#a6e22e">indexOf</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                classes<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+                binders<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+                linkers<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+                removed <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> removed<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> classes<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//获取索引
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">firstIndexOf</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?&gt;</span> clazz<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> classes<span style="color:#f92672">.</span><span style="color:#a6e22e">indexOf</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> index<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> classes<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>classes<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>i<span style="color:#f92672">).</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">return</span> i<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?&gt;</span> getClass<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> classes<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@NonNull</span> ItemViewBinder<span style="color:#f92672">&lt;?,</span> <span style="color:#f92672">?&gt;</span> getItemViewBinder<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> binders<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@NonNull</span> Linker<span style="color:#f92672">&lt;?&gt;</span> getLinker<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> linkers<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+
+</code></pre></div><p>MultiTypeAdapter：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @author drakeet
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MultiTypeAdapter</span> <span style="color:#66d9ef">extends</span> RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">Adapter</span><span style="color:#f92672">&lt;</span>ViewHolder<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String TAG <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MultiTypeAdapter&#34;</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;?&gt;</span> items<span style="color:#f92672">;</span> <span style="color:#75715e">//使用集合存放各种类型的数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">@NonNull</span> TypePool typePool<span style="color:#f92672">;</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypeAdapter with an empty items list.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypeAdapter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">emptyList</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypeAdapter with a items list.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param items the items list
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypeAdapter</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;?&gt;</span> items<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>items<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MultiTypePool<span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypeAdapter with a items list and an initial capacity of TypePool.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param items the items list
+</span><span style="color:#75715e">     * @param initialCapacity the initial capacity of TypePool
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypeAdapter</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;?&gt;</span> items<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> initialCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>items<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MultiTypePool<span style="color:#f92672">(</span>initialCapacity<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Constructs a MultiTypeAdapter with a items list and a TypePool.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param items the items list
+</span><span style="color:#75715e">     * @param pool the type pool
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MultiTypeAdapter</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;?&gt;</span> items<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> TypePool pool<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">items</span> <span style="color:#f92672">=</span> items<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">typePool</span> <span style="color:#f92672">=</span> pool<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Registers a type class and its item view binder. If you have registered the class,
+</span><span style="color:#75715e">     * it will override the original binder(s). Note that the method is non-thread-safe
+</span><span style="color:#75715e">     * so that you should not use it in concurrent operation.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * Note that the method should not be called after
+</span><span style="color:#75715e">     * {@link RecyclerView#setAdapter(RecyclerView.Adapter)}, or you have to call the setAdapter
+</span><span style="color:#75715e">     * again.
+</span><span style="color:#75715e">     * &lt;/p&gt;
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param clazz the class of a item
+</span><span style="color:#75715e">     * @param binder the item view binder
+</span><span style="color:#75715e">     * @param &lt;T&gt; the item data type
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">register</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T<span style="color:#f92672">&gt;</span> clazz<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> ItemViewBinder<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> <span style="color:#f92672">?&gt;</span> binder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        checkAndRemoveAllTypesIfNeeded<span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span>
+        register<span style="color:#f92672">(</span>clazz<span style="color:#f92672">,</span> binder<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> DefaultLinker<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;());</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">register</span><span style="color:#f92672">(</span>
+        <span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T<span style="color:#f92672">&gt;</span> clazz<span style="color:#f92672">,</span>
+        <span style="color:#a6e22e">@NonNull</span> ItemViewBinder<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> <span style="color:#f92672">?&gt;</span> binder<span style="color:#f92672">,</span>
+        <span style="color:#a6e22e">@NonNull</span> Linker<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> linker<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">register</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">,</span> binder<span style="color:#f92672">,</span> linker<span style="color:#f92672">);</span>
+        binder<span style="color:#f92672">.</span><span style="color:#a6e22e">adapter</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Registers a type class to multiple item view binders. If you have registered the
+</span><span style="color:#75715e">     * class, it will override the original binder(s). Note that the method is non-thread-safe
+</span><span style="color:#75715e">     * so that you should not use it in concurrent operation.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * Note that the method should not be called after
+</span><span style="color:#75715e">     * {@link RecyclerView#setAdapter(RecyclerView.Adapter)}, or you have to call the setAdapter
+</span><span style="color:#75715e">     * again.
+</span><span style="color:#75715e">     * &lt;/p&gt;
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param clazz the class of a item
+</span><span style="color:#75715e">     * @param &lt;T&gt; the item data type
+</span><span style="color:#75715e">     * @return {@link OneToManyFlow} for setting the binders
+</span><span style="color:#75715e">     * @see #register(Class, ItemViewBinder)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@CheckResult</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@NonNull</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> OneToManyFlow<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">register</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T<span style="color:#f92672">&gt;</span> clazz<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        checkAndRemoveAllTypesIfNeeded<span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> OneToManyBuilder<span style="color:#f92672">&lt;&gt;(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> clazz<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Registers all of the contents in the specified type pool. If you have registered a
+</span><span style="color:#75715e">     * class, it will override the original binder(s). Note that the method is non-thread-safe
+</span><span style="color:#75715e">     * so that you should not use it in concurrent operation.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * Note that the method should not be called after
+</span><span style="color:#75715e">     * {@link RecyclerView#setAdapter(RecyclerView.Adapter)}, or you have to call the setAdapter
+</span><span style="color:#75715e">     * again.
+</span><span style="color:#75715e">     * &lt;/p&gt;
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param pool type pool containing contents to be added to this adapter inner pool
+</span><span style="color:#75715e">     * @see #register(Class, ItemViewBinder)
+</span><span style="color:#75715e">     * @see #register(Class)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerAll</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> <span style="color:#66d9ef">final</span> TypePool pool<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> size <span style="color:#f92672">=</span> pool<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> size<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            registerWithoutChecking<span style="color:#f92672">(</span>
+                pool<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">(</span>i<span style="color:#f92672">),</span>
+                pool<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewBinder</span><span style="color:#f92672">(</span>i<span style="color:#f92672">),</span>
+                pool<span style="color:#f92672">.</span><span style="color:#a6e22e">getLinker</span><span style="color:#f92672">(</span>i<span style="color:#f92672">)</span>
+            <span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Sets and updates the items atomically and safely. It is recommended to use this method
+</span><span style="color:#75715e">     * to update the items with a new wrapper list or consider using {@link CopyOnWriteArrayList}.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * &lt;p&gt;Note: If you want to refresh the list views after setting items, you should
+</span><span style="color:#75715e">     * call {@link RecyclerView.Adapter#notifyDataSetChanged()} by yourself.&lt;/p&gt;
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param items the new items list
+</span><span style="color:#75715e">     * @since v2.4.1
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setItems</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;?&gt;</span> items<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">items</span> <span style="color:#f92672">=</span> items<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;?&gt;</span> getItems<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> items<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Set the TypePool to hold the types and view binders.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param typePool the TypePool implementation
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setTypePool</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> TypePool typePool<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">typePool</span> <span style="color:#f92672">=</span> typePool<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@NonNull</span> TypePool <span style="color:#a6e22e">getTypePool</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> typePool<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getItemViewType</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> position<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Object item <span style="color:#f92672">=</span> items<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>position<span style="color:#f92672">);</span> <span style="color:#75715e">//获取item
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> indexInTypesOf<span style="color:#f92672">(</span>position<span style="color:#f92672">,</span> item<span style="color:#f92672">);</span> <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> ViewHolder <span style="color:#a6e22e">onCreateViewHolder</span><span style="color:#f92672">(</span>ViewGroup parent<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> indexViewType<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        LayoutInflater inflater <span style="color:#f92672">=</span> LayoutInflater<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getContext</span><span style="color:#f92672">());</span>
+        ItemViewBinder<span style="color:#f92672">&lt;?,</span> <span style="color:#f92672">?&gt;</span> binder <span style="color:#f92672">=</span> typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewBinder</span><span style="color:#f92672">(</span>indexViewType<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> binder<span style="color:#f92672">.</span><span style="color:#a6e22e">onCreateViewHolder</span><span style="color:#f92672">(</span>inflater<span style="color:#f92672">,</span> parent<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * This method is deprecated and unused. You should not call this method.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * If you need to call the binding, use {@link RecyclerView.Adapter#onBindViewHolder(ViewHolder,
+</span><span style="color:#75715e">     * int, List)} instead.
+</span><span style="color:#75715e">     * &lt;/p&gt;
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param holder The ViewHolder which should be updated to represent the contents of the
+</span><span style="color:#75715e">     * item at the given position in the data set.
+</span><span style="color:#75715e">     * @param position The position of the item within the adapter&#39;s data set.
+</span><span style="color:#75715e">     * @throws IllegalAccessError By default.
+</span><span style="color:#75715e">     * @deprecated Call {@link RecyclerView.Adapter#onBindViewHolder(ViewHolder, int, List)}
+</span><span style="color:#75715e">     * instead.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@Deprecated</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onBindViewHolder</span><span style="color:#f92672">(</span>ViewHolder holder<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> position<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        onBindViewHolder<span style="color:#f92672">(</span>holder<span style="color:#f92672">,</span> position<span style="color:#f92672">,</span> Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">emptyList</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onBindViewHolder</span><span style="color:#f92672">(</span>ViewHolder holder<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> position<span style="color:#f92672">,</span> List<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> payloads<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Object item <span style="color:#f92672">=</span> items<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>position<span style="color:#f92672">);</span>
+        ItemViewBinder binder <span style="color:#f92672">=</span> typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewBinder</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewType</span><span style="color:#f92672">());</span>
+        binder<span style="color:#f92672">.</span><span style="color:#a6e22e">onBindViewHolder</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">,</span> item<span style="color:#f92672">,</span> payloads<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getItemCount</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> items<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Called to return the stable ID for the item, and passes the event to its associated binder.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param position Adapter position to query
+</span><span style="color:#75715e">     * @return the stable ID of the item at position
+</span><span style="color:#75715e">     * @see ItemViewBinder#getItemId(Object)
+</span><span style="color:#75715e">     * @see RecyclerView.Adapter#setHasStableIds(boolean)
+</span><span style="color:#75715e">     * @since v3.2.0
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getItemId</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> position<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Object item <span style="color:#f92672">=</span> items<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>position<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">int</span> itemViewType <span style="color:#f92672">=</span> getItemViewType<span style="color:#f92672">(</span>position<span style="color:#f92672">);</span>
+        ItemViewBinder binder <span style="color:#f92672">=</span> typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewBinder</span><span style="color:#f92672">(</span>itemViewType<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> binder<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemId</span><span style="color:#f92672">(</span>item<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Called when a view created by this adapter has been recycled, and passes the event to its
+</span><span style="color:#75715e">     * associated binder.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param holder The ViewHolder for the view being recycled
+</span><span style="color:#75715e">     * @see RecyclerView.Adapter#onViewRecycled(ViewHolder)
+</span><span style="color:#75715e">     * @see ItemViewBinder#onViewRecycled(ViewHolder)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewRecycled</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> ViewHolder holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        getRawBinderByViewHolder<span style="color:#f92672">(</span>holder<span style="color:#f92672">).</span><span style="color:#a6e22e">onViewRecycled</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Called by the RecyclerView if a ViewHolder created by this Adapter cannot be recycled
+</span><span style="color:#75715e">     * due to its transient state, and passes the event to its associated item view binder.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param holder The ViewHolder containing the View that could not be recycled due to its
+</span><span style="color:#75715e">     * transient state.
+</span><span style="color:#75715e">     * @return True if the View should be recycled, false otherwise. Note that if this method
+</span><span style="color:#75715e">     * returns &lt;code&gt;true&lt;/code&gt;, RecyclerView &lt;em&gt;will ignore&lt;/em&gt; the transient state of
+</span><span style="color:#75715e">     * the View and recycle it regardless. If this method returns &lt;code&gt;false&lt;/code&gt;,
+</span><span style="color:#75715e">     * RecyclerView will check the View&#39;s transient state again before giving a final decision.
+</span><span style="color:#75715e">     * Default implementation returns false.
+</span><span style="color:#75715e">     * @see RecyclerView.Adapter#onFailedToRecycleView(ViewHolder)
+</span><span style="color:#75715e">     * @see ItemViewBinder#onFailedToRecycleView(ViewHolder)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">onFailedToRecycleView</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> ViewHolder holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> getRawBinderByViewHolder<span style="color:#f92672">(</span>holder<span style="color:#f92672">).</span><span style="color:#a6e22e">onFailedToRecycleView</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Called when a view created by this adapter has been attached to a window, and passes the
+</span><span style="color:#75715e">     * event to its associated item view binder.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param holder Holder of the view being attached
+</span><span style="color:#75715e">     * @see RecyclerView.Adapter#onViewAttachedToWindow(ViewHolder)
+</span><span style="color:#75715e">     * @see ItemViewBinder#onViewAttachedToWindow(ViewHolder)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewAttachedToWindow</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> ViewHolder holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        getRawBinderByViewHolder<span style="color:#f92672">(</span>holder<span style="color:#f92672">).</span><span style="color:#a6e22e">onViewAttachedToWindow</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Called when a view created by this adapter has been detached from its window, and passes
+</span><span style="color:#75715e">     * the event to its associated item view binder.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param holder Holder of the view being detached
+</span><span style="color:#75715e">     * @see RecyclerView.Adapter#onViewDetachedFromWindow(ViewHolder)
+</span><span style="color:#75715e">     * @see ItemViewBinder#onViewDetachedFromWindow(ViewHolder)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span> <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewDetachedFromWindow</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> ViewHolder holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        getRawBinderByViewHolder<span style="color:#f92672">(</span>holder<span style="color:#f92672">).</span><span style="color:#a6e22e">onViewDetachedFromWindow</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">@NonNull</span> ItemViewBinder <span style="color:#a6e22e">getRawBinderByViewHolder</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> ViewHolder holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewBinder</span><span style="color:#f92672">(</span>holder<span style="color:#f92672">.</span><span style="color:#a6e22e">getItemViewType</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//这样写不存在问题吗？待验证。如果第一个有linker返回索引的0+1 第二个没有linker索引刚好是1 岂不是有问题？？
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">indexInTypesOf</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> position<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> Object item<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> BinderNotFoundException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">firstIndexOf</span><span style="color:#f92672">(</span>item<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+            Linker<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> linker <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Linker<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;)</span> typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">getLinker</span><span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> index <span style="color:#f92672">+</span> linker<span style="color:#f92672">.</span><span style="color:#a6e22e">index</span><span style="color:#f92672">(</span>position<span style="color:#f92672">,</span> item<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BinderNotFoundException<span style="color:#f92672">(</span>item<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">checkAndRemoveAllTypesIfNeeded</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Class<span style="color:#f92672">&lt;?&gt;</span> clazz<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>typePool<span style="color:#f92672">.</span><span style="color:#a6e22e">unregister</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">w</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;You have registered the &#34;</span> <span style="color:#f92672">+</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getSimpleName</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; type. &#34;</span> <span style="color:#f92672">+</span>
+                <span style="color:#e6db74">&#34;It will override the original binder(s).&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#75715e">/** A safe register method base on the TypePool&#39;s safety for TypePool. */</span>
+    <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerWithoutChecking</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Class clazz<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> ItemViewBinder binder<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> Linker linker<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        checkAndRemoveAllTypesIfNeeded<span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span>
+        register<span style="color:#f92672">(</span>clazz<span style="color:#f92672">,</span> binder<span style="color:#f92672">,</span> linker<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="adapterdelegate">AdapterDelegate</h3>
+<p>AdapterDelegate的封装实体类为<code>AdapterDelegate</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * This delegate provide method to hook in this delegate to {@link RecyclerView.Adapter} lifecycle.
+</span><span style="color:#75715e"> * This &#34;hook in&#34; mechanism is provided by {@link AdapterDelegatesManager} and that is the
+</span><span style="color:#75715e"> * component
+</span><span style="color:#75715e"> * you have to use.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param &lt;T&gt; The type of the data source
+</span><span style="color:#75715e"> * @author Hannes Dorfmann
+</span><span style="color:#75715e"> * @since 1.0
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdapterDelegate</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Called to determine whether this AdapterDelegate is the responsible for the given data
+</span><span style="color:#75715e">   * element.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param items The data source of the Adapter
+</span><span style="color:#75715e">   * @param position The position in the datasource
+</span><span style="color:#75715e">   * @return true, if this item is responsible,  otherwise false
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isForViewType</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> T items<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> position<span style="color:#f92672">);</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Creates the  {@link RecyclerView.ViewHolder} for the given data source item
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param parent The ViewGroup parent of the given datasource
+</span><span style="color:#75715e">   * @return The new instantiated {@link RecyclerView.ViewHolder}
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#a6e22e">@NonNull</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">protected</span> RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">ViewHolder</span> <span style="color:#a6e22e">onCreateViewHolder</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> ViewGroup parent<span style="color:#f92672">);</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Called to bind the {@link RecyclerView.ViewHolder} to the item of the datas source set
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param items The data source
+</span><span style="color:#75715e">   * @param position The position in the datasource
+</span><span style="color:#75715e">   * @param holder The {@link RecyclerView.ViewHolder} to bind
+</span><span style="color:#75715e">   * @param payloads A non-null list of merged payloads. Can be empty list if requires full update.
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onBindViewHolder</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> T items<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> position<span style="color:#f92672">,</span>
+      <span style="color:#a6e22e">@NonNull</span> RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">ViewHolder</span> holder<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> List<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> payloads<span style="color:#f92672">);</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Called when a view created by this adapter has been recycled.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * &lt;p&gt;A view is recycled when a {@link RecyclerView.LayoutManager} decides that it no longer
+</span><span style="color:#75715e">   * needs to be attached to its parent {@link RecyclerView}. This can be because it has
+</span><span style="color:#75715e">   * fallen out of visibility or a set of cached views represented by views still
+</span><span style="color:#75715e">   * attached to the parent RecyclerView. If an item view has large or expensive data
+</span><span style="color:#75715e">   * bound to it such as large bitmaps, this may be a good place to release those
+</span><span style="color:#75715e">   * resources.&lt;/p&gt;
+</span><span style="color:#75715e">   * &lt;p&gt;
+</span><span style="color:#75715e">   * RecyclerView calls this method right before clearing ViewHolder&#39;s internal data and
+</span><span style="color:#75715e">   * sending it to RecycledViewPool. This way, if ViewHolder was holding valid information
+</span><span style="color:#75715e">   * before being recycled, you can call {@link RecyclerView.ViewHolder#getAdapterPosition()} to
+</span><span style="color:#75715e">   * get
+</span><span style="color:#75715e">   * its adapter position.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param viewHolder The ViewHolder for the view being recycled
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewRecycled</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">ViewHolder</span> viewHolder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Called by the RecyclerView if a ViewHolder created by this Adapter cannot be recycled
+</span><span style="color:#75715e">   * due to its transient state. Upon receiving this callback, Adapter can clear the
+</span><span style="color:#75715e">   * animation(s) that effect the View&#39;s transient state and return &lt;code&gt;true&lt;/code&gt; so that
+</span><span style="color:#75715e">   * the View can be recycled. Keep in mind that the View in question is already removed from
+</span><span style="color:#75715e">   * the RecyclerView.
+</span><span style="color:#75715e">   * &lt;p&gt;
+</span><span style="color:#75715e">   * In some cases, it is acceptable to recycle a View although it has transient state. Most
+</span><span style="color:#75715e">   * of the time, this is a case where the transient state will be cleared in
+</span><span style="color:#75715e">   * {@link RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)} call when View is
+</span><span style="color:#75715e">   * rebound to a new position.
+</span><span style="color:#75715e">   * For this reason, RecyclerView leaves the decision to the Adapter and uses the return
+</span><span style="color:#75715e">   * value of this method to decide whether the View should be recycled or not.
+</span><span style="color:#75715e">   * &lt;p&gt;
+</span><span style="color:#75715e">   * Note that when all animations are created by {@link RecyclerView.ItemAnimator}, you
+</span><span style="color:#75715e">   * should never receive this callback because RecyclerView keeps those Views as children
+</span><span style="color:#75715e">   * until their animations are complete. This callback is useful when children of the item
+</span><span style="color:#75715e">   * views create animations which may not be easy to implement using an {@link
+</span><span style="color:#75715e">   * RecyclerView.ItemAnimator}.
+</span><span style="color:#75715e">   * &lt;p&gt;
+</span><span style="color:#75715e">   * You should &lt;em&gt;never&lt;/em&gt; fix this issue by calling
+</span><span style="color:#75715e">   * &lt;code&gt;holder.itemView.setHasTransientState(false);&lt;/code&gt; unless you&#39;ve previously called
+</span><span style="color:#75715e">   * &lt;code&gt;holder.itemView.setHasTransientState(true);&lt;/code&gt;. Each
+</span><span style="color:#75715e">   * &lt;code&gt;View.setHasTransientState(true)&lt;/code&gt; call must be matched by a
+</span><span style="color:#75715e">   * &lt;code&gt;View.setHasTransientState(false)&lt;/code&gt; call, otherwise, the state of the View
+</span><span style="color:#75715e">   * may become inconsistent. You should always prefer to end or cancel animations that are
+</span><span style="color:#75715e">   * triggering the transient state instead of handling it manually.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param holder The ViewHolder containing the View that could not be recycled due to its
+</span><span style="color:#75715e">   * transient state.
+</span><span style="color:#75715e">   * @return True if the View should be recycled, false otherwise. Note that if this method
+</span><span style="color:#75715e">   * returns &lt;code&gt;true&lt;/code&gt;, RecyclerView &lt;em&gt;will ignore&lt;/em&gt; the transient state of
+</span><span style="color:#75715e">   * the View and recycle it regardless. If this method returns &lt;code&gt;false&lt;/code&gt;,
+</span><span style="color:#75715e">   * RecyclerView will check the View&#39;s transient state again before giving a final decision.
+</span><span style="color:#75715e">   * Default implementation returns false.
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">onFailedToRecycleView</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">ViewHolder</span> holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Called when a view created by this adapter has been attached to a window.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * &lt;p&gt;This can be used as a reasonable signal that the view is about to be seen
+</span><span style="color:#75715e">   * by the user. If the adapter previously freed any resources in
+</span><span style="color:#75715e">   * {@link RecyclerView.Adapter#onViewDetachedFromWindow(RecyclerView.ViewHolder)
+</span><span style="color:#75715e">   * onViewDetachedFromWindow}
+</span><span style="color:#75715e">   * those resources should be restored here.&lt;/p&gt;
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param holder Holder of the view being attached
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewAttachedToWindow</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">ViewHolder</span> holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Called when a view created by this adapter has been detached from its window.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * &lt;p&gt;Becoming detached from the window is not necessarily a permanent condition;
+</span><span style="color:#75715e">   * the consumer of an Adapter&#39;s views may choose to cache views offscreen while they
+</span><span style="color:#75715e">   * are not visible, attaching an detaching them as appropriate.&lt;/p&gt;
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param holder Holder of the view being detached
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewDetachedFromWindow</span><span style="color:#f92672">(</span>RecyclerView<span style="color:#f92672">.</span><span style="color:#a6e22e">ViewHolder</span> holder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>AdapterDelegatesManager用来存储AdapterDelegate和建立与viewtype的对应关系。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdapterDelegatesManager</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+<span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>	  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Map for ViewType to AdapterDelegate
+</span><span style="color:#75715e">   */</span>
+<span style="color:#75715e">//使用Map建立	  ViewType和adapter的对应关系
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span> SparseArrayCompat<span style="color:#f92672">&lt;</span>AdapterDelegate<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> delegates <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SparseArrayCompat<span style="color:#f92672">();</span>
+<span style="color:#75715e">//....
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> AdapterDelegatesManager<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">addDelegate</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> AdapterDelegate<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> delegate<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// algorithm could be improved since there could be holes,
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// but it&#39;s very unlikely that we reach Integer.MAX_VALUE and run out of unused indexes
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> viewType <span style="color:#f92672">=</span> delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span>
+    <span style="color:#75715e">//在上面情况下会走这里？
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>viewType<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      viewType<span style="color:#f92672">++;</span>
+      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>viewType <span style="color:#f92672">==</span> FALLBACK_DELEGATE_VIEW_TYPE<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span>
+            <span style="color:#e6db74">&#34;Oops, we are very close to Integer.MAX_VALUE. It seems that there are no more free and unused view type integers left to add another AdapterDelegate.&#34;</span><span style="color:#f92672">);</span>
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">return</span> addDelegate<span style="color:#f92672">(</span>viewType<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> delegate<span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Adds an {@link AdapterDelegate}.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param viewType The viewType id
+</span><span style="color:#75715e">   * @param allowReplacingDelegate if true, you allow to replacing the given delegate any previous
+</span><span style="color:#75715e">   * delegate for the same view type. if false, you disallow and a {@link IllegalArgumentException}
+</span><span style="color:#75715e">   * will be thrown if you try to replace an already registered {@link AdapterDelegate} for the
+</span><span style="color:#75715e">   * same view type.
+</span><span style="color:#75715e">   * @param delegate The delegate to add
+</span><span style="color:#75715e">   * @throws IllegalArgumentException if &lt;b&gt;allowReplacingDelegate&lt;/b&gt;  is false and an {@link
+</span><span style="color:#75715e">   * AdapterDelegate} is already added (registered)
+</span><span style="color:#75715e">   * with the same ViewType.
+</span><span style="color:#75715e">   * @throws IllegalArgumentException if viewType is {@link #FALLBACK_DELEGATE_VIEW_TYPE} which is
+</span><span style="color:#75715e">   * reserved
+</span><span style="color:#75715e">   * @see #addDelegate(AdapterDelegate)
+</span><span style="color:#75715e">   * @see #addDelegate(int, AdapterDelegate)
+</span><span style="color:#75715e">   * @see #setFallbackDelegate(AdapterDelegate)
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">public</span> AdapterDelegatesManager<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">addDelegate</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> viewType<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> allowReplacingDelegate<span style="color:#f92672">,</span>
+      <span style="color:#a6e22e">@NonNull</span> AdapterDelegate<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> delegate<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>delegate <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> NullPointerException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;AdapterDelegate is null!&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>viewType <span style="color:#f92672">==</span> FALLBACK_DELEGATE_VIEW_TYPE<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;The view type = &#34;</span>
+          <span style="color:#f92672">+</span> FALLBACK_DELEGATE_VIEW_TYPE
+          <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; is reserved for fallback adapter delegate (see setFallbackDelegate() ). Please use another view type.&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>allowReplacingDelegate <span style="color:#f92672">&amp;&amp;</span> delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>viewType<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span>
+          <span style="color:#e6db74">&#34;An AdapterDelegate is already registered for the viewType = &#34;</span>
+              <span style="color:#f92672">+</span> viewType
+              <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;. Already registered AdapterDelegate is &#34;</span>
+              <span style="color:#f92672">+</span> delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>viewType<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+
+    delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>viewType<span style="color:#f92672">,</span> delegate<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Must be called from {@link RecyclerView.Adapter#getItemViewType(int)}. Internally it scans all
+</span><span style="color:#75715e">   * the registered {@link AdapterDelegate} and picks the right one to return the ViewType integer.
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @param items Adapter&#39;s data source
+</span><span style="color:#75715e">   * @param position the position in adapters data source
+</span><span style="color:#75715e">   * @return the ViewType (integer). Returns {@link #FALLBACK_DELEGATE_VIEW_TYPE} in case that the
+</span><span style="color:#75715e">   * fallback adapter delegate should be used
+</span><span style="color:#75715e">   * @throws NullPointerException if no {@link AdapterDelegate} has been found that is
+</span><span style="color:#75715e">   * responsible for the given data element in data set (No {@link AdapterDelegate} for the given
+</span><span style="color:#75715e">   * ViewType)
+</span><span style="color:#75715e">   * @throws NullPointerException if items is null
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getItemViewType</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> T items<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> position<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>items <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> NullPointerException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Items datasource is null!&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">int</span> delegatesCount <span style="color:#f92672">=</span> delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span>
+    <span style="color:#75715e">//遍历所有的delegate 
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> delegatesCount<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+      AdapterDelegate<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> delegate <span style="color:#f92672">=</span> delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">valueAt</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+      <span style="color:#75715e">//根据类型判断 获取key
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>delegate<span style="color:#f92672">.</span><span style="color:#a6e22e">isForViewType</span><span style="color:#f92672">(</span>items<span style="color:#f92672">,</span> position<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> delegates<span style="color:#f92672">.</span><span style="color:#a6e22e">keyAt</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span> 
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>fallbackDelegate <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">return</span> FALLBACK_DELEGATE_VIEW_TYPE<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> NullPointerException<span style="color:#f92672">(</span>
+        <span style="color:#e6db74">&#34;No AdapterDelegate added that matches position=&#34;</span> <span style="color:#f92672">+</span> position <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; in data source&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+
+</code></pre></div>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2017-11-03</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/linux-command/">
+                    Next<br>常用Linux命令
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/signing-android-app/">
+                    Previous<br>签署Android应用
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

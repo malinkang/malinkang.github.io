@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html><head>
+<title>Improve App Performance With Kotlin Coroutines</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%ae%a1%e7%90%86%e9%95%bf%e6%97%b6%e9%97%b4%e8%bf%90%e8%a1%8c%e7%9a%84%e4%bb%bb%e5%8a%a1" v-on:click="closeDrawer" id="管理长时间运行的任务-nav">
+										 管理长时间运行的任务
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#use-coroutines-for-main-safety" v-on:click="closeDrawer" id="use-coroutines-for-main-safety-nav">
+										 Use coroutines for main-safety
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%8c%87%e5%ae%9acoroutinescope" v-on:click="closeDrawer" id="指定coroutinescope-nav">
+										 指定CoroutineScope
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86coroutinescope%e4%b8%8eandroid%e6%9e%b6%e6%9e%84%e7%bb%84%e4%bb%b6%e9%85%8d%e5%90%88%e4%bd%bf%e7%94%a8" v-on:click="closeDrawer" id="将coroutinescope与android架构组件配合使用-nav">
+										 将CoroutineScope与Android架构组件配合使用
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%90%af%e5%8a%a8%e4%b8%80%e4%b8%aa%e5%8d%8f%e7%a8%8b" v-on:click="closeDrawer" id="启动一个协程-nav">
+										 启动一个协程
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b9%b6%e8%a1%8c%e5%88%86%e8%a7%a3" v-on:click="closeDrawer" id="并行分解-nav">
+										 并行分解
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%85%b7%e6%9c%89%e5%86%85%e7%bd%ae%e6%94%af%e6%8c%81%e7%9a%84%e6%9e%b6%e6%9e%84%e7%bb%84%e4%bb%b6" v-on:click="closeDrawer" id="具有内置支持的架构组件-nav">
+										 具有内置支持的架构组件
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%ae%a1%e7%90%86%e9%95%bf%e6%97%b6%e9%97%b4%e8%bf%90%e8%a1%8c%e7%9a%84%e4%bb%bb%e5%8a%a1" v-on:click="closeDrawer" id="管理长时间运行的任务-nav">
+										 管理长时间运行的任务
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#use-coroutines-for-main-safety" v-on:click="closeDrawer" id="use-coroutines-for-main-safety-nav">
+										 Use coroutines for main-safety
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%8c%87%e5%ae%9acoroutinescope" v-on:click="closeDrawer" id="指定coroutinescope-nav">
+										 指定CoroutineScope
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86coroutinescope%e4%b8%8eandroid%e6%9e%b6%e6%9e%84%e7%bb%84%e4%bb%b6%e9%85%8d%e5%90%88%e4%bd%bf%e7%94%a8" v-on:click="closeDrawer" id="将coroutinescope与android架构组件配合使用-nav">
+										 将CoroutineScope与Android架构组件配合使用
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%90%af%e5%8a%a8%e4%b8%80%e4%b8%aa%e5%8d%8f%e7%a8%8b" v-on:click="closeDrawer" id="启动一个协程-nav">
+										 启动一个协程
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b9%b6%e8%a1%8c%e5%88%86%e8%a7%a3" v-on:click="closeDrawer" id="并行分解-nav">
+										 并行分解
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%85%b7%e6%9c%89%e5%86%85%e7%bd%ae%e6%94%af%e6%8c%81%e7%9a%84%e6%9e%b6%e6%9e%84%e7%bb%84%e4%bb%b6" v-on:click="closeDrawer" id="具有内置支持的架构组件-nav">
+										 具有内置支持的架构组件
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    Improve App Performance With Kotlin Coroutines
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2019-10-15 19:02
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p><a href="https://developer.android.com/kotlin/coroutines">原文</a></p>
+<p>协程是一种并发设计模式，您可以在<code>Android</code>上使用它来简化异步执行的代码。 <code>Coroutines</code>在版本1.3中添加到<code>Kotlin</code>，并基于其他语言的既定概念。</p>
+<p>在<code>Android</code>上，协同程序有助于解决两个主要问题：</p>
+<ul>
+<li>管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。</li>
+<li>提供主安全性，或从主线程安全地调用网络或磁盘操作。</li>
+</ul>
+<p>本主题描述了如何使用Kotlin协同程序解决这些问题，使您能够编写更清晰，更简洁的应用程序代码。</p>
+<h2 id="管理长时间运行的任务">管理长时间运行的任务</h2>
+<p>在Android上，每个应用程序都有一个主线程来处理用户界面并管理用户交互。如果您的应用程序为主线程分配了太多工作，那么应用程序可能会明显卡顿或运行缓慢。网络请求，JSON解析，从数据库读取或写入，甚至只是迭代大型列表都可能导致应用程序运行缓慢，导致可见的缓慢或冻结的UI对触摸事件响应缓慢。这些长时间运行的操作应该在主线程之外运行。</p>
+<p>以下示例显示了假设的长期运行任务的简单协同程序实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fetchDocs</span>() {               <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">val</span> result = <span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;https://developer.android.com&#34;</span>) <span style="color:#75715e">// Dispatchers.IO for `get`
+</span><span style="color:#75715e"></span>  show(result)                   <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">get</span>(url: String) = withContext(Dispatchers.IO) { <span style="color:#75715e">/* ... */</span> }
+</code></pre></div><p>协同程序通过添加两个操作来处理长时间运行的任务，从而构建常规功能。除了<code>invoke</code>（或<code>call</code>）和返回之外，协同程序还添加了<code>suspend</code>和<code>resume</code>：</p>
+<ul>
+<li><code>suspend</code>暂停当前协同程序的执行，保存所有局部变量。</li>
+<li><code>resume</code>恢复从暂停的协同处继续执行暂停的协同程序。</li>
+</ul>
+<p>您只能从其他<code>suspend</code>函数调用<code>suspend</code>函数，或者使用诸如启动之类的协程构建器来启动新的协程。</p>
+<p>在上面的示例中，<code>get()</code>仍然在主线程上运行，但它在启动网络请求之前挂起协同程序。当网络请求完成时，<code>get</code>恢复暂停的协程，而不是使用回调来通知主线程。</p>
+<p><code>Kotlin</code>使用堆栈框架来管理与任何局部变量一起运行的函数。挂起协程时，将复制并保存当前堆栈帧以供以后使用。恢复时，堆栈帧将从保存位置复制回来，并且该函数将再次开始运行。即使代码看起来像普通的顺序阻塞请求，协程也可以确保网络请求避免阻塞主线程。</p>
+<h2 id="use-coroutines-for-main-safety">Use coroutines for main-safety</h2>
+<p><code>Kotlin</code>协程使用调度程序来确定哪些线程用于协程执行。要在主线程之外运行代码，您可以告诉Kotlin协程在Default或IO调度程序上执行工作。在Kotlin中，所有协同程序必须在调度程序中运行，即使它们在主线程上运行。协同程序可以暂停，调度程序负责恢复它们。</p>
+<p>要指定协程应该运行的位置，Kotlin提供了三个可以使用的调度程序：</p>
+<ul>
+<li>Dispatchers.Main  - 使用此调度程序在主Android线程上运行协同程序。 这应该仅用于与UI交互并执行快速工作。 示例包括调用挂起函数，运行Android UI框架操作以及更新<code>LiveData</code>对象。</li>
+<li>Dispatchers.IO  - 此调度程序已经过优化，可在主线程外执行磁盘或网络I / O. 示例包括使用Room组件，读取或写入文件以及运行任何网络操作。</li>
+<li>Dispatchers.Default  - 此调度程序已经过优化，可以在主线程之外执行CPU密集型工作。 示例用例包括对列表进行排序和解析JSON。</li>
+</ul>
+<p>继续前面的示例，您可以使用调度程序重新定义get函数。 在get的主体内部，调用withContext(Dispatchers.IO)来创建一个在IO线程池上运行的块。 放在该块中的任何代码总是通过IO调度程序执行。 由于<code>withContext</code>本身是一个挂起函数，因此函数get也是一个挂起函数。</p>
+<p>使用协同程序，您可以调度具有细粒度控制的线程。 因为<code>withContext()</code>允许您控制任何代码行的线程池而不引入回调，所以您可以将它应用于非常小的函数，例如从数据库读取或执行网络请求。 一个好的做法是使用<code>withContext()</code>来确保每个函数都是主安全的，这意味着您可以从主线程调用该函数。 这样，调用者永远不需要考虑应该使用哪个线程来执行该函数。</p>
+<p>在前面的示例中，<code>fetchDocs()</code>在主线程上执行; 但是，它可以安全地调用get，后者在后台执行网络请求。 因为协同程序支持挂起和恢复，所以只要<code>withContext</code>块完成，主线程上的协程就会以<code>get</code>结果恢复。</p>
+<blockquote>
+<p>重要说明：使用<code>suspend</code>并不能告诉<code>Kotlin</code>在后台线程上运行函数。 暂停函数在主线程上运行是正常的。 在主线程上启动协同程序也很常见。 当您需要主安全时，例如在读取或写入磁盘，执行网络操作或运行CPU密集型操作时，应始终在挂起函数内使用<code>withContext()</code>。</p>
+</blockquote>
+<p>与等效的基于回调的实现相比，<code>withContext()</code>不会增加额外的开销。 此外，在某些情况下，可以优化<code>withContext()</code>调用，而不是基于等效的基于回调的实现。 例如，如果一个函数对网络进行十次调用，则可以通过使用外部<code>withContext()</code>告诉Kotlin只切换一次线程。 然后，即使网络库多次使用<code>withContext()</code>，它仍然停留在同一个调度程序上，并避免切换线程。 此外，Kotlin优化了Dispatchers.Default和Dispatchers.IO之间的切换，以尽可能避免线程切换。</p>
+<blockquote>
+<p>要点：使用使用Dispatchers.IO或Dispatchers.Default等线程池的调度程序并不能保证该块从上到下在同一个线程上执行。 在某些情况下，Kotlin协程可能会在暂停和恢复后将执行移动到另一个线程。 这意味着线程局部变量可能不会指向整个<code>withContext()</code>块的相同值。</p>
+</blockquote>
+<h2 id="指定coroutinescope">指定CoroutineScope</h2>
+<p>定义协程时，还必须指定其CoroutineScope。 CoroutineScope管理一个或多个相关协程。 您还可以使用CoroutineScope在该范围内启动新协程。 但是，与调度程序不同，CoroutineScope不会运行协同程序。</p>
+<p>CoroutineScope的一个重要功能是当用户离开应用程序中的内容区域时停止协程执行。 使用CoroutineScope，您可以确保正确停止任何正在运行的操作。</p>
+<h3 id="将coroutinescope与android架构组件配合使用">将CoroutineScope与Android架构组件配合使用</h3>
+<p>在Android上，您可以将CoroutineScope实现与组件生命周期相关联。这样可以避免泄漏内存或为与用户不再相关的<code>activity</code>或<code>fragment</code>执行额外的工作。使用Jetpack组件，它们自然适合ViewModel。由于ViewModel在配置更改（例如屏幕旋转）期间不会被销毁，因此您不必担心协同程序被取消或重新启动。</p>
+<p>范围知道他们开始的每个协同程序。这意味着您可以随时取消在作用域中启动的所有内容。范围传播自己，所以如果一个协程开始另一个协同程序，两个协同程序具有相同的范围。这意味着即使其他库从您的范围启动协程，您也可以随时取消它们。如果您在ViewModel中运行协同程序，这一点尤为重要。如果因为用户离开了屏幕而导致ViewModel被销毁，则必须停止它正在执行的所有异步工作。否则，您将浪费资源并可能泄漏内存。如果您在销毁ViewModel后应该继续进行异步工作，则应该在应用程序架构的较低层中完成。</p>
+<blockquote>
+<p>警告：通过抛出CancellationException协同取消协同程序。 在协程取消期间触发捕获异常或Throwable的异常处理程序。</p>
+</blockquote>
+<p>使用适用于Android体系结构的KTX库组件，您还可以使用扩展属性viewModelScope来创建可以运行的协同程序，直到ViewModel被销毁。</p>
+<h2 id="启动一个协程">启动一个协程</h2>
+<p>您可以通过以下两种方式之一启动协同程序：</p>
+<ul>
+<li><code>launch</code>会启动一个新的协程，并且不会将结果返回给调用者。 任何被认为是“发射并忘记”的工作都可以使用<code>launch</code>来开始。</li>
+<li><code>async</code>启动一个新的协同程序，并允许您使用名为<code>await</code>的挂起函数返回结果。</li>
+</ul>
+<p>通常，您应该从常规函数启动新协程，因为常规函数无法调用等待。 仅在另一个协同程序内部或在挂起函数内部执行并行分解时才使用异步。</p>
+<p>在前面的示例的基础上，这里是一个带有viewModelScope KTX扩展属性的协程，它使用launch从常规函数切换到协同程序：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onDocsNeeded</span>() {
+  viewModelScope.launch {  <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>    fetchDocs()      <span style="color:#75715e">// Dispatchers.Main (suspend function call)
+</span><span style="color:#75715e"></span>  }
+}
+</code></pre></div><blockquote>
+<p>警告：启动和异步处理异常的方式不同。 由于async期望在某个时刻最终调用await，它会保留异常并在await调用中重新抛出它们。 这意味着如果您使用await从常规函数启动新的协同程序，则可能会以静默方式删除异常。 这些丢弃的异常不会出现在崩溃指标中，也不会出现在logcat中。</p>
+</blockquote>
+<h3 id="并行分解">并行分解</h3>
+<p>当函数返回时，必须停止由挂起函数启动的所有协同程序，因此您可能需要保证这些协程在返回之前完成。 通过Kotlin中的结构化并发，您可以定义一个启动一个或多个协同程序的coroutineScope。 然后，使用<code>await()</code>（对于单个协同程序）或<code>awaitAll()</code>（对于多个协程），可以保证这些协程在从函数返回之前完成。</p>
+<p>例如，让我们定义一个以异步方式获取两个文档的coroutineScope。 通过在每个延迟引用上调用<code>await()</code>，我们保证在返回值之前两个异步操作都完成：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fetchTwoDocs</span>() =
+  coroutineScope {
+    <span style="color:#66d9ef">val</span> deferredOne = async { fetchDoc(<span style="color:#ae81ff">1</span>) }
+    <span style="color:#66d9ef">val</span> deferredTwo = async { fetchDoc(<span style="color:#ae81ff">2</span>) }
+    deferredOne.await()
+    deferredTwo.await()
+  }
+</code></pre></div><p>即使fetchTwoDocs（）使用异步启动新的协同程序，该函数也会使用awaitAll（）等待那些启动的协同程序在返回之前完成。 但请注意，即使我们没有调用awaitAll（），coroutineScope构建器也不会恢复调用fetchTwoDocs的协程，直到所有新的协程完成。</p>
+<p>此外，coroutineScope捕获协程抛出的任何异常并将它们路由回调用者。</p>
+<p>有关并行分解的更多信息，请参阅编写挂起函数。</p>
+<h2 id="具有内置支持的架构组件">具有内置支持的架构组件</h2>
+<p>一些体系结构组件（包括ViewModel和Lifecycle）通过其自己的CoroutineScope成员包含对协同程序的内置支持。</p>
+<p>例如，ViewModel包含一个内置的viewModelScope。 这提供了在ViewModel范围内启动协同程序的标准方法，如以下示例所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyViewModel</span> : ViewModel() {
+
+  <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">launchDataLoad</span>() {
+    viewModelScope.launch {
+      sortList()
+      <span style="color:#75715e">// Modify UI
+</span><span style="color:#75715e"></span>    }
+  }
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">  * Heavy operation that cannot be done in the Main Thread
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">sortList</span>() = withContext(Dispatchers.Default) {
+    <span style="color:#75715e">// Heavy work
+</span><span style="color:#75715e"></span>  }
+}
+
+</code></pre></div><p>LiveData还使用带有liveData块的协同程序：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">liveData {
+  <span style="color:#75715e">// runs in its own LiveData-specific scope
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>#</p>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2019-10-15</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts">
+                    Next<br>No newer posts.
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/dex-file-format/">
+                    Previous<br>Dex文件格式分析
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

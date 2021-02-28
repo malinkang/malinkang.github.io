@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html><head>
+<title>sqlite常用语法总结</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#1%e5%88%9b%e5%bb%ba%e8%a1%a8" v-on:click="closeDrawer" id="1创建表-nav">
+										 1.创建表
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%94%af%e4%b8%80%e6%80%a7%e7%ba%a6%e6%9d%9funique" v-on:click="closeDrawer" id="唯一性约束unique-nav">
+										 唯一性约束UNIQUE
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%b8%bb%e9%94%ae%e7%ba%a6%e6%9d%9f" v-on:click="closeDrawer" id="主键约束-nav">
+										 主键约束
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#not-null%e7%ba%a6%e6%9d%9f" v-on:click="closeDrawer" id="not-null约束-nav">
+										 NOT NULL约束
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#check%e7%ba%a6%e6%9d%9f" v-on:click="closeDrawer" id="check约束-nav">
+										 check约束
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#1%e5%88%9b%e5%bb%ba%e8%a1%a8" v-on:click="closeDrawer" id="1创建表-nav">
+										 1.创建表
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%94%af%e4%b8%80%e6%80%a7%e7%ba%a6%e6%9d%9funique" v-on:click="closeDrawer" id="唯一性约束unique-nav">
+										 唯一性约束UNIQUE
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%b8%bb%e9%94%ae%e7%ba%a6%e6%9d%9f" v-on:click="closeDrawer" id="主键约束-nav">
+										 主键约束
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#not-null%e7%ba%a6%e6%9d%9f" v-on:click="closeDrawer" id="not-null约束-nav">
+										 NOT NULL约束
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#check%e7%ba%a6%e6%9d%9f" v-on:click="closeDrawer" id="check约束-nav">
+										 check约束
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    sqlite常用语法总结
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2014-03-26 17:23
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <h1 id="1创建表">1.创建表</h1>
+<p>SQLite数据类型</p>
+<p>integer：整数值</p>
+<p>real：浮点数</p>
+<p>text:文本</p>
+<p>blob：二进制大对象</p>
+<p>NULL</p>
+<h2 id="唯一性约束unique">唯一性约束<code>UNIQUE</code></h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Contacts (id INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,name TEXT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,phone TEXT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;UNKNOWN&#39;</span>,<span style="color:#66d9ef">UNIQUE</span>(name,phone));
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Jerry&#39;</span>,<span style="color:#e6db74">&#39;UNKNOWN&#39;</span>);
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">再次插入会出现错误</span>
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Jerry&#39;</span>,<span style="color:#e6db74">&#39;UNKNOWN&#39;</span>);
+Error: <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">constraint</span> failed: Contacts.name, Contacts.phone
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">插入成功，因为</span>name自身不是唯一的<span style="color:#960050;background-color:#1e0010">，但是</span>name和phone合起来是唯一的
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Jerry&#39;</span>,<span style="color:#e6db74">&#39;555-1212&#39;</span>);
+</code></pre></div><p>NULL不等于任何值，甚至不等于其他的NULL所以不会出现NULL冲突。</p>
+<h2 id="主键约束">主键约束</h2>
+<h2 id="not-null约束"><code>NOT NULL</code>约束</h2>
+<h2 id="check约束"><code>check</code>约束</h2>
+<p>check约束允许定义表达式来测试要插入或者更新的字段值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Foo ( x INTEGER,y INTEGER <span style="color:#66d9ef">CHECK</span> (y<span style="color:#f92672">&gt;</span>x), z INTEGER <span style="color:#66d9ef">CHECK</span> (z<span style="color:#f92672">&gt;</span><span style="color:#66d9ef">abs</span>(y)));
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Foo <span style="color:#66d9ef">VALUES</span> (<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>);
+sqlite<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Foo <span style="color:#66d9ef">VALUES</span> (<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>);
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">不满足条件出错</span>
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Foo <span style="color:#66d9ef">VALUES</span> (<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>);
+Error: <span style="color:#66d9ef">CHECK</span> <span style="color:#66d9ef">constraint</span> failed: Foo
+
+</code></pre></div><p>SQLite提供了5种可能的冲突解决方案来解决冲突：<code>replace</code>、<code>ignore</code>、<code>fail</code>、<code>abort</code>、<code>rollback</code>。</p>
+<p><code>replace</code>：当违反了唯一性约束时，新记录会替代原来的记录</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Contacts (id INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,name TEXT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,phone TEXT <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">ON</span> CONFLICT <span style="color:#66d9ef">REPLACE</span>);
+sqlite<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Jerry&#39;</span>,<span style="color:#e6db74">&#39;12345678&#39;</span>);sqlite<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Tom&#39;</span>,<span style="color:#e6db74">&#39;12345678&#39;</span>);
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Contacts;
+
+
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Tom<span style="color:#f92672">|</span><span style="color:#ae81ff">12345678</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> COMPANY(
+   ID INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>     <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+   NAME           TEXT    <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+   AGE            INT     <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+   ADDRESS        CHAR(<span style="color:#ae81ff">50</span>),
+   SALARY         REAL    <span style="color:#66d9ef">DEFAULT</span> <span style="color:#ae81ff">50000</span>.<span style="color:#ae81ff">00</span>,
+   <span style="color:#66d9ef">UNIQUE</span> (NAME,AGE) <span style="color:#66d9ef">ON</span> CONFLICT <span style="color:#66d9ef">REPLACE</span>
+);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">0</span>,<span style="color:#e6db74">&#34;MLK&#34;</span>,<span style="color:#ae81ff">22</span>,<span style="color:#e6db74">&#34;ABC&#34;</span>,<span style="color:#ae81ff">20000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">替换上一条</span>
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#34;MLK&#34;</span>,<span style="color:#ae81ff">22</span>,<span style="color:#e6db74">&#34;ABC&#34;</span>,<span style="color:#ae81ff">20000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">替换上一条</span>
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#34;MLK&#34;</span>,<span style="color:#ae81ff">22</span>,<span style="color:#e6db74">&#34;EFG&#34;</span>,<span style="color:#ae81ff">10000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#34;MLK&#34;</span>,<span style="color:#ae81ff">23</span>,<span style="color:#e6db74">&#34;EFG&#34;</span>,<span style="color:#ae81ff">10000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> COMPANY;
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">查询结果</span>
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>MLK<span style="color:#f92672">|</span><span style="color:#ae81ff">22</span><span style="color:#f92672">|</span>EFG<span style="color:#f92672">|</span><span style="color:#ae81ff">10000</span>.<span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>MLK<span style="color:#f92672">|</span><span style="color:#ae81ff">23</span><span style="color:#f92672">|</span>EFG<span style="color:#f92672">|</span><span style="color:#ae81ff">10000</span>.<span style="color:#ae81ff">0</span>
+
+</code></pre></div><p><code>ignore</code>：违反唯一性约束，将忽略新的记录。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Contacts (id INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,name TEXT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,phone TEXT <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">ON</span> CONFLICT <span style="color:#66d9ef">IGNORE</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Jerry&#39;</span>,<span style="color:#e6db74">&#39;12345678&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Contacts (name,phone) <span style="color:#66d9ef">values</span> (<span style="color:#e6db74">&#39;Tom&#39;</span>,<span style="color:#e6db74">&#39;12345678&#39;</span>);
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Contacts;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Jerry<span style="color:#f92672">|</span><span style="color:#ae81ff">12345678</span>
+
+</code></pre></div><p><code>fail</code>：当约束发生时，SQLite终止命令，但是不恢复约束违反之前已经修改的记录。也就是说，在约束违法发生前的改变都保留。例如，如果update命令在第100行违法约束，那么前99行已经修改的记录不会回滚。对第100行和之外的改变不会发生，因为命令已经终止了。</p>
+<p>abort：当约束违反发生时，SQLite恢复命令所做的所有改变并终止命令。abort是SQLite中所有操作的默认解决方法，也是SQL标准定义的行为。</p>
+<p>rollback：当约束违反发生时，SQLite执行回滚，终止当前命令和整个事务。</p>
+<h5 id="like操作符和glob操作符">LIKE操作符和GLOB操作符</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Persons (Id Integer <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,LastName varchar(<span style="color:#ae81ff">20</span>),FirstName varchar(<span style="color:#ae81ff">20</span>),Address varchar(<span style="color:#ae81ff">30</span>),City varchar(<span style="color:#ae81ff">20</span>));
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;Adams&#39;</span>,<span style="color:#e6db74">&#39;John&#39;</span>,<span style="color:#e6db74">&#39;Oxford Street&#39;</span>,<span style="color:#e6db74">&#39;London&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>,<span style="color:#e6db74">&#39;George&#39;</span>,<span style="color:#e6db74">&#39;Fifth Avenue&#39;</span>,<span style="color:#e6db74">&#39;New York&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>,<span style="color:#e6db74">&#39;Thomas&#39;</span>,<span style="color:#e6db74">&#39;Changan&#39;</span>,<span style="color:#e6db74">&#39;Beijing&#39;</span>);
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Bush<span style="color:#f92672">|</span>George<span style="color:#f92672">|</span>Fifth Avenue<span style="color:#f92672">|</span><span style="color:#66d9ef">New</span> York
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">从</span>Persons表中获取居住在以N开始的城市里的人
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> City <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;N%&#39;</span>;
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Bush<span style="color:#f92672">|</span>George<span style="color:#f92672">|</span>Fifth Avenue<span style="color:#f92672">|</span><span style="color:#66d9ef">New</span> York
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">从</span> <span style="color:#e6db74">&#34;Persons&#34;</span> <span style="color:#960050;background-color:#1e0010">表中选取居住在包含</span> <span style="color:#e6db74">&#34;lon&#34;</span> <span style="color:#960050;background-color:#1e0010">的城市里的人</span>
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> City <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%lon%&#39;</span>;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">从</span> <span style="color:#e6db74">&#34;Persons&#34;</span> <span style="color:#960050;background-color:#1e0010">表中选取居住在以</span> <span style="color:#e6db74">&#34;g&#34;</span> <span style="color:#960050;background-color:#1e0010">结尾的城市里的人</span>
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> City <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%g&#39;</span>;
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+
+</code></pre></div><p>通配符
+%   替代一个或多个字符
+_   仅替代一个字符
+[charlist]  字符列中的任何单一字符
+[^charlist]
+或者
+[!charlist]
+不在字符列中的任何单一字符</p>
+<p>GLOB操作符在行为上与LIKE操作符相似。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> City GLOB <span style="color:#e6db74">&#39;B*&#39;</span>;
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+<span style="color:#ae81ff">4</span><span style="color:#f92672">|</span>Gates<span style="color:#f92672">|</span>Bill<span style="color:#f92672">|</span>Xuanwumen10<span style="color:#f92672">|</span>Beijing
+</code></pre></div><h5 id="in-操作符">IN 操作符</h5>
+<p>IN 操作符允许我们在 WHERE 子句中规定多个值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Persons (Id Integer <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,LastName varchar(<span style="color:#ae81ff">20</span>),FirstName varchar(<span style="color:#ae81ff">20</span>),Address varchar(<span style="color:#ae81ff">30</span>),City varchar(<span style="color:#ae81ff">20</span>));
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;Adams&#39;</span>,<span style="color:#e6db74">&#39;John&#39;</span>,<span style="color:#e6db74">&#39;Oxford Street&#39;</span>,<span style="color:#e6db74">&#39;London&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>,<span style="color:#e6db74">&#39;George&#39;</span>,<span style="color:#e6db74">&#39;Fifth Avenue&#39;</span>,<span style="color:#e6db74">&#39;New York&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>,<span style="color:#e6db74">&#39;Thomas&#39;</span>,<span style="color:#e6db74">&#39;Changan&#39;</span>,<span style="color:#e6db74">&#39;Beijing&#39;</span>);
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Bush<span style="color:#f92672">|</span>George<span style="color:#f92672">|</span>Fifth Avenue<span style="color:#f92672">|</span><span style="color:#66d9ef">New</span> York
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">从列表中选取姓氏为</span>Adams和Carter的人
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> LastName <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Adams&#39;</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>);
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+</code></pre></div><h5 id="between-操作符">BetWeen 操作符</h5>
+<p>操作符 BETWEEN &hellip; AND会选取介于两个值之间的数据范围。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Persons (Id Integer <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,LastName varchar(<span style="color:#ae81ff">20</span>),FirstName varchar(<span style="color:#ae81ff">20</span>),Address varchar(<span style="color:#ae81ff">30</span>),City varchar(<span style="color:#ae81ff">20</span>));
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;Adams&#39;</span>,<span style="color:#e6db74">&#39;John&#39;</span>,<span style="color:#e6db74">&#39;Oxford Street&#39;</span>,<span style="color:#e6db74">&#39;London&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>,<span style="color:#e6db74">&#39;George&#39;</span>,<span style="color:#e6db74">&#39;Fifth Avenue&#39;</span>,<span style="color:#e6db74">&#39;New York&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>,<span style="color:#e6db74">&#39;Thomas&#39;</span>,<span style="color:#e6db74">&#39;Changan&#39;</span>,<span style="color:#e6db74">&#39;Beijing&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">values</span> (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;Gates&#39;</span>,<span style="color:#e6db74">&#39;Bill&#39;</span>,<span style="color:#e6db74">&#39;Xuanwumen10&#39;</span>,<span style="color:#e6db74">&#39;Beijing&#39;</span>);
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Bush<span style="color:#f92672">|</span>George<span style="color:#f92672">|</span>Fifth Avenue<span style="color:#f92672">|</span><span style="color:#66d9ef">New</span> York
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+<span style="color:#ae81ff">4</span><span style="color:#f92672">|</span>Gates<span style="color:#f92672">|</span>Bill<span style="color:#f92672">|</span>Xuanwumen10<span style="color:#f92672">|</span>Beijing
+
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">以字母顺序显示介于</span> <span style="color:#e6db74">&#34;Adams&#34;</span><span style="color:#960050;background-color:#1e0010">（包括）和</span> <span style="color:#e6db74">&#34;Carter&#34;</span><span style="color:#960050;background-color:#1e0010">之间的人</span>
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> LastName <span style="color:#66d9ef">BETWEEN</span> <span style="color:#e6db74">&#39;Adams&#39;</span> <span style="color:#66d9ef">AND</span> <span style="color:#e6db74">&#39;Carter&#39;</span>;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Bush<span style="color:#f92672">|</span>George<span style="color:#f92672">|</span>Fifth Avenue<span style="color:#f92672">|</span><span style="color:#66d9ef">New</span> York
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">显示上述范围之外的人，使用</span>NOT操作符
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">WHERE</span> LastName <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">BETWEEN</span> <span style="color:#e6db74">&#39;Adams&#39;</span> <span style="color:#66d9ef">AND</span> <span style="color:#e6db74">&#39;Carter&#39;</span>;
+<span style="color:#ae81ff">4</span><span style="color:#f92672">|</span>Gates<span style="color:#f92672">|</span>Bill<span style="color:#f92672">|</span>Xuanwumen10<span style="color:#f92672">|</span>Beijing
+</code></pre></div><h5 id="alias-别名">Alias 别名</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Persons (Id Integer <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,LastName varchar(<span style="color:#ae81ff">20</span>),FirstName varchar(<span style="color:#ae81ff">20</span>),Address varchar(<span style="color:#ae81ff">30</span>),City varchar(<span style="color:#ae81ff">20</span>));
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;Adams&#39;</span>,<span style="color:#e6db74">&#39;John&#39;</span>,<span style="color:#e6db74">&#39;Oxford Street&#39;</span>,<span style="color:#e6db74">&#39;London&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>,<span style="color:#e6db74">&#39;George&#39;</span>,<span style="color:#e6db74">&#39;Fifth Avenue&#39;</span>,<span style="color:#e6db74">&#39;New York&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>,<span style="color:#e6db74">&#39;Thomas&#39;</span>,<span style="color:#e6db74">&#39;Changan&#39;</span>,<span style="color:#e6db74">&#39;Beijing&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Persons <span style="color:#66d9ef">values</span> (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;Gates&#39;</span>,<span style="color:#e6db74">&#39;Bill&#39;</span>,<span style="color:#e6db74">&#39;Xuanwumen10&#39;</span>,<span style="color:#e6db74">&#39;Beijing&#39;</span>);
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Persons;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span>Adams<span style="color:#f92672">|</span>John<span style="color:#f92672">|</span>Oxford Street<span style="color:#f92672">|</span>London
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span>Bush<span style="color:#f92672">|</span>George<span style="color:#f92672">|</span>Fifth Avenue<span style="color:#f92672">|</span><span style="color:#66d9ef">New</span> York
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span>Carter<span style="color:#f92672">|</span>Thomas<span style="color:#f92672">|</span>Changan<span style="color:#f92672">|</span>Beijing
+<span style="color:#ae81ff">4</span><span style="color:#f92672">|</span>Gates<span style="color:#f92672">|</span>Bill<span style="color:#f92672">|</span>Xuanwumen10<span style="color:#f92672">|</span>Beijing
+
+<span style="color:#66d9ef">SELECT</span> LastName <span style="color:#66d9ef">As</span> Family,FirstName <span style="color:#66d9ef">As</span> Name <span style="color:#66d9ef">FROM</span> Persons;
+Adams<span style="color:#f92672">|</span>John
+Bush<span style="color:#f92672">|</span>George
+Carter<span style="color:#f92672">|</span>Thomas
+Gates<span style="color:#f92672">|</span>Bill
+
+</code></pre></div><h5 id="null值">Null值</h5>
+<p>如果表中的某个列是可选的，那么我们可以在不向该列添加值的情况下插入新记录或更新已有的记录。这意味着该字段将以 NULL 值保存。</p>
+<p>无法比较 NULL 和 0；它们是不等价的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">选取在</span> <span style="color:#e6db74">&#34;Address&#34;</span> <span style="color:#960050;background-color:#1e0010">列中带有</span> <span style="color:#66d9ef">NULL</span> <span style="color:#960050;background-color:#1e0010">值的记录</span>
+<span style="color:#66d9ef">SELECT</span> LastName,FirstName,Address <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">Where</span> Address <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NULL</span>;
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">选取在</span> <span style="color:#e6db74">&#34;Address&#34;</span> <span style="color:#960050;background-color:#1e0010">列中不带有</span> <span style="color:#66d9ef">NULL</span> <span style="color:#960050;background-color:#1e0010">值的记录</span>
+ <span style="color:#66d9ef">SELECT</span> LastName,FirstName,Address <span style="color:#66d9ef">FROM</span> Persons <span style="color:#66d9ef">Where</span> Address <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>;
+</code></pre></div><h5 id="union和union-all操作符">UNION和UNION ALL操作符</h5>
+<p>UINON操作符用于合并两个或多个SELECT语句的结果集。</p>
+<p>请注意，UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Employees_China (E_ID Integer,E_Name varchar(<span style="color:#ae81ff">20</span>));
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_China <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">01</span>,<span style="color:#e6db74">&#39;Zhang,Hua&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_China <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">02</span>,<span style="color:#e6db74">&#39;Wang,Wei&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_China <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">03</span>,<span style="color:#e6db74">&#39;Carter,Thomas&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_China <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">04</span>,<span style="color:#e6db74">&#39;Yang,Ming&#39;</span>);
+<span style="color:#66d9ef">SELECT</span> E_Name <span style="color:#66d9ef">FROM</span> Employees_China;
+E_ID        E_Name
+<span style="color:#75715e">----------  ----------
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span>           Zhang,Hua
+<span style="color:#ae81ff">2</span>           Wang,Wei
+<span style="color:#ae81ff">3</span>           Carter,Tho
+<span style="color:#ae81ff">4</span>           Yang,Ming
+
+
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Employees_USA (E_ID Integer,E_Name varchar(<span style="color:#ae81ff">20</span>));
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_USA <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">01</span>,<span style="color:#e6db74">&#39;Adams,John&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_USA <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">02</span>,<span style="color:#e6db74">&#39;Bush,George&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_USA <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">02</span>,<span style="color:#e6db74">&#39;Carter,Thomas&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees_USA <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">04</span>,<span style="color:#e6db74">&#39;Gates,Bill&#39;</span>);
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Employees_USA;
+E_ID        E_Name
+<span style="color:#75715e">----------  ----------
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span>           Adams,John
+<span style="color:#ae81ff">2</span>           Bush,Georg
+<span style="color:#ae81ff">3</span>           Carter,Tho
+<span style="color:#ae81ff">4</span>           Gates,Bill
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">使用</span>UNION命令 <span style="color:#66d9ef">UNION</span> <span style="color:#960050;background-color:#1e0010">命令只会选取不同的值。</span>
+<span style="color:#66d9ef">SELECT</span> E_Name <span style="color:#66d9ef">FROM</span> Employees_China <span style="color:#66d9ef">UNION</span> <span style="color:#66d9ef">SELECT</span> E_Name <span style="color:#66d9ef">From</span> Employees_USA;
+E_Name
+<span style="color:#75715e">----------
+</span><span style="color:#75715e"></span>Adams,John
+Bush,Georg
+Carter,Tho
+Gates,Bill
+Wang,Wei
+Yang,Ming
+Zhang,Hua
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">使用</span> <span style="color:#66d9ef">UNION</span> <span style="color:#66d9ef">ALL</span> <span style="color:#960050;background-color:#1e0010">命令</span>
+
+<span style="color:#66d9ef">SELECT</span> E_Name <span style="color:#66d9ef">FROM</span> Employees_China <span style="color:#66d9ef">UNION</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">SELECT</span> E_Name <span style="color:#66d9ef">From</span> Employees_USA;
+
+E_Name
+<span style="color:#75715e">----------
+</span><span style="color:#75715e"></span>Zhang,Hua
+Wang,Wei
+Carter,Tho
+Yang,Ming
+Adams,John
+Bush,Georg
+Carter,Tho
+Gates,Bill
+</code></pre></div><h5 id="group-by">GROUP BY</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> Orders (O_Id Integer <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,OrderDate varchar(<span style="color:#ae81ff">20</span>),OrderPrice Integer,Customer varchar(<span style="color:#ae81ff">20</span>));
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Orders <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;2008/12/29&#39;</span>,<span style="color:#e6db74">&#39;1000&#39;</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Orders <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;2008/11/23&#39;</span>,<span style="color:#e6db74">&#39;1600&#39;</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Orders <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;2008/10/05&#39;</span>,<span style="color:#e6db74">&#39;700&#39;</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Orders <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;2008/9/28&#39;</span>,<span style="color:#e6db74">&#39;300&#39;</span>,<span style="color:#e6db74">&#39;Bush&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Orders <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;2008/8/6&#39;</span>,<span style="color:#e6db74">&#39;2000&#39;</span>,<span style="color:#e6db74">&#39;Adams&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Orders <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">6</span>,<span style="color:#e6db74">&#39;2008/7/21&#39;</span>,<span style="color:#e6db74">&#39;100&#39;</span>,<span style="color:#e6db74">&#39;Carter&#39;</span>);
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Orders;
+<span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2008</span><span style="color:#f92672">/</span><span style="color:#ae81ff">12</span><span style="color:#f92672">/</span><span style="color:#ae81ff">29</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">|</span>Bush
+<span style="color:#ae81ff">2</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2008</span><span style="color:#f92672">/</span><span style="color:#ae81ff">11</span><span style="color:#f92672">/</span><span style="color:#ae81ff">23</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1600</span><span style="color:#f92672">|</span>Carter
+<span style="color:#ae81ff">3</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2008</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span><span style="color:#f92672">/</span><span style="color:#ae81ff">05</span><span style="color:#f92672">|</span><span style="color:#ae81ff">700</span><span style="color:#f92672">|</span>Bush
+<span style="color:#ae81ff">4</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2008</span><span style="color:#f92672">/</span><span style="color:#ae81ff">9</span><span style="color:#f92672">/</span><span style="color:#ae81ff">28</span><span style="color:#f92672">|</span><span style="color:#ae81ff">300</span><span style="color:#f92672">|</span>Bush
+<span style="color:#ae81ff">5</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2008</span><span style="color:#f92672">/</span><span style="color:#ae81ff">8</span><span style="color:#f92672">/</span><span style="color:#ae81ff">6</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2000</span><span style="color:#f92672">|</span>Adams
+<span style="color:#ae81ff">6</span><span style="color:#f92672">|</span><span style="color:#ae81ff">2008</span><span style="color:#f92672">/</span><span style="color:#ae81ff">7</span><span style="color:#f92672">/</span><span style="color:#ae81ff">21</span><span style="color:#f92672">|</span><span style="color:#ae81ff">100</span><span style="color:#f92672">|</span>Carter
+
+<span style="color:#66d9ef">SELECT</span> Customer,<span style="color:#66d9ef">SUM</span>(OrderPrice) <span style="color:#66d9ef">FROM</span> Orders <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> Customer;
+Adams<span style="color:#f92672">|</span><span style="color:#ae81ff">2000</span>
+Bush<span style="color:#f92672">|</span><span style="color:#ae81ff">2000</span>
+Carter<span style="color:#f92672">|</span><span style="color:#ae81ff">1700</span>
+</code></pre></div><h5 id="limit">Limit</h5>
+<p>创建表</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> COMPANY (ID INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,NAME TEXT,AGE INTEGER,ADDRESS TEXT,SALARY REAL);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;Paul&#39;</span>,<span style="color:#ae81ff">32</span>,<span style="color:#e6db74">&#39;California&#39;</span>,<span style="color:#ae81ff">2000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;Allen&#39;</span>,<span style="color:#ae81ff">25</span>,<span style="color:#e6db74">&#39;Texas&#39;</span>,<span style="color:#ae81ff">1500</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;Teddy&#39;</span>,<span style="color:#ae81ff">23</span>,<span style="color:#e6db74">&#39;Norway&#39;</span>,<span style="color:#ae81ff">2000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;Mark&#39;</span>,<span style="color:#ae81ff">25</span>,<span style="color:#e6db74">&#39;Rich-Mond&#39;</span>,<span style="color:#ae81ff">6500</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;David&#39;</span>,<span style="color:#ae81ff">27</span>,<span style="color:#e6db74">&#39;Texas&#39;</span>,<span style="color:#ae81ff">8500</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">6</span>,<span style="color:#e6db74">&#39;Kim&#39;</span>,<span style="color:#ae81ff">22</span>,<span style="color:#e6db74">&#39;South-Hall&#39;</span>,<span style="color:#ae81ff">4500</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">7</span>,<span style="color:#e6db74">&#39;James&#39;</span>,<span style="color:#ae81ff">24</span>,<span style="color:#e6db74">&#39;Houston&#39;</span>,<span style="color:#ae81ff">3500</span>.<span style="color:#ae81ff">0</span>);
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> COMPANY;
+</code></pre></div><p>1|Paul|32|California|2000.0
+2|Allen|25|Texas|1500.0
+3|Teddy|23|Norway|2000.0
+4|Mark|25|Rich-Mond|6500.0
+5|David|27|Texas|8500.0
+6|Kim|22|South-Hall|4500.0
+7|James|24|Houston|3500.0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>;
+</code></pre></div><p>3|Teddy|23|Norway|2000.0
+4|Mark|25|Rich-Mond|6500.0
+5|David|27|Texas|8500.0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">2</span>;
+</code></pre></div><p>1|Paul|32|California|2000.0
+2|Allen|25|Texas|1500.0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#ae81ff">0</span>;
+</code></pre></div><p>1|Paul|32|California|2000.0
+2|Allen|25|Texas|1500.0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#ae81ff">2</span>;
+</code></pre></div><p>3|Teddy|23|Norway|2000.0
+4|Mark|25|Rich-Mond|6500.0</p>
+<h5 id="joins">Joins</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> COMPANY ( ID INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTOINCREMENT,NAME TEXT,AGE INTEGER,ADDRESS TEXT,SALARY <span style="color:#66d9ef">READ</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;Paul&#39;</span>,<span style="color:#ae81ff">32</span>,<span style="color:#e6db74">&#39;California&#39;</span>,<span style="color:#ae81ff">20000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;Allen&#39;</span>,<span style="color:#ae81ff">25</span>,<span style="color:#e6db74">&#39;Texas&#39;</span>,<span style="color:#ae81ff">15000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;Teddy&#39;</span>,<span style="color:#ae81ff">23</span>,<span style="color:#e6db74">&#39;Norway&#39;</span>,<span style="color:#ae81ff">20000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;Mark&#39;</span>,<span style="color:#ae81ff">25</span>,<span style="color:#e6db74">&#39;Rich-Mond&#39;</span>,<span style="color:#ae81ff">65000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;David&#39;</span>,<span style="color:#ae81ff">27</span>,<span style="color:#e6db74">&#39;Texas&#39;</span>,<span style="color:#ae81ff">85000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">6</span>,<span style="color:#e6db74">&#39;Kim&#39;</span>,<span style="color:#ae81ff">22</span>,<span style="color:#e6db74">&#39;South-Hall&#39;</span>,<span style="color:#ae81ff">45000</span>.<span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> COMPANY <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">7</span>,<span style="color:#e6db74">&#39;James&#39;</span>,<span style="color:#ae81ff">24</span>,<span style="color:#e6db74">&#39;Houston&#39;</span>,<span style="color:#ae81ff">10000</span>.<span style="color:#ae81ff">0</span>);
+
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> DEPARTMENT( ID INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>, DEPT TEXT ,EMP_ID TEXT);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> DEPARTMENT <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;IT Billing&#39;</span>, <span style="color:#ae81ff">1</span> );
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> DEPARTMENT  <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;Engineering&#39;</span>, <span style="color:#ae81ff">2</span> );
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> DEPARTMENT <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;Finance&#39;</span>, <span style="color:#ae81ff">7</span> );
+
+</code></pre></div><p>交叉连接（CROSS JOIN）把第一个表的每一行与第二个表的每一行进行匹配。如果两个输入表分别有 x 和 y 列，则结果表有 x+y 列。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> EMP_ID,NAME,DEPT <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">CROSS</span> <span style="color:#66d9ef">JOIN</span> DEPARTMENT;
+</code></pre></div><p>1|Paul|IT Billing
+2|Paul|Engineering
+7|Paul|Finance
+1|Allen|IT Billing
+2|Allen|Engineering
+7|Allen|Finance
+1|Teddy|IT Billing
+2|Teddy|Engineering
+7|Teddy|Finance
+1|Mark|IT Billing
+2|Mark|Engineering
+7|Mark|Finance
+1|David|IT Billing
+2|David|Engineering
+7|David|Finance
+1|Kim|IT Billing
+2|Kim|Engineering
+7|Kim|Finance
+1|James|IT Billing
+2|James|Engineering
+7|James|Finance</p>
+<p>内连接（INNER JOIN）根据连接谓词结合两个表（table1 和 table2）的列值来创建一个新的结果表。查询会把 table1 中的每一行与 table2 中的每一行进行比较，找到所有满足连接谓词的行的匹配对。当满足连接谓词时，A 和 B 行的每个匹配对的列值会合并成一个结果行。
+内连接（INNER JOIN）是最常见的连接类型，是默认的连接类型。INNER 关键字是可选的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> EMP_ID, NAME, DEPT <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> DEPARTMENT <span style="color:#66d9ef">ON</span> COMPANY.ID <span style="color:#f92672">=</span> DEPARTMENT.EMP_ID;
+</code></pre></div><p>1|Paul|IT Billing
+2|Allen|Engineering
+7|James|Finance</p>
+<p>外连接（OUTER JOIN）是内连接（INNER JOIN）的扩展。虽然 SQL 标准定义了三种类型的外连接：LEFT、RIGHT、FULL，但 SQLite 只支持 左外连接（LEFT OUTER JOIN）。
+外连接（OUTER JOIN）声明条件的方法与内连接（INNER JOIN）是相同的，使用 ON、USING 或 NATURAL 关键字来表达。最初的结果表以相同的方式进行计算。一旦主连接计算完成，外连接（OUTER JOIN）将从一个或两个表中任何未连接的行合并进来，外连接的列使用 NULL 值，将它们附加到结果表中。
+下面是左外连接（LEFT OUTER JOIN）的语法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> EMP_ID, NAME, DEPT <span style="color:#66d9ef">FROM</span> COMPANY <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">OUTER</span> <span style="color:#66d9ef">JOIN</span> DEPARTMENT <span style="color:#66d9ef">ON</span> COMPANY.ID <span style="color:#f92672">=</span> DEPARTMENT.EMP_ID;
+</code></pre></div><p>1|Paul|IT Billing
+2|Allen|Engineering
+|Teddy|
+|Mark|
+|David|
+|Kim|
+7|James|Finance</p>
+<ul>
+<li><a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">SQLite</a></li>
+</ul>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2014-03-26</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/reading-notes/">
+                    Next<br>读书笔记
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/readingnotes/">
+                    Previous<br>
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

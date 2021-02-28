@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Improve App Performance With Kotlin Coroutines - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="原文
+协程是一种并发设计模式，您可以在Android上使用它来简化异步执行的代码。 Coroutines在版本1.3中添加到Kotlin，并基于其他语言的既定概念。
+在Android上，协同程序有助于解决两个主要问题：
+ 管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。 提供主安全性，或从主线程安全地调用网络或磁盘操作。 " /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.71.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/improve-app-performance-with-kotlin-coroutines/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.ab6ed46f161bdba676da3f071e37b038123f44e7125e330d80fc66955b18aaa5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Improve App Performance With Kotlin Coroutines" />
+<meta property="og:description" content="原文
+协程是一种并发设计模式，您可以在Android上使用它来简化异步执行的代码。 Coroutines在版本1.3中添加到Kotlin，并基于其他语言的既定概念。
+在Android上，协同程序有助于解决两个主要问题：
+
+管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。
+提供主安全性，或从主线程安全地调用网络或磁盘操作。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/improve-app-performance-with-kotlin-coroutines/" />
+<meta property="article:published_time" content="2019-10-15T19:02:36+08:00" />
+<meta property="article:modified_time" content="2019-10-15T19:02:36+08:00" />
+<meta itemprop="name" content="Improve App Performance With Kotlin Coroutines">
+<meta itemprop="description" content="原文
+协程是一种并发设计模式，您可以在Android上使用它来简化异步执行的代码。 Coroutines在版本1.3中添加到Kotlin，并基于其他语言的既定概念。
+在Android上，协同程序有助于解决两个主要问题：
+
+管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。
+提供主安全性，或从主线程安全地调用网络或磁盘操作。
+">
+<meta itemprop="datePublished" content="2019-10-15T19:02:36&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-15T19:02:36&#43;08:00" />
+<meta itemprop="wordCount" content="4079">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Improve App Performance With Kotlin Coroutines"/>
+<meta name="twitter:description" content="原文
+协程是一种并发设计模式，您可以在Android上使用它来简化异步执行的代码。 Coroutines在版本1.3中添加到Kotlin，并基于其他语言的既定概念。
+在Android上，协同程序有助于解决两个主要问题：
+
+管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。
+提供主安全性，或从主线程安全地调用网络或磁盘操作。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Improve App Performance With Kotlin Coroutines</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-10-15 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#管理长时间运行的任务">管理长时间运行的任务</a></li>
+    <li><a href="#use-coroutines-for-main-safety">Use coroutines for main-safety</a></li>
+    <li><a href="#指定coroutinescope">指定CoroutineScope</a>
+      <ul>
+        <li><a href="#将coroutinescope与android架构组件配合使用">将CoroutineScope与Android架构组件配合使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#启动一个协程">启动一个协程</a>
+      <ul>
+        <li><a href="#并行分解">并行分解</a></li>
+      </ul>
+    </li>
+    <li><a href="#具有内置支持的架构组件">具有内置支持的架构组件</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><a href="https://developer.android.com/kotlin/coroutines">原文</a></p>
+<p>协程是一种并发设计模式，您可以在<code>Android</code>上使用它来简化异步执行的代码。 <code>Coroutines</code>在版本1.3中添加到<code>Kotlin</code>，并基于其他语言的既定概念。</p>
+<p>在<code>Android</code>上，协同程序有助于解决两个主要问题：</p>
+<ul>
+<li>管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。</li>
+<li>提供主安全性，或从主线程安全地调用网络或磁盘操作。</li>
+</ul>
+<p>本主题描述了如何使用Kotlin协同程序解决这些问题，使您能够编写更清晰，更简洁的应用程序代码。</p>
+<h2 id="管理长时间运行的任务">管理长时间运行的任务</h2>
+<p>在Android上，每个应用程序都有一个主线程来处理用户界面并管理用户交互。如果您的应用程序为主线程分配了太多工作，那么应用程序可能会明显卡顿或运行缓慢。网络请求，JSON解析，从数据库读取或写入，甚至只是迭代大型列表都可能导致应用程序运行缓慢，导致可见的缓慢或冻结的UI对触摸事件响应缓慢。这些长时间运行的操作应该在主线程之外运行。</p>
+<p>以下示例显示了假设的长期运行任务的简单协同程序实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">fetchDocs</span><span class="p">()</span> <span class="p">{</span>               <span class="c1">// Dispatchers.Main
+</span><span class="c1"></span>  <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="k">get</span><span class="p">(</span><span class="s">&#34;https://developer.android.com&#34;</span><span class="p">)</span> <span class="c1">// Dispatchers.IO for `get`
+</span><span class="c1"></span>  <span class="n">show</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>                   <span class="c1">// Dispatchers.Main
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="k">suspend</span> <span class="k">fun</span> <span class="nf">get</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">=</span> <span class="n">withContext</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">IO</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>协同程序通过添加两个操作来处理长时间运行的任务，从而构建常规功能。除了<code>invoke</code>（或<code>call</code>）和返回之外，协同程序还添加了<code>suspend</code>和<code>resume</code>：</p>
+<ul>
+<li><code>suspend</code>暂停当前协同程序的执行，保存所有局部变量。</li>
+<li><code>resume</code>恢复从暂停的协同处继续执行暂停的协同程序。</li>
+</ul>
+<p>您只能从其他<code>suspend</code>函数调用<code>suspend</code>函数，或者使用诸如启动之类的协程构建器来启动新的协程。</p>
+<p>在上面的示例中，<code>get()</code>仍然在主线程上运行，但它在启动网络请求之前挂起协同程序。当网络请求完成时，<code>get</code>恢复暂停的协程，而不是使用回调来通知主线程。</p>
+<p><code>Kotlin</code>使用堆栈框架来管理与任何局部变量一起运行的函数。挂起协程时，将复制并保存当前堆栈帧以供以后使用。恢复时，堆栈帧将从保存位置复制回来，并且该函数将再次开始运行。即使代码看起来像普通的顺序阻塞请求，协程也可以确保网络请求避免阻塞主线程。</p>
+<h2 id="use-coroutines-for-main-safety">Use coroutines for main-safety</h2>
+<p><code>Kotlin</code>协程使用调度程序来确定哪些线程用于协程执行。要在主线程之外运行代码，您可以告诉Kotlin协程在Default或IO调度程序上执行工作。在Kotlin中，所有协同程序必须在调度程序中运行，即使它们在主线程上运行。协同程序可以暂停，调度程序负责恢复它们。</p>
+<p>要指定协程应该运行的位置，Kotlin提供了三个可以使用的调度程序：</p>
+<ul>
+<li>Dispatchers.Main  - 使用此调度程序在主Android线程上运行协同程序。 这应该仅用于与UI交互并执行快速工作。 示例包括调用挂起函数，运行Android UI框架操作以及更新<code>LiveData</code>对象。</li>
+<li>Dispatchers.IO  - 此调度程序已经过优化，可在主线程外执行磁盘或网络I / O. 示例包括使用Room组件，读取或写入文件以及运行任何网络操作。</li>
+<li>Dispatchers.Default  - 此调度程序已经过优化，可以在主线程之外执行CPU密集型工作。 示例用例包括对列表进行排序和解析JSON。</li>
+</ul>
+<p>继续前面的示例，您可以使用调度程序重新定义get函数。 在get的主体内部，调用withContext(Dispatchers.IO)来创建一个在IO线程池上运行的块。 放在该块中的任何代码总是通过IO调度程序执行。 由于<code>withContext</code>本身是一个挂起函数，因此函数get也是一个挂起函数。</p>
+<p>使用协同程序，您可以调度具有细粒度控制的线程。 因为<code>withContext()</code>允许您控制任何代码行的线程池而不引入回调，所以您可以将它应用于非常小的函数，例如从数据库读取或执行网络请求。 一个好的做法是使用<code>withContext()</code>来确保每个函数都是主安全的，这意味着您可以从主线程调用该函数。 这样，调用者永远不需要考虑应该使用哪个线程来执行该函数。</p>
+<p>在前面的示例中，<code>fetchDocs()</code>在主线程上执行; 但是，它可以安全地调用get，后者在后台执行网络请求。 因为协同程序支持挂起和恢复，所以只要<code>withContext</code>块完成，主线程上的协程就会以<code>get</code>结果恢复。</p>
+<blockquote>
+<p>重要说明：使用<code>suspend</code>并不能告诉<code>Kotlin</code>在后台线程上运行函数。 暂停函数在主线程上运行是正常的。 在主线程上启动协同程序也很常见。 当您需要主安全时，例如在读取或写入磁盘，执行网络操作或运行CPU密集型操作时，应始终在挂起函数内使用<code>withContext()</code>。</p>
+</blockquote>
+<p>与等效的基于回调的实现相比，<code>withContext()</code>不会增加额外的开销。 此外，在某些情况下，可以优化<code>withContext()</code>调用，而不是基于等效的基于回调的实现。 例如，如果一个函数对网络进行十次调用，则可以通过使用外部<code>withContext()</code>告诉Kotlin只切换一次线程。 然后，即使网络库多次使用<code>withContext()</code>，它仍然停留在同一个调度程序上，并避免切换线程。 此外，Kotlin优化了Dispatchers.Default和Dispatchers.IO之间的切换，以尽可能避免线程切换。</p>
+<blockquote>
+<p>要点：使用使用Dispatchers.IO或Dispatchers.Default等线程池的调度程序并不能保证该块从上到下在同一个线程上执行。 在某些情况下，Kotlin协程可能会在暂停和恢复后将执行移动到另一个线程。 这意味着线程局部变量可能不会指向整个<code>withContext()</code>块的相同值。</p>
+</blockquote>
+<h2 id="指定coroutinescope">指定CoroutineScope</h2>
+<p>定义协程时，还必须指定其CoroutineScope。 CoroutineScope管理一个或多个相关协程。 您还可以使用CoroutineScope在该范围内启动新协程。 但是，与调度程序不同，CoroutineScope不会运行协同程序。</p>
+<p>CoroutineScope的一个重要功能是当用户离开应用程序中的内容区域时停止协程执行。 使用CoroutineScope，您可以确保正确停止任何正在运行的操作。</p>
+<h3 id="将coroutinescope与android架构组件配合使用">将CoroutineScope与Android架构组件配合使用</h3>
+<p>在Android上，您可以将CoroutineScope实现与组件生命周期相关联。这样可以避免泄漏内存或为与用户不再相关的<code>activity</code>或<code>fragment</code>执行额外的工作。使用Jetpack组件，它们自然适合ViewModel。由于ViewModel在配置更改（例如屏幕旋转）期间不会被销毁，因此您不必担心协同程序被取消或重新启动。</p>
+<p>范围知道他们开始的每个协同程序。这意味着您可以随时取消在作用域中启动的所有内容。范围传播自己，所以如果一个协程开始另一个协同程序，两个协同程序具有相同的范围。这意味着即使其他库从您的范围启动协程，您也可以随时取消它们。如果您在ViewModel中运行协同程序，这一点尤为重要。如果因为用户离开了屏幕而导致ViewModel被销毁，则必须停止它正在执行的所有异步工作。否则，您将浪费资源并可能泄漏内存。如果您在销毁ViewModel后应该继续进行异步工作，则应该在应用程序架构的较低层中完成。</p>
+<blockquote>
+<p>警告：通过抛出CancellationException协同取消协同程序。 在协程取消期间触发捕获异常或Throwable的异常处理程序。</p>
+</blockquote>
+<p>使用适用于Android体系结构的KTX库组件，您还可以使用扩展属性viewModelScope来创建可以运行的协同程序，直到ViewModel被销毁。</p>
+<h2 id="启动一个协程">启动一个协程</h2>
+<p>您可以通过以下两种方式之一启动协同程序：</p>
+<ul>
+<li><code>launch</code>会启动一个新的协程，并且不会将结果返回给调用者。 任何被认为是“发射并忘记”的工作都可以使用<code>launch</code>来开始。</li>
+<li><code>async</code>启动一个新的协同程序，并允许您使用名为<code>await</code>的挂起函数返回结果。</li>
+</ul>
+<p>通常，您应该从常规函数启动新协程，因为常规函数无法调用等待。 仅在另一个协同程序内部或在挂起函数内部执行并行分解时才使用异步。</p>
+<p>在前面的示例的基础上，这里是一个带有viewModelScope KTX扩展属性的协程，它使用launch从常规函数切换到协同程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">onDocsNeeded</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">viewModelScope</span><span class="p">.</span><span class="n">launch</span> <span class="p">{</span>  <span class="c1">// Dispatchers.Main
+</span><span class="c1"></span>    <span class="n">fetchDocs</span><span class="p">()</span>      <span class="c1">// Dispatchers.Main (suspend function call)
+</span><span class="c1"></span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>警告：启动和异步处理异常的方式不同。 由于async期望在某个时刻最终调用await，它会保留异常并在await调用中重新抛出它们。 这意味着如果您使用await从常规函数启动新的协同程序，则可能会以静默方式删除异常。 这些丢弃的异常不会出现在崩溃指标中，也不会出现在logcat中。</p>
+</blockquote>
+<h3 id="并行分解">并行分解</h3>
+<p>当函数返回时，必须停止由挂起函数启动的所有协同程序，因此您可能需要保证这些协程在返回之前完成。 通过Kotlin中的结构化并发，您可以定义一个启动一个或多个协同程序的coroutineScope。 然后，使用<code>await()</code>（对于单个协同程序）或<code>awaitAll()</code>（对于多个协程），可以保证这些协程在从函数返回之前完成。</p>
+<p>例如，让我们定义一个以异步方式获取两个文档的coroutineScope。 通过在每个延迟引用上调用<code>await()</code>，我们保证在返回值之前两个异步操作都完成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">fetchTwoDocs</span><span class="p">()</span> <span class="p">=</span>
+  <span class="n">coroutineScope</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">deferredOne</span> <span class="p">=</span> <span class="n">async</span> <span class="p">{</span> <span class="n">fetchDoc</span><span class="p">(</span><span class="m">1</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">val</span> <span class="py">deferredTwo</span> <span class="p">=</span> <span class="n">async</span> <span class="p">{</span> <span class="n">fetchDoc</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">deferredOne</span><span class="p">.</span><span class="n">await</span><span class="p">()</span>
+    <span class="n">deferredTwo</span><span class="p">.</span><span class="n">await</span><span class="p">()</span>
+  <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>即使fetchTwoDocs（）使用异步启动新的协同程序，该函数也会使用awaitAll（）等待那些启动的协同程序在返回之前完成。 但请注意，即使我们没有调用awaitAll（），coroutineScope构建器也不会恢复调用fetchTwoDocs的协程，直到所有新的协程完成。</p>
+<p>此外，coroutineScope捕获协程抛出的任何异常并将它们路由回调用者。</p>
+<p>有关并行分解的更多信息，请参阅编写挂起函数。</p>
+<h2 id="具有内置支持的架构组件">具有内置支持的架构组件</h2>
+<p>一些体系结构组件（包括ViewModel和Lifecycle）通过其自己的CoroutineScope成员包含对协同程序的内置支持。</p>
+<p>例如，ViewModel包含一个内置的viewModelScope。 这提供了在ViewModel范围内启动协同程序的标准方法，如以下示例所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">MyViewModel</span> <span class="p">:</span> <span class="n">ViewModel</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="k">fun</span> <span class="nf">launchDataLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">viewModelScope</span><span class="p">.</span><span class="n">launch</span> <span class="p">{</span>
+      <span class="n">sortList</span><span class="p">()</span>
+      <span class="c1">// Modify UI
+</span><span class="c1"></span>    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+</span><span class="cm">  * Heavy operation that cannot be done in the Main Thread
+</span><span class="cm">  */</span>
+  <span class="k">suspend</span> <span class="k">fun</span> <span class="nf">sortList</span><span class="p">()</span> <span class="p">=</span> <span class="n">withContext</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Heavy work
+</span><span class="c1"></span>  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>LiveData还使用带有liveData块的协同程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">liveData</span> <span class="p">{</span>
+  <span class="c1">// runs in its own LiveData-specific scope
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>#</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-10-15
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/epoxy-models/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Epoxy Models</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/dex-file-format/">
+            <span class="next-text nav-default">Dex文件格式分析</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

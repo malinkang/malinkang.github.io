@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android Build - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="D8 Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。 R8 R8 在 Android Studio 3.1 中引入，志" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.71.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/android-build/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.ab6ed46f161bdba676da3f071e37b038123f44e7125e330d80fc66955b18aaa5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Android Build" />
+<meta property="og:description" content="D8 Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。 R8 R8 在 Android Studio 3.1 中引入，志" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/android-build/" />
+<meta property="article:published_time" content="2019-03-14T15:18:46+08:00" />
+<meta property="article:modified_time" content="2019-03-14T15:18:46+08:00" />
+<meta itemprop="name" content="Android Build">
+<meta itemprop="description" content="D8 Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。 R8 R8 在 Android Studio 3.1 中引入，志">
+<meta itemprop="datePublished" content="2019-03-14T15:18:46&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-14T15:18:46&#43;08:00" />
+<meta itemprop="wordCount" content="287">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android Build"/>
+<meta name="twitter:description" content="D8 Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。 R8 R8 在 Android Studio 3.1 中引入，志"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android Build</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-14 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#d8">D8</a></li>
+    <li><a href="#r8">R8</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="d8">D8</h2>
+<p>Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。</p>
+<p><img src="/images/d8.png" alt=""></p>
+<h2 id="r8">R8</h2>
+<p>R8 在 Android Studio 3.1 中引入，志向更加高远，它的目标是取代 ProGuard 和 d8。我们可以直接使用 R8 把“.class”文件变成 Dex。
+同时，R8 还支持 ProGuard 中混淆、裁剪、优化这三大功能。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developer.android.com/studio/build/?hl=zh-cn">配置构建</a></li>
+<li><a href="https://developer.android.com/studio/publish/app-signing.html?hl=zh-cn#sign-manually">签署您的应用</a></li>
+<li><a href="http://mouxuejie.com/blog/2016-08-04/build-and-package-flow-introduction/">打包流程梳理</a></li>
+<li><a href="https://github.com/Tencent/VasDolly">腾讯多渠道打包VasDolly</a></li>
+<li><a href="https://mp.weixin.qq.com/s/6YUJlGmhf1-Q-5KMvZ_8_Q">微信Android资源混淆打包工具</a></li>
+<li><a href="https://mp.weixin.qq.com/s/QRIy_apwqAaL2pM8a_lRUQ">Android安装包相关知识汇总</a></li>
+<li><a href="https://github.com/Meituan-Dianping/walle">美团多渠道打包Walle</a></li>
+<li><a href="https://developer.android.com/studio/command-line/apksigner.html">apksigner</a></li>
+<li><a href="https://source.android.com/security/apksigning/v2.html">APK 签名方案 v2</a></li>
+<li><a href="https://source.android.com/security/apksigning/v3">APK 签名方案 v3</a></li>
+<li><a href="https://developer.android.com/studio/command-line/aapt2">AAPT2</a></li>
+<li><a href="https://stackoverflow.com/questions/10199863/how-to-execute-the-dex-file-in-android-with-command">How to execute the dex file in android with command?</a></li>
+<li><a href="https://developer.android.com/studio/command-line/d8">d8</a></li>
+<li><a href="https://android-developers.googleblog.com/2018/04/android-studio-switching-to-d8-dexer.html">Android Studio switching to D8 dexer</a></li>
+<li><a href="https://android-developers.googleblog.com/2017/08/next-generation-dex-compiler-now-in.html">Next-generation Dex Compiler Now in Preview</a></li>
+<li><a href="https://proandroiddev.com/the-d8-dexer-6736deb55fb8">The D8 dexer</a></li>
+<li><a href="https://www.guardsquare.com/en/blog/proguard-and-r8">ProGuard and R8: a comparison of optimizers</a></li>
+<li><a href="https://github.com/facebook/redex">redex</a></li>
+<li><a href="https://android-developers.googleblog.com/2018/11/r8-new-code-shrinker-from-google-is.html">R8, the new code shrinker from Google, is available in Android studio 3.3 beta</a></li>
+<li><a href="https://source.android.com/devices/tech/dalvik/improvements">Android 8.0 中的 ART 功能改进</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-14
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/flutter-widget-column/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Column和Row详解</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/android-dynamic/">
+            <span class="next-text nav-default">Android动态化</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

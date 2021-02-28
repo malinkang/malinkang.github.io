@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html><head>
+<title>实现navigation</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9c%a8%e9%a1%b9%e7%9b%ae%e4%b8%ad%e8%ae%be%e7%bd%aenavigation" v-on:click="closeDrawer" id="在项目中设置navigation-nav">
+										 在项目中设置navigation
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%b5%8f%e8%a7%88%e5%af%bc%e8%88%aa%e7%bc%96%e8%be%91%e5%99%a8" v-on:click="closeDrawer" id="浏览导航编辑器-nav">
+										 浏览导航编辑器
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%af%86%e5%88%ab%e7%9b%ae%e7%9a%84%e5%9c%b0" v-on:click="closeDrawer" id="识别目的地-nav">
+										 识别目的地
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%bf%9e%e6%8e%a5%e7%9b%ae%e7%9a%84%e5%9c%b0" v-on:click="closeDrawer" id="连接目的地-nav">
+										 连接目的地
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%8c%87%e5%ae%9a%e4%b8%80%e4%b8%aa%e5%b1%8f%e5%b9%95%e4%bd%9c%e4%b8%ba%e8%b5%b7%e5%a7%8b%e7%9b%ae%e7%9a%84%e5%9c%b0" v-on:click="closeDrawer" id="指定一个屏幕作为起始目的地-nav">
+										 指定一个屏幕作为起始目的地
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%bf%ae%e6%94%b9%e4%b8%80%e4%b8%aaactivity%e5%8e%bb%e6%8c%81%e6%9c%89navigation" v-on:click="closeDrawer" id="修改一个activity去持有navigation-nav">
+										 修改一个Activity去持有navigation
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86%e7%9b%ae%e6%a0%87%e7%bb%91%e5%ae%9a%e5%88%b0ui%e5%b0%8f%e9%83%a8%e4%bb%b6" v-on:click="closeDrawer" id="将目标绑定到ui小部件-nav">
+										 将目标绑定到UI小部件
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86%e7%9b%ae%e6%a0%87%e7%bb%91%e5%ae%9a%e5%88%b0%e8%8f%9c%e5%8d%95%e9%a9%b1%e5%8a%a8%e7%9a%84ui%e7%bb%84%e4%bb%b6" v-on:click="closeDrawer" id="将目标绑定到菜单驱动的ui组件-nav">
+										 将目标绑定到菜单驱动的UI组件
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9c%a8%e7%9b%ae%e6%a0%87%e4%b9%8b%e9%97%b4%e4%bc%a0%e9%80%92%e6%95%b0%e6%8d%ae" v-on:click="closeDrawer" id="在目标之间传递数据-nav">
+										 在目标之间传递数据
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%bb%a5%e7%b1%bb%e5%9e%8b%e5%ae%89%e5%85%a8%e7%9a%84%e6%96%b9%e5%bc%8f%e5%9c%a8%e7%9b%ae%e6%a0%87%e4%b9%8b%e9%97%b4%e4%bc%a0%e9%80%92%e6%95%b0%e6%8d%ae" v-on:click="closeDrawer" id="以类型安全的方式在目标之间传递数据-nav">
+										 以类型安全的方式在目标之间传递数据
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86%e7%9b%ae%e7%9a%84%e5%9c%b0%e7%bb%84%e5%90%88%e5%88%b0%e4%b8%80%e4%b8%aa%e5%b5%8c%e5%a5%97%e7%9a%84%e5%af%bc%e8%88%aa%e5%9b%be%e4%b8%ad" v-on:click="closeDrawer" id="将目的地组合到一个嵌套的导航图中-nav">
+										 将目的地组合到一个嵌套的导航图中
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9c%a8%e9%a1%b9%e7%9b%ae%e4%b8%ad%e8%ae%be%e7%bd%aenavigation" v-on:click="closeDrawer" id="在项目中设置navigation-nav">
+										 在项目中设置navigation
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%b5%8f%e8%a7%88%e5%af%bc%e8%88%aa%e7%bc%96%e8%be%91%e5%99%a8" v-on:click="closeDrawer" id="浏览导航编辑器-nav">
+										 浏览导航编辑器
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%af%86%e5%88%ab%e7%9b%ae%e7%9a%84%e5%9c%b0" v-on:click="closeDrawer" id="识别目的地-nav">
+										 识别目的地
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%bf%9e%e6%8e%a5%e7%9b%ae%e7%9a%84%e5%9c%b0" v-on:click="closeDrawer" id="连接目的地-nav">
+										 连接目的地
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%8c%87%e5%ae%9a%e4%b8%80%e4%b8%aa%e5%b1%8f%e5%b9%95%e4%bd%9c%e4%b8%ba%e8%b5%b7%e5%a7%8b%e7%9b%ae%e7%9a%84%e5%9c%b0" v-on:click="closeDrawer" id="指定一个屏幕作为起始目的地-nav">
+										 指定一个屏幕作为起始目的地
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%bf%ae%e6%94%b9%e4%b8%80%e4%b8%aaactivity%e5%8e%bb%e6%8c%81%e6%9c%89navigation" v-on:click="closeDrawer" id="修改一个activity去持有navigation-nav">
+										 修改一个Activity去持有navigation
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86%e7%9b%ae%e6%a0%87%e7%bb%91%e5%ae%9a%e5%88%b0ui%e5%b0%8f%e9%83%a8%e4%bb%b6" v-on:click="closeDrawer" id="将目标绑定到ui小部件-nav">
+										 将目标绑定到UI小部件
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86%e7%9b%ae%e6%a0%87%e7%bb%91%e5%ae%9a%e5%88%b0%e8%8f%9c%e5%8d%95%e9%a9%b1%e5%8a%a8%e7%9a%84ui%e7%bb%84%e4%bb%b6" v-on:click="closeDrawer" id="将目标绑定到菜单驱动的ui组件-nav">
+										 将目标绑定到菜单驱动的UI组件
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9c%a8%e7%9b%ae%e6%a0%87%e4%b9%8b%e9%97%b4%e4%bc%a0%e9%80%92%e6%95%b0%e6%8d%ae" v-on:click="closeDrawer" id="在目标之间传递数据-nav">
+										 在目标之间传递数据
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%bb%a5%e7%b1%bb%e5%9e%8b%e5%ae%89%e5%85%a8%e7%9a%84%e6%96%b9%e5%bc%8f%e5%9c%a8%e7%9b%ae%e6%a0%87%e4%b9%8b%e9%97%b4%e4%bc%a0%e9%80%92%e6%95%b0%e6%8d%ae" v-on:click="closeDrawer" id="以类型安全的方式在目标之间传递数据-nav">
+										 以类型安全的方式在目标之间传递数据
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b0%86%e7%9b%ae%e7%9a%84%e5%9c%b0%e7%bb%84%e5%90%88%e5%88%b0%e4%b8%80%e4%b8%aa%e5%b5%8c%e5%a5%97%e7%9a%84%e5%af%bc%e8%88%aa%e5%9b%be%e4%b8%ad" v-on:click="closeDrawer" id="将目的地组合到一个嵌套的导航图中-nav">
+										 将目的地组合到一个嵌套的导航图中
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    实现navigation
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2018-06-07 16:13
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>导航体系结构组件简化了应用程序中目标之间导航的实现。目的地是应用中的特定屏幕。默认情况下，导航体系结构组件包括支持<code>fragment</code>和<code>activity</code>作为目标，但您也可以添加对新类型目标的支持。一组目的地组成一个应用程序的“导航图”。</p>
+<p>除目的地之外，导航图在目标之间具有称为“操作”的连接。图1显示了包含6个目的地的示例应用程序的导航图的直观表示，该应用程序由5个操作连接。</p>
+<p><img src="/images/navigation-graph.png" alt="img"></p>
+<h3 id="在项目中设置navigation">在项目中设置navigation</h3>
+<p>在您创建导航图之前，您必须为您的项目设置导航结构组件。要在<code>Android Studio</code>中设置您的项目，请执行以下步骤。</p>
+<ol>
+<li>将<code>navigation</code>组件添加到您的应用程序或模块的<code>build.gradle</code>文件。</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">dependencies <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">def</span> nav_version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1.0.0-alpha01&#34;</span>
+
+    implementation <span style="color:#e6db74">&#34;android.arch.navigation:navigation-fragment:$nav_version&#34;</span> <span style="color:#75715e">// use -ktx for Kotlin
+</span><span style="color:#75715e"></span>    implementation <span style="color:#e6db74">&#34;android.arch.navigation:navigation-ui:$nav_version&#34;</span> <span style="color:#75715e">// use -ktx for Kotlin
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// optional - Test helpers
+</span><span style="color:#75715e"></span>    androidTestImplementation <span style="color:#e6db74">&#34;android.arch.navigation:navigation-testing:$nav_version&#34;</span> <span style="color:#75715e">// use -ktx for Kotlin
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><ol start="2">
+<li>
+<p>在<code>Project</code>窗口中，右键单击<code>res</code>目录并选择<code>New&gt; Android</code>资源文件。出现新资源对话框。</p>
+</li>
+<li>
+<p>在“文件名”字段中输入名称，例如“nav_graph”。</p>
+</li>
+<li>
+<p>从资源类型下拉列表中选择<code>Navigation</code>。</p>
+</li>
+<li>
+<p>点击确定。发生以下情况：</p>
+</li>
+</ol>
+<ul>
+<li>导航资源目录在res目录中创建。</li>
+<li>nav_graph.xml文件在导航目录中创建。</li>
+<li>nav_graph.xml文件将在导航编辑器中打开。这个XML文件包含您的导航图。</li>
+</ul>
+<ol start="6">
+<li>点击文本标签切换到XML文本视图。空导航图的XML如下所示：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;navigation</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/navigation&gt;</span>
+</code></pre></div><ol start="7">
+<li>点击设计返回导航编辑器。</li>
+</ol>
+<h3 id="浏览导航编辑器">浏览导航编辑器</h3>
+<p>在导航编辑器中，您可以快速构建导航图，而无需手动构建图形的XML。如图2所示，导航编辑器有三个部分：</p>
+<p><img src="/images/navigation-editor.png" alt="img"></p>
+<p>导航编辑器的部分是：</p>
+<p>①目的地列表 - 列出当前在图表编辑器中的所有目的地。</p>
+<p>②图表编辑器 - 包含您的导航图的可视化表示。</p>
+<p>③属性编辑器 - 包含与导航图中的目的地和动作相关的属性。</p>
+<h3 id="识别目的地">识别目的地</h3>
+<p>创建导航图的第一步是确定您的应用的目的地。您可以在现有项目中创建空白目的地或创建<code>fragment</code>和<code>activity</code>的目的地。</p>
+<p>要识别您的应用的目标，请使用以下步骤。</p>
+<ol>
+<li>
+<p>在图表编辑器中，单击新建目标。出现新目标对话框。</p>
+</li>
+<li>
+<p>点击创建空白目的地或点击<code>fragment</code>或<code>activity</code>。出现新的<code>Android</code>组件对话框。</p>
+</li>
+<li>
+<p>在<code>Fragment Name</code>字段中输入一个名称。这个名字是片段类的名字。</p>
+</li>
+<li>
+<p>在<code>Fragment Layout Name</code>字段中输入名称。该名称是该片段的布局文件的名称。</p>
+</li>
+<li>
+<p>点击完成。代表目标的框出现在图形编辑器和目标列表中。发生以下情况：</p>
+</li>
+</ol>
+<ul>
+<li>如果您创建了空白目的地，图表编辑器会在目的地显示消息“Hello blank fragment”。如果您单击片段或活动，图表编辑器会显示该活动或片段的布局预览。</li>
+<li>为您的项目创建一个Fragment子类。该课程具有您在第3步中分配的名称。</li>
+<li>资源文件是为您的项目创建的。该文件具有您在步骤4中分配的名称。</li>
+</ul>
+<p><img src="/images/navigation-newexisting.png" alt="img"></p>
+<p>6.点击新插入的目的地以突出显示目的地。以下属性出现在“属性”面板中：</p>
+<ul>
+<li>类型字段包含“Fragment”或“Activity”，用于指示目标是否作为源代码中的片段或活动实现。</li>
+<li>标签字段包含目标的XML布局文件的名称。</li>
+<li>ID字段包含将用于引用代码中的目的地的目的地的ID。</li>
+<li>类字段包含目标的类的名称。</li>
+</ul>
+<p>点击文本标签切换到XML视图。 XML现在包含基于现有类和布局文件的名称的id，名称（类名称），标签和布局属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;navigation</span> <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">app:startDestination=</span><span style="color:#e6db74">&#34;@id/blankFragment&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;fragment</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/blankFragment&#34;</span>
+        <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.cashdog.cashdog.BlankFragment&#34;</span>
+        <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;Blank&#34;</span>
+        <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_blank&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/navigation&gt;</span>
+</code></pre></div><h3 id="连接目的地">连接目的地</h3>
+<p>您必须有多个目的地才能连接目的地。以下是带有两个空白目标的导航图的XML：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;navigation</span> <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">app:startDestination=</span><span style="color:#e6db74">&#34;@id/blankFragment&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;fragment</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/blankFragment&#34;</span>
+        <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.cashdog.cashdog.BlankFragment&#34;</span>
+        <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;fragment_blank&#34;</span>
+        <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_blank&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;fragment</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/blankFragment2&#34;</span>
+        <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.cashdog.cashdog.BlankFragment2&#34;</span>
+        <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;Blank2&#34;</span>
+        <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_blank_fragment2&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/navigation&gt;</span>
+</code></pre></div><p>目的地使用<code>action</code>连接。连接两个目的地：</p>
+<p>从图形编辑器中，将光标悬停在您希望用户从中导航的目标的右侧。目的地上会出现一个圆圈。</p>
+<p><img src="/images/navigation-actioncircle.png" alt="img"></p>
+<p>单击并按住，将光标拖到您希望用户导航到的目标上，然后释放。绘制一条线以指示两个目的地之间的导航。</p>
+<p>3.点击箭头突出显示该操作。以下属性出现在“属性”面板中：</p>
+<ul>
+<li>类型字段包含“Action”。</li>
+<li>ID字段包含为<code>action</code>系统分配的ID。</li>
+<li>目标字段包含目标<code>fragment</code>或<code>activity</code>的ID。</li>
+</ul>
+<p>4.点击文本标签切换到XML视图。操作元素已添加到父目标。该操作具有系统分配的ID和目标属性，其中包含下一个目标的ID。例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;navigation</span> <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">app:startDestination=</span><span style="color:#e6db74">&#34;@id/blankFragment&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;fragment</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/blankFragment&#34;</span>
+        <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.cashdog.cashdog.BlankFragment&#34;</span>
+        <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;fragment_blank&#34;</span>
+        <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_blank&#34;</span> <span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;action</span>
+            <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/action_blankFragment_to_blankFragment2&#34;</span>
+            <span style="color:#a6e22e">app:destination=</span><span style="color:#e6db74">&#34;@id/blankFragment2&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/fragment&gt;</span>
+    <span style="color:#f92672">&lt;fragment</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/blankFragment2&#34;</span>
+        <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.cashdog.cashdog.BlankFragment2&#34;</span>
+        <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;fragment_blank_fragment2&#34;</span>
+        <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_blank_fragment2&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/navigation&gt;</span>
+</code></pre></div><h3 id="指定一个屏幕作为起始目的地">指定一个屏幕作为起始目的地</h3>
+<p>图形编辑器会在您的应用中放置第一个目标名称旁边的房屋图标。此图标表示这是导航图中的起始目标。您可以使用以下步骤将另一个目标指定为起始目标：</p>
+<p>5.从图形编辑器中，单击目标。目标被突出显示。</p>
+<p>6.在“属性”面板中单击<code>Click Set Start Destination</code>。目标现在是开始目标。</p>
+<h3 id="修改一个activity去持有navigation">修改一个Activity去持有navigation</h3>
+<p>一个<code>activity</code>通过将一个<code>NavHost</code>实现添加到你的<code>activity</code>的布局中为app持有<code>navigation</code>。<code>NavHost</code>是一个空白的视图，当用户在您的应用中导航时，目的地被换入和换出。</p>
+<p>导航体系结构组件的默认<code>NavHost</code>实现是<code>NavHostFragment</code>。</p>
+<p>在包含<code>NavHost</code>后，必须使用<code>navGraph</code>属性将导航图与<code>NavHostFragment</code>关联起来。以下<code>fragment</code>显示了如何在活动的布局文件中包含<code>NavHostFragment</code>并将导航图与<code>NavHostFragment</code>相关联：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
+<span style="color:#f92672">&lt;android.support.constraint.ConstraintLayout</span>
+    <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">tools:context=</span><span style="color:#e6db74">&#34;.MainActivity&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;fragment</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/my_nav_host_fragment&#34;</span>
+        <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;androidx.navigation.fragment.NavHostFragment&#34;</span>
+        <span style="color:#a6e22e">app:navGraph=</span><span style="color:#e6db74">&#34;@navigation/nav_graph&#34;</span>
+        <span style="color:#a6e22e">app:defaultNavHost=</span><span style="color:#e6db74">&#34;true&#34;</span>
+        <span style="color:#f92672">/&gt;</span>
+
+<span style="color:#f92672">&lt;/android.support.constraint.ConstraintLayout&gt;</span>
+</code></pre></div><p>前面的示例包含一个应用程序：<code>defaultNavHost =“true”</code>属性。该属性可确保您的<code>NavHostFragment</code>拦截系统后退按钮。您还将覆盖<code>AppCompatActivity.onSupportNavigateUp()</code>并调用<code>NavController.navigateUp</code>，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">onSupportNavigateUp</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> Navigation<span style="color:#f92672">.</span><span style="color:#a6e22e">findNavController</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nav_host_fragment</span><span style="color:#f92672">).</span><span style="color:#a6e22e">navigateUp</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="将目标绑定到ui小部件">将目标绑定到UI小部件</h3>
+<p>导航到目的地是使用<code>NavController</code>类完成的。可以使用以下静态方法之一来获取<code>NavController</code>：</p>
+<ul>
+<li>NavHostFragment.findNavController(Fragment)</li>
+<li>Navigation.findNavController(Activity, @IdRes int viewId)</li>
+<li>Navigation.findNavController(View)</li>
+</ul>
+<p>在您获取<code>NavController</code>后，使用其<code>navigate()</code>方法导航到目标。 <code>navigate()</code>方法接受资源ID。该ID可以是导航图形或动作中特定目的地的ID。使用操作的ID而不是目标的资源ID具有优势，例如将过渡与导航关联。有关转场的更多信息，请参阅在目的地之间创建转场。</p>
+<p>以下代码片段显示了如何导航到<code>ViewTransactionsFragment</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">viewTransactionsButton<span style="color:#f92672">.</span><span style="color:#a6e22e">setOnClickListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">OnClickListener</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">(</span>View view<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Navigation<span style="color:#f92672">.</span><span style="color:#a6e22e">findNavController</span><span style="color:#f92672">(</span>view<span style="color:#f92672">).</span><span style="color:#a6e22e">navigate</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">viewTransactionsAction</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><p>Android系统维护一个包含上次访问目标的后台堆栈。当用户打开应用程序时，应用程序的第一个目标位于堆栈上。每次调用<code>navigate()</code>方法时，都会在堆栈顶部放置另一个目标。相反，按“上”或“后”按钮分别调用<code>NavController.navigateUp()</code>和<code>NavController.popBackStack()</code>方法，以将顶层目标弹出堆栈。</p>
+<p>对于按钮，还可以使用<code>Navigation</code>类的<code>createNavigateOnClickListener()</code>便捷方法导航到目标：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">button<span style="color:#f92672">.</span><span style="color:#a6e22e">setOnClickListener</span><span style="color:#f92672">(</span>Navigation<span style="color:#f92672">.</span><span style="color:#a6e22e">createNavigateOnClickListener</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">next_fragment</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">));</span>
+</code></pre></div><h4 id="将目标绑定到菜单驱动的ui组件">将目标绑定到菜单驱动的UI组件</h4>
+<p>您可以使用目标的id作为XML中导航抽屉或溢出菜单项的相同ID，将目标绑定到导航抽屉和溢出菜单。以下代码片段显示了其详细信息屏幕目标，其ID为<code>details_page_fragment</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;fragment</span> <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/details_page_fragment&#34;</span>
+     <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;@string/details&#34;</span>
+     <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.android.myapp.DetailsFragment&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>对目的地和菜单项使用相同的ID会自动将目的地与菜单项相关联。以下XML显示了如何将片段目标与导航抽屉中的菜单项相关联（例如，menu_nav_drawer.xml）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;item</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@id/details_page_fragment&#34;</span>
+    <span style="color:#a6e22e">android:icon=</span><span style="color:#e6db74">&#34;@drawable/ic_details&#34;</span>
+    <span style="color:#a6e22e">android:title=</span><span style="color:#e6db74">&#34;@string/details&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>以下XML显示了如何将详细信息目标绑定到溢出菜单（例如menu_overflow.xml）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;item</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@id/details_page_fragment&#34;</span>
+    <span style="color:#a6e22e">android:icon=</span><span style="color:#e6db74">&#34;@drawable/ic_details&#34;</span>
+    <span style="color:#a6e22e">android:title=</span><span style="color:#e6db74">&#34;@string/details&#34;</span>
+    <span style="color:#960050;background-color:#1e0010">android:menuCategory:&#34;secondary&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>导航体系结构组件包含一个<code>NavigationUI</code>类。这个类有几个静态方法，你可以使用连接菜单项和导航目的地。例如，以下代码显示如何使用<code>setupWithNavController()</code>方法将菜单抽屉中的项目连接到<code>NavigationView</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">NavigationView navigationView <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>NavigationView<span style="color:#f92672">)</span> findViewById<span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nav_view</span><span style="color:#f92672">);</span>
+NavigationUI<span style="color:#f92672">.</span><span style="color:#a6e22e">setupWithNavController</span><span style="color:#f92672">(</span>navigationView<span style="color:#f92672">,</span> navController<span style="color:#f92672">);</span>
+</code></pre></div><p>有必要使用这些<code>NavigationUI</code>方法设置菜单驱动的导航组件，以便这些UI元素的状态与对<code>NavController</code>的更改保持同步。</p>
+<h3 id="在目标之间传递数据">在目标之间传递数据</h3>
+<p>您可以通过两种方式在目标之间传递数据：使用<code>Bundle</code>对象或使用<code>safeargs Gradle插件</code>以类型安全的方式传递数据。使用以下步骤使用<code>Bundle</code>对象在目标之间传递数据。如果您使用的是Gradle，请考虑按照类型安全的方式在目标之间传递数据中的说明。</p>
+<ol>
+<li>
+<p>从<code>Graph Editor</code>中，单击接受参数的目标。目标亮点。</p>
+</li>
+<li>
+<p>单击“属性”面板的“参数”部分中的添加（+）。出现空名称和默认值字段</p>
+</li>
+<li>
+<p>双击名称并输入参数的名称。</p>
+</li>
+<li>
+<p>按Tab并输入参数的默认值。</p>
+</li>
+<li>
+<p>点击此目的地之前的操作。参数默认值应包含您新添加的参数。</p>
+</li>
+<li>
+<p>点击文本标签切换到XML视图。具有<code>name</code>和<code>defaultValue</code>属性的参数元素已添加到目标中：</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;fragment</span>
+   <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/confirmationFragment&#34;</span>
+   <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.cashdog.cashdog.ConfirmationFragment&#34;</span>
+   <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;fragment_confirmation&#34;</span>
+   <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_confirmation&#34;</span><span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;argument</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;amount&#34;</span> <span style="color:#a6e22e">android:defaultValue=</span><span style="color:#e6db74">”0”</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>7.在您的代码中，使用<code>navigate()</code>法创建一个包并将其传递到目标：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Bundle bundle <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bundle<span style="color:#f92672">();</span>
+bundle<span style="color:#f92672">.</span><span style="color:#a6e22e">putString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;amount&#34;</span><span style="color:#f92672">,</span> amount<span style="color:#f92672">);</span>
+Navigation<span style="color:#f92672">.</span><span style="color:#a6e22e">findNavController</span><span style="color:#f92672">(</span>view<span style="color:#f92672">).</span><span style="color:#a6e22e">navigate</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">confirmationAction</span><span style="color:#f92672">,</span> bundle<span style="color:#f92672">);</span>
+</code></pre></div><p>在您的接收目标的代码中，使用<code>getArguments()</code>方法检索捆绑并使用其内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">TextView tv <span style="color:#f92672">=</span> view<span style="color:#f92672">.</span><span style="color:#a6e22e">findViewById</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">textViewAmount</span><span style="color:#f92672">);</span>
+tv<span style="color:#f92672">.</span><span style="color:#a6e22e">setText</span><span style="color:#f92672">(</span>getArguments<span style="color:#f92672">().</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;amount&#34;</span><span style="color:#f92672">));</span>
+</code></pre></div><h3 id="以类型安全的方式在目标之间传递数据">以类型安全的方式在目标之间传递数据</h3>
+<p>导航架构组件有一个名为<code>safeargs</code>的<code>Gradle</code>插件，它生成简单的对象和构建器类，以便对目标和动作指定的参数进行类型安全访问。安全参数建立在<code>Bundle</code>方法的基础上，但需要一些额外的代码来换取更多的类型安全。如果您使用<code>Gradle</code>，则可以使用安全参数插件。要添加此插件，请将&rsquo;androidx.navigation.safeargs&rsquo;插件添加到您的<code>build.gradle</code>文件中。例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">apply plugin: <span style="color:#e6db74">&#39;com.android.application&#39;</span>
+apply plugin: <span style="color:#e6db74">&#39;androidx.navigation.safeargs&#39;</span>
+
+android <span style="color:#f92672">{</span>
+   <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>在配置了Gradle插件之后，请按照以下步骤使用类型安全的参数。</p>
+<ol>
+<li>
+<p>从Graph Editor中，单击收到参数的目标。目标高亮。</p>
+</li>
+<li>
+<p>在“属性”面板的“参数”部分中单击+。出现空名称和默认值字段。</p>
+</li>
+<li>
+<p>双击名称并输入参数的名称。</p>
+</li>
+<li>
+<p>按Tab键并从下拉列表中选择参数的类型。</p>
+</li>
+<li>
+<p>按Tab并输入参数的默认值。</p>
+</li>
+<li>
+<p>点击此目的地之前的操作。参数默认值应包含您新添加的参数。</p>
+</li>
+<li>
+<p>点击文本标签切换到XML视图。具有<code>name</code>和<code>defaultValue</code>属性的参数元素已添加到目标中：</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;fragment</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/confirmationFragment&#34;</span>
+    <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;com.example.buybuddy.buybuddy.ConfirmationFragment&#34;</span>
+    <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;fragment_confirmation&#34;</span>
+    <span style="color:#a6e22e">tools:layout=</span><span style="color:#e6db74">&#34;@layout/fragment_confirmation&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;argument</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;amount&#34;</span> <span style="color:#a6e22e">android:defaultValue=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">app:type=</span><span style="color:#e6db74">&#34;integer&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/fragment&gt;</span>
+</code></pre></div><p>当您使用<code>safeargs</code>插件生成代码时，会为动作和发送和接收目标创建简单的对象和构建器类。这些类是：一个动作发源地的类，附加单词“Directions”。</p>
+<ul>
+<li>
+<p>因此，如果源片段的标题为<code>SpecifyAmountFragment</code>，则生成的类称为<code>SpecifyAmountFragmentDirections</code>。这个类有一个方法，以用于传递参数的动作命名，以捆绑参数，如<code>confirmationAction()</code>。</p>
+</li>
+<li>
+<p>一个内部类，其名称基于用于传递参数的操作。如果传递操作称为<code>confirmationAction</code>，则该类将被命名为<code>ConfirmationAction</code>。</p>
+</li>
+<li>
+<p>传递参数的目的地的类，附带单词Args。</p>
+</li>
+</ul>
+<p>因此，如果目标片段的标题为<code>ConfirmationFragment</code>，则生成的类将称为ConfirmationFragmentArgs。使用此类的<code>fromBundle()</code>方法来检索参数。</p>
+<p>以下代码显示如何使用这些方法来设置参数并将其传递给<code>navigate()</code>方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">(</span>View view<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   EditText amountTv <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>EditText<span style="color:#f92672">)</span> getView<span style="color:#f92672">().</span><span style="color:#a6e22e">findViewById</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">editTextAmount</span><span style="color:#f92672">);</span>
+   <span style="color:#66d9ef">int</span> amount <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>amountTv<span style="color:#f92672">.</span><span style="color:#a6e22e">getText</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+   ConfirmationAction action <span style="color:#f92672">=</span>
+           SpecifyAmountFragmentDirections<span style="color:#f92672">.</span><span style="color:#a6e22e">confirmationAction</span><span style="color:#f92672">()</span>
+   action<span style="color:#f92672">.</span><span style="color:#a6e22e">setAmount</span><span style="color:#f92672">(</span>amount<span style="color:#f92672">)</span>
+   Navigation<span style="color:#f92672">.</span><span style="color:#a6e22e">findNavController</span><span style="color:#f92672">(</span>view<span style="color:#f92672">).</span><span style="color:#a6e22e">navigate</span><span style="color:#f92672">(</span>action<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在您的接收目标的代码中，使用<code>getArguments()</code>法检索捆绑并使用其内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onViewCreated</span><span style="color:#f92672">(</span>View view<span style="color:#f92672">,</span> <span style="color:#a6e22e">@Nullable</span> Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    TextView tv <span style="color:#f92672">=</span> view<span style="color:#f92672">.</span><span style="color:#a6e22e">findViewById</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">textViewAmount</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">int</span> amount <span style="color:#f92672">=</span> ConfirmationFragmentArgs<span style="color:#f92672">.</span><span style="color:#a6e22e">fromBundle</span><span style="color:#f92672">(</span>getArguments<span style="color:#f92672">()).</span><span style="color:#a6e22e">getAmount</span><span style="color:#f92672">();</span>
+    tv<span style="color:#f92672">.</span><span style="color:#a6e22e">setText</span><span style="color:#f92672">(</span>amount <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="将目的地组合到一个嵌套的导航图中">将目的地组合到一个嵌套的导航图中</h3>
+<p>一系列目的地可以在导航图中组成一个子图。子图称为“嵌套图”，而包含的图称为“根图”。嵌套图有助于组织和重用应用程序UI的部分，如单独的登录流。</p>
+<p>与根图一样，嵌套图必须将目标标识为起始目标。嵌套图封装其目的地;嵌套图形之外的目标（例如根图形上的目标）仅通过其起始目标访问嵌套图形。图6显示了简单转账应用程序的导航图。此图有两个流程：允许用户发送资金的流程和允许用户查看其余额的流程。</p>
+<p><img src="/images/navigation-pre-nestedgraph.png" alt="img"></p>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2018-06-07</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/dagger-android/">
+                    Next<br>Dagger2在Android中的使用
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/livedata-overview/">
+                    Previous<br>LiveData概述
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

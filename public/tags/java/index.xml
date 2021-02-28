@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/java/</link>
+    <description>Recent content in Java on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Jan 2020 15:52:23 +0000</lastBuildDate>
+    
+	<atom:link href="https://malinkang.cn/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Epoxy Models</title>
+      <link>https://malinkang.cn/post/epoxy-models/</link>
+      <pubDate>Sun, 05 Jan 2020 15:52:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/epoxy-models/</guid>
+      <description>概览（Overview） Epoxy uses EpoxyModel objects to decide which views to display and how to bind data to them. This is similar to the popular ViewModel pattern. Models also allow you to control other aspects of the view, such as the grid span size, id, and saved state. Epoxy使用Epoxy</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第8章 通用程序设计</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter8/</link>
+      <pubDate>Thu, 28 Feb 2019 14:19:41 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter8/</guid>
+      <description>第45条：将局部变量的作用域最小化 要使局部变量的作用域最小化，最有力的方法就是在第一次使用它的地方声明。 循环中提供了特殊的机会来将变量的作用</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第8章 通用程序设计</title>
+      <link>https://malinkang.cn/post/effective-java-chapter8/</link>
+      <pubDate>Thu, 28 Feb 2019 14:19:41 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter8/</guid>
+      <description>第45条：将局部变量的作用域最小化 要使局部变量的作用域最小化，最有力的方法就是在第一次使用它的地方声明。 循环中提供了特殊的机会来将变量的作用</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第7章 方法</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter7/</link>
+      <pubDate>Wed, 20 Feb 2019 14:19:41 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter7/</guid>
+      <description>第38条：检查参数的有效性 对于公有的方法，要用Javadoc的@throws标签在文档中说明违反参数值会抛出的异常。一旦在文档中记录了对于方</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第7章 方法</title>
+      <link>https://malinkang.cn/post/effective-java-chapter7/</link>
+      <pubDate>Wed, 20 Feb 2019 14:19:41 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter7/</guid>
+      <description>第38条：检查参数的有效性 对于公有的方法，要用Javadoc的@throws标签在文档中说明违反参数值会抛出的异常。一旦在文档中记录了对于方</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第6章 枚举和注解</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter6/</link>
+      <pubDate>Mon, 18 Feb 2019 09:58:30 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter6/</guid>
+      <description>第30条：用enum代替int常量 在编程语言中还没有引入枚举类型之前，表示枚举类型的常量模式是声明一组具名的int常量，每个类型成员一个常量</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第6章 枚举和注解</title>
+      <link>https://malinkang.cn/post/effective-java-chapter6/</link>
+      <pubDate>Mon, 18 Feb 2019 09:58:30 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter6/</guid>
+      <description>第30条：用enum代替int常量 在编程语言中还没有引入枚举类型之前，表示枚举类型的常量模式是声明一组具名的int常量，每个类型成员一个常量</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第5章 泛型</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter5/</link>
+      <pubDate>Sat, 16 Feb 2019 16:20:11 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter5/</guid>
+      <description>第23条：请不要在新代码中使用原生态类型 声明中具有一个或者多个类型参数（type parameter）的类或者接口就是泛型类或者接口。泛型类和</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第5章 泛型</title>
+      <link>https://malinkang.cn/post/effective-java-chapter5/</link>
+      <pubDate>Sat, 16 Feb 2019 16:20:11 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter5/</guid>
+      <description>第23条：请不要在新代码中使用原生态类型 声明中具有一个或者多个类型参数（type parameter）的类或者接口就是泛型类或者接口。泛型类和</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第4章 类和接口</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter4/</link>
+      <pubDate>Fri, 15 Feb 2019 16:25:04 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter4/</guid>
+      <description>第13条：使类和成员的可访问性最小化 Java程序设计语言提供了许多机制来协助信息隐藏。访问控制（access control)机制决定了类、接</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第4章 类和接口</title>
+      <link>https://malinkang.cn/post/effective-java-chapter4/</link>
+      <pubDate>Fri, 15 Feb 2019 16:25:04 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter4/</guid>
+      <description>第13条：使类和成员的可访问性最小化 Java程序设计语言提供了许多机制来协助信息隐藏。访问控制（access control)机制决定了类、接</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第3章 对于所有对象都通用的方法</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter3/</link>
+      <pubDate>Tue, 12 Feb 2019 09:54:13 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter3/</guid>
+      <description>第8条：覆盖equals时请遵守通用约定 在覆盖equals方法的时候，你必须要遵守它的通用约定。 自反性（reflexive）。对于任何非nu</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第3章 对于所有对象都通用的方法</title>
+      <link>https://malinkang.cn/post/effective-java-chapter3/</link>
+      <pubDate>Tue, 12 Feb 2019 09:54:13 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter3/</guid>
+      <description>第8条：覆盖equals时请遵守通用约定 在覆盖equals方法的时候，你必须要遵守它的通用约定。 自反性（reflexive）。对于任何非nu</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第2章 创建和销毁对象</title>
+      <link>https://malinkang.cn/effective-java/effective-java-chapter2/</link>
+      <pubDate>Sat, 05 Jan 2019 15:52:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/effective-java/effective-java-chapter2/</guid>
+      <description>《Effective Java》经常出现在各个Java推荐书单里，自己也曾买过一本看了几章，便被束之高阁。最近发现第三版也已经出版了。所以把读</description>
+    </item>
+    
+    <item>
+      <title>《Effective Java》读书笔记 第2章 创建和销毁对象</title>
+      <link>https://malinkang.cn/post/effective-java-chapter2/</link>
+      <pubDate>Sat, 05 Jan 2019 15:52:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/post/effective-java-chapter2/</guid>
+      <description>《Effective Java》经常出现在各个Java推荐书单里，自己也曾买过一本看了几章，便被束之高阁。最近发现第三版也已经出版了。所以把读</description>
+    </item>
+    
+    <item>
+      <title>Class文件结构</title>
+      <link>https://malinkang.cn/post/class-file-format/</link>
+      <pubDate>Tue, 05 Jan 2016 10:08:28 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/class-file-format/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Class&lt;/code&gt;文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在&lt;code&gt;Class&lt;/code&gt;文件之中，中间没有添加任何分隔符，这使得整个&lt;code&gt;Class&lt;/code&gt;文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。这种顺序称为“Big-Endian”。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

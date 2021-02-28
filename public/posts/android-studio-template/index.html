@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html><head>
+<title>创建 Android Studio Template</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%82%e8%80%83" v-on:click="closeDrawer" id="参考-nav">
+										 参考
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%82%e8%80%83" v-on:click="closeDrawer" id="参考-nav">
+										 参考
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    创建 Android Studio Template
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2016-06-15 10:40
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。</p>
+<p><img src="/images/android-studio-template-1.png" alt=""></p>
+<p>AndroidStudio虽然提供了大多常见的的模板，但是不可能满足每个人的需求，因此自定义模板就显得很有必要。下面我们将分析系统提供的模板，并自己来实现模板。</p>
+<p>系统提供的Template存放在<code>/Applications/Android Studio.app/Contents/plugins/android/lib/templates</code>目录下，activities目录下是Actiivty模板。</p>
+<p>下面我们以EmptyActivity为例进行分析</p>
+<p>template.xml 代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
+<span style="color:#75715e">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span style="color:#f92672">&lt;template</span>
+    <span style="color:#a6e22e">format=</span><span style="color:#e6db74">&#34;5&#34;</span>
+    <span style="color:#a6e22e">revision=</span><span style="color:#e6db74">&#34;5&#34;</span>
+    <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Empty Activity&#34;</span>
+    <span style="color:#a6e22e">minApi=</span><span style="color:#e6db74">&#34;7&#34;</span>
+    <span style="color:#a6e22e">minBuildApi=</span><span style="color:#e6db74">&#34;14&#34;</span>
+    <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;Creates a new empty activity&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;category</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;Activity&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;formfactor</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;Mobile&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;parameter</span>
+        <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;activityClass&#34;</span>
+        <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Activity Name&#34;</span>
+        <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;string&#34;</span>
+        <span style="color:#a6e22e">constraints=</span><span style="color:#e6db74">&#34;class|unique|nonempty&#34;</span>
+        <span style="color:#a6e22e">suggest=</span><span style="color:#e6db74">&#34;${layoutToActivity(layoutName)}&#34;</span>
+        <span style="color:#a6e22e">default=</span><span style="color:#e6db74">&#34;MainActivity&#34;</span>
+        <span style="color:#a6e22e">help=</span><span style="color:#e6db74">&#34;The name of the activity class to create&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;parameter</span>
+        <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;generateLayout&#34;</span>
+        <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Generate Layout File&#34;</span>
+        <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;boolean&#34;</span>
+        <span style="color:#a6e22e">default=</span><span style="color:#e6db74">&#34;true&#34;</span>
+        <span style="color:#a6e22e">help=</span><span style="color:#e6db74">&#34;If true, a layout file will be generated&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;parameter</span>
+        <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;layoutName&#34;</span>
+        <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Layout Name&#34;</span>
+        <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;string&#34;</span>
+        <span style="color:#a6e22e">constraints=</span><span style="color:#e6db74">&#34;layout|unique|nonempty&#34;</span>
+        <span style="color:#a6e22e">suggest=</span><span style="color:#e6db74">&#34;${activityToLayout(activityClass)}&#34;</span>
+        <span style="color:#a6e22e">default=</span><span style="color:#e6db74">&#34;activity_main&#34;</span>
+        <span style="color:#a6e22e">visibility=</span><span style="color:#e6db74">&#34;generateLayout&#34;</span>
+        <span style="color:#a6e22e">help=</span><span style="color:#e6db74">&#34;The name of the layout to create for the activity&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;parameter</span>
+        <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;isLauncher&#34;</span>
+        <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Launcher Activity&#34;</span>
+        <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;boolean&#34;</span>
+        <span style="color:#a6e22e">default=</span><span style="color:#e6db74">&#34;false&#34;</span>
+        <span style="color:#a6e22e">help=</span><span style="color:#e6db74">&#34;If true, this activity will have a CATEGORY_LAUNCHER intent filter, making it visible in the launcher&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;parameter</span>
+        <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;backwardsCompatibility&#34;</span>
+        <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Backwards Compatibility (AppCompat)&#34;</span>
+        <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;boolean&#34;</span>
+        <span style="color:#a6e22e">default=</span><span style="color:#e6db74">&#34;true&#34;</span>
+        <span style="color:#a6e22e">help=</span><span style="color:#e6db74">&#34;If false, this activity base class will be Activity instead of AppCompatActivity&#34;</span> <span style="color:#f92672">/&gt;</span>
+    
+    <span style="color:#f92672">&lt;parameter</span>
+        <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;packageName&#34;</span>
+        <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Package name&#34;</span>
+        <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;string&#34;</span>
+        <span style="color:#a6e22e">constraints=</span><span style="color:#e6db74">&#34;package&#34;</span>
+        <span style="color:#a6e22e">default=</span><span style="color:#e6db74">&#34;com.mycompany.myapp&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#75715e">&lt;!-- 128x128 thumbnails relative to template.xml --&gt;</span>
+    <span style="color:#f92672">&lt;thumbs&gt;</span>
+        <span style="color:#75715e">&lt;!-- default thumbnail is required --&gt;</span>
+        <span style="color:#f92672">&lt;thumb&gt;</span>template_blank_activity.png<span style="color:#f92672">&lt;/thumb&gt;</span>
+    <span style="color:#f92672">&lt;/thumbs&gt;</span>
+
+    <span style="color:#f92672">&lt;globals</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;globals.xml.ftl&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;execute</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;recipe.xml.ftl&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+<span style="color:#f92672">&lt;/template&gt;</span>
+
+</code></pre></div><p>这里的<code>&lt;parameter&gt;</code>标签代表创建的时候输入的参数。</p>
+<p>globals.xml.ftl中主要定义全局常量。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span style="color:#f92672">&lt;globals&gt;</span>
+    <span style="color:#f92672">&lt;global</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;hasNoActionBar&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;boolean&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;global</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;parentActivityClass&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;global</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;simpleLayoutName&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${layoutName}&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;global</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;excludeMenu&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;boolean&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;global</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;generateActivityTitle&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;boolean&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>#include &#34;../common/common_globals.xml.ftl&#34; /&gt;
+<span style="color:#f92672">&lt;/globals&gt;</span>
+</code></pre></div><p>recipe.xml.ftl代码如下。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span style="color:#f92672">&lt;recipe&gt;</span>
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>#include &#34;../common/recipe_manifest.xml.ftl&#34; /&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>#if generateLayout&gt;
+    <span style="color:#960050;background-color:#1e0010">&lt;</span>#include &#34;../common/recipe_simple.xml.ftl&#34; /&gt;
+    <span style="color:#f92672">&lt;open</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#960050;background-color:#1e0010">&lt;</span>/#if&gt;
+    <span style="color:#f92672">&lt;instantiate</span> <span style="color:#a6e22e">from=</span><span style="color:#e6db74">&#34;root/src/app_package/SimpleActivity.java.ftl&#34;</span>
+                   <span style="color:#a6e22e">to=</span><span style="color:#e6db74">&#34;${escapeXmlAttribute(srcOut)}/${activityClass}.java&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;open</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;${escapeXmlAttribute(srcOut)}/${activityClass}.java&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/recipe&gt;</span>
+</code></pre></div><h3 id="参考">参考</h3>
+<ul>
+<li><a href="http://blog.csdn.net/lmj623565791/article/details/51635533">Android Studio自定义模板 写页面竟然可以如此轻松</a></li>
+<li><a href="https://riggaroo.co.za/custom-file-template-group-android-studiointellij/">How to create a group of File Templates in Android Studio – Part 3</a></li>
+</ul>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2016-06-15</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/android-bitmap/">
+                    Next<br>Android Bitmap使用
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/okhttp-interceptors/">
+                    Previous<br>自定义Okhttp拦截器
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+    <link>https://malinkang.cn/tags/android/</link>
+    <description>Recent content in Android on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 04 Sep 2020 16:39:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://malinkang.cn/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Recyclerview源码分析三</title>
+      <link>https://malinkang.cn/post/recyclerview-analysis-3/</link>
+      <pubDate>Fri, 04 Sep 2020 16:39:09 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/recyclerview-analysis-3/</guid>
+      <description>上一篇分析RecyclerView整体流程的时候提到，RecyclerView缓存机制比较复杂，所以这一篇单独分析一下RecyclerVie</description>
+    </item>
+    
+    <item>
+      <title>Recyclerview源码分析二</title>
+      <link>https://malinkang.cn/post/recyclerview-analysis-2/</link>
+      <pubDate>Thu, 03 Sep 2020 16:39:09 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/recyclerview-analysis-2/</guid>
+      <description>&lt;p&gt;在上一篇文章中，我们主要分析了&lt;code&gt;RecyclerView&lt;/code&gt;中的几个重要的内部类。今天我们就把它们串起来，看它们分别是如何工作的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recyclerview源码分析一</title>
+      <link>https://malinkang.cn/post/recyclerview-analysis-1/</link>
+      <pubDate>Wed, 02 Sep 2020 16:39:09 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/recyclerview-analysis-1/</guid>
+      <description>&lt;p&gt;&lt;code&gt;RecyclerView&lt;/code&gt;是我们开发中最常用的控件，&lt;code&gt;RecyclerView&lt;/code&gt;是如何工作的，如何处理缓存的有助于解决一些使用&lt;code&gt;RecyclerView&lt;/code&gt;的bug和优化&lt;code&gt;RecyclerView&lt;/code&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>【译】避免Android中内存泄漏的9种方法</title>
+      <link>https://malinkang.cn/post/9-ways-to-avoid-memory-leaks-in-android/</link>
+      <pubDate>Mon, 10 Jun 2019 14:33:57 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/9-ways-to-avoid-memory-leaks-in-android/</guid>
+      <description>原文，本文介绍了，引发内存泄露的常见情况，并给出了对应的修复方法。 I have been an android developer for quite some time now. And I realised（意识到） that most of that time, I tend to spend on adding</description>
+    </item>
+    
+    <item>
+      <title>Handler的使用和原理分析</title>
+      <link>https://malinkang.cn/post/android-handler/</link>
+      <pubDate>Fri, 26 Apr 2019 11:22:09 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-handler/</guid>
+      <description>使用Handler 每个应用程序都有自己的特殊线程来运行UI对象，例如View对象;这个线程称为UI线程。在Android中，不允许非UI线程</description>
+    </item>
+    
+    <item>
+      <title>Android网络优化</title>
+      <link>https://malinkang.cn/post/android-network-performance/</link>
+      <pubDate>Fri, 08 Mar 2019 09:54:39 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-network-performance/</guid>
+      <description>在讲怎么去优化网络之前，我想先明确一下所谓的网络优化，究竟指的是什么？在我看来，核心内容有以下三个： 速度。在网络正常或者良好的时候，怎样更好</description>
+    </item>
+    
+    <item>
+      <title>Android优化之WebView优化</title>
+      <link>https://malinkang.cn/post/android-webview-performance/</link>
+      <pubDate>Thu, 07 Mar 2019 10:02:53 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-webview-performance/</guid>
+      <description>百度APP-Android H5首屏优化实践</description>
+    </item>
+    
+    <item>
+      <title>Android电池优化</title>
+      <link>https://malinkang.cn/post/android-battery-performance/</link>
+      <pubDate>Thu, 07 Mar 2019 10:02:53 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-battery-performance/</guid>
+      <description>耗电的背景知识 1.电池技术 手机电池的一些关键指标： 电池容量 充电时间 寿命 安全性 2.电量和硬件 3.电量和应用程序 Android耗电的演进历程 1.</description>
+    </item>
+    
+    <item>
+      <title>Android优化之安装包大小优化</title>
+      <link>https://malinkang.cn/post/android-reduce-apk-size/</link>
+      <pubDate>Tue, 05 Mar 2019 16:00:24 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-reduce-apk-size/</guid>
+      <description>1.为什么要优化包体积 下载转化率 推广成本 应用市场 2.包体积与应用性能 包体积除了转化率的影响，它对我们应用性能还有哪些影响呢？ 安装时间。文件拷</description>
+    </item>
+    
+    <item>
+      <title>Android启动优化</title>
+      <link>https://malinkang.cn/post/android-start-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 15:57:23 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-start-performance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android优化之内存优化</title>
+      <link>https://malinkang.cn/post/android-memory-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 15:10:02 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-memory-performance/</guid>
+      <description>目录 使用内存效率更高的代码结构 谨慎使用服务 使用经过优化的数据容器 谨慎对待代码抽象 针对序列化数据使用精简版-protobuf 避免内存抖动 移除会</description>
+    </item>
+    
+    <item>
+      <title>Android崩溃优化</title>
+      <link>https://malinkang.cn/post/android-crash-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 10:08:28 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/android-crash-performance/</guid>
+      <description>Android的两种崩溃 Android崩溃分为Java崩溃和Native崩溃。Java崩溃就是在Java代码中，出现了未捕获异常，导致程序异</description>
+    </item>
+    
+    <item>
+      <title>生成绑定类</title>
+      <link>https://malinkang.cn/post/generated-binding-classes/</link>
+      <pubDate>Mon, 19 Jun 2017 20:01:58 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/generated-binding-classes/</guid>
+      <description>&lt;p&gt;数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自&lt;code&gt;ViewDataBinding&lt;/code&gt;类。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>绑定适配器使用</title>
+      <link>https://malinkang.cn/post/binding-adapters/</link>
+      <pubDate>Tue, 13 Jun 2017 18:14:02 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/binding-adapters/</guid>
+      <description>&lt;p&gt;绑定适配器负责对设置值进行适当的框架调用。一个例子是设置一个属性值，如调用&lt;code&gt;setText()&lt;/code&gt;方法。另一个例子是设置一个事件监听器，如调用&lt;code&gt;setOnClickListener()&lt;/code&gt;方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DataBinding绑定表达式使用</title>
+      <link>https://malinkang.cn/post/binding-expressions/</link>
+      <pubDate>Sun, 11 Jun 2017 18:14:02 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/post/binding-expressions/</guid>
+      <description>&lt;p&gt;表达式语言允许您编写处理&lt;code&gt;View&lt;/code&gt;分发的事件的表达式。数据绑定库自动生成将布局中的&lt;code&gt;View&lt;/code&gt;与数据对象绑定所需的类。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

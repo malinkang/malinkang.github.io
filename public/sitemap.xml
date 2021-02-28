@@ -1,0 +1,533 @@
+<?xml-stylesheet type="text/xsl" href="https://malinkang.cn/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://malinkang.cn/tags/android/</loc>
+    <lastmod>2020-09-04T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/</loc>
+    <lastmod>2020-09-04T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/recyclerview/</loc>
+    <lastmod>2020-09-04T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/recyclerview-analysis-3/</loc>
+    <lastmod>2020-09-04T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/</loc>
+    <lastmod>2020-09-04T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/recyclerview-analysis-2/</loc>
+    <lastmod>2020-09-03T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/recyclerview-analysis-1/</loc>
+    <lastmod>2020-09-02T16:39:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/what-is-reactive-programming/</loc>
+    <lastmod>2020-07-28T10:44:19+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/epoxy-models/</loc>
+    <lastmod>2020-01-05T15:52:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/java/</loc>
+    <lastmod>2020-01-05T15:52:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-01-05T15:52:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/improve-app-performance-with-kotlin-coroutines/</loc>
+    <lastmod>2019-10-15T19:02:36+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/dex-file-format/</loc>
+    <lastmod>2019-09-27T10:04:55+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-activity-launch-process/</loc>
+    <lastmod>2019-09-24T15:53:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/9-ways-to-avoid-memory-leaks-in-android/</loc>
+    <lastmod>2019-06-10T14:33:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-handler/</loc>
+    <lastmod>2019-04-26T11:22:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2019-04-26T11:22:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/thomas-calculus/</loc>
+    <lastmod>2019-04-16T16:22:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/thomas-calculus/thomas-calculus-chapter2/</loc>
+    <lastmod>2019-04-16T16:22:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/flutter-widget-column/</loc>
+    <lastmod>2019-03-19T14:21:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-build/</loc>
+    <lastmod>2019-03-14T15:18:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-dynamic/</loc>
+    <lastmod>2019-03-14T15:18:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-network-performance/</loc>
+    <lastmod>2019-03-08T09:54:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-webview-performance/</loc>
+    <lastmod>2019-03-07T10:02:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-battery-performance/</loc>
+    <lastmod>2019-03-07T10:02:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-reduce-apk-size/</loc>
+    <lastmod>2019-03-05T16:00:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-start-performance/</loc>
+    <lastmod>2019-03-05T15:57:23+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-memory-performance/</loc>
+    <lastmod>2019-03-05T15:10:02+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-crash-performance/</loc>
+    <lastmod>2019-03-05T10:08:28+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/</loc>
+    <lastmod>2019-02-28T14:19:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter8/</loc>
+    <lastmod>2019-02-28T14:19:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter8/</loc>
+    <lastmod>2019-02-28T14:19:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter7/</loc>
+    <lastmod>2019-02-20T14:19:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter7/</loc>
+    <lastmod>2019-02-20T14:19:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/flutter-widget-container/</loc>
+    <lastmod>2019-02-19T14:21:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter6/</loc>
+    <lastmod>2019-02-18T09:58:30+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter6/</loc>
+    <lastmod>2019-02-18T09:58:30+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter5/</loc>
+    <lastmod>2019-02-16T16:20:11+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter5/</loc>
+    <lastmod>2019-02-16T16:20:11+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter4/</loc>
+    <lastmod>2019-02-15T16:25:04+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter4/</loc>
+    <lastmod>2019-02-15T16:25:04+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter3/</loc>
+    <lastmod>2019-02-12T09:54:13+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter3/</loc>
+    <lastmod>2019-02-12T09:54:13+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/effective-java/effective-java-chapter2/</loc>
+    <lastmod>2019-01-05T15:52:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/effective-java-chapter2/</loc>
+    <lastmod>2019-01-05T15:52:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/up/</loc>
+    <lastmod>2019-01-05T09:54:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/kotlin/</loc>
+    <lastmod>2018-09-12T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-in-action-chapter8/</loc>
+    <lastmod>2018-09-12T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-in-action-chapter7/</loc>
+    <lastmod>2018-09-09T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-in-action-chapter6/</loc>
+    <lastmod>2018-09-06T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-in-action-chapter5/</loc>
+    <lastmod>2018-09-04T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-in-action-chapter4/</loc>
+    <lastmod>2018-08-28T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-in-action-chapter3/</loc>
+    <lastmod>2018-08-25T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/paging-library-overview/</loc>
+    <lastmod>2018-07-27T14:44:49+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-scope-functions/</loc>
+    <lastmod>2018-07-27T15:05:51+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/kotlin-functions/</loc>
+    <lastmod>2018-07-27T15:05:51+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/dagger-android/</loc>
+    <lastmod>2018-07-25T11:56:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/navigation-implementing/</loc>
+    <lastmod>2018-06-07T16:13:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/livedata-overview/</loc>
+    <lastmod>2018-05-18T16:47:47+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/goodbye-xiao-hua/</loc>
+    <lastmod>2017-07-08T09:00:42+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/databinding/</loc>
+    <lastmod>2017-06-19T20:01:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/generated-binding-classes/</loc>
+    <lastmod>2017-06-19T20:01:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/binding-adapters/</loc>
+    <lastmod>2017-06-13T18:14:02+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/binding-expressions/</loc>
+    <lastmod>2017-06-11T18:14:02+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-custom-attribute/</loc>
+    <lastmod>2017-03-21T17:37:26+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/dagger-guide/</loc>
+    <lastmod>2016-07-25T09:47:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-bitmap/</loc>
+    <lastmod>2016-06-24T13:52:35+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-studio-template/</loc>
+    <lastmod>2016-06-15T10:40:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/class-file-format/</loc>
+    <lastmod>2016-01-05T10:08:28+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-decompile/</loc>
+    <lastmod>2015-12-07T15:48:40+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/android-studio-plugins/</loc>
+    <lastmod>2014-06-15T10:40:23+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/</loc>
+    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/reading-notes/</loc>
+    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/post/sqlite/</loc>
+    <lastmod>2014-03-26T17:23:24+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/readingnotes/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/categories/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+</urlset>

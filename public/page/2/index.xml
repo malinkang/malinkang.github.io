@@ -1,0 +1,431 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Malinkang‘s Blog</title>
+    <link>https://malinkang.cn/</link>
+    <description>Recent content on Malinkang‘s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This is a customized copyright.</copyright>
+    <lastBuildDate>Wed, 09 Apr 2014 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://malinkang.cn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>Column和Row详解</title>
+        <link>https://malinkang.cn/posts/flutter-widget-column/</link>
+        <pubDate>Tue, 19 Mar 2019 14:21:37 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/flutter-widget-column/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/flutter-widget-column/ -&lt;h3 id=&#34;mainaxisalignment&#34;&gt;MainAxisAlignment&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dart&#34; data-lang=&#34;dart&#34;&gt;Scaffold(
+    appBar: AppBar(title: Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Flutter&amp;#39;&lt;/span&gt;)),
+    body: Column(
+        children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MainAxisAlignment.start&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            ],
+        ),
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MainAxisAlignment.center&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            ],
+        ),
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MainAxisAlignment.spaceAround&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            ],
+        ),
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MainAxisAlignment.spaceBetween&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            ],
+        ),
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MainAxisAlignment.spaceEvenly&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            ],
+        ),
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MainAxisAlignment.end&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;),
+            ],
+        )
+        ],
+    ),
+),
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://malinkang.cn/images/flutter-main-axis-aligment.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;crossaxisalignment&#34;&gt;crossAxisAlignment&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dart&#34; data-lang=&#34;dart&#34;&gt;Scaffold(
+    appBar: AppBar(title: Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Flutter&amp;#39;&lt;/span&gt;)),
+    body: Column(
+        children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CrossAxisAlignment.start&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;),
+            ],
+        ),
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CrossAxisAlignment.center&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;),
+            ],
+        ),
+
+
+        Text(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; CrossAxisAlignment.end&amp;#34;&lt;/span&gt;,style:TextStyle(
+            color: Colors.blueAccent,
+            fontSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;
+        )),
+        Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Widget&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;[
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),
+            Icon(Icons.star,color: Colors.yellow, size: &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;),
+            ],
+        )
+        ],
+    ),
+),
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://malinkang.cn/images/flutter-cross-axis-alignment.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://medium.com/flutter-community/flutter-layout-cheat-sheet-5363348d037e&#34;&gt;Flutter Layout Cheat Sheet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/kAWPj97w5NfiqAYEpi3zVA&#34;&gt;Flutter快速上车之Widget&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+- https://malinkang.cn/posts/flutter-widget-column/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android Build</title>
+        <link>https://malinkang.cn/posts/android-build/</link>
+        <pubDate>Thu, 14 Mar 2019 15:18:46 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-build/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-build/ -&lt;h2 id=&#34;d8&#34;&gt;D8&lt;/h2&gt;
+&lt;p&gt;Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://malinkang.cn/images/d8.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;r8&#34;&gt;R8&lt;/h2&gt;
+&lt;p&gt;R8 在 Android Studio 3.1 中引入，志向更加高远，它的目标是取代 ProGuard 和 d8。我们可以直接使用 R8 把“.class”文件变成 Dex。
+同时，R8 还支持 ProGuard 中混淆、裁剪、优化这三大功能。&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/studio/build/?hl=zh-cn&#34;&gt;配置构建&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/studio/publish/app-signing.html?hl=zh-cn#sign-manually&#34;&gt;签署您的应用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://mouxuejie.com/blog/2016-08-04/build-and-package-flow-introduction/&#34;&gt;打包流程梳理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Tencent/VasDolly&#34;&gt;腾讯多渠道打包VasDolly&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/6YUJlGmhf1-Q-5KMvZ_8_Q&#34;&gt;微信Android资源混淆打包工具&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/QRIy_apwqAaL2pM8a_lRUQ&#34;&gt;Android安装包相关知识汇总&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Meituan-Dianping/walle&#34;&gt;美团多渠道打包Walle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/studio/command-line/apksigner.html&#34;&gt;apksigner&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://source.android.com/security/apksigning/v2.html&#34;&gt;APK 签名方案 v2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://source.android.com/security/apksigning/v3&#34;&gt;APK 签名方案 v3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/studio/command-line/aapt2&#34;&gt;AAPT2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://stackoverflow.com/questions/10199863/how-to-execute-the-dex-file-in-android-with-command&#34;&gt;How to execute the dex file in android with command?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/studio/command-line/d8&#34;&gt;d8&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://android-developers.googleblog.com/2018/04/android-studio-switching-to-d8-dexer.html&#34;&gt;Android Studio switching to D8 dexer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://android-developers.googleblog.com/2017/08/next-generation-dex-compiler-now-in.html&#34;&gt;Next-generation Dex Compiler Now in Preview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://proandroiddev.com/the-d8-dexer-6736deb55fb8&#34;&gt;The D8 dexer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.guardsquare.com/en/blog/proguard-and-r8&#34;&gt;ProGuard and R8: a comparison of optimizers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/facebook/redex&#34;&gt;redex&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://android-developers.googleblog.com/2018/11/r8-new-code-shrinker-from-google-is.html&#34;&gt;R8, the new code shrinker from Google, is available in Android studio 3.3 beta&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://source.android.com/devices/tech/dalvik/improvements&#34;&gt;Android 8.0 中的 ART 功能改进&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+- https://malinkang.cn/posts/android-build/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android网络优化</title>
+        <link>https://malinkang.cn/posts/android-network-performance/</link>
+        <pubDate>Fri, 08 Mar 2019 09:54:39 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-network-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-network-performance/ -- https://malinkang.cn/posts/android-network-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android Ui 优化</title>
+        <link>https://malinkang.cn/posts/android-ui-performance/</link>
+        <pubDate>Thu, 07 Mar 2019 16:49:52 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-ui-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-ui-performance/ -&lt;h2 id=&#34;ui渲染的背景知识&#34;&gt;UI渲染的背景知识&lt;/h2&gt;
+&lt;h3 id=&#34;1屏幕与适配&#34;&gt;1.屏幕与适配&lt;/h3&gt;
+&lt;h3 id=&#34;2cpu与gpu&#34;&gt;2.CPU与GPU&lt;/h3&gt;
+&lt;h3 id=&#34;3opengl与vulkan&#34;&gt;3.OpenGL与Vulkan&lt;/h3&gt;
+&lt;h2 id=&#34;android渲染的演进&#34;&gt;Android渲染的演进&lt;/h2&gt;
+&lt;h3 id=&#34;1android-40开启硬件加速&#34;&gt;1.Android 4.0：开启硬件加速&lt;/h3&gt;
+&lt;h3 id=&#34;2android-41project-butter&#34;&gt;2.Android 4.1：Project Butter&lt;/h3&gt;
+&lt;h3 id=&#34;3android-50renderthread&#34;&gt;3.Android 5.0：RenderThread&lt;/h3&gt;
+&lt;h2 id=&#34;ui渲染测量&#34;&gt;UI渲染测量&lt;/h2&gt;
+&lt;h3 id=&#34;1gfxinfo&#34;&gt;1.gfxinfo&lt;/h3&gt;
+&lt;h3 id=&#34;2surfaceflinger&#34;&gt;2.SurfaceFlinger&lt;/h3&gt;
+&lt;h2 id=&#34;ui优化的常规手段&#34;&gt;UI优化的常规手段&lt;/h2&gt;
+&lt;h3 id=&#34;1尽量使用硬件加速&#34;&gt;1.尽量使用硬件加速&lt;/h3&gt;
+&lt;h3 id=&#34;2create-view优化&#34;&gt;2.Create View优化&lt;/h3&gt;
+&lt;h3 id=&#34;3measurelayout优化&#34;&gt;3.measure/layout优化&lt;/h3&gt;
+&lt;h2 id=&#34;ui优化的进阶手段&#34;&gt;UI优化的进阶手段&lt;/h2&gt;
+&lt;h3 id=&#34;1litho异步布局&#34;&gt;1.Litho：异步布局&lt;/h3&gt;
+&lt;h4 id=&#34;异步布局&#34;&gt;异步布局&lt;/h4&gt;
+&lt;h4 id=&#34;界面扁平化&#34;&gt;界面扁平化&lt;/h4&gt;
+&lt;h4 id=&#34;优化recyclerview&#34;&gt;优化RecyclerView&lt;/h4&gt;
+&lt;h3 id=&#34;2flutter自己的布局渲染引擎&#34;&gt;2.Flutter：自己的布局+渲染引擎&lt;/h3&gt;
+&lt;h3 id=&#34;3renderthread与renderscript&#34;&gt;3.RenderThread与RenderScript&lt;/h3&gt;
+- https://malinkang.cn/posts/android-ui-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android电池优化</title>
+        <link>https://malinkang.cn/posts/android-battery-performance/</link>
+        <pubDate>Thu, 07 Mar 2019 10:02:53 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-battery-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-battery-performance/ -&lt;h2 id=&#34;耗电的背景知识&#34;&gt;耗电的背景知识&lt;/h2&gt;
+&lt;h3 id=&#34;1电池技术&#34;&gt;1.电池技术&lt;/h3&gt;
+&lt;p&gt;手机电池的一些关键指标：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;电池容量&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;充电时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;寿命&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安全性&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2电量和硬件&#34;&gt;2.电量和硬件&lt;/h3&gt;
+&lt;h3 id=&#34;3电量和应用程序&#34;&gt;3.电量和应用程序&lt;/h3&gt;
+&lt;h2 id=&#34;android耗电的演进历程&#34;&gt;Android耗电的演进历程&lt;/h2&gt;
+&lt;h3 id=&#34;1野蛮生长pre-android-50&#34;&gt;1.野蛮生长：Pre Android 5.0&lt;/h3&gt;
+&lt;h3 id=&#34;2逐步收紧android50android80&#34;&gt;2.逐步收紧：Android5.0~Android8.0&lt;/h3&gt;
+&lt;h3 id=&#34;3最严限制android90&#34;&gt;3.最严限制：Android9.0&lt;/h3&gt;
+&lt;h2 id=&#34;耗电优化&#34;&gt;耗电优化&lt;/h2&gt;
+&lt;h3 id=&#34;1什么是耗电优化&#34;&gt;1.什么是耗电优化&lt;/h3&gt;
+&lt;p&gt;耗电优化的第一个方向是优化应用的后台耗电。
+耗电优化的第二个方向是符合系统的规则，让系统认为你耗电是正常的。&lt;/p&gt;
+&lt;h3 id=&#34;2耗电优化的难点&#34;&gt;2.耗电优化的难点&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;缺乏现场，无法复现。&lt;/li&gt;
+&lt;li&gt;信息不全，难以定位。&lt;/li&gt;
+&lt;li&gt;无法评估结果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3耗电优化的方法&#34;&gt;3.耗电优化的方法&lt;/h3&gt;
+&lt;h2 id=&#34;耗电监控&#34;&gt;耗电监控&lt;/h2&gt;
+&lt;h3 id=&#34;1android-vitals&#34;&gt;1.Android Vitals&lt;/h3&gt;
+&lt;h3 id=&#34;2耗电监控都监控什么&#34;&gt;2.耗电监控都监控什么&lt;/h3&gt;
+&lt;h3 id=&#34;3如何监控耗电&#34;&gt;3.如何监控耗电&lt;/h3&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/topic/performance/power&#34;&gt;Optimize for battery life&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+- https://malinkang.cn/posts/android-battery-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android存储优化</title>
+        <link>https://malinkang.cn/posts/android-storage-performance/</link>
+        <pubDate>Tue, 05 Mar 2019 16:02:05 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-storage-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-storage-performance/ -&lt;h2 id=&#34;android的存储基础&#34;&gt;Android的存储基础&lt;/h2&gt;
+&lt;h3 id=&#34;1android分区&#34;&gt;1.Android分区&lt;/h3&gt;
+&lt;p&gt;Android系统可以通过/proc/partitions或者&lt;code&gt;df&lt;/code&gt;命令来查看各个分区的情况。&lt;/p&gt;
+&lt;h3 id=&#34;2android安全存储&#34;&gt;2.Android安全存储&lt;/h3&gt;
+&lt;h4 id=&#34;第一权限控制&#34;&gt;第一、权限控制&lt;/h4&gt;
+&lt;h4 id=&#34;第二数据加密&#34;&gt;第二、数据加密&lt;/h4&gt;
+&lt;h2 id=&#34;常见的数据存储方法&#34;&gt;常见的数据存储方法&lt;/h2&gt;
+&lt;h3 id=&#34;1关键要素&#34;&gt;1.关键要素&lt;/h3&gt;
+&lt;h3 id=&#34;2存储选项&#34;&gt;2.存储选项&lt;/h3&gt;
+&lt;h4 id=&#34;第一sharepreference的使用&#34;&gt;第一，SharePreference的使用&lt;/h4&gt;
+&lt;h4 id=&#34;第二contentprovider的使用&#34;&gt;第二，ContentProvider的使用&lt;/h4&gt;
+&lt;h2 id=&#34;对象的序列化&#34;&gt;对象的序列化&lt;/h2&gt;
+&lt;h3 id=&#34;1serializable&#34;&gt;1.Serializable&lt;/h3&gt;
+&lt;h4 id=&#34;serializable的原理&#34;&gt;Serializable的原理&lt;/h4&gt;
+&lt;h4 id=&#34;serializable的进阶&#34;&gt;Serializable的进阶&lt;/h4&gt;
+&lt;h4 id=&#34;serializable的注意事项&#34;&gt;Serializable的注意事项&lt;/h4&gt;
+&lt;h3 id=&#34;2parcelable&#34;&gt;2.Parcelable&lt;/h3&gt;
+&lt;h4 id=&#34;parcelable的永久存储&#34;&gt;Parcelable的永久存储&lt;/h4&gt;
+&lt;h4 id=&#34;parcelable的注意事项&#34;&gt;Parcelable的注意事项&lt;/h4&gt;
+&lt;h3 id=&#34;3serial&#34;&gt;3.Serial&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/twitter/Serial&#34;&gt;https://github.com/twitter/Serial&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;数据的序列化&#34;&gt;数据的序列化&lt;/h2&gt;
+&lt;h3 id=&#34;1json&#34;&gt;1.JSON&lt;/h3&gt;
+&lt;h3 id=&#34;2protocol-buffers&#34;&gt;2.Protocol Buffers&lt;/h3&gt;
+&lt;h2 id=&#34;存储监控&#34;&gt;存储监控&lt;/h2&gt;
+&lt;h3 id=&#34;1性能监控&#34;&gt;1.性能监控&lt;/h3&gt;
+&lt;h3 id=&#34;2rom监控&#34;&gt;2.ROM监控&lt;/h3&gt;
+- https://malinkang.cn/posts/android-storage-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Apk体积优化</title>
+        <link>https://malinkang.cn/posts/android-reduce-apk-size/</link>
+        <pubDate>Tue, 05 Mar 2019 16:00:24 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-reduce-apk-size/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-reduce-apk-size/ -&lt;h2 id=&#34;安装包的背景知识&#34;&gt;安装包的背景知识&lt;/h2&gt;
+&lt;h3 id=&#34;1为什么要优化包体积&#34;&gt;1.为什么要优化包体积&lt;/h3&gt;
+&lt;h3 id=&#34;2包体积与应用性能&#34;&gt;2.包体积与应用性能&lt;/h3&gt;
+&lt;h2 id=&#34;包体积优化&#34;&gt;包体积优化&lt;/h2&gt;
+&lt;h3 id=&#34;1代码&#34;&gt;1.代码&lt;/h3&gt;
+&lt;h4 id=&#34;proguard&#34;&gt;ProGuard&lt;/h4&gt;
+&lt;h4 id=&#34;dex分包&#34;&gt;Dex分包&lt;/h4&gt;
+&lt;h4 id=&#34;dex压缩&#34;&gt;Dex压缩&lt;/h4&gt;
+&lt;h3 id=&#34;2native-library&#34;&gt;2.Native Library&lt;/h3&gt;
+&lt;h4 id=&#34;library压缩&#34;&gt;Library压缩&lt;/h4&gt;
+&lt;h4 id=&#34;library合并与裁剪&#34;&gt;Library合并与裁剪&lt;/h4&gt;
+&lt;h2 id=&#34;包体积监控&#34;&gt;包体积监控&lt;/h2&gt;
+&lt;h2 id=&#34;进阶的优化方案&#34;&gt;进阶的优化方案&lt;/h2&gt;
+&lt;h3 id=&#34;1资源合并&#34;&gt;1.资源合并&lt;/h3&gt;
+&lt;h3 id=&#34;2无用资源&#34;&gt;2.无用资源&lt;/h3&gt;
+&lt;h4 id=&#34;去掉debug信息或者去掉行号&#34;&gt;去掉Debug信息或者去掉行号&lt;/h4&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/topic/performance/reduce-apk-size&#34;&gt;Reduce the APK size&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+- https://malinkang.cn/posts/android-reduce-apk-size/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>AndroidI/O优化</title>
+        <link>https://malinkang.cn/posts/android-io-performance/</link>
+        <pubDate>Tue, 05 Mar 2019 15:57:29 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-io-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-io-performance/ -&lt;h2 id=&#34;io的基本知识&#34;&gt;I/O的基本知识&lt;/h2&gt;
+&lt;h3 id=&#34;1文件系统&#34;&gt;1.文件系统&lt;/h3&gt;
+&lt;h3 id=&#34;2磁盘&#34;&gt;2.磁盘&lt;/h3&gt;
+&lt;h2 id=&#34;android-io&#34;&gt;Android I/O&lt;/h2&gt;
+&lt;h3 id=&#34;1android闪存&#34;&gt;1.Android闪存&lt;/h3&gt;
+&lt;h3 id=&#34;2两个疑问&#34;&gt;2.两个疑问&lt;/h3&gt;
+&lt;h2 id=&#34;io的性能评估&#34;&gt;I/O的性能评估&lt;/h2&gt;
+&lt;h3 id=&#34;1io性能指标&#34;&gt;1.I/O性能指标&lt;/h3&gt;
+&lt;h3 id=&#34;2io测量&#34;&gt;2.I/O测量&lt;/h3&gt;
+&lt;h4 id=&#34;第一种方法使用proc&#34;&gt;第一种方法：使用proc&lt;/h4&gt;
+&lt;h4 id=&#34;第二种方法使用strace&#34;&gt;第二种方法：使用strace&lt;/h4&gt;
+&lt;h4 id=&#34;第三种方法使用vmstat&#34;&gt;第三种方法：使用vmstat&lt;/h4&gt;
+&lt;h2 id=&#34;io跟踪&#34;&gt;I/O跟踪&lt;/h2&gt;
+&lt;h3 id=&#34;1java-hook&#34;&gt;1.Java Hook&lt;/h3&gt;
+&lt;h3 id=&#34;2native-hook&#34;&gt;2.Native Hook&lt;/h3&gt;
+&lt;h3 id=&#34;3监控内容&#34;&gt;3.监控内容&lt;/h3&gt;
+&lt;h2 id=&#34;线上监控&#34;&gt;线上监控&lt;/h2&gt;
+&lt;h3 id=&#34;1主线程io&#34;&gt;1.主线程I/O&lt;/h3&gt;
+&lt;h3 id=&#34;2读写buffer过小&#34;&gt;2.读写Buffer过小&lt;/h3&gt;
+&lt;h3 id=&#34;3重复读&#34;&gt;3.重复读&lt;/h3&gt;
+&lt;h3 id=&#34;4资源泄漏&#34;&gt;4.资源泄漏&lt;/h3&gt;
+&lt;h2 id=&#34;io的启动与优化&#34;&gt;IO的启动与优化&lt;/h2&gt;
+- https://malinkang.cn/posts/android-io-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android启动优化</title>
+        <link>https://malinkang.cn/posts/android-start-performance/</link>
+        <pubDate>Tue, 05 Mar 2019 15:57:23 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-start-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-start-performance/ -- https://malinkang.cn/posts/android-start-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Android内存优化</title>
+        <link>https://malinkang.cn/posts/android-memory-performance/</link>
+        <pubDate>Tue, 05 Mar 2019 15:10:02 +0800</pubDate>
+        
+        <guid>https://malinkang.cn/posts/android-memory-performance/</guid>
+        <description>Malinkang‘s Blog https://malinkang.cn/posts/android-memory-performance/ -&lt;h2 id=&#34;内存优化&#34;&gt;内存优化&lt;/h2&gt;
+&lt;h3 id=&#34;1设备分级&#34;&gt;1.设备分级&lt;/h3&gt;
+&lt;h3 id=&#34;2bitmap优化&#34;&gt;2.Bitmap优化&lt;/h3&gt;
+&lt;h3 id=&#34;3内存泄漏&#34;&gt;3.内存泄漏&lt;/h3&gt;
+&lt;h2 id=&#34;内存监控&#34;&gt;内存监控&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/facebook/device-year-class&#34;&gt;Device Year Class&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/topic/performance/memory-overview&#34;&gt;内存管理概览&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.android.com/topic/performance/memory&#34;&gt;管理应用内存&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+- https://malinkang.cn/posts/android-memory-performance/ - This is a customized copyright.</description>
+        </item>
+    
+    
+  </channel>
+</rss> 

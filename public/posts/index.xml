@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Malinkang‘s Blog</title>
+    <link>https://malinkang.cn/posts/</link>
+    <description>Recent content in Posts on Malinkang‘s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This is a customized copyright.</copyright>
+    <lastBuildDate>Tue, 15 Oct 2019 19:02:36 +0800</lastBuildDate>
+    
+	<atom:link href="https://malinkang.cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Improve App Performance With Kotlin Coroutines</title>
+      <link>https://malinkang.cn/posts/improve-app-performance-with-kotlin-coroutines/</link>
+      <pubDate>Tue, 15 Oct 2019 19:02:36 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/improve-app-performance-with-kotlin-coroutines/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://developer.android.com/kotlin/coroutines&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;协程是一种并发设计模式，您可以在&lt;code&gt;Android&lt;/code&gt;上使用它来简化异步执行的代码。 &lt;code&gt;Coroutines&lt;/code&gt;在版本1.3中添加到&lt;code&gt;Kotlin&lt;/code&gt;，并基于其他语言的既定概念。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Android&lt;/code&gt;上，协同程序有助于解决两个主要问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。&lt;/li&gt;
+&lt;li&gt;提供主安全性，或从主线程安全地调用网络或磁盘操作。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dex文件格式分析</title>
+      <link>https://malinkang.cn/posts/dex-file-format/</link>
+      <pubDate>Fri, 27 Sep 2019 10:04:55 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/dex-file-format/</guid>
+      <description>&lt;p&gt;在刚学习Java的时候我们都会写一个&lt;code&gt;HelloWorld&lt;/code&gt;的示例。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;HelloWorld&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; args&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+        System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello,world!&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后通过&lt;code&gt;javac&lt;/code&gt;命令编译成字节码，然后调用&lt;code&gt;java&lt;/code&gt;命令机执行字节码。我们如何像&lt;code&gt;java&lt;/code&gt;一样在命令行里直接在命令行输出&lt;code&gt;Hello,world!&lt;/code&gt;呢。具体要执行如下操作：&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Activity的启动流程</title>
+      <link>https://malinkang.cn/posts/android-activity-launch-process/</link>
+      <pubDate>Tue, 24 Sep 2019 15:53:26 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-activity-launch-process/</guid>
+      <description>&lt;p&gt;App启动的整体流程分为以下7个阶段。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Launcher&lt;/code&gt;通知AMS，要启动&lt;code&gt;App&lt;/code&gt;，而且指定要启动&lt;code&gt;App&lt;/code&gt;的哪个页面（也就是首页）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AMS&lt;/code&gt;通知Launcher, “好了我知道了，没你什么事了”。同时，把要启动的首页记下来。&lt;/li&gt;
+&lt;li&gt;Launcher当前页面进入Paused状态，然后通知AMS, “我睡了，你可以去找App了”。&lt;/li&gt;
+&lt;li&gt;AMS检查App是否已经启动了。是，则唤起App即可。否，就要启动一个新的进程。AMS在新进程中创建一个ActivityThread对象，启动其中的main函数。&lt;/li&gt;
+&lt;li&gt;App启动后，通知AMS, “我启动好了”。&lt;/li&gt;
+&lt;li&gt;AMS翻出之前在2中存的值，告诉App，启动哪个页面。&lt;/li&gt;
+&lt;li&gt;App启动首页，创建Context并与首页Activity关联。然后调用首页&lt;code&gt;Activity&lt;/code&gt;的onCreate函数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;至此启动流程完成，可分成两部分：第1～3阶段，Launcher和AMS相互通信；第4～7阶段，App和AMS相互通信。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dagger Users Guide</title>
+      <link>https://malinkang.cn/posts/dagger-users-guide/</link>
+      <pubDate>Thu, 25 Jul 2019 09:48:36 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/dagger-users-guide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>macOS U盘启动盘制作</title>
+      <link>https://malinkang.cn/posts/2018-may/</link>
+      <pubDate>Mon, 10 Jun 2019 14:33:57 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/2018-may/</guid>
+      <description>&lt;p&gt;对于有系统洁癖的我，每次升级 macOS 系统都会抹盘重装，所以需要用到 macOS 的 USB 启动盘，对于装黑苹果那肯定需要这个的，下面是使用 macOS 自带的命令行工具制作启动盘的教程。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Handler的使用和原理分析</title>
+      <link>https://malinkang.cn/posts/android-handler/</link>
+      <pubDate>Fri, 26 Apr 2019 11:22:09 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-handler/</guid>
+      <description>使用Handler 每个应用程序都有自己的特殊线程来运行UI对象，例如View对象;这个线程称为UI线程。在Android中，不允许非UI线程访问和修改UI对象。但是在实际的开发中，很多地方要在非UI线程中修改UI对象。比如下载网络图片并将图片设置给ImageView。
+Handler允许您发送和处理与线程的MessageQueue关联的Message和Runnable对象。每个Handler实例都与一个线程和该线程的消息队列相关联。当您创建一个新的Handler时，它被绑定到正在创建它的线程的线程/消息队列 - 从那时起，它将消息和runnables传递给该消息队列并在消息出来时执行它们队列。将Handler连接到UI线程时，处理消息的代码在UI线程上运行。
+Handler有两个主要用途：
+ 发送消息; 在不同于发送的线程上处理消息。  发送消息通过以下方法来完成：
+ post(Runnable) postAtTime(java.lang.Runnable, long) postDelayed(Runnable, Object, long) sendEmptyMessage(int) sendMessage(Message) sendMessageAtTime(Message, long) sendMessageDelayed(Message, long)  post版本允许您将Runnable对象排入队列，以便在收到它们时由消息队列调用;sendMessage版本允许您将包含将由Handler的handleMessage(Message)方法处理的数据包的Message对象排入队列。
+原理解析 2.1 Handler 在创建Handler的时候会获取当前线程的Looper对象。Handler和Looper在同一个线程。
+public Handler(Callback callback, boolean async) { //...  //获取Looper对象  mLooper = Looper.myLooper(); if (mLooper == null) { throw new RuntimeException( &amp;#34;Can&amp;#39;t create handler inside thread &amp;#34; + Thread.currentThread() + &amp;#34; that has not called Looper.prepare()&amp;#34;); } //获取Looper对象的MessageQueue对象  mQueue = mLooper.</description>
+    </item>
+    
+    <item>
+      <title>Flutter Http请求</title>
+      <link>https://malinkang.cn/posts/flutter-http/</link>
+      <pubDate>Tue, 23 Apr 2019 16:34:46 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/flutter-http/</guid>
+      <description>Dart提供了http package来进行网络请求。
+1.添加http package dependencies: http: &amp;lt;latest_version&amp;gt; 2.发起网络请求 Get请求
+Future&amp;lt;Post&amp;gt; fetchPost() async { final response = await http.get(&amp;#39;https://jsonplaceholder.typicode.com/posts/1&amp;#39;); //请求  final json = JSON.decode(response.body); //解析  return new Post.fromJson(json); //将map转化为Post对象 } Post请求
+Future&amp;lt;Post&amp;gt; fetchPost() async { final response = await http.post(&amp;#39;https://github.com/login/oauth/access_token&amp;#39;, headers: { &amp;#39;Accept&amp;#39;: &amp;#39;application/json&amp;#39;, }, body: { &amp;#39;client_id&amp;#39;: &amp;#39;6b598bb603fb043814ef&amp;#39;, &amp;#39;client_secret&amp;#39;: &amp;#39;d8c0d51d07402360e0e381dc9b94dfcdb71c8630&amp;#39;, &amp;#39;code&amp;#39;: &amp;#39;c70104cbe626195072af&amp;#39; }); print(response.body); final responseJson = json.decode(response.body); return new Post.fromJson(responseJson); } 3.显示数据 为了获取数据并将其显示在屏幕上，我们可以使用FutureBuilder widget！FutureBuilder Widget可以很容易与异步数据源一起工作。
+我们需要提供两个参数：
+  future参数是一个异步的网络请求，在这个例子中，我们传递调用fetchPost()函数的返回值(一个future)。</description>
+    </item>
+    
+    <item>
+      <title>Flutter Json解析</title>
+      <link>https://malinkang.cn/posts/flutter-json/</link>
+      <pubDate>Tue, 23 Apr 2019 16:15:19 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/flutter-json/</guid>
+      <description>import &amp;#39;dart:convert&amp;#39;; void main() { var jsonString = &amp;#39;{&amp;#34;name&amp;#34;: &amp;#34;John Smith&amp;#34;,&amp;#34;email&amp;#34;: &amp;#34;john@example.com&amp;#34;}&amp;#39;; Map&amp;lt;String, dynamic&amp;gt; user = jsonDecode(jsonString); print(&amp;#39;Howdy, ${user[&amp;#39;name&amp;#39;]}!&amp;#39;); print(&amp;#39;We sent the verification link to ${user[&amp;#39;email&amp;#39;]}.&amp;#39;); } import &amp;#39;dart:convert&amp;#39;; class User { final String name; final String email; User(this.name, this.email); User.fromJson(Map&amp;lt;String, dynamic&amp;gt; json) : name = json[&amp;#39;name&amp;#39;], email = json[&amp;#39;email&amp;#39;]; Map&amp;lt;String, dynamic&amp;gt; toJson() =&amp;gt; { &amp;#39;name&amp;#39;: name, &amp;#39;email&amp;#39;: email, }; } void main() { var jsonString = &amp;#39;{&amp;#34;name&amp;#34;: &amp;#34;John Smith&amp;#34;,&amp;#34;email&amp;#34;: &amp;#34;john@example.</description>
+    </item>
+    
+    <item>
+      <title>Dart语法总结</title>
+      <link>https://malinkang.cn/posts/dart/</link>
+      <pubDate>Sun, 31 Mar 2019 15:50:08 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/dart/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Column和Row详解</title>
+      <link>https://malinkang.cn/posts/flutter-widget-column/</link>
+      <pubDate>Tue, 19 Mar 2019 14:21:37 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/flutter-widget-column/</guid>
+      <description>MainAxisAlignment Scaffold( appBar: AppBar(title: Text(&amp;#39;Flutter&amp;#39;)), body: Column( children: &amp;lt;Widget&amp;gt;[ Text(&amp;#34;MainAxisAlignment.start&amp;#34;,style:TextStyle( color: Colors.blueAccent, fontSize: 18 )), Row( mainAxisAlignment: MainAxisAlignment.start, children: &amp;lt;Widget&amp;gt;[ Icon(Icons.star,color: Colors.yellow, size: 50), Icon(Icons.star,color: Colors.yellow, size: 50), Icon(Icons.star,color: Colors.yellow, size: 50), ], ), Text(&amp;#34;MainAxisAlignment.center&amp;#34;,style:TextStyle( color: Colors.blueAccent, fontSize: 18 )), Row( mainAxisAlignment: MainAxisAlignment.center, children: &amp;lt;Widget&amp;gt;[ Icon(Icons.star,color: Colors.yellow, size: 50), Icon(Icons.star,color: Colors.yellow, size: 50), Icon(Icons.star,color: Colors.yellow, size: 50), ], ), Text(&amp;#34;MainAxisAlignment.spaceAround&amp;#34;,style:TextStyle( color: Colors.blueAccent, fontSize: 18 )), Row( mainAxisAlignment: MainAxisAlignment.spaceAround, children: &amp;lt;Widget&amp;gt;[ Icon(Icons.</description>
+    </item>
+    
+    <item>
+      <title>Android Build</title>
+      <link>https://malinkang.cn/posts/android-build/</link>
+      <pubDate>Thu, 14 Mar 2019 15:18:46 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-build/</guid>
+      <description>D8 Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。
+R8 R8 在 Android Studio 3.1 中引入，志向更加高远，它的目标是取代 ProGuard 和 d8。我们可以直接使用 R8 把“.class”文件变成 Dex。 同时，R8 还支持 ProGuard 中混淆、裁剪、优化这三大功能。
+参考  配置构建 签署您的应用 打包流程梳理 腾讯多渠道打包VasDolly 微信Android资源混淆打包工具 Android安装包相关知识汇总 美团多渠道打包Walle apksigner APK 签名方案 v2 APK 签名方案 v3 AAPT2 How to execute the dex file in android with command? d8 Android Studio switching to D8 dexer Next-generation Dex Compiler Now in Preview The D8 dexer ProGuard and R8: a comparison of optimizers redex R8, the new code shrinker from Google, is available in Android studio 3.</description>
+    </item>
+    
+    <item>
+      <title>Android网络优化</title>
+      <link>https://malinkang.cn/posts/android-network-performance/</link>
+      <pubDate>Fri, 08 Mar 2019 09:54:39 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-network-performance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android Ui 优化</title>
+      <link>https://malinkang.cn/posts/android-ui-performance/</link>
+      <pubDate>Thu, 07 Mar 2019 16:49:52 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-ui-performance/</guid>
+      <description>UI渲染的背景知识 1.屏幕与适配 2.CPU与GPU 3.OpenGL与Vulkan Android渲染的演进 1.Android 4.0：开启硬件加速 2.Android 4.1：Project Butter 3.Android 5.0：RenderThread UI渲染测量 1.gfxinfo 2.SurfaceFlinger UI优化的常规手段 1.尽量使用硬件加速 2.Create View优化 3.measure/layout优化 UI优化的进阶手段 1.Litho：异步布局 异步布局 界面扁平化 优化RecyclerView 2.Flutter：自己的布局+渲染引擎 3.RenderThread与RenderScript </description>
+    </item>
+    
+    <item>
+      <title>Android电池优化</title>
+      <link>https://malinkang.cn/posts/android-battery-performance/</link>
+      <pubDate>Thu, 07 Mar 2019 10:02:53 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-battery-performance/</guid>
+      <description>耗电的背景知识 1.电池技术 手机电池的一些关键指标：
+  电池容量
+  充电时间
+  寿命
+  安全性
+  2.电量和硬件 3.电量和应用程序 Android耗电的演进历程 1.野蛮生长：Pre Android 5.0 2.逐步收紧：Android5.0~Android8.0 3.最严限制：Android9.0 耗电优化 1.什么是耗电优化 耗电优化的第一个方向是优化应用的后台耗电。 耗电优化的第二个方向是符合系统的规则，让系统认为你耗电是正常的。
+2.耗电优化的难点  缺乏现场，无法复现。 信息不全，难以定位。 无法评估结果。  3.耗电优化的方法 耗电监控 1.Android Vitals 2.耗电监控都监控什么 3.如何监控耗电 参考  Optimize for battery life  </description>
+    </item>
+    
+    <item>
+      <title>Android存储优化</title>
+      <link>https://malinkang.cn/posts/android-storage-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 16:02:05 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-storage-performance/</guid>
+      <description>Android的存储基础 1.Android分区 Android系统可以通过/proc/partitions或者df命令来查看各个分区的情况。
+2.Android安全存储 第一、权限控制 第二、数据加密 常见的数据存储方法 1.关键要素 2.存储选项 第一，SharePreference的使用 第二，ContentProvider的使用 对象的序列化 1.Serializable Serializable的原理 Serializable的进阶 Serializable的注意事项 2.Parcelable Parcelable的永久存储 Parcelable的注意事项 3.Serial https://github.com/twitter/Serial
+数据的序列化 1.JSON 2.Protocol Buffers 存储监控 1.性能监控 2.ROM监控 </description>
+    </item>
+    
+    <item>
+      <title>Apk体积优化</title>
+      <link>https://malinkang.cn/posts/android-reduce-apk-size/</link>
+      <pubDate>Tue, 05 Mar 2019 16:00:24 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-reduce-apk-size/</guid>
+      <description>安装包的背景知识 1.为什么要优化包体积 2.包体积与应用性能 包体积优化 1.代码 ProGuard Dex分包 Dex压缩 2.Native Library Library压缩 Library合并与裁剪 包体积监控 进阶的优化方案 1.资源合并 2.无用资源 去掉Debug信息或者去掉行号 参考  Reduce the APK size  </description>
+    </item>
+    
+    <item>
+      <title>AndroidI/O优化</title>
+      <link>https://malinkang.cn/posts/android-io-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 15:57:29 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-io-performance/</guid>
+      <description>I/O的基本知识 1.文件系统 2.磁盘 Android I/O 1.Android闪存 2.两个疑问 I/O的性能评估 1.I/O性能指标 2.I/O测量 第一种方法：使用proc 第二种方法：使用strace 第三种方法：使用vmstat I/O跟踪 1.Java Hook 2.Native Hook 3.监控内容 线上监控 1.主线程I/O 2.读写Buffer过小 3.重复读 4.资源泄漏 IO的启动与优化 </description>
+    </item>
+    
+    <item>
+      <title>Android启动优化</title>
+      <link>https://malinkang.cn/posts/android-start-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 15:57:23 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-start-performance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android内存优化</title>
+      <link>https://malinkang.cn/posts/android-memory-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 15:10:02 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-memory-performance/</guid>
+      <description>内存优化 1.设备分级 2.Bitmap优化 3.内存泄漏 内存监控 参考  Device Year Class 内存管理概览 管理应用内存  </description>
+    </item>
+    
+    <item>
+      <title>Android崩溃优化</title>
+      <link>https://malinkang.cn/posts/android-crash-performance/</link>
+      <pubDate>Tue, 05 Mar 2019 10:08:28 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-crash-performance/</guid>
+      <description>Android的两种崩溃 Android崩溃分为Java崩溃和Native崩溃。Java崩溃就是在Java代码中，出现了未捕获异常，导致程序异常退出。Native崩溃一般都是因为在Native代码中访问非法地址，也可能是地址对齐出现的问题，或者发生了程序主动abort，这些都会产生相应的signal信号，导致程序异常退出。
+1.Native崩溃的捕获流程 2.Native崩溃捕获的难点 3.选择合适的崩溃服务  腾讯Bugly UC啄木鸟 网易云捕 Google Firbase  崩溃现场 1.崩溃信息 2.系统信息 3.内存信息 4.资源信息 崩溃分析 第一步：确定重点 1.确认严重程度 2.崩溃基本信息 3.Logcat 4.各个资源情况 第二步：查找共性 第三步：尝试复现 </description>
+    </item>
+    
+    <item>
+      <title>Container详解</title>
+      <link>https://malinkang.cn/posts/flutter-widget-container/</link>
+      <pubDate>Tue, 19 Feb 2019 14:21:37 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/flutter-widget-container/</guid>
+      <description>Container是一个拥有绘制、定位、调整大小的widget。
+padding和margin padding和margin分别设置Container的内边距和外边距。可取值包括下面四个：
+ EdgeInsets.all(50)：设置所有的padding为同一个值50。 EdgeInsets.only(left: 50,right: 50)：只设置左边和右边。 EdgeInsets.fromLTRB(50,10,50,10)：分别设置左上右下的值为50、10。 EdgeInsets.symmetric(vertical: 10,horizontal: 50)：如果上下或者左右的padding值一样可以指定vertical的值为上下的padding值。horizontal指定左右的padding值。  Scaffold( appBar: AppBar(title: Text(&amp;#39;Container&amp;#39;)), body: Center( child: Column( mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: &amp;lt;Widget&amp;gt;[ Container( padding: EdgeInsets.all(50), decoration: BoxDecoration( border: Border.all(color: Colors.red, width: 1), borderRadius: BorderRadius.all(Radius.circular(20))), child: Text( &amp;#34;确定&amp;#34;, style: TextStyle(color: Colors.red), ), ), Container( padding: EdgeInsets.only(left: 50,right: 50), decoration: BoxDecoration( border: Border.all(color: Colors.red, width: 1), borderRadius: BorderRadius.all(Radius.circular(20))), child: Text( &amp;#34;确定&amp;#34;, style: TextStyle(color: Colors.red), ), ), Container( padding: EdgeInsets.fromLTRB(50, 10, 50, 10), decoration: BoxDecoration( border: Border.</description>
+    </item>
+    
+    <item>
+      <title>关于自我提升的思考</title>
+      <link>https://malinkang.cn/posts/up/</link>
+      <pubDate>Sat, 05 Jan 2019 09:54:09 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/up/</guid>
+      <description>从12年算起，自己也在软件开发这个行业已经近7年。自己也一直在从事Android移动开发。回顾自己的这7年，对自己是非常失望的。自己一直从事着应用层的开发，只是一些系统API和第三方库的调用。对于一些高深的Android知识，比如Android安全、Android内核源码并不熟悉。
+回顾自己这7年，自己也规划过自己的学习路线，但是常常因为一些知识用到的非常少，学了忘，忘了学。还有些时候还特别浮躁，对于一些学习路线陡峭的知识（比如热更新热修复、NDK、源码学习等等）总是会对自己说，开发也用不到，没必要学了。针对自己这些问题，自己也反思过，也总结过应对方案。具体方案如下：
+ 整理自己的知识体系。自己曾经有个观点，常用的知识点个数是有限的，把知识点全部罗列出来，比如总知识点是100个，自己掌握了多少个心中有数，自己没掌握的也心中有数。可以让自己明确知道自己要做什么。 及时总结。常常在工作过程中遇到的问题网络上查一遍解决了，但是不总结的话第二次第三次还是会去网络上查。研究的东西也没有很好的总结，每次研究就从头开始。 不要浮躁，不要太有功利心。学习的过程中，总会想这个知识能否用到，这个知识面试的过程是否会被问到，如果觉得用不到就会放弃学习。所有学到的知识或早或晚都会被用到的。就像自己经常想的那样，如果自己从开始接触Android的那一天起，每年坚持看一本Android的书籍，现在也基本多Android各个方面有一个全面的了解。所以，要静下心去学习。  其次，自己不应该把自己的眼光只局限在Android开发。自己刚开始从事Android开发时候，正值移动开发火热的时候，自己也在刚毕业的时候选择了移动开发。这两年可以说是移动开发的寒冬，经常会听到身边的人说移动开发不好找工作。所以最近总是在思考自己未来的规划。有了清晰的规划，第一、不至于像现在一样，浪费了那么多时间。第二、不至于在未来被淘汰，如果某天Android开发不行了或者被其他跨平台所代替，自己所掌握的其他知识也能为自己谋求一份工作。
+自我提升的唯一途径就是不断的学习。如何学习，学习什么是我首要解决的问题。对于如何学习，最好的办法就是看该技术相关的经典书籍。比如学习Java，如果能把《Core Java》两本、《Thinking in Java》和《Effective Java》细致的看一遍，把里面代码自己认真的敲一遍，绝对可以熟练掌握Java。现在网上也有很多付费的课程，自己也买过一些，但是都不是很满意，因为质量没有达到自己的期望。这些经典书籍都是经过大量阅读验证的，质量绝对没问题。我也参考了别人推荐的书单，整理了一些自己的书单。
+参考的书单包括：
+ 有哪些你看了以后大呼过瘾的编程书？ - 知乎 https://github.com/miloyip/game-programmer  我的书单：
+ Java书单 C语言书单 C++书单 计算机网络 算法书单  最近购买了左耳朵耗子的左耳听风专栏，专栏中的程序员练级攻略，对于我要学什么来提高自己的疑惑给出了解答，并且给出了大量的学习资料推荐。部分我也整理在上面的书单里了。以下是我结合自身情况整理的自己要学习的知识。
+ 编程语言  Java：Android开发必须掌握的。 Kotlin：Android开发必须掌握的。 C和C++：研究Android内核和NDK开发必不可少。 Dart：Flutter跨平台。 Go：最近比较火热。 JavaScript：跨平台。 Python：机器学习。   算法 操作系统 计算机网络  明确了怎么学和学什么之后，还有重要的一个环节就是如何把这些计划实施下去。每个人都喜欢在年初的时候制定自己一年的计划，但是到年底，计划最终以失败告终。我自己也不例外，每年都豪情壮志的说今年要好好努力了，雄心勃勃的制定一系列计划发到朋友圈。然后到年底的时候悄悄把他从朋友圈删除。因为每次指定的都是一个大的空的架子，具体每一天做多少，没有给自己设置deadline。所以针对这种情况，我自己也做了反思，要给自己每天去设置最低的目标，每天坚持读10页技术书，这是一个最低标准。如果按照这个最低标准，一年也能读3650页的书。
+其次还有个问题就是读过的书经常会忘记，《Java编程思想》这本书，我反复也看过几遍，但是好多东西过的久了，还是会忘记。对于这种情况，第一要多实践，除了工作中的实践，还要去看一些面试题来帮助回顾这些知识。其次对于每年的读书计划，要做到每门技术都有涉及，不至于太久不接触就忘记了，所以我按照下面的准则来制定自己每年的技术书单：
+ 一本Java书 一本C语言 一本C++ 一本Go/Python 一本前端书 一本算法书 一本操作系统 一本计算机网络  最后再说说读书方法。我自己的读书方法就是记读书笔记，基本就是对书中关键知识点和代码的摘录或者转换成自己的语言进行描述。我自己非常喜欢这种读书方法。第一、这种方法可以达到厚书读薄，回顾的时候不用再从头再看一遍书，而且用自己的语言表述再读的时候更加好理解。第二、我基本都是按照一本书的目录去梳理自己的知识。自己之后遇到什么问题，或者学到什么新的知识就会记录在相关的章节。第三、就是更方便查阅。平常不可能携带一大堆书在旁边，用到的时候再去翻书太麻烦了。当然，读书方法也不是一成不变的。需要不断的借鉴别人的读书方法，来完善自己的方法。下面是一些我看到的读书方法：
+ 如何阅读（学习）一本厚书？ 从抄书到开源之巅：章亦春的程序人生  嗯，这些就是我很长一段时间对于自我提升的思考。写在这里算是一个梳理。对自己未来路也更加清晰。剩下的就是坚定不移的执行自己的这些目标。其中有些想法可能还不够完善，我也会不断的思考改进的。
+^_^</description>
+    </item>
+    
+    <item>
+      <title>安装Flutter</title>
+      <link>https://malinkang.cn/posts/flutter-install/</link>
+      <pubDate>Tue, 18 Dec 2018 13:37:22 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/flutter-install/</guid>
+      <description>1.安装SDK   官网下载其最新可用的安装包并解压。
+  设置环境变量
+  在.bash_profile文件中写入export PATH=/Users/malk/Documents/flutter/bin:$PATH，然后保存并执行source .bash_profile。
+运行flutter doctor命令查看是否需要安装其它依赖项来完成安装  该命令检查您的环境并在终端窗口中显示报告。Dart SDK已经在捆绑在Flutter里了，没有必要单独安装Dart。
+2.配置Android Studio 需要安装两个插件:
+ Flutter插件： 支持Flutter开发工作流 (运行、调试、热重载等). Dart插件： 提供代码分析 (输入代码时进行验证、代码补全等).  3.创建 Flutter Project  选择 File&amp;gt;New Flutter Project 选择 Flutter application 作为 project 类型, 然后点击 Next 输入项目名称 (如 myapp), 然后点击 Next 点击 Finish 等待Android Studio安装SDK并创建项目.  4.运行项目 可以通过点击Android Studio的run按钮来运行。也可以通过flutter命令来运行。
+flutter devices //查看连接设备 flutter run //运行项目 遇到的问题  Flutter配置好后在Android Studio中找不到设备 Waiting for another flutter command to release the startup lock  </description>
+    </item>
+    
+    <item>
+      <title>Paging 库概述</title>
+      <link>https://malinkang.cn/posts/paging-library-overview/</link>
+      <pubDate>Fri, 27 Jul 2018 14:44:49 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/paging-library-overview/</guid>
+      <description>&lt;p&gt;分页库可帮助您一次加载和显示小块数据。按需加载部分数据可减少网络带宽和系统资源的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dagger2在Android中的使用</title>
+      <link>https://malinkang.cn/posts/dagger-android/</link>
+      <pubDate>Wed, 25 Jul 2018 11:56:12 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/dagger-android/</guid>
+      <description>&lt;p&gt;与其他大多数依赖注入框架相比，&lt;code&gt;Dagger2&lt;/code&gt;的主要优点之一是其严格生成的实现（无反射）意味着它可以在&lt;code&gt;Android&lt;/code&gt;应用程序中使用。但是，在&lt;code&gt;Android&lt;/code&gt;应用程序中使用&lt;code&gt;Dagger&lt;/code&gt;时仍有一些注意事项。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>实现navigation</title>
+      <link>https://malinkang.cn/posts/navigation-implementing/</link>
+      <pubDate>Thu, 07 Jun 2018 16:13:46 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/navigation-implementing/</guid>
+      <description>&lt;p&gt;导航体系结构组件简化了应用程序中目标之间导航的实现。目的地是应用中的特定屏幕。默认情况下，导航体系结构组件包括支持&lt;code&gt;fragment&lt;/code&gt;和&lt;code&gt;activity&lt;/code&gt;作为目标，但您也可以添加对新类型目标的支持。一组目的地组成一个应用程序的“导航图”。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>LiveData概述</title>
+      <link>https://malinkang.cn/posts/livedata-overview/</link>
+      <pubDate>Fri, 18 May 2018 16:47:47 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/livedata-overview/</guid>
+      <description>&lt;p&gt;&lt;code&gt;LiveData&lt;/code&gt;是一个可观察的数据持有者类。与常规可观察性不同，&lt;code&gt;LiveData&lt;/code&gt;具有生命周期感知能力，这意味着它遵守其他应用程序组件（例如&lt;code&gt;activity&lt;/code&gt;，&lt;code&gt;fragment&lt;/code&gt;或&lt;code&gt;service&lt;/code&gt;）的生命周期。 这确保&lt;code&gt;LiveData&lt;/code&gt;只更新处于活动生命周期状态的应用程序组件观察者。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>mat</title>
+      <link>https://malinkang.cn/posts/mat/</link>
+      <pubDate>Thu, 04 Jan 2018 18:13:54 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/mat/</guid>
+      <description>打开Mat中的Bitmap原图 在使用MAT查看应用程序内存使用情况的时候,我们经常会碰到Bitmap对象以及BitmapDrawable$BitmapState对象,而且在内存使用上,Bitmap所占用的内存占大多数.在这样的情况下, Bitmap所造成的内存泄露尤其严重, 需要及时发现并且及时处理.在这样的需求下, 当我们在MAT中发现和图片相关的内存泄露的时候, 如果能知道是那一张图片,对分析问题会有很大的帮助.
+在MAT中打开Dominator Tree视图 , 选择一个Bitmap对象：
+查看Inspector窗口,内容如下图：
+mBuffer的值保存的是图片的二进制数据。mHeight和mWidth对应图片宽高。我们将mBuffer数据保存成一个文件，文件名必须以.data为后缀。
+下载工具gimp用来打开刚才的image.data文件。
+Image Type选择 RGB Alpha，宽高值输入上面得到的宽高值，其他值保持不变，就可以看到图片了。</description>
+    </item>
+    
+    <item>
+      <title>常用Linux命令</title>
+      <link>https://malinkang.cn/posts/linux-command/</link>
+      <pubDate>Tue, 07 Nov 2017 11:03:08 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/linux-command/</guid>
+      <description>mv命令 mv命令是move的缩写，可以用来移动文件或者将文件改名。
+-b ：若需覆盖文件，则覆盖前先行备份。 -f ：force 强制的意思，如果目标文件已经存在，不会询问而直接覆盖； -i ：若目标文件 (destination) 已经存在时，就会询问是否覆盖！ -u ：若目标文件已经存在，且 source 比较新，才会更新(update)。
+#将Document中的test目录移动到Downloads目录下 mv -f test ../Downloads 参考  每天一个linux命令（7）：mv命令 shell script 读取properties 文件 http://blog.csdn.net/bitcarmanlee/article/details/50973454  </description>
+    </item>
+    
+    <item>
+      <title>MultiType和AdapterDelegates源码分析</title>
+      <link>https://malinkang.cn/posts/multitype-and-adapterdelegates-source-analysis/</link>
+      <pubDate>Fri, 03 Nov 2017 09:03:48 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/multitype-and-adapterdelegates-source-analysis/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/drakeet/MultiType&#34;&gt;MultiType&lt;/a&gt;和&lt;a href=&#34;https://github.com/sockeqwe/AdapterDelegates&#34;&gt;AdapterDelegates&lt;/a&gt;两个库都是对&lt;code&gt;RecyclerView&lt;/code&gt;的&lt;code&gt;Adapter&lt;/code&gt;进行封装的库，可以快速实现多种布局类型的&lt;code&gt;RecyclerView&lt;/code&gt;。两个库的核心思想都是封装一个实体我们暂时命名为&lt;code&gt;ItemViewBinder&lt;/code&gt;，用来提供布局资源和绑定数据。对于多种类型的Adapter存在多个&lt;code&gt;ItemViewBinder&lt;/code&gt;对象，如&lt;code&gt;AItemViewBinder&lt;/code&gt;、&lt;code&gt;BItemViewBinder&lt;/code&gt;，我们可以使用一个集合来存放这些&lt;code&gt;ItemViewBinder&lt;/code&gt;此外，还需要建立viewtype和绑定实体之间的一一对应关系，在&lt;code&gt;onCreateViewHolder&lt;/code&gt;和&lt;code&gt;onBindViewHolder&lt;/code&gt;中通过viewtype来获取对应的&lt;code&gt;ItemViewBinder&lt;/code&gt;类实现提供布局资源和数据绑定。下面我们来分别看看两个库的实现方式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>签署Android应用</title>
+      <link>https://malinkang.cn/posts/signing-android-app/</link>
+      <pubDate>Thu, 12 Oct 2017 16:20:06 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/signing-android-app/</guid>
+      <description>Android 要求所有 APK 必须先使用证书进行数字签署，然后才能安装。
+从命令行构建和签署您的应用 1.使用keytool生成一个私钥 使用以下命令可以创建一个有效期为10000天的密钥：
+keytool -genkeypair -keyalg RSA -keysize 2048 -sigalg SHA1withRSA -validity 10000 -alias test -keystore test.keystore 通常我们在申请第三方分享Key时，例如微信和微博需要填写一个签名，这里的签名就是keystore的MD5值。除了使用他们提供的获取签名工具之外，还可以通过如下命令获取keystore的md5值。
+keytool -list -v -keystore test.keystore 使用微信获取签名工具获取：
+keytool详细使用可以参考这里。
+参考  签署您的应用 微信开放平台Android应用签名的本质及如何获取  </description>
+    </item>
+    
+    <item>
+      <title>Kotlin 高阶函数和lambda表达式</title>
+      <link>https://malinkang.cn/posts/kotlin-lambda-md/</link>
+      <pubDate>Wed, 02 Aug 2017 13:47:12 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/kotlin-lambda-md/</guid>
+      <description>高阶函数 高阶函数是将函数用作参数或返回值的函数。 这种函数的一个很好的例子是 lock()，它接受一个锁对象和一个函数，获取锁，运行函数并释放锁：
+fun &amp;lt;T&amp;gt; lock(lock: Lock, body: () -&amp;gt; T): T { lock.lock() try { return body() } finally { lock.unlock() } } body 拥有函数类型：() -&amp;gt; T， 所以它应该是一个不带参数并且返回 T 类型值的函数。 它在 try代码块内部调用、被 lock 保护，其结果由lock()函数返回。
+如果我们想调用 lock() 函数，我们可以把另一个函数传给它作为参数：
+fun toBeSynchronized() = sharedResource.operation() val result = lock(lock, ::toBeSynchronized) 通常会更方便的另一种方式是传一个lambda表达式：
+val result = lock(lock, { sharedResource.operation() })  lambda表达式总是括在花括号中； 其参数（如果有的话）在 -&amp;gt; 之前声明（参数类型可以省略）； 函数体（如果存在的话）在 -&amp;gt; 后面  在 Kotlin 中有一个约定，如果函数的最后一个参数是一个函数，并且你传递一个 lambda 表达式作为相应的参数，你可以在圆括号之外指定它：</description>
+    </item>
+    
+    <item>
+      <title>小花，再见</title>
+      <link>https://malinkang.cn/posts/goodbye-xiao-hua/</link>
+      <pubDate>Sat, 08 Jul 2017 09:00:42 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/goodbye-xiao-hua/</guid>
+      <description>&lt;p&gt;领养小花的最初目的就是为了给蛋黄找个伴。6月26日下午，我和珊珊顶着大太阳骑着自行车来到小沙河村接小花。小花比预想的要小的多，看着不像是他主人说的一个多月，顶多也就二十多天，而且眼中充满了泪水，当时没有多想，就领回来了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>生成绑定类</title>
+      <link>https://malinkang.cn/posts/generated-binding-classes/</link>
+      <pubDate>Mon, 19 Jun 2017 20:01:58 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/generated-binding-classes/</guid>
+      <description>&lt;p&gt;数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自&lt;code&gt;ViewDataBinding&lt;/code&gt;类。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>绑定适配器使用</title>
+      <link>https://malinkang.cn/posts/binding-adapters/</link>
+      <pubDate>Tue, 13 Jun 2017 18:14:02 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/binding-adapters/</guid>
+      <description>&lt;p&gt;绑定适配器负责对设置值进行适当的框架调用。一个例子是设置一个属性值，如调用&lt;code&gt;setText()&lt;/code&gt;方法。另一个例子是设置一个事件监听器，如调用&lt;code&gt;setOnClickListener()&lt;/code&gt;方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DataBinding绑定表达式使用</title>
+      <link>https://malinkang.cn/posts/binding-expressions/</link>
+      <pubDate>Sun, 11 Jun 2017 18:14:02 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/binding-expressions/</guid>
+      <description>&lt;p&gt;表达式语言允许您编写处理&lt;code&gt;View&lt;/code&gt;分发的事件的表达式。数据绑定库自动生成将布局中的&lt;code&gt;View&lt;/code&gt;与数据对象绑定所需的类。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Android自定义属性</title>
+      <link>https://malinkang.cn/posts/android-custom-attribute/</link>
+      <pubDate>Tue, 21 Mar 2017 17:37:26 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-custom-attribute/</guid>
+      <description>&lt;p&gt;创建自定义属性需要以下步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建一个自定义View。&lt;/li&gt;
+&lt;li&gt;创建values/attrs.xml文件，并定义属性。&lt;/li&gt;
+&lt;li&gt;在View中获取属性值并使用。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dagger使用指南</title>
+      <link>https://malinkang.cn/posts/dagger-guide/</link>
+      <pubDate>Mon, 25 Jul 2016 09:47:31 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/dagger-guide/</guid>
+      <description>&lt;p&gt;任何应用程序中最好的类是那些做事情的类：&lt;code&gt;BarcodeDecoder&lt;/code&gt;，&lt;code&gt;KoopaPhysicsEngine&lt;/code&gt;和&lt;code&gt;AudioStreamer&lt;/code&gt;。 这些类具有依赖性; 也许是一个&lt;code&gt;BarcodeCameraFinder&lt;/code&gt;，&lt;code&gt;DefaultPhysicsEngine&lt;/code&gt;和一个&lt;code&gt;HttpStreamer&lt;/code&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java线程池</title>
+      <link>https://malinkang.cn/posts/java-threadpool/</link>
+      <pubDate>Fri, 15 Jul 2016 10:24:54 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/java-threadpool/</guid>
+      <description>线程池介绍 合理利用线程池能够带来三个好处：
+ 第一：降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。 第二：提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。 第三：提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。但是要做到合理的利用线程池，必须对其原理了如指掌。  Java通过Executors提供四种线程池:
+ newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。 newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。 newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。 newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。  使用execute提交任务 我们可以使用execute提交的任务，通过以下代码可知execute方法输入的任务是一个Runnable类的实例。
+private class TestRunnable implements Runnable{ @Override public void run() { System.out.println(Thread.currentThread().getName()+&amp;#34;线程被调用了&amp;#34;); } } //创建一个线程池 ExecutorService executorService = Executors.newCachedThreadPool(); for (int i = 0; i &amp;lt; 5; i++) { //提交Runnable任务  executorService.execute(new TestRunnable()); System.out.println(&amp;#34;执行任务&amp;#34; + i); } executorService.shutdown(); 使用submit提交任务 使用execute方法没有返回值，所以无法判断任务是否被线程池执行成功. Java 1.5提供了Callable和Future，通过它们可以在任务执行完毕之后得到任务执行结果。
+在ExecutorService接口中声明了若干个submit方法的重载：
+ Futuresubmit(Callabletask); Futuresubmit(Runnable task, T result); Future&amp;lt;?&amp;gt; submit(Runnable task);  submit可以提交一个Callable对象，Callable是一个接口，里面只声明了一个方法call()。</description>
+    </item>
+    
+    <item>
+      <title>Android Bitmap使用</title>
+      <link>https://malinkang.cn/posts/android-bitmap/</link>
+      <pubDate>Fri, 24 Jun 2016 13:52:35 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-bitmap/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;bitmap占用内存计算&#34;&gt;Bitmap占用内存计算&lt;/h3&gt;
+&lt;p&gt;Android的Bitmap对象提供了方法&lt;code&gt;getByteCount&lt;/code&gt;来获取Bitmap的字节数。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;getByteCount&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;// int result permits bitmaps up to 46,340 x 46,340
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; getRowBytes&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; getHeight&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;getRowBytes()&lt;/code&gt;方法用来获取每行的字节数，内部调用一个native方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>创建 Android Studio Template</title>
+      <link>https://malinkang.cn/posts/android-studio-template/</link>
+      <pubDate>Wed, 15 Jun 2016 10:40:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-studio-template/</guid>
+      <description>&lt;p&gt;AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://malinkang.cn/images/android-studio-template-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>自定义Okhttp拦截器</title>
+      <link>https://malinkang.cn/posts/okhttp-interceptors/</link>
+      <pubDate>Mon, 18 Apr 2016 11:06:21 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/okhttp-interceptors/</guid>
+      <description>Okhttp提供拦截器来对请求进行拦截做自己想要的一些操作，比如官方提供的okhttp-logging-interceptor拦截请求打印请求和返回的数据的日志。
+有时候我们的每个请求都要求添加公共参数或者对每个接口进行加密，采用拦截器可以进行统一处理。
+添加公共参数 class CommonParametersInterceptor : Interceptor { override fun intercept(chain: Interceptor.Chain): Response { val request = chain.request() //获取request  val requestBody = request.body() //获取body  val method = request.method() //获取请求方法  val url = request.url() //获取url  val commonParameters = getCommonParameters() //获取公共参数  if (&amp;#34;GET&amp;#34; == method) { val builder = url.newBuilder() //添加公共参数  for ((key, value) in commonParameters) { builder.addQueryParameter(key, value) } return chain.proceed(request.newBuilder().url(builder.build()).build()) } else if (&amp;#34;POST&amp;#34; == method) { //未考虑文件上传的情况  if (requestBody is FormBody) { //当post请求没有参数时requestBody不是FormBody  //FormBody没有HttpUrl类似的newBuilder操作，所以需要将原来的参数添加到map中然后构建新的FormBody  for (i in 0 until requestBody.</description>
+    </item>
+    
+    <item>
+      <title>《算法》读书笔记 第3章 查找</title>
+      <link>https://malinkang.cn/posts/algorithms-4th-edition-chapter3/</link>
+      <pubDate>Tue, 01 Mar 2016 14:33:57 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/algorithms-4th-edition-chapter3/</guid>
+      <description>3.1 符号表 3.1.1 API 3.1.2 有序符号表 3.1.3 用例举例 3.1.4 无序链表中的顺序查找 3.1.5 有序数组中的二分查找 import edu.princeton.cs.algs4.BinarySearch; /** * Created by malk on 2018/12/25. */ public class BinarySearchST&amp;lt;Key extends Comparable&amp;lt;Key&amp;gt;, Value&amp;gt; { private Key[] keys; private Value[] values; private int N; public BinarySearchST(int capacity) { keys = (Key[]) new Comparable[capacity]; values = (Value[]) new Object[capacity]; } public void delete(Key key) { put(key, null); } boolean contains(Key key) { return get(key) != null; } public int size() { return N; } public boolean isEmpty() { return size() == 0; } public Value get(Key key) { if (isEmpty()) return null; int i = rank(key); if (i &amp;lt; N &amp;amp;&amp;amp; keys[i].</description>
+    </item>
+    
+    <item>
+      <title>React Native for Android 入门</title>
+      <link>https://malinkang.cn/posts/react-native-1/</link>
+      <pubDate>Mon, 29 Feb 2016 09:38:05 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/react-native-1/</guid>
+      <description>&lt;h3 id=&#34;环境配置&#34;&gt;环境配置&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;安装Homebrew：Homebrew是Mac的一个包管理器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装Node.js&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过nvm安装Node.js
+nvm是Node.js的版本管理器，首先安装使用Homebrew安装nvm&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;brew install nvm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt; 配置nvm
+ ```sh
+   mkdir ~/.nvm
+   export NVM_DIR=~/.nvm. $(brew --prefix nvm)/nvm.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt; 安装nodejs
+ ```sh
+ nvm install node
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt; 安装Node.js的同时也安装了npm，npm是一个Node.js的包管理器。
+   
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Class文件结构</title>
+      <link>https://malinkang.cn/posts/class-file-format/</link>
+      <pubDate>Tue, 05 Jan 2016 10:08:28 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/class-file-format/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Class&lt;/code&gt;文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在&lt;code&gt;Class&lt;/code&gt;文件之中，中间没有添加任何分隔符，这使得整个&lt;code&gt;Class&lt;/code&gt;文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。这种顺序称为“Big-Endian”。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Android Canvas</title>
+      <link>https://malinkang.cn/posts/android-canvas/</link>
+      <pubDate>Tue, 22 Dec 2015 13:38:02 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-canvas/</guid>
+      <description>&lt;p&gt;Canvas我们可以称之为画布，我们可以使用画笔在上面绘制颜色，也可以绘制点、线以及矩形、扇形等各种形状，还可以绘制图片文本路径等，下面我们一一进行介绍&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>android反编译</title>
+      <link>https://malinkang.cn/posts/android-decompile/</link>
+      <pubDate>Mon, 07 Dec 2015 15:48:40 +0800</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-decompile/</guid>
+      <description>&lt;h3 id=&#34;apktool&#34;&gt;Apktool&lt;/h3&gt;
+&lt;p&gt;Apktool 能够从APK中解析出资源文件，xml文件以及生成smail文件。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ButterKnife源码分析</title>
+      <link>https://malinkang.cn/posts/butterknife/</link>
+      <pubDate>Sun, 19 Apr 2015 10:40:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/butterknife/</guid>
+      <description>&lt;h3 id=&#34;功能介绍&#34;&gt;功能介绍&lt;/h3&gt;
+&lt;p&gt;在Android中，我们从布局文件中获取一个view一般通过findViewById方法来操作，当一个界面里view过多的时候，我们需要花费大量的时间来写这些样板代码。ButterKnife用于来简化这个操作的，只需要在相应的View上加一个注解，框架就会注入这些字段。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Android Studio常用插件</title>
+      <link>https://malinkang.cn/posts/android-studio-plugins/</link>
+      <pubDate>Sun, 15 Jun 2014 10:40:23 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/android-studio-plugins/</guid>
+      <description> ButterKnifeZelezny android-parcelable-intellij-plugin GsonFormat android-selector-chapek adb-idea android-material-design-icon-generator-plugin  扩展阅读  Android-Studio-Plugins Android Studio有哪些非常好用的插件？  </description>
+    </item>
+    
+    <item>
+      <title>sqlite常用语法总结</title>
+      <link>https://malinkang.cn/posts/sqlite/</link>
+      <pubDate>Wed, 26 Mar 2014 17:23:24 +0000</pubDate>
+      
+      <guid>https://malinkang.cn/posts/sqlite/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html><head>
+<title>Dex文件格式分析</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#dex%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f%e6%a6%82%e8%b2%8c" v-on:click="closeDrawer" id="dex文件格式概貌-nav">
+										 Dex文件格式概貌
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%a4%b4%e9%83%a8%e4%bf%a1%e6%81%af" v-on:click="closeDrawer" id="头部信息-nav">
+										 头部信息
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#string_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="string_ids数据结构-nav">
+										 string_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#type_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="type_ids数据结构-nav">
+										 type_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#proto_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="proto_ids数据结构-nav">
+										 proto_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#field_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="field_ids数据结构-nav">
+										 field_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#method_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="method_ids数据结构-nav">
+										 method_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#class_defs%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="class_defs数据结构-nav">
+										 class_defs数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%82%e8%80%83" v-on:click="closeDrawer" id="参考-nav">
+										 参考
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#dex%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f%e6%a6%82%e8%b2%8c" v-on:click="closeDrawer" id="dex文件格式概貌-nav">
+										 Dex文件格式概貌
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%a4%b4%e9%83%a8%e4%bf%a1%e6%81%af" v-on:click="closeDrawer" id="头部信息-nav">
+										 头部信息
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#string_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="string_ids数据结构-nav">
+										 string_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#type_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="type_ids数据结构-nav">
+										 type_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#proto_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="proto_ids数据结构-nav">
+										 proto_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#field_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="field_ids数据结构-nav">
+										 field_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#method_ids%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="method_ids数据结构-nav">
+										 method_ids数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#class_defs%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" v-on:click="closeDrawer" id="class_defs数据结构-nav">
+										 class_defs数据结构
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%82%e8%80%83" v-on:click="closeDrawer" id="参考-nav">
+										 参考
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    Dex文件格式分析
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2019-09-27 10:04
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>在刚学习Java的时候我们都会写一个<code>HelloWorld</code>的示例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorld</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello,world!&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>然后通过<code>javac</code>命令编译成字节码，然后调用<code>java</code>命令机执行字节码。我们如何像<code>java</code>一样在命令行里直接在命令行输出<code>Hello,world!</code>呢。具体要执行如下操作：</p>
+<p>将<code>.class</code>文件转换成<code>.dex</code>文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dx --dex --output<span style="color:#f92672">=</span>HelloWorld.dex HelloWorld.class
+</code></pre></div><p>将<code>dex</code>文件推送到<code>sd</code>卡上。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">adb push HelloWorld.dex /sdcard/
+</code></pre></div><p>执行字节码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">adb shell
+dalvikvm -cp /sdcard/HelloWorld.dex HelloWorld
+</code></pre></div><h2 id="dex文件格式概貌">Dex文件格式概貌</h2>
+<p>Dex文件结构如下图所示。</p>
+<p><img src="/images/Center.png" alt="img"></p>
+<p>Dex文件对应的对象是<a href="https://android.googlesource.com/platform/dalvik/+/android-4.4.2_r2/libdex/DexFile.h#500">DexFile</a>，定义如下。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> DexFile {
+    <span style="color:#75715e">/* directly-mapped &#34;opt&#34; header */</span>
+    <span style="color:#66d9ef">const</span> DexOptHeader<span style="color:#f92672">*</span> pOptHeader;
+    <span style="color:#75715e">/* pointers to directly-mapped structs and arrays in base DEX */</span>
+    <span style="color:#66d9ef">const</span> DexHeader<span style="color:#f92672">*</span>    pHeader;
+    <span style="color:#66d9ef">const</span> DexStringId<span style="color:#f92672">*</span>  pStringIds;
+    <span style="color:#66d9ef">const</span> DexTypeId<span style="color:#f92672">*</span>    pTypeIds;
+    <span style="color:#66d9ef">const</span> DexFieldId<span style="color:#f92672">*</span>   pFieldIds;
+    <span style="color:#66d9ef">const</span> DexMethodId<span style="color:#f92672">*</span>  pMethodIds;
+    <span style="color:#66d9ef">const</span> DexProtoId<span style="color:#f92672">*</span>   pProtoIds;
+    <span style="color:#66d9ef">const</span> DexClassDef<span style="color:#f92672">*</span>  pClassDefs;
+    <span style="color:#66d9ef">const</span> DexLink<span style="color:#f92672">*</span>      pLinkData;
+    <span style="color:#75715e">/*
+</span><span style="color:#75715e">     * These are mapped out of the &#34;auxillary&#34; section, and may not be
+</span><span style="color:#75715e">     * included in the file.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">const</span> DexClassLookup<span style="color:#f92672">*</span> pClassLookup;
+    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>         pRegisterMapPool;       <span style="color:#75715e">// RegisterMapClassPool
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">/* points to start of DEX file data */</span>
+    <span style="color:#66d9ef">const</span> u1<span style="color:#f92672">*</span>           baseAddr;
+    <span style="color:#75715e">/* track memory overhead for auxillary structures */</span>
+    <span style="color:#66d9ef">int</span>                 overhead;
+    <span style="color:#75715e">/* additional app-specific data structures associated with the DEX */</span>
+    <span style="color:#75715e">//void*               auxData;
+</span><span style="color:#75715e"></span>};
+</code></pre></div><p>首先从宏观上来说dex的文件结果很简单，实际上是由多个不同结构的数据体以首尾相接的方式拼接而成。各个成员的解释如下：</p>
+<table>
+<thead>
+<tr>
+<th>数据名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>header</td>
+<td>dex文件头部，记录整个dex文件的相关属性</td>
+</tr>
+<tr>
+<td>string_ids</td>
+<td>字符串数据索引，记录了每个字符串在数据区的偏移量</td>
+</tr>
+<tr>
+<td>type_ids</td>
+<td>类似数据索引，记录了每个类型的字符串索引</td>
+</tr>
+<tr>
+<td>proto_ids</td>
+<td></td>
+</tr>
+<tr>
+<td>field_ids</td>
+<td>存储成员变量信息，包括变量名、类型等</td>
+</tr>
+<tr>
+<td>method_ids</td>
+<td>存储成员函数信息包括函数名、参数和返回值类型等</td>
+</tr>
+<tr>
+<td>class_defs</td>
+<td>存储类的信息</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Dex文件重要的数据内容都存在data区域里。一些数据结构会通过如xx_off这样的成员变量指向文件的某个位置，从该位置开始，存储了对应数据结构的内容，而xx_off的位置一般落在data区域里</td>
+</tr>
+<tr>
+<td>link_data</td>
+<td>理论上是预留区域，没有特别的作用。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="头部信息">头部信息</h2>
+<p>查看刚才生成的<code>dex</code>的十六进制</p>
+<p><img src="/images/image-20190927104628357.png" alt="image-20190927104628357"></p>
+<p><code>Header</code>的大小固定为<code>0x70</code>,偏移地址从<code>0x00</code>到<code>0x70</code>。</p>
+<p><code>Header</code>包含的字段和各个字段的长度如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>address</th>
+<th>Name</th>
+<th>size/byte</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Magic Number</td>
+<td>8</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="string_ids数据结构">string_ids数据结构</h2>
+<h2 id="type_ids数据结构">type_ids数据结构</h2>
+<h2 id="proto_ids数据结构">proto_ids数据结构</h2>
+<h2 id="field_ids数据结构">field_ids数据结构</h2>
+<h2 id="method_ids数据结构">method_ids数据结构</h2>
+<h2 id="class_defs数据结构">class_defs数据结构</h2>
+<h2 id="参考">参考</h2>
+<ul>
+<li>
+<p><a href="https://blog.csdn.net/jiangwei0910410003/article/details/50668549">Android逆向之旅&mdash;解析编译之后的Dex文件格式</a></p>
+</li>
+<li>
+<p><a href="https://www.jianshu.com/p/f7f0a712ddfe">Dex文件格式详解</a></p>
+</li>
+<li>
+<p><a href="https://book.douban.com/subject/27617785/">Android应用安全防护和逆向分析第7章</a></p>
+</li>
+<li>
+<p><a href="https://book.douban.com/subject/33390277/">深入理解Android第3章</a></p>
+</li>
+</ul>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2019-09-27</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/improve-app-performance-with-kotlin-coroutines/">
+                    Next<br>Improve App Performance With Kotlin Coroutines
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/android-activity-launch-process/">
+                    Previous<br>Activity的启动流程
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

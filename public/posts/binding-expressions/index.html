@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html><head>
+<title>DataBinding绑定表达式使用</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%95%b0%e6%8d%ae%e5%af%b9%e8%b1%a1" v-on:click="closeDrawer" id="数据对象-nav">
+										 数据对象
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bb%91%e5%ae%9a%e6%95%b0%e6%8d%ae" v-on:click="closeDrawer" id="绑定数据-nav">
+										 绑定数据
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%a1%a8%e8%be%be%e5%bc%8f%e8%af%ad%e8%a8%80" v-on:click="closeDrawer" id="表达式语言-nav">
+										 表达式语言
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b8%b8%e8%a7%81%e7%89%b9%e6%80%a7" v-on:click="closeDrawer" id="常见特性-nav">
+										 常见特性
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%b8%8d%e6%94%af%e6%8c%81%e7%9a%84%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="不支持的操作-nav">
+										 不支持的操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#null%e5%90%88%e5%b9%b6%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="null合并操作-nav">
+										 Null合并操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%81%bf%e5%85%8d%e7%a9%ba%e6%8c%87%e9%92%88" v-on:click="closeDrawer" id="避免空指针-nav">
+										 避免空指针
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%9b%86%e5%90%88" v-on:click="closeDrawer" id="集合-nav">
+										 集合
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%ad%97%e9%9d%a2%e9%87%8f" v-on:click="closeDrawer" id="字符串字面量-nav">
+										 字符串字面量
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%b5%84%e6%ba%90" v-on:click="closeDrawer" id="资源-nav">
+										 资源
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%ba%8b%e4%bb%b6%e5%a4%84%e7%90%86" v-on:click="closeDrawer" id="事件处理-nav">
+										 事件处理
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%96%b9%e6%b3%95%e5%bc%95%e7%94%a8" v-on:click="closeDrawer" id="方法引用-nav">
+										 方法引用
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%81%bf%e5%85%8d%e5%a4%8d%e6%9d%82%e7%9a%84%e7%9b%91%e5%90%ac%e5%99%a8" v-on:click="closeDrawer" id="避免复杂的监听器-nav">
+										 避免复杂的监听器
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%af%bc%e5%85%a5%e5%8f%98%e9%87%8f%e5%92%8c%e5%bc%95%e5%85%a5" v-on:click="closeDrawer" id="导入变量和引入-nav">
+										 导入、变量和引入
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%af%bc%e5%85%a5" v-on:click="closeDrawer" id="导入-nav">
+										 导入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%b1%bb%e5%9e%8b%e5%88%ab%e5%90%8d" v-on:click="closeDrawer" id="类型别名-nav">
+										 类型别名
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%bc%95%e5%85%a5%e5%85%b6%e4%bb%96%e7%b1%bb" v-on:click="closeDrawer" id="引入其他类-nav">
+										 引入其他类
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%98%e9%87%8f" v-on:click="closeDrawer" id="变量-nav">
+										 变量
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%bc%95%e5%85%a5" v-on:click="closeDrawer" id="引入-nav">
+										 引入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%95%b0%e6%8d%ae%e5%af%b9%e8%b1%a1" v-on:click="closeDrawer" id="数据对象-nav">
+										 数据对象
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bb%91%e5%ae%9a%e6%95%b0%e6%8d%ae" v-on:click="closeDrawer" id="绑定数据-nav">
+										 绑定数据
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%a1%a8%e8%be%be%e5%bc%8f%e8%af%ad%e8%a8%80" v-on:click="closeDrawer" id="表达式语言-nav">
+										 表达式语言
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%b8%b8%e8%a7%81%e7%89%b9%e6%80%a7" v-on:click="closeDrawer" id="常见特性-nav">
+										 常见特性
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%b8%8d%e6%94%af%e6%8c%81%e7%9a%84%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="不支持的操作-nav">
+										 不支持的操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#null%e5%90%88%e5%b9%b6%e6%93%8d%e4%bd%9c" v-on:click="closeDrawer" id="null合并操作-nav">
+										 Null合并操作
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%81%bf%e5%85%8d%e7%a9%ba%e6%8c%87%e9%92%88" v-on:click="closeDrawer" id="避免空指针-nav">
+										 避免空指针
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%9b%86%e5%90%88" v-on:click="closeDrawer" id="集合-nav">
+										 集合
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%ad%97%e9%9d%a2%e9%87%8f" v-on:click="closeDrawer" id="字符串字面量-nav">
+										 字符串字面量
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e8%b5%84%e6%ba%90" v-on:click="closeDrawer" id="资源-nav">
+										 资源
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%ba%8b%e4%bb%b6%e5%a4%84%e7%90%86" v-on:click="closeDrawer" id="事件处理-nav">
+										 事件处理
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%96%b9%e6%b3%95%e5%bc%95%e7%94%a8" v-on:click="closeDrawer" id="方法引用-nav">
+										 方法引用
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%81%bf%e5%85%8d%e5%a4%8d%e6%9d%82%e7%9a%84%e7%9b%91%e5%90%ac%e5%99%a8" v-on:click="closeDrawer" id="避免复杂的监听器-nav">
+										 避免复杂的监听器
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%af%bc%e5%85%a5%e5%8f%98%e9%87%8f%e5%92%8c%e5%bc%95%e5%85%a5" v-on:click="closeDrawer" id="导入变量和引入-nav">
+										 导入、变量和引入
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%af%bc%e5%85%a5" v-on:click="closeDrawer" id="导入-nav">
+										 导入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%b1%bb%e5%9e%8b%e5%88%ab%e5%90%8d" v-on:click="closeDrawer" id="类型别名-nav">
+										 类型别名
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%bc%95%e5%85%a5%e5%85%b6%e4%bb%96%e7%b1%bb" v-on:click="closeDrawer" id="引入其他类-nav">
+										 引入其他类
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%98%e9%87%8f" v-on:click="closeDrawer" id="变量-nav">
+										 变量
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%bc%95%e5%85%a5" v-on:click="closeDrawer" id="引入-nav">
+										 引入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    DataBinding绑定表达式使用
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2017-06-11 18:14
+                        </time>
+                        
+
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/android">android</a>
+                                &nbsp;
+                            
+                                <a href="/tags/databinding">databinding</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>表达式语言允许您编写处理<code>View</code>分发的事件的表达式。数据绑定库自动生成将布局中的<code>View</code>与数据对象绑定所需的类。</p>
+<p>数据绑定布局文件略有不同，以<code>layout</code>根标签开头，后跟<code>data</code>元素和<code>view</code>根元素。此<code>view</code>元素是您的根在非绑定布局文件中的位置。以下代码显示了一个示例布局文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;layout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span><span style="color:#f92672">&gt;</span>
+ <span style="color:#f92672">&lt;data&gt;</span>
+   <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+ <span style="color:#f92672">&lt;/data&gt;</span>
+ <span style="color:#f92672">&lt;LinearLayout</span>
+   <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span>
+   <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+   <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span><span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;TextView</span> <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+     <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+     <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@{user.firstName}&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;TextView</span> <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+     <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+     <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@{user.lastName}&#34;</span><span style="color:#f92672">/&gt;</span>
+ <span style="color:#f92672">&lt;/LinearLayout&gt;</span>
+<span style="color:#f92672">&lt;/layout&gt;</span>
+</code></pre></div><p><code>layout</code>标签中的<code>user</code>变量描述了可在此布局中使用的属性。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>布局中的表达式使用<code>@ {}</code>语法写入属性中。这里，<code>TextView</code>文本设置为用户变量的<code>firstName</code>属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;TextView</span> <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+     <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+     <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@{user.firstName}&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><blockquote>
+<p>注意：布局表达式应保持小而简单，因为它们不能进行单元测试并且IDE支持有限。为了简化布局表达式，您可以使用自定义绑定适配器。</p>
+</blockquote>
+<h1 id="数据对象">数据对象</h1>
+<p>我们现在假设您有一个普通的对象来描述<code>User</code>实体：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">{</span>
+ <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> String firstName<span style="color:#f92672">;</span>
+ <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> String lastName<span style="color:#f92672">;</span>
+ <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">User</span><span style="color:#f92672">(</span>String firstName<span style="color:#f92672">,</span> String lastName<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">firstName</span> <span style="color:#f92672">=</span> firstName<span style="color:#f92672">;</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">lastName</span> <span style="color:#f92672">=</span> lastName<span style="color:#f92672">;</span>
+ <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这种类型的对象具有永不改变的数据。在应用程序中，通常会读取一次并且之后不会更改的数据。也可以使用遵循一组约定的对象，例如Java中的访问器方法的使用，如以下示例所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">{</span>
+ <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String firstName<span style="color:#f92672">;</span>
+ <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String lastName<span style="color:#f92672">;</span>
+ <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">User</span><span style="color:#f92672">(</span>String firstName<span style="color:#f92672">,</span> String lastName<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">firstName</span> <span style="color:#f92672">=</span> firstName<span style="color:#f92672">;</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">lastName</span> <span style="color:#f92672">=</span> lastName<span style="color:#f92672">;</span>
+ <span style="color:#f92672">}</span>
+ <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getFirstName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">firstName</span><span style="color:#f92672">;</span>
+ <span style="color:#f92672">}</span>
+ <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getLastName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">lastName</span><span style="color:#f92672">;</span>
+ <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>从数据绑定的角度来看，这两个类是等价的。用于<code>android:text</code>属性的表达式<code>@ {user.firstName}</code>访问前一个类中的<code>firstName</code>字段和后一类中的<code>getFirstName()</code>方法。或者，如果<code>firstName()</code>方法存在，它也会解析为该方法。</p>
+<h1 id="绑定数据">绑定数据</h1>
+<p>为每个布局文件生成绑定类。默认情况下，类的名称基于布局文件的名称，将其转换为<code>Pascal</code>大小写并向其添加<code>Binding</code>后缀。上面的布局文件名是<code>activity_main.xml</code>，因此相应的生成类是<code>ActivityMainBinding</code>。此类包含布局属性（例如，<code>User</code>变量）到布局视图的所有绑定，并知道如何为绑定表达式指定值。创建绑定的推荐方法是在扩展布局时执行此操作，如下例所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+ <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>savedInstanceState<span style="color:#f92672">);</span>
+ ActivityMainBinding binding <span style="color:#f92672">=</span> DataBindingUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">setContentView</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> R<span style="color:#f92672">.</span><span style="color:#a6e22e">layout</span><span style="color:#f92672">.</span><span style="color:#a6e22e">activity_main</span><span style="color:#f92672">);</span>
+ User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Test&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;User&#34;</span><span style="color:#f92672">);</span>
+ binding<span style="color:#f92672">.</span><span style="color:#a6e22e">setUser</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在运行时，应用程序在UI中显示Test用户。或者，您可以使用LayoutInflater获取视图，如以下示例所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ActivityMainBinding binding <span style="color:#f92672">=</span> ActivityMainBinding<span style="color:#f92672">.</span><span style="color:#a6e22e">inflate</span><span style="color:#f92672">(</span>getLayoutInflater<span style="color:#f92672">());</span>
+</code></pre></div><p>如果在<code>Fragment</code>，<code>ListView</code>或<code>RecyclerView</code>适配器中使用数据绑定项，则可能更喜欢使用绑定类或<code>DataBindingUtil</code>类的<code>inflate()</code>方法，如以下代码示例所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ListItemBinding binding <span style="color:#f92672">=</span> ListItemBinding<span style="color:#f92672">.</span><span style="color:#a6e22e">inflate</span><span style="color:#f92672">(</span>layoutInflater<span style="color:#f92672">,</span> viewGroup<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// or
+</span><span style="color:#75715e"></span>ListItemBinding binding <span style="color:#f92672">=</span> DataBindingUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">inflate</span><span style="color:#f92672">(</span>layoutInflater<span style="color:#f92672">,</span> R<span style="color:#f92672">.</span><span style="color:#a6e22e">layout</span><span style="color:#f92672">.</span><span style="color:#a6e22e">list_item</span><span style="color:#f92672">,</span> viewGroup<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</code></pre></div><h1 id="表达式语言">表达式语言</h1>
+<h2 id="常见特性">常见特性</h2>
+<p>表达式语言看起来很像Java表达式。下面这些表达式用法是一样的：</p>
+<ul>
+<li>数学运算符<code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></li>
+<li>字符串连接符 <code>+</code></li>
+<li>逻辑运算符 <code>&amp;&amp;</code> <code>||</code></li>
+<li>位运算符 <code>&amp;</code> <code>|</code> <code>^</code></li>
+<li>一元运算 <code>+</code> <code>-</code> <code>!</code> <code>~</code></li>
+<li>移位 <code>&gt;&gt;</code> <code>&gt;&gt;&gt;</code> <code>&lt;&lt;</code></li>
+<li>比较运算符 <code>==</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></li>
+<li>instanceof</li>
+<li>分组()</li>
+<li>字面量：字符、字符串、数字，null</li>
+<li>Cast</li>
+<li>方法调用</li>
+<li>数组访问 <code>[]</code></li>
+<li>三元运算 <code>?:</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:text=&#34;@{String.valueOf(index + 1)}&#34;
+android:visibility=&#34;@{age &gt; 13 ? View.GONE : View.VISIBLE}&#34;
+android:transitionName=&#39;@{&#34;image_&#34; + id}&#39;
+</code></pre></div><h2 id="不支持的操作">不支持的操作</h2>
+<ul>
+<li>this</li>
+<li>super</li>
+<li>new</li>
+<li>显式泛型调用</li>
+</ul>
+<h2 id="null合并操作">Null合并操作</h2>
+<p><code>??</code>- 左边的对象如果它不是<code>null</code>，选择左边的对象；或者如果它是<code>null</code>，选择右边的对象。例如下面的例子中如果<code>displayName</code>不为空则将<code>user.displayName</code>设置给<code>text</code>属性，如果为空则将<code>user.lastName</code>设置给<code>text</code>属性。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">android:text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{user.displayName ?? user.lastName}&#34;</span>
+</code></pre></div><p>上面表达式等价于下面的表达式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">android:text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{user.displayName != null ? user.displayName : user.lastName}&#34;</span>
+</code></pre></div><h2 id="避免空指针">避免空指针</h2>
+<p>生成的数据绑定代码会自动检查空值并避免空指针异常。例如，在表达式<code>@{user.name}</code>中，如果<code>user</code>为<code>null</code>，则为<code>user.name</code>分配其默认值<code>null</code>。如果引用<code>user.age</code>，其中<code>age</code>的类型为<code>int</code>，则数据绑定使用默认值0。</p>
+<h2 id="集合">集合</h2>
+<p>常用的集合包括<code>Arrays</code>、<code>List</code>、<code>SparseArray</code>和<code>Map</code>，这些都可以使用<code>[]</code>操作符来访问</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;data&gt;</span>
+    <span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;android.util.SparseArray&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;java.util.Map&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;java.util.List&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;list&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;List&amp;lt;String&gt;&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;sparse&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;SparseArray&amp;lt;String&gt;&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;map&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;Map&amp;lt;String, String&gt;&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;index&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;int&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;key&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;String&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/data&gt;</span>
+…
+android:text=&#34;@{list[index]}&#34;
+…
+android:text=&#34;@{sparse[index]}&#34;
+…
+android:text=&#34;@{map[key]}&#34;
+
+</code></pre></div><blockquote>
+<p>注意：要使XML在语法上正确，您必须转义<code>&lt;</code>字符。例如：您必须编写<code>List＆lt;String&gt;</code>而不是<code>List&lt;String&gt;</code>。</p>
+</blockquote>
+<p>您还可以使用<code>object.key</code>表示法引用<code>map</code>中的值。例如，上面示例中的<code>@{map[key]}</code>可以替换为<code>@{map.key}</code>。</p>
+<h2 id="字符串字面量">字符串字面量</h2>
+<p>您可以使用单引号括起属性值，这允许您在表达式中使用双引号，如以下示例所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:text=&#39;@{map[&#34;firstName&#34;]}&#39;
+</code></pre></div><p>也可以使用双引号来包围属性值。这样做时，字符串文字应该用后引号`包围：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:text=&#34;@{map[`firstName`}&#34;
+</code></pre></div><h2 id="资源">资源</h2>
+<p>您可以使用以下语法访问表达式中的资源：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:padding=&#34;@{large? @dimen/largePadding : @dimen/smallPadding}&#34;
+</code></pre></div><p>支持字符串的格式化</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;string</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;info&#34;</span><span style="color:#f92672">&gt;</span>first name is %1$s last name is %2$s age is %3$d<span style="color:#f92672">&lt;/string&gt;</span>
+
+<span style="color:#f92672">&lt;TextView</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#39;@{@string/info(user.firstName,user.lastName,user.age)}&#39;</span>
+    <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>在表达式中引用一些资源与直接引用资源有所不同，需要显式判断类型</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th align="center">正常引用</th>
+<th align="right">表达式引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String[]</td>
+<td align="center">@array</td>
+<td align="right">@stringArray</td>
+</tr>
+<tr>
+<td>int[]</td>
+<td align="center">@array</td>
+<td align="right">@intArray</td>
+</tr>
+<tr>
+<td>TypedArray</td>
+<td align="center">@array</td>
+<td align="right">@typedArray</td>
+</tr>
+<tr>
+<td>Animator</td>
+<td align="center">@animator</td>
+<td align="right">@animator</td>
+</tr>
+<tr>
+<td>StateListAnimator</td>
+<td align="center">@animator</td>
+<td align="right">@stateListAnimator</td>
+</tr>
+<tr>
+<td>color int</td>
+<td align="center">@color</td>
+<td align="right">@color</td>
+</tr>
+<tr>
+<td>ColorStateList</td>
+<td align="center">@color</td>
+<td align="right">@color</td>
+</tr>
+</tbody>
+</table>
+<h1 id="事件处理">事件处理</h1>
+<p>数据绑定允许编写处理<code>view</code>分发的事件的表达式（例如，<code>onClick()</code>方法）。事件属性名称由监听器方法的名字决定，但有一些例外。例如，<code>View.OnClickListener</code>有一个方法<code>onClick()</code>，因此该事件的属性是<code>android：onClick</code>。</p>
+<p>点击事件有一些专门的事件处理器需要一个除<code>android:onClick</code>以外的属性以避免冲突。您可以使用以下属性来避免这些类型的冲突：</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Listener setter</th>
+<th>Attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://developer.android.com/reference/android/widget/SearchView.html">SearchView</a></td>
+<td><a href="https://developer.android.com/reference/android/widget/SearchView.html#setOnSearchClickListener(android.view.View.OnClickListener)">setOnSearchClickListener(View.OnClickListener)</a></td>
+<td>android:onSearchClick</td>
+</tr>
+<tr>
+<td>ZoomControls</td>
+<td><a href="https://developer.android.com/reference/android/widget/ZoomControls.html#setOnZoomInClickListener(android.view.View.OnClickListener)">setOnZoomInClickListener(View.OnClickListener)</a></td>
+<td>android:onZoomIn</td>
+</tr>
+<tr>
+<td><a href="https://developer.android.com/reference/android/widget/ZoomControls.html">ZoomControls</a></td>
+<td><a href="https://developer.android.com/reference/android/widget/ZoomControls.html#setOnZoomOutClickListener(android.view.View.OnClickListener)">setOnZoomOutClickListener(View.OnClickListener)</a></td>
+<td>android:onZoomOut</td>
+</tr>
+</tbody>
+</table>
+<p>你可以使用以下机制来处理事件：</p>
+<ul>
+<li>
+<p>方法参考：在表达式中，您可以引用符合监听方法签名的方法。当表达式求值为方法引用时，<code>Data</code>绑定将方法引用和所有者对象包装在监听器中，并在目标<code>View</code>上设置该监听器。如果表达式求值为<code>null</code>，则数据绑定不会创建监听器并改为设置空监听器。</p>
+</li>
+<li>
+<p>监听器绑定：这些是在事件发生时计算的<code>lambda</code>表达式。数据绑定总是创建一个监听器，它在<code>View</code>上设置。分发事件时，监听器将计算lambda表达式。</p>
+</li>
+</ul>
+<h2 id="方法引用">方法引用</h2>
+<p>事件可以直接绑定到处理方法上，类似于<code>android:onClick</code>的方式可以指定一个<code>activity</code>中的方法。与<code>View </code>的<code>onClick</code>属性相比，一个主要优点是表达式在编译时处理，因此如果该方法不存在或其签名不正确，则会收到编译时错误。</p>
+<p>方法引用和监听器绑定之间的主要区别在于实际的监听器实现是在绑定数据时创建的，而不是在触发事件时创建的。如果您希望在事件发生时计算表达式，则应使用监听器绑定。</p>
+<p>要将事件分配给其处理程序，请使用普通绑定表达式，其值为要调用的方法名称。例如，请考虑以下示例布局数据对象：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHandlers</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onClickFriend</span><span style="color:#f92672">(</span>View view<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>绑定表达式可以将<code>view</code>的点击监听器分配给<code>onClickFriend()</code>方法，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;?</span>xml version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0&#34;</span> encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span><span style="color:#f92672">?&gt;</span>
+<span style="color:#f92672">&lt;</span>layout xmlns<span style="color:#f92672">:</span>android<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span><span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;</span>data<span style="color:#f92672">&gt;</span>
+       <span style="color:#f92672">&lt;</span>variable name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handlers&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.example.MyHandlers&#34;</span><span style="color:#f92672">/&gt;</span>
+       <span style="color:#f92672">&lt;</span>variable name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;/</span>data<span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;</span>LinearLayout
+       android<span style="color:#f92672">:</span>orientation<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span>
+       android<span style="color:#f92672">:</span>layout_width<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+       android<span style="color:#f92672">:</span>layout_height<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;match_parent&#34;</span><span style="color:#f92672">&gt;</span>
+       <span style="color:#f92672">&lt;</span>TextView android<span style="color:#f92672">:</span>layout_width<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+           android<span style="color:#f92672">:</span>layout_height<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+           android<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{user.firstName}&#34;</span>
+           android<span style="color:#f92672">:</span>onClick<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{handlers::onClickFriend}&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;/</span>LinearLayout<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>layout<span style="color:#f92672">&gt;</span>
+</code></pre></div><blockquote>
+<p>注意：表达式中方法的签名必须与监听器对象中方法的签名完全匹配。</p>
+</blockquote>
+<p>监听器绑定是在事件发生时运行的绑定表达式。它们与方法引用类似，但它们允许您运行任意数据绑定表达式。此功能适用于<code>Gradle</code>版本<code>2.0</code>及更高版本的<code>Android Gradle</code>插件。</p>
+<p>在方法引用中，方法的参数必须与事件监听器的参数匹配。在监听器绑定中，只有您的返回值必须与侦听器的预期返回值匹配（除非它期望无效）。例如，考虑以下具有<code>onSaveClick()</code>方法的<code>presenter</code>类：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Presenter</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onSaveClick</span><span style="color:#f92672">(</span>Task task<span style="color:#f92672">){}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>然后，您可以将<code>click</code>事件绑定到<code>onSaveClick()</code>方法，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;layout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;data&gt;</span>
+        <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;task&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.android.example.Task&#34;</span> <span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;presenter&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.android.example.Presenter&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/data&gt;</span>
+    <span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span> <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;Button</span> <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span> <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:onClick=</span><span style="color:#e6db74">&#34;@{() -&gt; presenter.onSaveClick(task)}&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/LinearLayout&gt;</span>
+<span style="color:#f92672">&lt;/layout&gt;</span>
+</code></pre></div><p>在表达式中使用回调时，数据绑定会自动创建必要的监听器并为事件注册它。当视图触发事件时，数据绑定会评估给定的表达式。与常规绑定表达式一样，在评估这些监听器表达式时，仍然可以获得数据绑定的null和线程安全性。</p>
+<p>在上面的示例中，我们尚未定义传递给<code>onClick(View)</code>的<code>view</code>参数。监听器绑定为监听器参数提供了两种选择：您可以忽略方法的所有参数，也可以命名所有参数。如果您希望为参数命名，可以在表达式中使用它们。例如，上面的表达式可以写成如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:onClick=&#34;@{(view) -&gt; presenter.onSaveClick(task)}&#34;
+</code></pre></div><p>或者，如果要在表达式中使用该参数，则可以按如下方式工作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Presenter</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onSaveClick</span><span style="color:#f92672">(</span>View view<span style="color:#f92672">,</span> Task task<span style="color:#f92672">){}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">android:onClick<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{(theView) -&gt; presenter.onSaveClick(theView, task)}&#34;</span>
+</code></pre></div><p>您可以使用带有多个参数的<code>lambda</code>表达式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Presenter</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCompletedChanged</span><span style="color:#f92672">(</span>Task task<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> completed<span style="color:#f92672">){}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;CheckBox</span> 
+      <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span> 
+			<span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+      <span style="color:#a6e22e">android:onCheckedChanged=</span><span style="color:#e6db74">&#34;@{(cb, isChecked) -&gt; presenter.completeChanged(task, isChecked)}&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>如果您正在监听的事件返回类型不为<code>void</code>的值，则表达式也必须返回相同类型的值。例如，如果要监听长按事件，则表达式应返回布尔值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Presenter</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">onLongClick</span><span style="color:#f92672">(</span>View view<span style="color:#f92672">,</span> Task task<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:onLongClick=&#34;@{(theView) -&gt; presenter.onLongClick(theView, task)}&#34;
+</code></pre></div><p>如果由于<code>null</code>对象而无法计算表达式，则数据绑定将返回该类型的默认值。例如，<code>null</code>表示引用类型，0表示<code>int</code>，<code>false</code>表示布尔值等。</p>
+<p>如果需要使用带谓词的表达式（例如，三元组），则可以使用<code>void</code>作为符号。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">android:onClick=&#34;@{(v) -&gt; v.isVisible() ? doSomething() : void}&#34;
+</code></pre></div><h2 id="避免复杂的监听器">避免复杂的监听器</h2>
+<p>监听器表达式非常强大，可以使您的代码非常容易阅读。另一方面，包含复杂表达式的监听器使您的布局难以阅读和维护。这些表达式应该像将可用数据从UI传递到回调方法一样简单。您应该在从监听器表达式调用的回调方法中实现任何业务逻辑。</p>
+<h1 id="导入变量和引入">导入、变量和引入</h1>
+<p>数据绑定库提供诸如导入，变量和引入之类的功能。导入使布局文件中的类很容易引用。变量允许您描述可用于绑定表达式的属性。包括让您在整个应用中重复使用复杂的布局。</p>
+<h2 id="导入">导入</h2>
+<p>数据绑定的布局文件允许利用<code>import</code>元素像Java一样导入其他数据类型。例如下面代码就导入一个<code>View</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;data&gt;</span>
+    <span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;android.view.View&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/data&gt;</span>
+</code></pre></div><p>现在，View对象可以在绑定表达式中使用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;TextView</span>
+   <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@{user.lastName}&#34;</span>
+   <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+   <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+   <span style="color:#a6e22e">android:visibility=</span><span style="color:#e6db74">&#34;@{user.isAdult ? View.VISIBLE : View.GONE}&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><h2 id="类型别名">类型别名</h2>
+<p>当存在类名冲突时，可以将其中一个类重命名为别名。以下示例将<code>com.example.real.estate</code>包中的<code>View</code>类重命名为<code>Vista</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;android.view.View&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.real.estate.View&#34;</span>
+        <span style="color:#a6e22e">alias=</span><span style="color:#e6db74">&#34;Vista&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>您可以使用<code>Vista</code>来引用<code>com.example.real.estate.View</code>，<code>View</code>可以用来引用布局文件中的<code>android.view.View</code>。</p>
+<h2 id="引入其他类">引入其他类</h2>
+<p>导入的类型可以用作变量和表达式中的类型引用。以下示例显示用作变量类型的<code>User</code>和<code>List</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;</span>data<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span><span style="color:#f92672">import</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;</span><span style="color:#f92672">import</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;java.util.List&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;</span>variable name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;User&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;</span>variable name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;userList&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;List&amp;lt;User&gt;&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/</span>data<span style="color:#f92672">&gt;</span>
+</code></pre></div><blockquote>
+<p>警告：Android Studio尚未处理导入，因此导入变量的自动完成功能可能无法在IDE中运行。您的应用程序仍在编译，您可以通过在变量定义中使用完全限定名称来解决IDE问题。</p>
+</blockquote>
+<p>您还可以使用导入的类型来转换表达式的一部分。以下示例将连接属性强制转换为User类型：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;TextView</span>
+   <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@{((User)(user.connection)).lastName}&#34;</span>
+   <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+   <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>在表达式中引用静态字段和方法时，也可以使用导入的类型。以下代码导入<code>MyStringUtils</code>类并引用其<code>capitalize</code>方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;data&gt;</span>
+    <span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.MyStringUtils&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/data&gt;</span>
+…
+<span style="color:#f92672">&lt;TextView</span>
+   <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@{MyStringUtils.capitalize(user.lastName)}&#34;</span>
+   <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+   <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span><span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>就像在托管代码中一样，<code>java.lang.*</code>会自动导入。</p>
+<h2 id="变量">变量</h2>
+<p>您可以在数据元素中使用多个变量元素。每个变量元素描述可以在布局上设置的属性，以在布局文件中的绑定表达式中使用。以下示例声明<code>user</code>，<code>drawable</code>和<code>note</code>变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;data&gt;</span>
+    <span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;android.graphics.drawable.Drawable&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;image&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;Drawable&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;note&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;String&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/data&gt;</span>
+</code></pre></div><p>在编译时检查变量类型，因此如果变量实现<code>Observable</code>或是可观察集合，则应该在类型中响应。如果变量是未实现<code>Observable</code>接口的基类或接口，则不会观察变量。</p>
+<p>当存在用于各种配置的不同布局文件（例如，横向或纵向）时，变量被合并。这些布局文件之间不得存在冲突的变量定义。</p>
+<p>对于每个所描述的变量，生成的绑定类都具有该变量的<code>setter</code>和<code>getter</code>。<code>setter</code>方法调用之前，变量有一个默认值。引用类型的默认值是null，int默认值是0，boolean默认值是false等。</p>
+<p>根据需要，生成一个名为<code>context</code>的特殊变量，用于绑定表达式。 <code>contex</code>t的值是来自根<code>View</code>的<code>getContext()</code>方法的<code>Context</code>对象。使用该名称的显式变量声明覆盖上下文变量。</p>
+<h2 id="引入">引入</h2>
+<p>通过使用app命名空间和属性中的变量名，变量可以从包含的布局传递到包含的布局绑定中。以下示例显示了<code>name.xml</code>和<code>contact.xml</code>布局文件中包含的用户变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;layout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+        <span style="color:#a6e22e">xmlns:bind=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span><span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;data&gt;</span>
+       <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;/data&gt;</span>
+   <span style="color:#f92672">&lt;LinearLayout</span>
+       <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span>
+       <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+       <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span><span style="color:#f92672">&gt;</span>
+       <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">layout=</span><span style="color:#e6db74">&#34;@layout/name&#34;</span>
+           <span style="color:#a6e22e">bind:user=</span><span style="color:#e6db74">&#34;@{user}&#34;</span><span style="color:#f92672">/&gt;</span>
+       <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">layout=</span><span style="color:#e6db74">&#34;@layout/contact&#34;</span>
+           <span style="color:#a6e22e">bind:user=</span><span style="color:#e6db74">&#34;@{user}&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;/LinearLayout&gt;</span>
+<span style="color:#f92672">&lt;/layout&gt;</span>
+</code></pre></div><p>数据绑定不支持<code>include</code>作为<code>merge</code>元素的直接子元素。例如，不支持以下布局：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;layout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+        <span style="color:#a6e22e">xmlns:bind=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span><span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;data&gt;</span>
+       <span style="color:#f92672">&lt;variable</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.example.User&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;/data&gt;</span>
+   <span style="color:#f92672">&lt;merge&gt;</span><span style="color:#75715e">&lt;!-- Doesn&#39;t work --&gt;</span>
+       <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">layout=</span><span style="color:#e6db74">&#34;@layout/name&#34;</span>
+           <span style="color:#a6e22e">bind:user=</span><span style="color:#e6db74">&#34;@{user}&#34;</span><span style="color:#f92672">/&gt;</span>
+       <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">layout=</span><span style="color:#e6db74">&#34;@layout/contact&#34;</span>
+           <span style="color:#a6e22e">bind:user=</span><span style="color:#e6db74">&#34;@{user}&#34;</span><span style="color:#f92672">/&gt;</span>
+   <span style="color:#f92672">&lt;/merge&gt;</span>
+<span style="color:#f92672">&lt;/layout&gt;</span>
+</code></pre></div>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2017-06-11</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/binding-adapters/">
+                    Next<br>绑定适配器使用
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/android-custom-attribute/">
+                    Previous<br>Android自定义属性
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

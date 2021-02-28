@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《Kotlin实战》读书笔记 第4章 类对象和接口 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="4.1 定义类继承结构 4.1.1 Kotlin中的接口 1 2 3 4 5 6 7 8 //接口定义 interface Clickable { fun click() } //实现接口 class Button:Clickable{ override fun click() = println(&amp;#34;I was clicked&amp;#34;) } 接口的方法可以有一个默认实现。" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.71.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/kotlin-in-action/kotlin-in-action-chapter4/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.ab6ed46f161bdba676da3f071e37b038123f44e7125e330d80fc66955b18aaa5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《Kotlin实战》读书笔记 第4章 类对象和接口" />
+<meta property="og:description" content="4.1 定义类继承结构 4.1.1 Kotlin中的接口 1 2 3 4 5 6 7 8 //接口定义 interface Clickable { fun click() } //实现接口 class Button:Clickable{ override fun click() = println(&#34;I was clicked&#34;) } 接口的方法可以有一个默认实现。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/kotlin-in-action/kotlin-in-action-chapter4/" />
+<meta property="article:published_time" content="2018-08-28T12:26:55+00:00" />
+<meta property="article:modified_time" content="2018-08-28T12:26:55+00:00" />
+<meta itemprop="name" content="《Kotlin实战》读书笔记 第4章 类对象和接口">
+<meta itemprop="description" content="4.1 定义类继承结构 4.1.1 Kotlin中的接口 1 2 3 4 5 6 7 8 //接口定义 interface Clickable { fun click() } //实现接口 class Button:Clickable{ override fun click() = println(&#34;I was clicked&#34;) } 接口的方法可以有一个默认实现。">
+<meta itemprop="datePublished" content="2018-08-28T12:26:55&#43;00:00" />
+<meta itemprop="dateModified" content="2018-08-28T12:26:55&#43;00:00" />
+<meta itemprop="wordCount" content="3996">
+
+
+
+<meta itemprop="keywords" content="Kotlin,读书笔记," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《Kotlin实战》读书笔记 第4章 类对象和接口"/>
+<meta name="twitter:description" content="4.1 定义类继承结构 4.1.1 Kotlin中的接口 1 2 3 4 5 6 7 8 //接口定义 interface Clickable { fun click() } //实现接口 class Button:Clickable{ override fun click() = println(&#34;I was clicked&#34;) } 接口的方法可以有一个默认实现。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <div class="post-content">
+    <h2 id="41-定义类继承结构">4.1 定义类继承结构</h2>
+<h3 id="411-kotlin中的接口">4.1.1 Kotlin中的接口</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//接口定义
+</span><span class="c1"></span><span class="k">interface</span> <span class="nc">Clickable</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="c1">//实现接口
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">Button</span><span class="p">:</span><span class="n">Clickable</span><span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;I was clicked&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>接口的方法可以有一个默认实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">interface</span> <span class="nc">Clickable</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span>
+    <span class="k">fun</span> <span class="nf">showOff</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;I&#39;m clickable!&#34;</span><span class="p">)</span> <span class="c1">//带默认实现的方法
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>假设存在同样定义了一个showOff方法并且有如下实现的另一个接口。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">interface</span> <span class="nc">Focusable</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">setFocus</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">)</span> <span class="p">=</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&#34;I ${if (b) &#34;</span><span class="n">got</span><span class="s">&#34; else &#34;</span><span class="n">lost</span><span class="s">&#34;} focus.&#34;</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">showOff</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;I&#39;m focusable!&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>类实现这两个接口，如果没有显式实现showOff，将会得到如下编译错误：</p>
+<p><img src="../.gitbook/assets/image%20%281%29.png" alt=""></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Button</span> <span class="p">:</span> <span class="n">Clickable</span><span class="p">,</span><span class="n">Focusable</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span> <span class="p">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;I was clicked&#34;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">showOff</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">&lt;</span><span class="n">Clickable</span><span class="p">&gt;.</span><span class="n">showOff</span><span class="p">()</span>
+        <span class="k">super</span><span class="p">&lt;</span><span class="n">Focusable</span><span class="p">&gt;.</span><span class="n">showOff</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="412-openfinal和abstarc修饰符默认为final">4.1.2 open、final和abstarc修饰符：默认为final</h3>
+<p>Java的类和方法默认是open的，而kotlin中默认都是final的。如果你想允许创建一个类的子类， 需要使用open修饰符来标示这个类。此外，需要给每一个可以被重写的属性或方法添加open修饰符。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">RichButton</span><span class="p">:</span><span class="n">Clickable</span><span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">disable</span><span class="p">(){}</span> <span class="c1">//final函数
+</span><span class="c1"></span>    <span class="k">open</span> <span class="k">fun</span> <span class="nf">animate</span><span class="p">(){}</span> <span class="c1">//open函数
+</span><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span> <span class="p">{}</span> <span class="c1">//这个函数重写了一个open函数它本身同样是open函数
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果重写了一个基类或者接口的成员，重写了的成员同样默认是open的，如果你想改变这一行为，阻止你的子类重写你的实现，可以显式地将重写的成员标注为final。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">RichButton</span><span class="p">:</span><span class="n">Clickable</span><span class="p">{</span>
+    <span class="k">final</span> <span class="k">override</span> <span class="k">fun</span> <span class="nf">click</span><span class="p">()</span> <span class="p">{}</span> 
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>抽象成员</strong>始终是open的，所以不需要显式地使用open修饰符。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Animated</span><span class="p">{</span>
+    <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">animate</span><span class="p">()</span>
+    <span class="c1">//抽象类中的非抽象函数并不是默认open的,但是可以标注为open的
+</span><span class="c1"></span>    <span class="k">open</span> <span class="k">fun</span> <span class="nf">stopAnimating</span><span class="p">(){}</span>
+    <span class="k">fun</span> <span class="nf">animateTwice</span><span class="p">(){}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="413-可见性修饰符默认为public">4.1.3 可见性修饰符：默认为public</h3>
+<h3 id="414-内部类和嵌套类默认是嵌套类">4.1.4 内部类和嵌套类：默认是嵌套类</h3>
+<p>与Java不同，Kotlin的嵌套类不能访问外部类的实例。</p>
+<h3 id="415-密封类定义受限的类继承结构">4.1.5 密封类：定义受限的类继承结构</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">interface</span> <span class="nc">Expr</span>
+<span class="k">class</span> <span class="nc">Num</span><span class="p">(</span><span class="k">val</span> <span class="py">value</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">:</span> <span class="n">Expr</span>
+<span class="k">class</span> <span class="nc">Sum</span><span class="p">(</span><span class="k">val</span> <span class="py">left</span><span class="p">:</span> <span class="n">Expr</span><span class="p">,</span> <span class="k">val</span> <span class="py">right</span><span class="p">:</span> <span class="n">Expr</span><span class="p">)</span> <span class="p">:</span> <span class="n">Expr</span>
+
+<span class="k">fun</span> <span class="nf">eval</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">Expr</span><span class="p">):</span> <span class="n">Int</span> <span class="p">=</span>
+        <span class="k">when</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">is</span> <span class="n">Num</span> <span class="p">-&gt;</span> <span class="n">e</span><span class="p">.</span><span class="n">value</span>
+            <span class="k">is</span> <span class="n">Sum</span> <span class="p">-&gt;</span> <span class="n">eval</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">right</span><span class="p">)</span> <span class="p">+</span> <span class="n">eval</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">-&gt;</span> <span class="c1">//必须检查else分支
+</span><span class="c1"></span>                <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&#34;Unknown expression&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>总是不得不添加一个默认分支很不方便。更重要的是，如果你添加一个新的子类，编译器并不能发现有地方改变了，如果你忘记了添加一个新分支，就会选择默认的选项，这可能导致潜在的bug。</p>
+<p>Kotlin为这个问题提供了一个解决方案：sealed类。为父类添加一个sealed修饰符，对可能创建的子类做出严格的限制。所有的直接子类必须嵌套在父类中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Expr</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Num</span><span class="p">(</span><span class="k">val</span> <span class="py">value</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">()</span>
+    <span class="k">class</span> <span class="nc">Sum</span><span class="p">(</span><span class="k">val</span> <span class="py">left</span><span class="p">:</span> <span class="n">Expr</span><span class="p">,</span> <span class="k">val</span> <span class="py">right</span><span class="p">:</span> <span class="n">Expr</span><span class="p">)</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">eval</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">Expr</span><span class="p">):</span> <span class="n">Int</span> <span class="p">=</span>
+        <span class="k">when</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//不需要提供默认分支
+</span><span class="c1"></span>            <span class="k">is</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Num</span> <span class="p">-&gt;</span> <span class="n">e</span><span class="p">.</span><span class="n">value</span>
+            <span class="k">is</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Sum</span> <span class="p">-&gt;</span> <span class="n">eval</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">right</span><span class="p">)</span> <span class="p">+</span> <span class="n">eval</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>sealed修饰符隐含的这个类是一个open类，不再需要显式地添加open修饰符。</p>
+<h2 id="42-声明一个带非默认构造方法或属性的类">4.2 声明一个带非默认构造方法或属性的类</h2>
+<h3 id="421-初始化类主构造方法和初始化语句块">4.2.1 初始化类：主构造方法和初始化语句块</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这段被括号围起来的语句块就叫作主构造方法，它主要有两个目的：表明构造方法的参数，以及定义使用这些参数初始化的属性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span> <span class="k">constructor</span><span class="p">(</span><span class="n">_nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">nickname</span> <span class="p">:</span><span class="n">String</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">nickname</span> <span class="p">=</span> <span class="n">_nickname</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>constructor</code>关键字用来开始一个主构造方法或从构造方法的声明。<code>init</code>关键字用来引入一个初始化语句块。因为主构造方法有语法限制，不能包含初始化代码，所以要使用初始化语句块。一个类中可以声明多个初始化语句块。</p>
+<p>构造方法参数<code>_nickname</code>中的下划线用来区分属性的名字和构造方法参数的名字。另一个可选方案是使用同样的名字，通过this来消除歧义。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span> <span class="k">constructor</span><span class="p">(</span><span class="n">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">nickname</span> <span class="p">:</span><span class="n">String</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">nickname</span> <span class="p">=</span> <span class="n">nickname</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在这个例子中，不需要把初始化代码块放在初始化语句块中，因为它可以与nickname属性的声明结合。如果主构造方法没有注解或可见性修饰符，同样可以去掉constructor关键字。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">_nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">nickname</span> <span class="p">=</span> <span class="n">_nickname</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% code-tabs %}
+{% code-tabs-item title=&quot;为构造方法参数提供一个默认值&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span>
+           <span class="k">val</span> <span class="py">isSubscribed</span><span class="p">:</span><span class="n">Boolean</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TwitterUser</span><span class="p">(</span><span class="n">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="n">nickname</span><span class="p">)</span>
+
+<span class="k">open</span> <span class="k">class</span> <span class="nc">Button</span> <span class="c1">//将生成一个不带任何参数的默认构造方法
+</span><span class="c1"></span>
+<span class="k">class</span> <span class="nc">RadioButton</span> <span class="p">:</span> <span class="n">Button</span><span class="p">()</span> <span class="c1">//注意与接口的区别,接口不带括号
+</span></code></pre></td></tr></table>
+</div>
+</div><p>如果不想类被其他代码实例化，必须把构造方法标记为<code>private</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Secretive</span> <span class="k">private</span> <span class="k">constructor</span><span class="p">()</span> <span class="p">{}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="422-构造方法用不同的方式来初始化父类"> 4.2.2 构造方法：用不同的方式来初始化父类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">View</span> <span class="p">{</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">){</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="p">}</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span><span class="n">attr</span><span class="p">:</span><span class="n">AttributeSet</span><span class="p">){</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">MyButton</span> <span class="p">:</span> <span class="n">View</span> <span class="p">{</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span><span class="k">super</span><span class="p">(</span><span class="n">ctx</span><span class="p">){</span> <span class="c1">//调用父类构造方法
+</span><span class="c1"></span>        <span class="c1">//...
+</span><span class="c1"></span>    <span class="p">}</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span><span class="n">attr</span><span class="p">:</span><span class="n">AttributeSet</span><span class="p">):</span><span class="k">super</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="n">attr</span><span class="p">){</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">MyButton</span> <span class="p">:</span> <span class="n">View</span> <span class="p">{</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span><span class="k">this</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="n">MY_STY</span><span class="p">){</span> <span class="c1">//委托给这个类的另一个构造方法
+</span><span class="c1"></span>        <span class="c1">//...
+</span><span class="c1"></span>    <span class="p">}</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span><span class="n">attr</span><span class="p">:</span><span class="n">AttributeSet</span><span class="p">):</span><span class="k">super</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="n">attr</span><span class="p">){</span>
+        <span class="c1">//...
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="423-实现在接口中声明的属性">4.2.3 实现在接口中声明的属性</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">interface</span> <span class="nc">User</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">PrivateUser</span><span class="p">(</span><span class="k">override</span> <span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span> <span class="n">User</span>
+
+<span class="k">class</span> <span class="nc">SubscribingUser</span><span class="p">(</span><span class="k">val</span> <span class="py">email</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span> <span class="n">User</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span>
+        <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="n">email</span><span class="p">.</span><span class="n">substringBefore</span><span class="p">(</span><span class="sc">&#39;@&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">FacebookUser</span><span class="p">(</span><span class="k">val</span> <span class="py">accountId</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">:</span> <span class="n">User</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="n">getFacebookName</span><span class="p">(</span><span class="n">accountId</span><span class="p">)</span> <span class="c1">//属性初始化
+</span><span class="c1"></span>    <span class="k">fun</span> <span class="nf">getFacebookName</span><span class="p">(</span><span class="n">accountId</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&#34;&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="424-通过getter或setter访问幕后字段">4.2.4 通过getter或setter访问幕后字段</h3>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;在setter中访问backing field&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+    <span class="k">var</span> <span class="py">address</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s">&#34;unspecified&#34;</span>
+    <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>  
+        <span class="n">println</span><span class="p">(</span><span class="s">&#34;&#34;&#34;
+</span><span class="s"></span>        <span class="n">Address</span> <span class="n">was</span> <span class="n">changed</span> <span class="k">for</span> <span class="err">$</span><span class="n">name</span><span class="p">:</span>
+        <span class="s">&#34;$field&#34;</span> <span class="p">-&gt;</span> <span class="s">&#34;$value&#34;</span><span class="p">.</span><span class="s">&#34;&#34;&#34;.trimIndent()) //获取backing field的值
+</span><span class="s"></span>        <span class="n">field</span> <span class="p">=</span> <span class="n">value</span> <span class="c1">//更新支持字段的值
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<h3 id="425-修改访问器的可见性">4.2.5 修改访问器的可见性</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">LengthCounter</span> <span class="p">{</span>
+    <span class="c1">//不能在类的外部修改这个属性
+</span><span class="c1"></span>    <span class="k">var</span> <span class="py">counter</span><span class="p">:</span> <span class="n">Int</span> <span class="p">=</span> <span class="m">0</span>
+        <span class="k">private</span> <span class="k">set</span>
+
+    <span class="k">fun</span> <span class="nf">addWord</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">counter</span> <span class="p">+=</span> <span class="n">word</span><span class="p">.</span><span class="n">length</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">lengthCounter</span> <span class="p">=</span> <span class="n">LengthCounter</span><span class="p">()</span>
+<span class="n">lengthCounter</span><span class="p">.</span><span class="n">addWord</span><span class="p">(</span><span class="s">&#34;Hi!&#34;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">lengthCounter</span><span class="p">.</span><span class="n">counter</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="43-编译器生成的方法数据类和类委托">4.3 编译器生成的方法：数据类和类委托</h2>
+<h3 id="431-通用对象方法">4.3.1 通用对象方法</h3>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;Client类的最初声明&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span><span class="n">String</span><span class="p">,</span><span class="k">val</span> <span class="py">postalCode</span><span class="p">:</span><span class="n">Int</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;实现toString()方法&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">postalCode</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">=</span> <span class="s">&#34;Client(name=$name,postalCode=$postalCode)&#34;</span>
+<span class="p">}</span>
+<span class="k">val</span> <span class="py">client1</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span><span class="m">142562</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">client1</span><span class="p">)</span>
+<span class="c1">//Client(name=Alice,postalCode=142562)
+</span></code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<h4 id="对象相等性equals">对象相等性：equals()</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">client1</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">142562</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">client2</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">142562</span><span class="p">)</span>
+<span class="c1">//在Kotlin中,==检查对象是否相等而不是比较引用。这里会编译成调用&#34;equals&#34;
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">client1</span> <span class="p">==</span> <span class="n">client2</span><span class="p">)</span> <span class="c1">//false
+</span></code></pre></td></tr></table>
+</div>
+</div><p>{% code-tabs %}
+{% code-tabs-item title=&quot;为Client类实现equals()&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">postalCode</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">equals</span><span class="p">(</span><span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">?):</span> <span class="n">Boolean</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">other</span> <span class="p">==</span> <span class="k">null</span> <span class="p">||</span> <span class="n">other</span> <span class="p">!</span><span class="k">is</span> <span class="n">Client</span><span class="p">)</span>
+            <span class="k">return</span> <span class="k">false</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="p">==</span> <span class="n">other</span><span class="p">.</span><span class="n">name</span> <span class="p">&amp;&amp;</span> <span class="n">postalCode</span> <span class="p">==</span> <span class="n">other</span><span class="p">.</span><span class="n">postalCode</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">=</span> <span class="s">&#34;Client(name=$name,postalCode=$postalCode)&#34;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<h4 id="hash容器hashcode">Hash容器：hashCode()</h4>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;为Client实现hashCode()&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">postalCode</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//...
+</span><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">hashCode</span><span class="p">():</span> <span class="n">Int</span> <span class="p">=</span> <span class="n">name</span><span class="p">.</span><span class="n">hashCode</span><span class="p">()</span> <span class="p">*</span> <span class="m">31</span> <span class="p">+</span> <span class="n">postalCode</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<h3 id="432-数据类自动生成通用方法的实现">4.3.2 数据类：自动生成通用方法的实现</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">data</span> <span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">postalCode</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">client1</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">142562</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">client2</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span> <span class="m">142562</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">client1</span><span class="p">)</span> <span class="c1">//Client(name=Alice, postalCode=142562)
+</span><span class="c1"></span><span class="n">println</span><span class="p">(</span><span class="n">client1</span> <span class="p">==</span> <span class="n">client2</span><span class="p">)</span> <span class="c1">//true
+</span><span class="c1"></span><span class="k">val</span> <span class="py">processed</span><span class="p">=</span><span class="n">hashSetOf</span><span class="p">(</span><span class="n">client1</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">processed</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">client2</span><span class="p">))</span> <span class="c1">// true
+</span></code></pre></td></tr></table>
+</div>
+</div><h4 id="数据类和不可变性copy方法">数据类和不可变性：copy()方法</h4>
+<p>虽然数据类的属性并没有要求是val，但是强烈推荐只使用只读属性，让数据类的实例不可变。</p>
+<p>为了让使用不可变对象的数据类变得更容易，Kotlin编译器为它们多生成了一个方法：一个允许copy类的实例的方法，并在copy的同时修改某些属性的值。创建副本通常是修改实例的好选择：副本有着单独的生命周期而且不会影响代码中引用原始实例的位置。</p>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;Copy方法的使用&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">bob</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#34;Bob&#34;</span><span class="p">,</span><span class="m">973293</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">bob</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">postalCode</span> <span class="p">=</span> <span class="m">382555</span><span class="p">))</span> <span class="c1">//Client(name=Bob, postalCode=382555)
+</span></code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<h3 id="433-类委托使用by关键字">4.3.3 类委托：使用“by”关键字</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">DelegatingCollection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="k">val</span> <span class="py">innerList</span> <span class="p">=</span> <span class="n">arrayListOf</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;()</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">Int</span> <span class="p">=</span> <span class="n">innerList</span><span class="p">.</span><span class="n">size</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">contains</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span> <span class="n">Boolean</span> <span class="p">=</span> <span class="n">innerList</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">containsAll</span><span class="p">(</span><span class="n">elements</span><span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;):</span> <span class="n">Boolean</span> <span class="p">=</span> <span class="n">innerList</span><span class="p">.</span><span class="n">containsAll</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">isEmpty</span><span class="p">():</span> <span class="n">Boolean</span> <span class="p">=</span> <span class="n">innerList</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">()</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">iterator</span><span class="p">():</span> <span class="n">Iterator</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">innerList</span><span class="p">.</span><span class="n">iterator</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% code-tabs %}
+{% code-tabs-item title=&quot;使用by关键字将接口的实现委托到另一个对象&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">DelegatingCollection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">innserList</span><span class="p">:</span><span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">ArrayList</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;())</span>
+<span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">innserList</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;使用委托类&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">CountingSet</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span>
+        <span class="k">val</span> <span class="py">innserSet</span><span class="p">:</span> <span class="n">MutableCollection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;()</span>
+<span class="p">)</span> <span class="p">:</span> <span class="n">MutableCollection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">innserSet</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="py">objectsAdded</span> <span class="p">=</span> <span class="m">0</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span> <span class="n">Boolean</span> <span class="p">{</span>
+        <span class="n">objectsAdded</span><span class="p">++</span>
+        <span class="k">return</span> <span class="n">innserSet</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">addAll</span><span class="p">(</span><span class="n">elements</span><span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;):</span> <span class="n">Boolean</span> <span class="p">{</span>
+        <span class="n">objectsAdded</span> <span class="p">+=</span> <span class="n">elements</span><span class="p">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="n">innserSet</span><span class="p">.</span><span class="n">addAll</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">cset</span> <span class="p">=</span> <span class="n">CountingSet</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
+<span class="n">cset</span><span class="p">.</span><span class="n">addAll</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&#34;${cset.objectsAdded}  objects were added, ${cset.size} remain&#34;</span><span class="p">)</span> <span class="c1">//3  objects were added, 2 remain
+</span></code></pre></td></tr></table>
+</div>
+</div><h2 id="44-object关键字将声明一个类与创建一个实例结合起来">4.4 “object”关键字：将声明一个类与创建一个实例结合起来</h2>
+<p>Kotlin中object关键字在多种情况下出现，但是它们都遵循同样的核心概念：这个关键字定义一个类并同时创建一个实例。让我们来看看使用它的不同场景：</p>
+<ul>
+<li>对象声明时定义单例的一种方式。</li>
+<li>伴生对象可以持有工厂方法和其他与这个类相关，但在调用时并不依赖类实例的方法。它们的成员可以通过类名来访问。</li>
+<li>对象表达式用来替代Java的匿名内部类。</li>
+</ul>
+<h3 id="441对象声明创建单例易如反掌">4.4.1对象声明：创建单例易如反掌</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">Payroll</span><span class="p">{</span>
+    <span class="k">val</span> <span class="py">allEmployees</span> <span class="p">=</span> <span class="n">arrayListOf</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;()</span>
+    <span class="k">fun</span> <span class="nf">calculateSalary</span><span class="p">(){</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">person</span> <span class="k">in</span> <span class="n">allEmployees</span><span class="p">){</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对象声明通过object关键字引入。一个对象声明可以非常高效地以一句话来定义一个类和一个该类的变量。</p>
+<p>与类一样，一个对象声明也可以包含属性、方法、初始化语句块等的声明。唯一不允许的就是构造方法。与普通类的实例不同，对象声明在定义的时候就立即创建了，不需要在代码的其他地方调用构造方法。为对象声明定义一个构造方法是没有意义的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">Payroll</span><span class="p">.</span><span class="n">allEmployees</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Person</span><span class="p">(...))</span>
+<span class="n">Payroll</span><span class="p">.</span><span class="n">calculateSalary</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对象声明同样可以继承自类和接口。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">CaseInsensitiveFileComparator</span><span class="p">:</span><span class="n">Comparator</span><span class="p">&lt;</span><span class="n">File</span><span class="p">&gt;{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">compare</span><span class="p">(</span><span class="n">o1</span><span class="p">:</span> <span class="n">File</span><span class="p">,</span> <span class="n">o2</span><span class="p">:</span> <span class="n">File</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">o1</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">compareTo</span><span class="p">(</span><span class="n">o2</span><span class="p">.</span><span class="n">path</span><span class="p">,</span><span class="n">ignoreCase</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">files</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="s">&#34;/Z&#34;</span><span class="p">),</span><span class="n">File</span><span class="p">(</span><span class="s">&#34;/a&#34;</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="n">files</span><span class="p">.</span><span class="n">sortedWith</span><span class="p">(</span><span class="n">CaseInsensitiveFileComparator</span><span class="p">))</span> <span class="c1">//[/a, /Z]
+</span></code></pre></td></tr></table>
+</div>
+</div><p>同样可以在类中声明对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">data</span> <span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">object</span> <span class="nc">NameComparator</span> <span class="p">:</span> <span class="n">Comparator</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">compare</span><span class="p">(</span><span class="n">o1</span><span class="p">:</span> <span class="n">Person</span><span class="p">,</span> <span class="n">o2</span><span class="p">:</span> <span class="n">Person</span><span class="p">):</span> <span class="n">Int</span> <span class="p">=</span>
+                <span class="n">o1</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">compareTo</span><span class="p">(</span><span class="n">o2</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">persons</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="s">&#34;Bob&#34;</span><span class="p">),</span><span class="n">Person</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="n">persons</span><span class="p">.</span><span class="n">sortedWith</span><span class="p">(</span><span class="n">Person</span><span class="p">.</span><span class="n">NameComparator</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="442-伴生对象工厂方法和静态成员的地盘">4.4.2 伴生对象：工厂方法和静态成员的地盘</h3>
+<p>Kotlin中的类不能拥有静态成员。在类中定义的对象使用关键字：companion，就获得了直接通过容器类名称来访问这个对象的方法和属性的能力。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+        <span class="k">fun</span> <span class="nf">bar</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&#34;Companion object called&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">A</span><span class="p">.</span><span class="n">bar</span><span class="p">()</span> <span class="c1">//Companion object called
+</span></code></pre></td></tr></table>
+</div>
+</div><p>伴生对象可以访问类中的所有private成员，包括private构造方法，它是实现工厂模式的理想选择。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">nickname</span><span class="p">:</span><span class="n">String</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">email</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+        <span class="n">nickname</span> <span class="p">=</span> <span class="n">email</span><span class="p">.</span><span class="n">substringBefore</span><span class="p">(</span><span class="sc">&#39;@&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">facebookAccountId</span><span class="p">:</span><span class="n">Int</span><span class="p">){</span>
+        <span class="n">nickname</span> <span class="p">=</span> <span class="n">getFacebookName</span><span class="p">(</span><span class="n">facebookAccountId</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">fun</span> <span class="nf">getFacebookName</span><span class="p">(</span><span class="n">facebookAccountId</span><span class="p">:</span><span class="n">Int</span><span class="p">):</span><span class="n">String</span><span class="p">{</span>
+        <span class="k">var</span> <span class="py">facebookName</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+        <span class="c1">//...
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">facebookName</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">User</span> <span class="k">private</span> <span class="k">constructor</span><span class="p">(</span><span class="k">val</span> <span class="py">nickname</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+    
+    <span class="k">companion</span> <span class="k">object</span><span class="p">{</span>
+        <span class="k">fun</span> <span class="nf">newSubscribingUser</span><span class="p">(</span><span class="n">email</span><span class="p">:</span><span class="n">String</span><span class="p">)</span> <span class="p">=</span> <span class="n">User</span><span class="p">(</span><span class="n">email</span><span class="p">.</span><span class="n">substringBefore</span><span class="p">(</span><span class="sc">&#39;@&#39;</span><span class="p">))</span>
+        <span class="k">fun</span> <span class="nf">newFacebookUser</span><span class="p">(</span><span class="n">accountId</span><span class="p">:</span><span class="n">Int</span><span class="p">)</span> <span class="p">=</span> <span class="n">User</span><span class="p">(</span><span class="n">getFacebookName</span><span class="p">(</span><span class="n">accountId</span><span class="p">))</span>
+
+        <span class="k">fun</span> <span class="nf">getFacebookName</span><span class="p">(</span><span class="n">facebookAccountId</span><span class="p">:</span><span class="n">Int</span><span class="p">):</span><span class="n">String</span><span class="p">{</span>
+            <span class="k">var</span> <span class="py">facebookName</span><span class="p">:</span><span class="n">String</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+            <span class="c1">//...
+</span><span class="c1"></span>            <span class="k">return</span> <span class="n">facebookName</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="443-作为普通对象使用的伴生对象">4.4.3 作为普通对象使用的伴生对象</h3>
+<p>伴生对象是一个声明在类中的普通对象。它可以有名字，实现一个接口或者有扩展函数或属性。</p>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;声明一个命名伴生对象&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+    <span class="k">companion</span> <span class="k">object</span> <span class="n">Loader</span><span class="p">{</span>
+        <span class="k">fun</span> <span class="nf">fromJson</span><span class="p">(</span><span class="n">jsonText</span><span class="p">:</span><span class="n">String</span><span class="p">):</span><span class="n">Person</span> <span class="p">=</span> <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<p>{% code-tabs %}
+{% code-tabs-item title=&quot;在伴生对象中实现接口&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">interface</span> <span class="nc">JSONFactory</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">fromJSON</span><span class="p">(</span><span class="n">jsonText</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span><span class="n">T</span>
+<span class="p">}</span>
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+    <span class="k">companion</span> <span class="k">object</span> <span class="p">:</span><span class="n">JSONFactory</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">fromJSON</span><span class="p">(</span><span class="n">jsonText</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Person</span>  <span class="p">=</span> <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+<p>如果你有一个函数使用抽象方法来加载实体，可以传给它Person对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">loadFromJSON</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">factory</span><span class="p">:</span><span class="n">JSONFactory</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;):</span><span class="n">T</span><span class="p">{</span>
+    <span class="c1">//...
+</span><span class="c1"></span><span class="p">}</span>
+<span class="n">loadFromJSON</span><span class="p">(</span><span class="n">Person</span><span class="p">)</span> <span class="c1">//Person类的名字被当做JSONFactory的实例
+</span></code></pre></td></tr></table>
+</div>
+</div><h4 id="伴生对象扩展">伴生对象扩展</h4>
+<h3 id="444-对象表达式改变写法的匿名内部类">4.4.4 对象表达式：改变写法的匿名内部类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">window</span><span class="p">.</span><span class="n">addMouseListener</span><span class="p">(</span>
+    <span class="k">object</span> <span class="err">: </span><span class="nc">MouseAdapter</span><span class="p">(){</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">mouseClicked</span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="n">MouseEvent</span><span class="p">){</span>
+            <span class="c1">//...
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">mouseEntered</span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="n">MouseEvent</span><span class="p">){</span>
+            <span class="c1">//...
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% code-tabs %}
+{% code-tabs-item title=&quot;从匿名对象访问局部变量&rdquo; %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">countClicks</span><span class="p">(</span><span class="n">window</span><span class="p">:</span><span class="n">Window</span><span class="p">){</span>
+    <span class="k">var</span> <span class="py">clickCount</span> <span class="p">=</span> <span class="m">0</span>
+    <span class="n">window</span><span class="p">.</span><span class="n">addMouseListener</span><span class="p">(</span><span class="k">object</span><span class="p">:</span><span class="n">MouseAdapter</span><span class="p">(){</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">mouseClicked</span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="n">MouseEvent</span><span class="p">){</span>
+            <span class="n">clickCount</span><span class="p">++</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endcode-tabs-item %}
+{% endcode-tabs %}</p>
+
+  </div>
+</article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

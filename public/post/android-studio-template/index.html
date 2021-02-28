@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>创建 Android Studio Template - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.71.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/android-studio-template/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.ab6ed46f161bdba676da3f071e37b038123f44e7125e330d80fc66955b18aaa5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="创建 Android Studio Template" />
+<meta property="og:description" content="AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/android-studio-template/" />
+<meta property="article:published_time" content="2016-06-15T10:40:23+00:00" />
+<meta property="article:modified_time" content="2016-06-15T10:40:23+00:00" />
+<meta itemprop="name" content="创建 Android Studio Template">
+<meta itemprop="description" content="AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。
+">
+<meta itemprop="datePublished" content="2016-06-15T10:40:23&#43;00:00" />
+<meta itemprop="dateModified" content="2016-06-15T10:40:23&#43;00:00" />
+<meta itemprop="wordCount" content="673">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="创建 Android Studio Template"/>
+<meta name="twitter:description" content="AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">创建 Android Studio Template</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-06-15 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。</p>
+<p><img src="/images/android-studio-template-1.png" alt=""></p>
+<p>AndroidStudio虽然提供了大多常见的的模板，但是不可能满足每个人的需求，因此自定义模板就显得很有必要。下面我们将分析系统提供的模板，并自己来实现模板。</p>
+<p>系统提供的Template存放在<code>/Applications/Android Studio.app/Contents/plugins/android/lib/templates</code>目录下，activities目录下是Actiivty模板。</p>
+<p>下面我们以EmptyActivity为例进行分析</p>
+<p>template.xml 代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml">
+<span class="cp">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span class="nt">&lt;template</span>
+    <span class="na">format=</span><span class="s">&#34;5&#34;</span>
+    <span class="na">revision=</span><span class="s">&#34;5&#34;</span>
+    <span class="na">name=</span><span class="s">&#34;Empty Activity&#34;</span>
+    <span class="na">minApi=</span><span class="s">&#34;7&#34;</span>
+    <span class="na">minBuildApi=</span><span class="s">&#34;14&#34;</span>
+    <span class="na">description=</span><span class="s">&#34;Creates a new empty activity&#34;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;category</span> <span class="na">value=</span><span class="s">&#34;Activity&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;formfactor</span> <span class="na">value=</span><span class="s">&#34;Mobile&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;parameter</span>
+        <span class="na">id=</span><span class="s">&#34;activityClass&#34;</span>
+        <span class="na">name=</span><span class="s">&#34;Activity Name&#34;</span>
+        <span class="na">type=</span><span class="s">&#34;string&#34;</span>
+        <span class="na">constraints=</span><span class="s">&#34;class|unique|nonempty&#34;</span>
+        <span class="na">suggest=</span><span class="s">&#34;${layoutToActivity(layoutName)}&#34;</span>
+        <span class="na">default=</span><span class="s">&#34;MainActivity&#34;</span>
+        <span class="na">help=</span><span class="s">&#34;The name of the activity class to create&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;parameter</span>
+        <span class="na">id=</span><span class="s">&#34;generateLayout&#34;</span>
+        <span class="na">name=</span><span class="s">&#34;Generate Layout File&#34;</span>
+        <span class="na">type=</span><span class="s">&#34;boolean&#34;</span>
+        <span class="na">default=</span><span class="s">&#34;true&#34;</span>
+        <span class="na">help=</span><span class="s">&#34;If true, a layout file will be generated&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;parameter</span>
+        <span class="na">id=</span><span class="s">&#34;layoutName&#34;</span>
+        <span class="na">name=</span><span class="s">&#34;Layout Name&#34;</span>
+        <span class="na">type=</span><span class="s">&#34;string&#34;</span>
+        <span class="na">constraints=</span><span class="s">&#34;layout|unique|nonempty&#34;</span>
+        <span class="na">suggest=</span><span class="s">&#34;${activityToLayout(activityClass)}&#34;</span>
+        <span class="na">default=</span><span class="s">&#34;activity_main&#34;</span>
+        <span class="na">visibility=</span><span class="s">&#34;generateLayout&#34;</span>
+        <span class="na">help=</span><span class="s">&#34;The name of the layout to create for the activity&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;parameter</span>
+        <span class="na">id=</span><span class="s">&#34;isLauncher&#34;</span>
+        <span class="na">name=</span><span class="s">&#34;Launcher Activity&#34;</span>
+        <span class="na">type=</span><span class="s">&#34;boolean&#34;</span>
+        <span class="na">default=</span><span class="s">&#34;false&#34;</span>
+        <span class="na">help=</span><span class="s">&#34;If true, this activity will have a CATEGORY_LAUNCHER intent filter, making it visible in the launcher&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;parameter</span>
+        <span class="na">id=</span><span class="s">&#34;backwardsCompatibility&#34;</span>
+        <span class="na">name=</span><span class="s">&#34;Backwards Compatibility (AppCompat)&#34;</span>
+        <span class="na">type=</span><span class="s">&#34;boolean&#34;</span>
+        <span class="na">default=</span><span class="s">&#34;true&#34;</span>
+        <span class="na">help=</span><span class="s">&#34;If false, this activity base class will be Activity instead of AppCompatActivity&#34;</span> <span class="nt">/&gt;</span>
+    
+    <span class="nt">&lt;parameter</span>
+        <span class="na">id=</span><span class="s">&#34;packageName&#34;</span>
+        <span class="na">name=</span><span class="s">&#34;Package name&#34;</span>
+        <span class="na">type=</span><span class="s">&#34;string&#34;</span>
+        <span class="na">constraints=</span><span class="s">&#34;package&#34;</span>
+        <span class="na">default=</span><span class="s">&#34;com.mycompany.myapp&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- 128x128 thumbnails relative to template.xml --&gt;</span>
+    <span class="nt">&lt;thumbs&gt;</span>
+        <span class="c">&lt;!-- default thumbnail is required --&gt;</span>
+        <span class="nt">&lt;thumb&gt;</span>template_blank_activity.png<span class="nt">&lt;/thumb&gt;</span>
+    <span class="nt">&lt;/thumbs&gt;</span>
+
+    <span class="nt">&lt;globals</span> <span class="na">file=</span><span class="s">&#34;globals.xml.ftl&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;execute</span> <span class="na">file=</span><span class="s">&#34;recipe.xml.ftl&#34;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/template&gt;</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>这里的<code>&lt;parameter&gt;</code>标签代表创建的时候输入的参数。</p>
+<p>globals.xml.ftl中主要定义全局常量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span class="nt">&lt;globals&gt;</span>
+    <span class="nt">&lt;global</span> <span class="na">id=</span><span class="s">&#34;hasNoActionBar&#34;</span> <span class="na">type=</span><span class="s">&#34;boolean&#34;</span> <span class="na">value=</span><span class="s">&#34;false&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;global</span> <span class="na">id=</span><span class="s">&#34;parentActivityClass&#34;</span> <span class="na">value=</span><span class="s">&#34;&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;global</span> <span class="na">id=</span><span class="s">&#34;simpleLayoutName&#34;</span> <span class="na">value=</span><span class="s">&#34;${layoutName}&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;global</span> <span class="na">id=</span><span class="s">&#34;excludeMenu&#34;</span> <span class="na">type=</span><span class="s">&#34;boolean&#34;</span> <span class="na">value=</span><span class="s">&#34;true&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;global</span> <span class="na">id=</span><span class="s">&#34;generateActivityTitle&#34;</span> <span class="na">type=</span><span class="s">&#34;boolean&#34;</span> <span class="na">value=</span><span class="s">&#34;false&#34;</span> <span class="nt">/&gt;</span>
+    <span class="err">&lt;</span>#include &#34;../common/common_globals.xml.ftl&#34; /&gt;
+<span class="nt">&lt;/globals&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>recipe.xml.ftl代码如下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span class="nt">&lt;recipe&gt;</span>
+    <span class="err">&lt;</span>#include &#34;../common/recipe_manifest.xml.ftl&#34; /&gt;
+<span class="err">&lt;</span>#if generateLayout&gt;
+    <span class="err">&lt;</span>#include &#34;../common/recipe_simple.xml.ftl&#34; /&gt;
+    <span class="nt">&lt;open</span> <span class="na">file=</span><span class="s">&#34;${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml&#34;</span> <span class="nt">/&gt;</span>
+<span class="err">&lt;</span>/#if&gt;
+    <span class="nt">&lt;instantiate</span> <span class="na">from=</span><span class="s">&#34;root/src/app_package/SimpleActivity.java.ftl&#34;</span>
+                   <span class="na">to=</span><span class="s">&#34;${escapeXmlAttribute(srcOut)}/${activityClass}.java&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;open</span> <span class="na">file=</span><span class="s">&#34;${escapeXmlAttribute(srcOut)}/${activityClass}.java&#34;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/recipe&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="参考">参考</h3>
+<ul>
+<li><a href="http://blog.csdn.net/lmj623565791/article/details/51635533">Android Studio自定义模板 写页面竟然可以如此轻松</a></li>
+<li><a href="https://riggaroo.co.za/custom-file-template-group-android-studiointellij/">How to create a group of File Templates in Android Studio – Part 3</a></li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2016-06-15
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/android-bitmap/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Android Bitmap使用</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/class-file-format/">
+            <span class="next-text nav-default">Class文件结构</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

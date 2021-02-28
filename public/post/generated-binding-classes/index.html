@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>生成绑定类 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自ViewDataBinding类。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.71.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/generated-binding-classes/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.ab6ed46f161bdba676da3f071e37b038123f44e7125e330d80fc66955b18aaa5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="生成绑定类" />
+<meta property="og:description" content="数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自ViewDataBinding类。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/generated-binding-classes/" />
+<meta property="article:published_time" content="2017-06-19T20:01:58+08:00" />
+<meta property="article:modified_time" content="2017-06-19T20:01:58+08:00" />
+<meta itemprop="name" content="生成绑定类">
+<meta itemprop="description" content="数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自ViewDataBinding类。">
+<meta itemprop="datePublished" content="2017-06-19T20:01:58&#43;08:00" />
+<meta itemprop="dateModified" content="2017-06-19T20:01:58&#43;08:00" />
+<meta itemprop="wordCount" content="2202">
+
+
+
+<meta itemprop="keywords" content="android,databinding," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="生成绑定类"/>
+<meta name="twitter:description" content="数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自ViewDataBinding类。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">生成绑定类</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-06-19 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#创建一个绑定对象">创建一个绑定对象</a></li>
+    <li><a href="#带id的view">带Id的View</a></li>
+    <li><a href="#变量">变量</a></li>
+    <li><a href="#viewstubs">ViewStubs</a></li>
+    <li><a href="#立即绑定">立即绑定</a></li>
+    <li><a href="#高级绑定">高级绑定</a>
+      <ul>
+        <li><a href="#动态变量">动态变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#后台线程">后台线程</a></li>
+    <li><a href="#自定义绑定类名字">自定义绑定类名字</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自<code>ViewDataBinding</code>类。</p>
+<p>为每个布局文件生成绑定类。默认情况下，类的名称基于布局文件的名称，将其转换为<code>Pascal</code>大小写并向其添加<code>Binding</code>后缀。布局文件名是<code>activity_main.xml</code>，因此相应的生成类是<code>ActivityMainBinding</code>。此类包含布局属性（例如，用户变量）到布局视图的所有绑定，并知道如何为绑定表达式指定值。</p>
+<h2 id="创建一个绑定对象">创建一个绑定对象</h2>
+<p>在对布局进行<code>inflate</code>之后，应该很快创建绑定对象，以确保在使用布局中的表达式绑定到视图之前不会修改视图层次结构。将对象绑定到布局的最常用方法是使用绑定类上的静态方法。您可以通过使用绑定类的<code>inflate()</code>方法来扩展视图层次结构并将对象绑定到该层次结构，如以下示例所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+  <span class="n">MyLayoutBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">MyLayoutBinding</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">getLayoutInflater</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>还有另外一个版本的<code>inflate()</code>方法，它除了<code>LayoutInflater</code>对象之外，还接受一个<code>ViewGroup</code>对象，如下例所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">MyLayoutBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">MyLayoutBinding</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">getLayoutInflater</span><span class="o">(),</span> <span class="n">viewGroup</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果使用不同的机制对布局进行了<code>inflate</code>，则可以单独绑定，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">MyLayoutBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">MyLayoutBinding</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">viewRoot</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有时不能事先知道绑定类型。在这种情况下，可以使用<code>DataBindingUtil</code>类创建绑定，如以下代码段所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">View</span> <span class="n">viewRoot</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">inflate</span><span class="o">(</span><span class="n">layoutId</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="n">attachToParent</span><span class="o">);</span>
+<span class="n">ViewDataBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">DataBindingUtil</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">viewRoot</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果在<code>Fragment</code>，<code>ListView</code>或<code>RecyclerView</code>适配器中使用数据绑定项，则可能更喜欢使用绑定类或<code>DataBindingUtil</code>类的<code>inflate()</code>方法，如以下代码示例所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">ListItemBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">ListItemBinding</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">layoutInflater</span><span class="o">,</span> <span class="n">viewGroup</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+<span class="c1">// or
+</span><span class="c1"></span><span class="n">ListItemBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">DataBindingUtil</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">layoutInflater</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">list_item</span><span class="o">,</span> <span class="n">viewGroup</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="带id的view">带Id的View</h2>
+<p>数据绑定库在绑定类中为每个在布局中具有ID的视图创建不可变字段。例如，数据绑定库从以下布局创建类型为<code>TextView</code>的<code>firstName</code>和<code>lastName</code>字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;data&gt;</span>
+   <span class="nt">&lt;variable</span> <span class="na">name=</span><span class="s">&#34;user&#34;</span> <span class="na">type=</span><span class="s">&#34;com.example.User&#34;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;/data&gt;</span>
+ <span class="nt">&lt;LinearLayout</span>
+   <span class="na">android:orientation=</span><span class="s">&#34;vertical&#34;</span>
+   <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+   <span class="na">android:layout_height=</span><span class="s">&#34;match_parent&#34;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;TextView</span> <span class="na">android:layout_width=</span><span class="s">&#34;wrap_content&#34;</span>
+     <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+     <span class="na">android:text=</span><span class="s">&#34;@{user.firstName}&#34;</span>
+     <span class="na">android:id=</span><span class="s">&#34;@+id/firstName&#34;</span><span class="nt">/&gt;</span>
+   <span class="nt">&lt;TextView</span> <span class="na">android:layout_width=</span><span class="s">&#34;wrap_content&#34;</span>
+     <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+     <span class="na">android:text=</span><span class="s">&#34;@{user.lastName}&#34;</span>
+     <span class="na">android:id=</span><span class="s">&#34;@+id/lastName&#34;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;/LinearLayout&gt;</span>
+<span class="nt">&lt;/layout&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该库在一次传递中从视图层次结构中提取包括ID的视图。此机制比为布局中的每个视图调用<code>findViewById()</code>方法更快。</p>
+<p>ID没有必要，因为它们没有数据绑定，但仍有一些情况需要从代码访问视图。</p>
+<h2 id="变量">变量</h2>
+<p>数据绑定库为布局中声明的每个变量生成访问器方法。例如，以下布局在绑定类中为变量<code>user</code>，<code>image</code>和注<code>image</code>的生成<code>setter</code>和<code>getter</code>方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;data&gt;</span>
+ <span class="nt">&lt;import</span> <span class="na">type=</span><span class="s">&#34;android.graphics.drawable.Drawable&#34;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;variable</span> <span class="na">name=</span><span class="s">&#34;user&#34;</span> <span class="na">type=</span><span class="s">&#34;com.example.User&#34;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;variable</span> <span class="na">name=</span><span class="s">&#34;image&#34;</span> <span class="na">type=</span><span class="s">&#34;Drawable&#34;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;variable</span> <span class="na">name=</span><span class="s">&#34;note&#34;</span> <span class="na">type=</span><span class="s">&#34;String&#34;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/data&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="viewstubs">ViewStubs</h2>
+<p>与普通<code>View</code>不同，<code>ViewStub</code>对象从一个不可见的视图开始。当它们被显示或被明确告知要<code>inflate</code>时，它们会通过<code>inflate</code>另一个布局来替换自己的布局。</p>
+<p>由于<code>ViewStub</code>从视图层次结构中消失，因此绑定对象中的视图也必须消失以允许垃圾回收声明。因为视图是最终的，所以<code>ViewStubProxy</code>对象取代了生成的绑定类中的<code>ViewStub</code>，使您可以在<code>ViewStub</code>存在时访问它，并在<code>ViewStub</code> <code>inflate</code>时访问<code>inflate</code>的视图层次结构。</p>
+<p>在<code>inflate</code>另一个布局时，必须为新布局建立绑定。因此，<code>ViewStubProxy</code>必须监听<code>ViewStub OnInflateListener</code>并在需要时建立绑定。由于在给定时间只能存在一个侦听器，因此<code>ViewStubProxy</code>允许您设置<code>OnInflateListener</code>，它在建立绑定后调用它。</p>
+<h2 id="立即绑定">立即绑定</h2>
+<p>当变量或可观察对象发生更改时，绑定计划在下一帧之前更改。但是，有时必须立即执行绑定。要强制执行，请使用<code>executePendingBindings()</code>方法。</p>
+<h2 id="高级绑定">高级绑定</h2>
+<h3 id="动态变量">动态变量</h3>
+<p>有时，特定的绑定类是未知的。例如，针对任意布局操作的<code>RecyclerView.Adapter</code>不知道特定的绑定类。它仍然必须在调用<code>onBindViewHolde()</code>方法期间分配绑定值。</p>
+<p>在下面的例子中，<code>RecyclerView</code>绑定的所有布局都有一个<code>item</code>变量。 <code>BindingHolder</code>对象有一个<code>getBinding()</code>方法返回<code>ViewDataBinding</code>基类。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="n">BindingHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">final</span> <span class="n">T</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
+  <span class="n">holder</span><span class="o">.</span><span class="na">getBinding</span><span class="o">().</span><span class="na">setVariable</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">item</span><span class="o">,</span> <span class="n">item</span><span class="o">);</span>
+  <span class="n">holder</span><span class="o">.</span><span class="na">getBinding</span><span class="o">().</span><span class="na">executePendingBindings</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意：数据绑定库在模块包中生成一个名为BR的类，其中包含用于数据绑定的资源的ID。在上面的示例中，库自动生成BR.item变量。</p>
+</blockquote>
+<h2 id="后台线程">后台线程</h2>
+<p>您可以在后台线程中更改数据模型，只要它不是集合即可。数据绑定在评估期间本地化每个变量/字段以避免任何并发问题。</p>
+<h2 id="自定义绑定类名字">自定义绑定类名字</h2>
+<p>默认情况下，将根据布局文件的名称生成绑定类，以大写字母开头，删除下划线（_），大写以下字母，并为单词<code>Binding</code>添加后缀。该类放在模块包下的数据绑定包中。例如，布局文件<code>contact_item.xml</code>生成<code>ContactItemBinding</code>类。如果模块包是<code>com.example.my.app</code>，则绑定类放在<code>com.example.my.app.databinding</code>包中。</p>
+<p>通过调整数据元素的class属性，可以重命名绑定类或将绑定类放在不同的包中。例如，以下布局在当前模块的数据绑定包中生成<code>ContactItem</code>绑定类：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;data</span> <span class="na">class=</span><span class="s">&#34;ContactItem&#34;</span><span class="nt">&gt;</span>
+  …
+<span class="nt">&lt;/data&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>您可以通过在类名前加一个句点来为不同的包生成绑定类。以下示例在模块包中生成绑定类：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;data</span> <span class="na">class=</span><span class="s">&#34;.ContactItem&#34;</span><span class="nt">&gt;</span>
+  …
+<span class="nt">&lt;/data&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>您还可以使用要在其中生成绑定类的完整包名称。以下示例在<code>com.example</code>包中创建<code>ContactItem</code>绑定类：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;data</span> <span class="na">class=</span><span class="s">&#34;com.example.ContactItem&#34;</span><span class="nt">&gt;</span>
+  …
+<span class="nt">&lt;/data&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2017-06-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android/">android</a>
+          <a href="/tags/databinding/">databinding</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/goodbye-xiao-hua/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">小花，再见</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/binding-adapters/">
+            <span class="next-text nav-default">绑定适配器使用</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

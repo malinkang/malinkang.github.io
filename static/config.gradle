@@ -1,0 +1,186 @@
+def versionCode = 8
+def VERSION_LEVEL_1_2 = "0.0.1."//1-2级版本号
+def VERSION_LEVEL_3 = "1"//三级版本号
+def VERSION_TIME = "201118"
+def DEVICE_TYPE_I3 = VERSION_LEVEL_1_2 + "1" + VERSION_LEVEL_3 + "_" + VERSION_TIME //i3设备用于热修复渠道更新
+def DEVICE_TYPE_I4 = VERSION_LEVEL_1_2 + "2" + VERSION_LEVEL_3 + "_" + VERSION_TIME //i4设备
+def DEVICE_TYPE_OTHER = VERSION_LEVEL_1_2 + "9" + VERSION_LEVEL_3 + "_" + VERSION_TIME //其他
+def versionName = VERSION_LEVEL_1_2 + VERSION_TIME
+
+def SUPPORT_CODE = "1.2.0-beta01"
+def RETROFIT_CODE = "2.6.0"
+def OKHTTP_CODE = "3.14.0"
+def lifecycle = "2.2.0"
+
+
+ext {
+    android = [
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.3",
+            minSdkVersion    : 19,
+            targetSdkVersion : 29,
+            versionCode      : versionCode,
+            versionName      : versionName,
+            flavorDimensions : "default",
+            lifecycle        : '2.0.0',
+            applicationId    : "com.tpln.ichinese",
+
+    ]
+    versionParameters = [
+            versionLevel12   : VERSION_LEVEL_1_2,
+            versionlevel3    : VERSION_LEVEL_3,
+            versionTime      : VERSION_TIME,
+            DEVICE_TYPE_I3   : DEVICE_TYPE_I3,
+            DEVICE_TYPE_I4   : DEVICE_TYPE_I4,
+            DEVICE_TYPE_OTHER: DEVICE_TYPE_OTHER
+    ]
+
+    tpcomponent = [
+            "core"              : "com.tpln:core:0.0.29",                                            //  基础-核心库
+            "mvvm"              : "com.tpln:mvvm:0.0.9",                                            //  基础-mvvm架构库
+            "network"           : "com.tpln:network:0.0.5",                                         //  基础-网络库
+            "player"            : "com.tpln:player:0.0.5",                                          //  基础-阿里视频播放器-工具库
+
+            "view"              : "com.tpln:view:0.0.17",                                            //  基础-控件库
+            "webview"           : "com.tpln:webview:0.0.1",                                         //  基础-webView-工具库
+            "xsengine"          : "com.tpln:xsengine:0.0.1",                                        //  基础-先声引擎-工具库
+
+
+            "contacts"          : "com.tpln:contacts:0.0.1",                                        //  业务-个人主页-组件库
+            "film"              : "com.tpln:film:0.0.2",                                            //  业务-电影启蒙馆-组件库
+            "user"              : "com.tpln:user:0.0.1",                                            //  业务-我的（个人中心）-业务组件库
+            "task"              : "com.tpln:task:0.0.1",                                            //  业务-任务中心-业务组件库
+            "note"              : "com.tpln:note:0.0.1",                                            //  业务-我的笔记-业务组件库
+            "market"            : "com.tpln:market:0.0.1",                                          //  业务-应用市场-业务组件库
+            "message"           : "com.tpln:message:0.0.1",                                         //  业务-消息中心-业务组件库
+            "rank"              : "com.tpln:rank:0.0.1",                                            //  业务-应用市场类-业务组件库
+            "home"              : "com.tpln:home:0.0.1",                                            //  业务-首页-业务组件库
+            "login"             : "com.tpln:login:0.0.1",                                           //  业务-登录-业务组件库
+
+            "book"              : "com.tpln:book:0.0.3",                                            //  业务-图书馆、书籍-业务组件库
+            "reader"            : "com.tpln:reader:0.0.1",                                          //  业务依赖-阅读器封装层-工具库（图书馆依赖）
+            "plugin-sdk-ireader": "com.tpln:plugin-sdk-ireader:0.0.1"
+    ]
+
+    httpDependencies = [
+            "retrofit"         : "com.squareup.retrofit2:retrofit:" + RETROFIT_CODE,
+            "converter-scalars": "com.squareup.retrofit2:converter-scalars:" + RETROFIT_CODE,
+            "converter-gson"   : "com.squareup.retrofit2:converter-gson:" + RETROFIT_CODE,
+            "adapter-rxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:" + RETROFIT_CODE,
+            "okhttp"           : "com.squareup.okhttp3:okhttp:" + OKHTTP_CODE,
+            "logging"          : "com.squareup.okhttp3:logging-interceptor:" + OKHTTP_CODE,
+            "rxjava"           : "io.reactivex.rxjava2:rxjava:2.2.7",
+            "rxandroid"        : "io.reactivex.rxjava2:rxandroid:2.1.1",
+            "rxlifecycle"      : "com.trello.rxlifecycle3:rxlifecycle-components:3.1.0",
+            "okio"             : "com.squareup.okio:okio:2.2.2"
+
+    ]
+
+    nativePath = [
+            "LIB_SDK_DIR_PATH"   : projectDir.getPath() + "/lib_sdk",
+            "LIB_COMMON_DIR_PATH": projectDir.getPath() + "/baseCommon"
+    ]
+
+    kotlinConfig = [
+            "core"                    : "androidx.core:core-ktx:1.3.1",
+            "activityktx"             : "androidx.activity:activity-ktx:1.1.0",
+            "fragmentktx"             : "androidx.fragment:fragment-ktx:1.2.5",
+            "kotlinxcoroutinescore"   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0",
+            "kotlinxcoroutinesandroid": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0",
+            "kotlincoroutinesadapter" : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
+            "workruntimektx"          : "androidx.work:work-runtime-ktx:2.3.4",
+            "kotlin_stdlib"           : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+    ]
+
+    jetpackConfig = [
+            "lifecycleextensions" : "androidx.lifecycle:lifecycle-extensions:$lifecycle",
+            "lifecycleviewmodel"  : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+            "livedata"            : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
+            "lifecycleruntimektx" : "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha02",
+            "databinding_compiler": 'androidx.databinding:databinding-compiler:1.0.0',
+            "room-runtime"        : 'androidx.room:room-runtime:2.2.5',
+            "room-ktx"            : 'androidx.room:room-ktx:2.2.5',
+            "room-compiler"       : 'androidx.room:room-compiler:2.2.5',
+    ]
+
+    viewConfig = [
+            "recyclerview"    : "androidx.recyclerview:recyclerview:1.1.0",
+            "constraintlayout": "androidx.constraintlayout:constraintlayout:2.0.1"
+    ]
+
+    dependencies = [
+            "MMKV"                         : "com.tencent:mmkv:1.0.24",
+            "fragment"                     : "androidx.fragment:fragment:" + SUPPORT_CODE,
+            "appcompat"                    : "androidx.appcompat:appcompat:" + SUPPORT_CODE,
+            "appdesign"                    : "com.google.android.material:material:" + SUPPORT_CODE,
+            "support-annotations"          : "androidx.annotation:annotation:" + SUPPORT_CODE,
+            "glide"                        : "com.github.bumptech.glide:glide:4.10.0",//图片加载框架
+            "glide-compiler"               : "com.github.bumptech.glide:compiler:4.10.0",
+            "filedownloader"               : "com.liulishuo.filedownloader:library:1.7.7",//下载框架
+            jetpack_viewmodel              : [group: 'androidx.lifecycle', name: 'lifecycle-viewmodel', version: android.lifecycle],
+            jetpack_livedata               : [group: 'androidx.lifecycle', name: 'lifecycle-livedata', version: android.lifecycle],
+            jetpack_extensions             : [group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: android.lifecycle],
+            "gson"                         : "com.google.code.gson:gson:2.8.6",
+            "zxing"                        : "com.google.zxing:core:3.4.0",//二维码扫描
+            "numberprogressbar"            : "com.daimajia.numberprogressbar:library:1.4@aar",
+            "livebus"                      : "com.jeremyliao:live-event-bus-x:1.5.7",//消息总线，基于LiveData
+            "gmsAppindexing"               : "com.google.android.gms:play-services-appindexing:8.1.0",
+            "buglySdkRelease"              : "com.tencent.bugly:crashreport:latest.release",//bugly
+            "buglyNDkRelease"              : "com.tencent.bugly:nativecrashreport:3.7.3",//bugly
+            "umeng-analytics"              : "com.umeng.analytics:analytics:latest.integration",//友盟
+            "pickerView"                   : "com.contrarywind:Android-PickerView:4.1.9",//时间选择器
+            "flycoTabLayout"               : "com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar",//导航栏
+            "roundedimageview"             : "com.makeramen:roundedimageview:2.3.0",//圆图框架
+            "logger"                       : "com.orhanobut:logger:2.2.0",//日志框架
+            "fastjson"                     : "com.alibaba:fastjson:1.1.70.android",//数据解析
+            "universal-image-loader"       : "com.nostra13.universalimageloader:universal-image-loader:1.9.5",
+            "aliyun-oss"                   : "com.aliyun.dpa:oss-android-sdk:+",
+            "AndroidAudioConverter"        : "com.github.adrielcafe:AndroidAudioConverter:0.0.8",
+            "ARouter-api"                  : "com.alibaba:arouter-api:1.5.0",//阿里路由框架
+            "ARouter-compiler"             : "com.alibaba:arouter-compiler:1.2.2",
+            "web-cache"                    : "ren.yale.android:cachewebviewlib:2.1.8",//CacheWebView通过拦截资源实现自定义缓存静态资源。突破WebView缓存空间限制，让缓存更简单。让网站离线也能正常访问
+            "JIMU"                         : "com.github.jimu:componentlib:1.3.3",
+            "calendarview"                 : "com.haibin:calendarview:3.6.2",//万能的自定义日历框架
+            "jsoup"                        : "org.jsoup:jsoup:1.11.3",//网页解析工具
+            "ormlite-android"              : "com.j256.ormlite:ormlite-android:5.0",
+            "ormlite-core"                 : "com.j256.ormlite:ormlite-core:5.0",
+            "badgeview"                    : 'q.rorbin:badgeview:1.1.3',
+            "rxjava"                       : "io.reactivex.rxjava2:rxjava:2.2.12",
+            "rxandroid"                    : "io.reactivex.rxjava2:rxandroid:2.1.1",
+            "recyclerview"                 : "androidx.recyclerview:recyclerview:" + SUPPORT_CODE,
+            "cardview"                     : "androidx.cardview:cardview:1.0.0",
+            //项目方法过多，需要分割
+            "multidex"                     : 'androidx.multidex:multidex:2.0.0',
+            "BaseRecyclerViewAdapterHelper": 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30',//优化 RecyclerViewAdapterHelper
+            "constraint"                   : "androidx.constraintlayout:constraintlayout:2.0.1",
+            "smartRefreshLayout"           : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0',
+            //"easypermissions"              : 'pub.devrel:easypermissions:3.0.0'
+            "glide-transformations"        : "jp.wasabeef:glide-transformations:4.1.0",//glide各种样式的图片转换
+    ]
+
+    test = [
+            "junit"            : "junit:junit:4.12",
+            "androidx-junit"   : "androidx.test.ext:junit:1.1.1",
+            "androidx-espresso": "androidx.test.espresso:espresso-core:3.2.0",
+    ]
+
+    // ali播放器
+    aliyunPlayer = 'com.aliyun.sdk.android:AliyunPlayer:5.1.6-full'
+    alivcConan = 'com.alivc.conan:AlivcConan:1.0.4'
+
+    // 屏幕适配
+    autosize = 'me.jessyan:autosize:1.2.1'
+
+    leakcanaryDebug = 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+    leakcanaryRelease = 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
+    stethoDebug = 'com.facebook.stetho:stetho:1.5.1'
+    stethoOkhttp3Debug = 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    // 多啦a梦 开发过程中检查工具
+    doraemonkit = 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
+    doraemonkit_no_op ='com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
+
+    crashreport = 'com.tencent.bugly:crashreport:3.2.422'
+    nativecrashreport = 'com.tencent.bugly:nativecrashreport:3.7.5'
+}

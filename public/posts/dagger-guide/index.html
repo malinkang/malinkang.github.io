@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html><head>
+<title>Dagger使用指南</title>
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+<script src="/vendor/js/jquery.min.js" ></script>
+<script src="/vendor/js/popper.min.js" ></script>
+<script src="/vendor/js/bootstrap.min.js" ></script>
+<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/journal.min.56b67b8b01d7cd1015ed14414fd2fc33ebfb2e8413dcbc47c5cd734544c92cd7.css" integrity="sha256-VrZ7iwHXzRAV7RRBT9L8M&#43;v7LoQT3LxHxc1zRUTJLNc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://malinkang.cn/scss/dark-mode.min.5a2bbd1758c83affd639a91fbfd5cc681b1a5574df99442825c444dd40504b13.css" integrity="sha256-Wiu9F1jIOv/WOakfv9XMaBsaVXTfmUQoJcRE3UBQSxM=" media="screen">
+
+
+<script src="https://malinkang.cn//js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
+</script>
+
+<script src="https://malinkang.cn//js/table.js"></script>
+
+
+
+
+<script src="https://malinkang.cn//js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: 'd84786eae9edb9e6521b',
+  clientSecret: 'a30a17b679a15e85b8f257eec4231d5b286e1b58',
+  repo: 'malinkang.github.io',
+  owner: 'malinkang',
+  admin: ['malinkang'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+</head><body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://malinkang.cn/">
+    
+        <div class="nav-title">
+            Malinkang‘s Blog
+        </div>
+        
+        <div class="nav-subtitle">
+            人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://android.malinkang.cn">
+                Android笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="https://kotlin.malinkang.cn">
+                Kotlin笔记
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%b8%ba%e4%bb%80%e4%b9%88dagger2%e4%b8%8d%e5%90%8c" v-on:click="closeDrawer" id="为什么dagger2不同-nav">
+										 为什么Dagger2不同
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%bd%bf%e7%94%a8dagger" v-on:click="closeDrawer" id="使用dagger-nav">
+										 使用Dagger
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%a3%b0%e6%98%8e%e4%be%9d%e8%b5%96" v-on:click="closeDrawer" id="声明依赖-nav">
+										 声明依赖
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%bb%a1%e8%b6%b3%e4%be%9d%e8%b5%96" v-on:click="closeDrawer" id="满足依赖-nav">
+										 满足依赖
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%9e%84%e5%bb%ba%e5%9b%be" v-on:click="closeDrawer" id="构建图-nav">
+										 构建图
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9b%be%e4%b8%ad%e7%9a%84%e7%bb%91%e5%ae%9a" v-on:click="closeDrawer" id="图中的绑定-nav">
+										 图中的绑定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8d%95%e4%be%8b%e5%92%8c%e8%8c%83%e5%9b%b4%e7%bb%91%e5%ae%9a" v-on:click="closeDrawer" id="单例和范围绑定-nav">
+										 单例和范围绑定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%a4%8d%e7%94%a8%e8%8c%83%e5%9b%b4" v-on:click="closeDrawer" id="复用范围-nav">
+										 复用范围
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%af%e9%87%8a%e6%94%be%e7%9a%84%e5%bc%95%e7%94%a8" v-on:click="closeDrawer" id="可释放的引用-nav">
+										 可释放的引用
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%bb%b6%e8%bf%9f%e6%b3%a8%e5%85%a5" v-on:click="closeDrawer" id="延迟注入-nav">
+										 延迟注入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%8f%90%e4%be%9b%e6%b3%a8%e5%85%a5" v-on:click="closeDrawer" id="提供注入-nav">
+										 提供注入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%99%90%e5%ae%9a%e7%ac%a6" v-on:click="closeDrawer" id="限定符-nav">
+										 限定符
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%af%e9%80%89%e7%bb%91%e5%ae%9a" v-on:click="closeDrawer" id="可选绑定-nav">
+										 可选绑定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bb%91%e5%ae%9a%e5%ae%9e%e4%be%8b" v-on:click="closeDrawer" id="绑定实例-nav">
+										 绑定实例
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bc%96%e8%af%91%e6%97%b6%e6%a3%80%e6%9f%a5" v-on:click="closeDrawer" id="编译时检查-nav">
+										 编译时检查
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bc%96%e8%af%91%e6%97%b6%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90" v-on:click="closeDrawer" id="编译时代码生成-nav">
+										 编译时代码生成
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9c%a8%e4%bd%a0%e7%9a%84%e6%9e%84%e5%bb%ba%e4%b8%ad%e4%bd%bf%e7%94%a8dagger" v-on:click="closeDrawer" id="在你的构建中使用dagger-nav">
+										 在你的构建中使用Dagger
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%82%e8%80%83" v-on:click="closeDrawer" id="参考-nav">
+										 参考
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div><div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://android.malinkang.cn">
+                    Android笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="https://kotlin.malinkang.cn">
+                    Kotlin笔记
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%b8%ba%e4%bb%80%e4%b9%88dagger2%e4%b8%8d%e5%90%8c" v-on:click="closeDrawer" id="为什么dagger2不同-nav">
+										 为什么Dagger2不同
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e4%bd%bf%e7%94%a8dagger" v-on:click="closeDrawer" id="使用dagger-nav">
+										 使用Dagger
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%a3%b0%e6%98%8e%e4%be%9d%e8%b5%96" v-on:click="closeDrawer" id="声明依赖-nav">
+										 声明依赖
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%bb%a1%e8%b6%b3%e4%be%9d%e8%b5%96" v-on:click="closeDrawer" id="满足依赖-nav">
+										 满足依赖
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%9e%84%e5%bb%ba%e5%9b%be" v-on:click="closeDrawer" id="构建图-nav">
+										 构建图
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9b%be%e4%b8%ad%e7%9a%84%e7%bb%91%e5%ae%9a" v-on:click="closeDrawer" id="图中的绑定-nav">
+										 图中的绑定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8d%95%e4%be%8b%e5%92%8c%e8%8c%83%e5%9b%b4%e7%bb%91%e5%ae%9a" v-on:click="closeDrawer" id="单例和范围绑定-nav">
+										 单例和范围绑定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%a4%8d%e7%94%a8%e8%8c%83%e5%9b%b4" v-on:click="closeDrawer" id="复用范围-nav">
+										 复用范围
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%af%e9%87%8a%e6%94%be%e7%9a%84%e5%bc%95%e7%94%a8" v-on:click="closeDrawer" id="可释放的引用-nav">
+										 可释放的引用
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%bb%b6%e8%bf%9f%e6%b3%a8%e5%85%a5" v-on:click="closeDrawer" id="延迟注入-nav">
+										 延迟注入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e6%8f%90%e4%be%9b%e6%b3%a8%e5%85%a5" v-on:click="closeDrawer" id="提供注入-nav">
+										 提供注入
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e9%99%90%e5%ae%9a%e7%ac%a6" v-on:click="closeDrawer" id="限定符-nav">
+										 限定符
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%af%e9%80%89%e7%bb%91%e5%ae%9a" v-on:click="closeDrawer" id="可选绑定-nav">
+										 可选绑定
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bb%91%e5%ae%9a%e5%ae%9e%e4%be%8b" v-on:click="closeDrawer" id="绑定实例-nav">
+										 绑定实例
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bc%96%e8%af%91%e6%97%b6%e6%a3%80%e6%9f%a5" v-on:click="closeDrawer" id="编译时检查-nav">
+										 编译时检查
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e7%bc%96%e8%af%91%e6%97%b6%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90" v-on:click="closeDrawer" id="编译时代码生成-nav">
+										 编译时代码生成
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%9c%a8%e4%bd%a0%e7%9a%84%e6%9e%84%e5%bb%ba%e4%b8%ad%e4%bd%bf%e7%94%a8dagger" v-on:click="closeDrawer" id="在你的构建中使用dagger-nav">
+										 在你的构建中使用Dagger
+									</a>
+								</li>
+						
+							</ul>
+						
+							</ul>
+						
+					
+				
+			
+				
+				
+					
+						
+						
+							<ul>
+						
+						
+								<li>
+				 					<a href="#%e5%8f%82%e8%80%83" v-on:click="closeDrawer" id="参考-nav">
+										 参考
+									</a>
+								</li>
+						
+							</ul>
+						
+					
+				
+			
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://malinkang.cn/">
+            Malinkang‘s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://malinkang.cn/">
+        <div class="single-column-header-title">Malinkang‘s Blog</div>
+        
+        <div class="single-column-header-subtitle">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div>
+        
+
+    </a>
+</div>
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    Dagger使用指南
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2016-07-25 09:47
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>任何应用程序中最好的类是那些做事情的类：<code>BarcodeDecoder</code>，<code>KoopaPhysicsEngine</code>和<code>AudioStreamer</code>。 这些类具有依赖性; 也许是一个<code>BarcodeCameraFinder</code>，<code>DefaultPhysicsEngine</code>和一个<code>HttpStreamer</code>。</p>
+<p>相比之下，任何应用程序中最糟糕的类是那些占用空间而又没有做太多事情类：<code>BarcodeDecoderFactory</code>，<code>CameraServiceLoader</code>和<code>MutableContextWrapper</code>。 这些类是将有趣的东西连接在一起。</p>
+<p><code>Dagger</code>是这些<code>FactoryFactory</code>类的替代品，它们实现了依赖注入设计模式，无需编写样板文件。 它可以让你专注于有趣的类。 声明依赖关系，指定如何满足它们，并发布您的应用程序。</p>
+<p>通过构建在标准的<code>javax.inject</code>注解（JSR 330）上，每个类都很容易测试。 您不需要大量的样板就可以将<code>RpcCreditCardService</code>交换为<code>FakeCreditCardService</code>。</p>
+<p>依赖注入不仅仅用于测试。 它还可以轻松创建可重复使用的可互换模块。 您可以在所有应用程序中共享相同的<code>AuthenticationModule</code>。 您可以在开发过程中运行<code>DevLoggingModule</code>，在生产中运行<code>ProdLoggingModule</code>以在每种情况下获得正确的行为。</p>
+<h1 id="为什么dagger2不同">为什么Dagger2不同</h1>
+<p>依赖注入框架已经很多年，有多种用于配置和注入的API。那么，为什么要重新发明轮子？<code>Dagger2</code>是第一个使用生成的代码实现完整堆栈。 指导原则是生成模仿用户可能手写的代码的代码，以确保依赖注入尽可能简单，可追踪和高性能。 有关设计的更多背景，请观看Gregory Kick的<a href="https://www.youtube.com/watch?v=oK_XtfXPkqw&amp;feature=youtu.be">演讲</a>（<a href="https://docs.google.com/presentation/d/1fby5VeGU9CN8zjw4lAb2QPPsKRxx6mSwCe9q7ECNSJQ/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.p">幻灯片</a>）。</p>
+<h1 id="使用dagger">使用Dagger</h1>
+<p>我们将通过构建咖啡机来演示依赖注入和Dagger。 有关可以编译和运行的完整示例代码，请参阅Dagger的<a href="https://github.com/google/dagger/tree/master/examples/simple/src/main/java/coffee">coffee example</a>.</p>
+<h2 id="声明依赖">声明依赖</h2>
+<p><code>Dagger</code>构造应用程序类的实例并满足它们的依赖关系。 它使用<code>javax.inject.Inject</code>注释来标识它感兴趣的构造函数和字段。</p>
+<p>使用<code>@Inject</code>来注释<code>Dagger</code>应该用来创建类的实例的构造函数。当一个新的实例被请求时，Dagger将获得所需的参数值并调用这个构造函数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Thermosiphon</span> <span style="color:#66d9ef">implements</span> Pump <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Heater heater<span style="color:#f92672">;</span>
+
+  <span style="color:#a6e22e">@Inject</span>
+  Thermosiphon<span style="color:#f92672">(</span>Heater heater<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">heater</span> <span style="color:#f92672">=</span> heater<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+  <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><code>Dagger</code>可以直接注入字段。 在这个例子中，它为<code>heater</code>段获得一个<code>Heater</code>实例，为<code>pump</code>字段获得一个<code>Pump</code>实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoffeeMaker</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Inject</span> Heater heater<span style="color:#f92672">;</span>
+  <span style="color:#a6e22e">@Inject</span> Pump pump<span style="color:#f92672">;</span>
+  <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>如果您的类具有<code>@Inject</code>注释的字段，但没有<code>@Inject</code>注释的构造函数，Dagger会根据请求注入这些字段，但不会创建新的实例。 使用<code>@Inject</code>注释添加一个无参数构造函数，以指示<code>Dagger</code>也可以创建实例。</p>
+<p>Dagger也支持方法注入，虽然通常建议使用构造函数或字段注入。</p>
+<p>缺少<code>@Inject</code>注释的类不能由<code>Dagger</code>构造。</p>
+<h2 id="满足依赖">满足依赖</h2>
+<p>默认情况下，Dagger通过构建上面描述的请求类型的实例来满足每个依赖。当你申请一个<code>CoffeeMaker</code>时，它会通过调用<code>new CoffeeMaker()</code>并设置它的可注射字段来获得一个。</p>
+<p>但是<code>@Inject</code>不能作用于每个地方</p>
+<ul>
+<li>接口不能构造</li>
+<li>第三方类不能被注解。</li>
+<li>必须配置可配置的对象</li>
+</ul>
+<p>对于<code>@Inject</code>不够或不方便的情况，请使用 <a href="https://dagger.dev/api/latest/dagger/Provides.html"><code>@Provides</code></a>注解方法来满足依赖关系。 该方法的返回类型定义了它满足哪个依赖关系。</p>
+<p>例如，只要需要加热器，就调用<code>provideHeater()</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Provides</span> <span style="color:#66d9ef">static</span> Heater <span style="color:#a6e22e">provideHeater</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ElectricHeater<span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><code>@Provides</code>方法有可能拥有自己的依赖关系。 无论何时需要<code>Pump</code>，该设备都会返回<code>Thermosiphon</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Provides</span> <span style="color:#66d9ef">static</span> Pump <span style="color:#a6e22e">providePump</span><span style="color:#f92672">(</span>Thermosiphon pump<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">return</span> pump<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>所有<code>@Provides</code>方法都必须属于一个模块。 这些只是具有<code>@Module</code>注释的类。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Module</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DripCoffeeModule</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Provides</span> <span style="color:#66d9ef">static</span> Heater <span style="color:#a6e22e">provideHeater</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ElectricHeater<span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#a6e22e">@Provides</span> <span style="color:#66d9ef">static</span> Pump <span style="color:#a6e22e">providePump</span><span style="color:#f92672">(</span>Thermosiphon pump<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> pump<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>按照惯例，<code>@Provides</code>方法以<code>provide</code>为前缀命名，模块类以<code>Module</code>为后缀命名。</p>
+<h2 id="构建图">构建图</h2>
+<p><code>@Inject</code>和<code>@Provide</code>注解的类形成了由它们的依赖关系链接的对象的图形。调用代码像应用程序的<code>main</code>方法或<code>Android</code>应用程序通过一个定义良好的根访问该图形。在<code>Dagger2</code>中，该集合由一个接口定义，该接口的方法没有参数并返回所需的类型。通过将<code>@Component</code>注解应用于这样的接口并将模块类型传递给<code>modules</code>参数，<code>Dagger2</code>将完全生成该合同的实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Component</span><span style="color:#f92672">(</span>modules <span style="color:#f92672">=</span> DripCoffeeModule<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">CoffeeShop</span> <span style="color:#f92672">{</span>
+  CoffeeMaker <span style="color:#a6e22e">maker</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>该实现名字是接口名称加上<code>Dagger</code>前缀。通过调用该实现的<code>builder()</code>方法获取实例，并使用返回的构建器设置依赖关系并构建一个新的实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CoffeeShop coffeeShop <span style="color:#f92672">=</span> DaggerCoffeeShop<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">dripCoffeeModule</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DripCoffeeModule<span style="color:#f92672">())</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</code></pre></div><p>注意：如果您的<code>@Component</code>不是顶级类型，生成的组件的名称将包含其封闭类型的名称，并加上下划线。例如，这段代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bar</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Component</span>
+    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">BazComponent</span> <span style="color:#f92672">{}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>会生成一个名为<code>DaggerFoo_Bar_BazComponent</code>的组件。</p>
+<p>任何具有可访问默认构造函数的模块都可以省略，因为如果没有设置，构建器将自动构造一个实例。对于任何其<code>@Provides</code>方法都是静态的模块，实现根本不需要实例。如果所有的依赖都可以在用户创建依赖实例的情况下构建，那么生成的实现也会有一个create()方法，可用于获取新实例而无需处理构建器。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CoffeeShop coffeeShop <span style="color:#f92672">=</span> DaggerCoffeeShop<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
+</code></pre></div><p>现在，我们的CoffeeApp可以使用Dagger生成的CoffeeShop实现来获得完全注入的CoffeeMaker。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoffeeApp</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    CoffeeShop coffeeShop <span style="color:#f92672">=</span> DaggerCoffeeShop<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
+    coffeeShop<span style="color:#f92672">.</span><span style="color:#a6e22e">maker</span><span style="color:#f92672">().</span><span style="color:#a6e22e">brew</span><span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>现在图形被构建并且入口点被注入，我们运行我们的咖啡机应用程序。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">$ java <span style="color:#f92672">-</span>cp <span style="color:#f92672">...</span> coffee<span style="color:#f92672">.</span><span style="color:#a6e22e">CoffeeApp</span>
+<span style="color:#f92672">~</span> <span style="color:#f92672">~</span> <span style="color:#f92672">~</span> heating <span style="color:#f92672">~</span> <span style="color:#f92672">~</span> <span style="color:#f92672">~</span>
+<span style="color:#f92672">=&gt;</span> <span style="color:#f92672">=&gt;</span> pumping <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">=&gt;</span>
+ <span style="color:#f92672">[</span>_<span style="color:#f92672">]</span>P coffee<span style="color:#f92672">!</span> <span style="color:#f92672">[</span>_<span style="color:#f92672">]</span>P
+</code></pre></div><h3 id="图中的绑定">图中的绑定</h3>
+<p>上面的例子显示了如何用一些更典型的绑定来构建一个组件，但是有多种机制可以为图形提供绑定。以下是依赖关系，可用于生成格式良好的组件：</p>
+<ul>
+<li>那些@Module中由<code>@Provides</code>声明的方法直接由@Component.modules引用或者通过@Module.includes传递</li>
+<li>任何带有@Inject构造函数的类型，它都是unscoped或具有与组件范围之一相匹配的@Scope注释</li>
+<li>组件依赖关系的组件提供方法</li>
+<li>组件本身</li>
+<li>任何包含的子组件均为不合格的建设者</li>
+<li>提供者或惰性包装的任何上述绑定</li>
+<li>任何上述绑定的提供者（例如，<code>Provider&lt;Lazy&lt;CoffeeMaker&gt;&gt;</code>）</li>
+<li>任何类型的MembersInjector</li>
+</ul>
+<h2 id="单例和范围绑定">单例和范围绑定</h2>
+<p>使用<code>@Singleton</code>注释一个<code>@Provides</code>方法或注入类。 该图将为所有客户端使用该值的单个实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Provides</span> <span style="color:#a6e22e">@Singleton</span> <span style="color:#66d9ef">static</span> Heater <span style="color:#a6e22e">provideHeater</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ElectricHeater<span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注射类上的<code>@Singleton</code>注解也可以作为文档。 它提醒潜在的维护者，这个类可以被多个线程共享。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Singleton</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoffeeMaker</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>由于<code>Dagger2</code>将图中的范围实例与组件实现的实例相关联，所以组件本身需要声明它们想要表示的范围。 例如，在同一个组件中拥有<code>@Singleton</code>绑定和<code>@RequestScoped</code>绑定没有任何意义，因为这些范围具有不同的生命周期，因此必须生活在具有不同生命周期的组件中。要声明组件与给定范围关联，只需将范围注释应用到组件接口即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Component</span><span style="color:#f92672">(</span>modules <span style="color:#f92672">=</span> DripCoffeeModule<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Singleton</span>
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">CoffeeShop</span> <span style="color:#f92672">{</span>
+  CoffeeMaker <span style="color:#a6e22e">maker</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>组件可能会应用多个范围注释。 这声明它们都是相同范围的别名，并且组件可以包含它声明的任何范围的范围绑定。</p>
+<h2 id="复用范围">复用范围</h2>
+<p>有时候，你想限制一个<code>@Inject</code>构造类被实例化或者<code>@Provides</code>方法被调用的次数，但是你不需要保证在任何特定组件或子组件的生命周期中使用完全相同的实例。 这对于像Android这样的分配可能很昂贵的环境很有用。</p>
+<p>对于这些绑定，您可以应用<code>@Reusable</code>范围。其他范围不同，可重用范围的绑定不与任何单个组件关联;相反，实际使用绑定的每个组件都会缓存返回的或实例化的对象。</p>
+<p>这意味着如果您在组件中安装带有<code>@Reusable</code>绑定的模块，但只有一个子组件实际使用绑定，那么只有该子组件才会缓存绑定的对象。如果不共享祖先的两个子组件都使用绑定，则它们中的每一个都将缓存它自己的对象。 如果组件的祖先已经缓存了该对象，则该子组件将重新使用它。</p>
+<p>不能保证组件只会调用一次绑定，因此将@Reusable应用于返回可变对象的绑定或引用同一实例的重要对象是危险的。使用@Reusable作为不可变对象是很安全的，如果你不关心它们被分配了多少次，那么你就不会放大。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Reusable</span> <span style="color:#75715e">// It doesn&#39;t matter how many scoopers we use, but don&#39;t waste them.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoffeeScooper</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Inject</span> CoffeeScooper<span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Module</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CashRegisterModule</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Provides</span>
+  <span style="color:#a6e22e">@Reusable</span> <span style="color:#75715e">// DON&#39;T DO THIS! You do care which register you put your cash in.
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Use a specific scope instead.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">static</span> CashRegister <span style="color:#a6e22e">badIdeaCashRegister</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CashRegister<span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Reusable</span> <span style="color:#75715e">// DON&#39;T DO THIS! You really do want a new filter each time, so this
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// should be unscoped.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoffeeFilter</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Inject</span> CoffeeFilter<span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="可释放的引用">可释放的引用</h2>
+<p>当绑定使用范围注释时，这意味着组件对象持有对绑定对象的引用，直到组件对象本身被垃圾收集为止。在Android等内存敏感的环境中，当应用程序处于内存压力下时，您可能希望在垃圾回收期间删除当前未使用的范围对象。</p>
+<p>在这种情况下，您可以定义一个范围并使用@CanReleaseReferences对其进行注释。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Documented</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RUNTIME<span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@CanReleaseReferences</span>
+<span style="color:#a6e22e">@Scope</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> MyScope <span style="color:#f92672">{}</span>
+</code></pre></div><p>如果您确定要允许在垃圾回收期间保留在该范围内的对象（如果它们当前未被某个其他对象使用），则可以为您的范围注入一个<code>ReleasableReferenceManager</code>对象并在其上调用<code>releaseStrongReferences()</code>，它将使该组件对该对象持有一个<code>WeakReference</code>，而不是一个强引用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Inject</span> <span style="color:#a6e22e">@ForReleasableReferences</span><span style="color:#f92672">(</span>MyScope<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+ReleasableReferenceManager myScopeReferenceManager<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">lowMemory</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  myScopeReferenceManager<span style="color:#f92672">.</span><span style="color:#a6e22e">releaseStrongReferences</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>如果确定内存压力已降低，则可以通过调用<code>restoreStrongReferences()</code>来恢复在垃圾回收期间尚未删除的任何缓存对象的强引用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">highMemory</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  myScopeReferenceManager<span style="color:#f92672">.</span><span style="color:#a6e22e">restoreStrongReferences</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="延迟注入">延迟注入</h2>
+<p>有时你需要一个对象懒惰地实例化。 对于任何绑定T，您可以创建一个<code>Lazy &lt;T&gt;</code>，它延迟实例化，直到首次调用<code>Lazy &lt;T&gt;</code>的<code>get()</code>方法。 如果T是一个单例，那么Lazy <!-- raw HTML omitted -->将成为ObjectGraph内所有注入的相同实例。 否则，每个注入站点将获得它自己的Lazy <!-- raw HTML omitted -->实例。 无论如何，对Lazy <!-- raw HTML omitted -->的任何给定实例的后续调用将返回相同的T的底层实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GrindingCoffeeMaker</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Inject</span> Lazy<span style="color:#f92672">&lt;</span>Grinder<span style="color:#f92672">&gt;</span> lazyGrinder<span style="color:#f92672">;</span>
+
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">brew</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>needsGrinding<span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// Grinder created once on first call to .get() and cached.
+</span><span style="color:#75715e"></span>      lazyGrinder<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">().</span><span style="color:#a6e22e">grind</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="提供注入">提供注入</h2>
+<p>有时你需要返回多个实例，而不是只注入一个值。 虽然有几个选项（工厂，构建器等），但一种选择是注入一个<code>Provider&lt;T&gt;</code>而不是T。一个<code>Provider&lt;T&gt;</code>在每次调用<code>.get()</code>时调用T的绑定逻辑。 如果该绑定逻辑是@Inject构造函数，则会创建一个新实例，但@Provides方法没有这种保证。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BigCoffeeMaker</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Inject</span> Provider<span style="color:#f92672">&lt;</span>Filter<span style="color:#f92672">&gt;</span> filterProvider<span style="color:#f92672">;</span>
+
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">brew</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> numberOfPots<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#f92672">...</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> p <span style="color:#f92672">&lt;</span> numberOfPots<span style="color:#f92672">;</span> p<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+      maker<span style="color:#f92672">.</span><span style="color:#a6e22e">addFilter</span><span style="color:#f92672">(</span>filterProvider<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span> <span style="color:#75715e">//new filter every time.
+</span><span style="color:#75715e"></span>      maker<span style="color:#f92672">.</span><span style="color:#a6e22e">addCoffee</span><span style="color:#f92672">(...);</span>
+      maker<span style="color:#f92672">.</span><span style="color:#a6e22e">percolate</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">...</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注意：注入<code>Provider &lt;T&gt;</code>可能会产生混淆的代码，并且可能是图形中存在错误或错误结构对象的设计气味。 通常你会想要使用工厂或Lazy <!-- raw HTML omitted -->或者重新组织代码的生命周期和结构，以便能够注入T.注入提供者<!-- raw HTML omitted -->可以在某些情况下成为救命。 当您必须使用与您的对象的自然生命周期不一致的遗留体系结构时（例如，servlet是按设计单身，但仅在请求特定数据的上下文中有效），常见用法是。</p>
+<h2 id="限定符">限定符</h2>
+<p>有时仅仅这种类型不足以识别依赖性。 例如，一个复杂的咖啡机应用程序可能需要为水和热板分开加热器。</p>
+<p>在这种情况下，我们添加一个限定符注释。 这是任何注释本身有一个@Qualifier注释。以下是@Named的声明，它是javax.inject中包含的限定符注释：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Qualifier</span>
+<span style="color:#a6e22e">@Documented</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RUNTIME<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Named <span style="color:#f92672">{</span>
+  String <span style="color:#a6e22e">value</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>您可以创建自己的限定符注释，或者仅使用<code>@Named</code>。 通过注释感兴趣的字段或参数来应用限定符。 类型和限定符注释都将用于标识依赖关系。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExpensiveCoffeeMaker</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Inject</span> <span style="color:#a6e22e">@Named</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;water&#34;</span><span style="color:#f92672">)</span> Heater waterHeater<span style="color:#f92672">;</span>
+  <span style="color:#a6e22e">@Inject</span> <span style="color:#a6e22e">@Named</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hot plate&#34;</span><span style="color:#f92672">)</span> Heater hotPlateHeater<span style="color:#f92672">;</span>
+  <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>通过注释相应的<code>@Provides</code>方法来提供合格的值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Provides</span> <span style="color:#a6e22e">@Named</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hot plate&#34;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">static</span> Heater <span style="color:#a6e22e">provideHotPlateHeater</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ElectricHeater<span style="color:#f92672">(</span>70<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Provides</span> <span style="color:#a6e22e">@Named</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;water&#34;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">static</span> Heater <span style="color:#a6e22e">provideWaterHeater</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ElectricHeater<span style="color:#f92672">(</span>93<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>依赖项可能没有多个限定符注释。</p>
+<h2 id="可选绑定">可选绑定</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@BindsOptionalOf</span> <span style="color:#66d9ef">abstract</span> CoffeeCozy <span style="color:#a6e22e">optionalCozy</span><span style="color:#f92672">();</span>
+</code></pre></div><p>如果你想让绑定工作，即使组件中没有绑定某个依赖关系，也可以在模块中添加一个@BindsOptionalOf方法：</p>
+<p>这意味着@Inject构造函数和成员和@Provides方法可以依赖于一个可选的<!-- raw HTML omitted -->对象。 如果组件中存在CoffeeCozy的绑定，则可选将存在; 如果CoffeeCozy没有绑定，则可选将不存在。</p>
+<p>具体而言，您可以注入以下任何一项：</p>
+<ul>
+<li><code>Optional&lt;CoffeeCozy&gt; </code>(unless there is a @Nullable binding for CoffeeCozy; see below)</li>
+<li><code>Optional&lt;Provider&lt;CoffeeCozy&gt;&gt;</code></li>
+<li><code>Optional&lt;Lazy&lt;CoffeeCozy&gt;&gt;</code></li>
+<li><code>Optional&lt;Provider&lt;Lazy&lt;CoffeeCozy&gt;&gt;&gt;</code></li>
+</ul>
+<p>（你也可以注入一个提供者或懒惰或者任何这些懒惰的提供者，但这不是非常有用。）</p>
+<p>如果CoffeeCozy有一个绑定，并且该绑定是@Nullable，那么注入可选<!-- raw HTML omitted -->是一个编译时错误，因为Optional不能包含null。 您可以随时注入其他表单，因为Provider和Lazy总是可以从get()方法返回null。</p>
+<p>如果子组件包含对基础类型的绑定，则可以在子组件中存在一个组件中不存在的可选绑定。</p>
+<p>您可以使用<code>Guava</code>的<code>Optional</code>或Java 8的Optional。</p>
+<h2 id="绑定实例">绑定实例</h2>
+<p>通常，您在构建组件时可以使用数据。例如，假设你有一个使用命令行参数的应用程序;您可能希望在组件中绑定这些参数。</p>
+<p>也许您的应用程序需要一个参数，表示您要以@UserName String注入的用户名。您可以向组件构建器添加方法注解<a href="https://google.github.io/dagger/api/latest/dagger/BindsInstance.html">@BindsInstance</a>，以允许将该实例注入到组件中。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Component</span><span style="color:#f92672">(</span>modules <span style="color:#f92672">=</span> AppModule<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">AppComponent</span> <span style="color:#f92672">{</span>
+  App <span style="color:#a6e22e">app</span><span style="color:#f92672">();</span>
+
+  <span style="color:#a6e22e">@Component.Builder</span>
+  <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Builder</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@BindsInstance</span> Builder <span style="color:#a6e22e">userName</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@UserName</span> String userName<span style="color:#f92672">);</span>
+    AppComponent <span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>你的应用程序可能看起来像</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> exit<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span> <span style="color:#f92672">}</span>
+  App app <span style="color:#f92672">=</span> DaggerAppComponent
+      <span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
+      <span style="color:#f92672">.</span><span style="color:#a6e22e">userName</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">])</span>
+      <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">()</span>
+      <span style="color:#f92672">.</span><span style="color:#a6e22e">app</span><span style="color:#f92672">();</span>
+  app<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在上面的示例中，在组件中注入<code>@UserName</code>字符串时将使用调用此方法时提供给构建器的实例。 在构建组件之前，必须调用所有@BindsInstance方法，并传递一个非空值（除了下面的@Nullable绑定外）。</p>
+<p>如果@BindsInstance方法的参数被标记为@Nullable，那么绑定将被认为是“可空的”，就像@Provides方法是可空的那样：注入站点也必须将其标记为@Nullable，并且null是可接受的值 绑定。 而且，Builder的用户可能会省略调用该方法，并且该组件会将该实例视为null。</p>
+<p><code>@BindsInstance</code>方法应该优先于用构造函数参数编写@Module并立即提供这些值。</p>
+<h2 id="编译时检查">编译时检查</h2>
+<p><code>Dagger</code>注释处理器是严格的，如果任何绑定无效或不完整，将导致编译器错误。 例如，该模块安装在缺少Executor绑定的组件中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Module</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DripCoffeeModule</span> <span style="color:#f92672">{</span>
+  <span style="color:#a6e22e">@Provides</span> <span style="color:#66d9ef">static</span> Heater <span style="color:#a6e22e">provideHeater</span><span style="color:#f92672">(</span>Executor executor<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CpuHeater<span style="color:#f92672">(</span>executor<span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>编译时，javac会拒绝缺少的绑定：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">[</span>ERROR<span style="color:#f92672">]</span> COMPILATION ERROR <span style="color:#f92672">:</span>
+<span style="color:#f92672">[</span>ERROR<span style="color:#f92672">]</span> error<span style="color:#f92672">:</span> java<span style="color:#f92672">.</span><span style="color:#a6e22e">util</span><span style="color:#f92672">.</span><span style="color:#a6e22e">concurrent</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Executor</span> cannot be provided without an <span style="color:#a6e22e">@Provides</span><span style="color:#f92672">-</span>annotated method<span style="color:#f92672">.</span>
+</code></pre></div><p>通过为Executor添加一个@ Provide-annotated方法来修复组件中的任何模块。虽然@Inject，@Module和@Provides注释是单独验证的，但绑定之间关系的所有验证都发生在@Component级别。Dagger1严格依赖于@模块级验证（可能或可能没有反映运行时行为），但Dagger2不支持这种验证（以及@Module上的配置参数），以支持完整的图验证。</p>
+<h2 id="编译时代码生成">编译时代码生成</h2>
+<p>Dagger的注释处理器也可以生成带有CoffeeMaker_Factory.java或CoffeeMaker_MembersInjector.java等名称的源文件。 这些文件是Dagger实现细节。 您不需要直接使用它们，但通过注入进行分步调试时，它们可能非常方便。 您应该在您的代码中引用的唯一生成的类型是为您的组件添加了Dagger的前缀。</p>
+<h2 id="在你的构建中使用dagger">在你的构建中使用Dagger</h2>
+<p>您需要在应用程序的运行时包含dagger-2.X.jar。 为了激活代码生成，您需要在编译时在您的构建中包含dagger-compiler-2.X.jar。 请参阅自述文件以获取更多信息。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="参考">参考</h1>
+<ul>
+<li></li>
+</ul>
+                    
+                    <HR width="100%" id="EOF">
+                    <p style="color:#777;">Last modified on 2016-07-25</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="https://malinkang.cn/posts/android-custom-attribute/">
+                    Next<br>Android自定义属性
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://malinkang.cn/posts/java-threadpool/">
+                    Previous<br>Java线程池
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	This is a customized copyright.
+	</div>
+    	</div>
+    <script src="https://malinkang.cn//js/journal.js"></script>
+    </body>
+</html>

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Dagger2在Android中的使用 - 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="malinkang" /><meta name="description" content="与其他大多数依赖注入框架相比，Dagger2的主要优点之一是其严格生成的实现（无反射）意味着它可以在Android应用程序中使用。但是，在Android应用程序中使用Dagger时仍有一些注意事项。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.71.0 with theme even" />
+
+
+<link rel="canonical" href="https://malinkang.cn/post/dagger-android/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.ab6ed46f161bdba676da3f071e37b038123f44e7125e330d80fc66955b18aaa5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Dagger2在Android中的使用" />
+<meta property="og:description" content="与其他大多数依赖注入框架相比，Dagger2的主要优点之一是其严格生成的实现（无反射）意味着它可以在Android应用程序中使用。但是，在Android应用程序中使用Dagger时仍有一些注意事项。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://malinkang.cn/post/dagger-android/" />
+<meta property="article:published_time" content="2018-07-25T11:56:12+08:00" />
+<meta property="article:modified_time" content="2018-07-25T11:56:12+08:00" />
+<meta itemprop="name" content="Dagger2在Android中的使用">
+<meta itemprop="description" content="与其他大多数依赖注入框架相比，Dagger2的主要优点之一是其严格生成的实现（无反射）意味着它可以在Android应用程序中使用。但是，在Android应用程序中使用Dagger时仍有一些注意事项。">
+<meta itemprop="datePublished" content="2018-07-25T11:56:12&#43;08:00" />
+<meta itemprop="dateModified" content="2018-07-25T11:56:12&#43;08:00" />
+<meta itemprop="wordCount" content="4347">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dagger2在Android中的使用"/>
+<meta name="twitter:description" content="与其他大多数依赖注入框架相比，Dagger2的主要优点之一是其严格生成的实现（无反射）意味着它可以在Android应用程序中使用。但是，在Android应用程序中使用Dagger时仍有一些注意事项。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Malinkang&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Malinkang&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Dagger2在Android中的使用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-07-25 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#注入activity对象">注入Activity对象</a></li>
+        <li><a href="#注入fragment对象">注入Fragment对象</a></li>
+        <li><a href="#基本框架类型">基本框架类型</a></li>
+        <li><a href="#支持库">支持库</a></li>
+        <li><a href="#如何获取它">如何获取它</a></li>
+        <li><a href="#何时注入">何时注入</a></li>
+        <li><a href="#常见问题">常见问题</a></li>
+        <li><a href="#有用链接">有用链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>与其他大多数依赖注入框架相比，<code>Dagger2</code>的主要优点之一是其严格生成的实现（无反射）意味着它可以在<code>Android</code>应用程序中使用。但是，在<code>Android</code>应用程序中使用<code>Dagger</code>时仍有一些注意事项。</p>
+<p>原文：https://google.github.io/dagger/android</p>
+<p>使用<code>Dagger</code>编写<code>Android</code>应用程序的主要困难之一是很多<code>Android</code>框架类都是由操作系统本身实例化的，例如<code>Activity</code>和<code>Fragment</code>，但是如果<code>Dagger</code>可以创建所有注入的对象，则<code>Dagger</code>的效果最好。相反，您必须在生命周期方法中执行成员注入。这意味着许多类最终看起来像：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">public</span> <span class="k">class</span> <span class="nc">FrombulationActivity</span> <span class="n">extends</span> <span class="n">Activity</span> <span class="p">{</span>
+  <span class="err">@</span><span class="n">Inject</span> <span class="n">Frombulator</span> <span class="n">frombulator</span><span class="p">;</span>
+
+  <span class="err">@</span><span class="n">Override</span>
+  <span class="k">public</span> <span class="kt">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">super</span><span class="p">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+    <span class="c1">// DO THIS FIRST. Otherwise frombulator might be null!
+</span><span class="c1"></span>    <span class="p">((</span><span class="n">SomeApplicationBaseType</span><span class="p">)</span> <span class="n">getContext</span><span class="p">().</span><span class="n">getApplicationContext</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">getApplicationComponent</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">newActivityComponentBuilder</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">activity</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">inject</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="c1">// ... now you can write the exciting code
+</span><span class="c1"></span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="注入activity对象">注入Activity对象</h3>
+<ol>
+<li>在您的应用程序组件中安装<code>AndroidInjectionModule</code>以确保这些基本类型所需的所有绑定都可用。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Singleton</span>
+<span class="nd">@Component</span><span class="o">(</span>
+    <span class="n">modules</span> <span class="o">=</span> <span class="o">[</span>
+        <span class="n">AndroidInjectionModule</span><span class="o">::</span><span class="n">class</span><span class="o">,</span> <span class="c1">//安装AndroidInjectionModule
+</span><span class="c1"></span>        <span class="n">AppModule</span><span class="o">::</span><span class="n">class</span><span class="o">,</span>
+        <span class="n">MainActivityModule</span><span class="o">::</span><span class="n">class</span><span class="o">]</span>
+<span class="o">)</span>
+<span class="kd">interface</span> <span class="nc">AppComponent</span> <span class="o">{</span>
+    <span class="nd">@Component.Builder</span>
+    <span class="kd">interface</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="nd">@BindsInstance</span>
+        <span class="n">fun</span> <span class="nf">application</span><span class="o">(</span><span class="n">application</span><span class="o">:</span> <span class="n">Application</span><span class="o">):</span> <span class="n">Builder</span>
+
+        <span class="n">fun</span> <span class="nf">build</span><span class="o">():</span> <span class="n">AppComponent</span>
+    <span class="o">}</span>
+    <span class="c1">//注入App
+</span><span class="c1"></span>    <span class="n">fun</span> <span class="nf">inject</span><span class="o">(</span><span class="n">githubApp</span><span class="o">:</span> <span class="n">GithubApp</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>首先编写一个实现<code>AndroidInjector&lt;YourActivity&gt;</code>的<code>@Subcomponent</code>和一个继承<code>AndroidInjector.Builder&lt;YourActivity&gt;</code>的<code>@Subcomponent.Builder</code>。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Subcomponent</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">...)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">YourActivitySubcomponent</span> <span class="kd">extends</span> <span class="n">AndroidInjector</span><span class="o">&lt;</span><span class="n">YourActivity</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="nd">@Subcomponent.Builder</span>
+  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="kd">extends</span> <span class="n">AndroidInjector</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">YourActivity</span><span class="o">&gt;</span> <span class="o">{}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>定义子组件后，通过定义一个绑定子组件层次结构并将其添加到注入应用程序的组件的模块，将其添加到组件层次结构中。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Module</span><span class="o">(</span><span class="n">subcomponents</span> <span class="o">=</span> <span class="n">YourActivitySubcomponent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">YourActivityModule</span> <span class="o">{</span>
+  <span class="nd">@Binds</span>
+  <span class="nd">@IntoMap</span>
+  <span class="nd">@ActivityKey</span><span class="o">(</span><span class="n">YourActivity</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+  <span class="kd">abstract</span> <span class="n">AndroidInjector</span><span class="o">.</span><span class="na">Factory</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Activity</span><span class="o">&gt;</span>
+      <span class="nf">bindYourActivityInjectorFactory</span><span class="o">(</span><span class="n">YourActivitySubcomponent</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">{...,</span> <span class="n">YourActivityModule</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+<span class="kd">interface</span> <span class="nc">YourApplicationComponent</span> <span class="o">{}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>专业提示：如果您的子组件及其构建器没有第2步中提到的其他方法或超类型，您可以使用<code>@ContributesAndroidInjector</code>为您生成它们。添加一个抽象模块方法，该方法返回您的活动，使用@ContributesAndroidInjector对其进行注释，并指定要安装到子组件中的模块，而不是步骤2和3。如果子组件需要作用域，则也可以将范围注释应用于该方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@ActivityScope</span>
+<span class="nd">@ContributesAndroidInjector</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">{</span> <span class="cm">/* modules to install into the subcomponent */</span> <span class="o">})</span>
+<span class="kd">abstract</span> <span class="n">YourActivity</span> <span class="nf">contributeYourActivityInjector</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>接下来，让您的<code>Application</code>实现<code>HasActivityInjector</code>并且<code>@Inject</code>一个从<code>activityInjector()</code>方法返回的<code>DispatchingAndroidInjector&lt;Activity&gt;</code>。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">YourApplication</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="kd">implements</span> <span class="n">HasActivityInjector</span> <span class="o">{</span>
+  <span class="nd">@Inject</span> <span class="n">DispatchingAndroidInjector</span><span class="o">&lt;</span><span class="n">Activity</span><span class="o">&gt;</span> <span class="n">dispatchingActivityInjector</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+    <span class="n">DaggerYourApplicationComponent</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">AndroidInjector</span><span class="o">&lt;</span><span class="n">Activity</span><span class="o">&gt;</span> <span class="nf">activityInjector</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">dispatchingActivityInjector</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>最终，在你的<code>Activity.onCreate()</code>方法中，在调用<code>super.onCreate();</code>之前调用<code>AndroidInjection.inject(this)</code>。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">YourActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">AndroidInjection</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="如何工作">如何工作</h4>
+<p><code>AndroidInjection.inject()</code>从<code>Application</code>中获取一个<code>DispatchingAndroidInjector&lt;Activity&gt;</code>并且传递你的<code>activity</code>到<code>inject(this)</code>。<code>DispatchingAndroidInjector</code>为您的Activity类（它是YourActivitySubcomponent.Builder）查找<code>AndroidInjector.Factory</code>，创建<code>AndroidInjector（它是YourActivitySubcomponent）</code>，并将您的Activity传递给<code>inject（YourActivity）</code>。</p>
+<p><code>AndroidInjection</code>的<code>inject</code>方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * Injects {@code activity} if an associated {@link AndroidInjector} implementation can be found,
+</span><span class="cm"> * otherwise throws an {@link IllegalArgumentException}.
+</span><span class="cm"> *
+</span><span class="cm"> * @throws RuntimeException if the {@link Application} doesn&#39;t implement {@link
+</span><span class="cm"> *     HasActivityInjector}.
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">inject</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">checkNotNull</span><span class="o">(</span><span class="n">activity</span><span class="o">,</span> <span class="s">&#34;activity&#34;</span><span class="o">);</span>
+  <span class="n">Application</span> <span class="n">application</span> <span class="o">=</span> <span class="n">activity</span><span class="o">.</span><span class="na">getApplication</span><span class="o">();</span>
+  <span class="k">if</span> <span class="o">(!(</span><span class="n">application</span> <span class="k">instanceof</span> <span class="n">HasActivityInjector</span><span class="o">))</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span>
+        <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span>
+            <span class="s">&#34;%s does not implement %s&#34;</span><span class="o">,</span>
+            <span class="n">application</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getCanonicalName</span><span class="o">(),</span>
+            <span class="n">HasActivityInjector</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getCanonicalName</span><span class="o">()));</span>
+  <span class="o">}</span>
+<span class="c1">//
+</span><span class="c1"></span>  <span class="n">AndroidInjector</span><span class="o">&lt;</span><span class="n">Activity</span><span class="o">&gt;</span> <span class="n">activityInjector</span> <span class="o">=</span>
+      <span class="o">((</span><span class="n">HasActivityInjector</span><span class="o">)</span> <span class="n">application</span><span class="o">).</span><span class="na">activityInjector</span><span class="o">();</span>
+  <span class="n">checkNotNull</span><span class="o">(</span><span class="n">activityInjector</span><span class="o">,</span> <span class="s">&#34;%s.activityInjector() returned null&#34;</span><span class="o">,</span> <span class="n">application</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
+
+  <span class="n">activityInjector</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="n">activity</span><span class="o">);</span>
+<span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="注入fragment对象">注入Fragment对象</h3>
+<blockquote>
+<p>Injecting a Fragment is just as simple as injecting an Activity. Define your subcomponent in the same way, replacing Activity type parameters with Fragment, @ActivityKey with @FragmentKey, and HasActivityInjector with HasFragmentInjector.</p>
+</blockquote>
+<p>注入一个<code>Fragment</code>像注入一个<code>Activity</code>一样简单。以相同的方式定义你的<code>subcomponent</code>，使用<code>Fragment</code>替换<code>Activity</code>，<code>@FragmentKey</code>替换<code>@ActivityKey</code>,<code>HasFragmentInjector</code>替换<code>HasActivityInjector</code>。</p>
+<blockquote>
+<p>Instead of injecting in onCreate() as is done for Activity types, inject Fragments to in onAttach().</p>
+</blockquote>
+<p>不像在<code>Activity</code>类型中那样在<code>onCreate()</code>中注入，而是在<code>onAttach()</code>中注入<code>Fragment</code>。</p>
+<blockquote>
+<p>Unlike the modules defined for Activitys, you have a choice of where to install modules for Fragments. You can make your Fragment component a subcomponent of another Fragment component, an Activity component, or the Application component — it all depends on which other bindings your Fragment requires. After deciding on the component location, make the corresponding type implement HasFragmentInjector. For example, if your Fragment needs bindings from YourActivitySubcomponent, your code will look something like this:</p>
+</blockquote>
+<p>与为<code>Activity</code>定义的模块不同，您可以选择在哪里为<code>Fragments</code>安装模块。你可以让你的<code>Fragment</code>组件成为另一个<code>Fragment</code>子组件，<code>Activity</code>组件或<code>Application</code>组件的一个子组件 - 这一切都取决于你的<code>Fragment</code>需要的其他绑定。确定组件位置后，使相应的类型实现<code>HasFragmentInjector</code>。例如，如果您的<code>Fragment</code>需要来自<code>YourActivitySubcomponent</code>的绑定，那么您的代码将如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">YourActivity</span> <span class="kd">extends</span> <span class="n">Activity</span>
+    <span class="kd">implements</span> <span class="n">HasFragmentInjector</span> <span class="o">{</span>
+  <span class="nd">@Inject</span> <span class="n">DispatchingAndroidInjector</span><span class="o">&lt;</span><span class="n">Fragment</span><span class="o">&gt;</span> <span class="n">fragmentInjector</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">AndroidInjection</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="c1">// ...
+</span><span class="c1"></span>  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">AndroidInjector</span><span class="o">&lt;</span><span class="n">Fragment</span><span class="o">&gt;</span> <span class="nf">fragmentInjector</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">fragmentInjector</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">YourFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
+  <span class="nd">@Inject</span> <span class="n">SomeDependency</span> <span class="n">someDep</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAttach</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">AndroidInjection</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onAttach</span><span class="o">(</span><span class="n">activity</span><span class="o">);</span>
+    <span class="c1">// ...
+</span><span class="c1"></span>  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Subcomponent</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">...)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">YourFragmentSubcomponent</span> <span class="kd">extends</span> <span class="n">AndroidInjector</span><span class="o">&lt;</span><span class="n">YourFragment</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="nd">@Subcomponent.Builder</span>
+  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="kd">extends</span> <span class="n">AndroidInjector</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">YourFragment</span><span class="o">&gt;</span> <span class="o">{}</span>
+<span class="o">}</span>
+
+<span class="nd">@Module</span><span class="o">(</span><span class="n">subcomponents</span> <span class="o">=</span> <span class="n">YourFragmentSubcomponent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">YourFragmentModule</span> <span class="o">{</span>
+  <span class="nd">@Binds</span>
+  <span class="nd">@IntoMap</span>
+  <span class="nd">@FragmentKey</span><span class="o">(</span><span class="n">YourFragment</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+  <span class="kd">abstract</span> <span class="n">AndroidInjector</span><span class="o">.</span><span class="na">Factory</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Fragment</span><span class="o">&gt;</span>
+      <span class="nf">bindYourFragmentInjectorFactory</span><span class="o">(</span><span class="n">YourFragmentSubcomponent</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Subcomponent</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">{</span> <span class="n">YourFragmentModule</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">...</span> <span class="o">}</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">YourActivityOrYourApplicationComponent</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="基本框架类型">基本框架类型</h3>
+<blockquote>
+<p>Because DispatchingAndroidInjector looks up the appropriate AndroidInjector.Factory by the class at runtime, a base class can implement HasActivityInjector/HasFragmentInjector/etc as well as call AndroidInjection.inject(). All each subclass needs to do is bind a corresponding @Subcomponent. Dagger provides a few base types that do this, such as DaggerActivity and DaggerFragment, if you don’t have a complicated class hierarchy. Dagger also provides a DaggerApplication for the same purpose — all you need to do is to extend it and override the applicationInjector() method to return the component that should inject the Application.</p>
+</blockquote>
+<p>因为<code>DispatchingAndroidInjector</code>在运行时按类查找适当的<code>AndroidInjector.Factory</code>，所以基类可以实现<code>HasActivityInjector</code>、<code>HasFragmentInjectoretc</code>等等以及调用<code>AndroidInjection.inject()</code>。每个子类都需要做的就是绑定一个对应的<code>@Subcomponent</code>。如果您没有复杂的类层次结构，<code>Dagger</code>会提供一些基本类型，例如<code>DaggerActivity</code>和<code>DaggerFragment</code>。Dagger还为同样的目的提供了一个DaggerApplication你需要做的就是扩展它并覆盖applicationInjector()方法来返回应该注入应用程序的组件。</p>
+<p>以下类型也包括在内：</p>
+<ul>
+<li>DaggerService和DaggerIntentService</li>
+<li>DaggerBroadcastReceiver</li>
+<li>DaggerContentProvider</li>
+</ul>
+<blockquote>
+<p>Note: DaggerBroadcastReceiver should only be used when the BroadcastReceiver is registered in the AndroidManifest.xml. When the BroadcastReceiver is created in your own code, prefer constructor injection instead.</p>
+</blockquote>
+<p>注意：DaggerBroadcastReceiver只能在AndroidManifest.xml中注册BroadcastReceiver时使用。在您自己的代码中创建BroadcastReceiver时，请改为使用构造函数注入。</p>
+<h3 id="支持库">支持库</h3>
+<blockquote>
+<p>For users of the Android support library, parallel types exist in the dagger.android.support package. Note that while support Fragment users have to bind AndroidInjector.Factory&lt;? extends android.support.v4.app.Fragment&gt;, AppCompat users should continue to implement AndroidInjector.Factory&lt;? extends Activity&gt; and not &lt;? extends AppCompatActivity&gt; (or FragmentActivity).</p>
+</blockquote>
+<p>对于Android支持库的用户，<code>dagger.android.support</code>包中存在并行类型。请注意，尽管支持<code>Fragment</code>的用户必须绑定<code>AndroidInjector.Factory &lt;？extends android.support.v4.app.Fragment&gt;</code>，<code>AppCompat</code>用户应该继续实现<code>AndroidInjector.Factory &lt;？extends Activity&gt;</code>而不是<code>&lt;？extends AppCompatActivity&gt;</code>（或FragmentActivity）。</p>
+<h3 id="如何获取它">如何获取它</h3>
+<p>将以下内容添加到您的build.gradle中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+  <span class="n">compile</span> <span class="s1">&#39;com.google.dagger:dagger-android:2.x&#39;</span>
+  <span class="n">compile</span> <span class="s1">&#39;com.google.dagger:dagger-android-support:2.x&#39;</span> <span class="c1">// if you use the support libraries
+</span><span class="c1"></span>  <span class="n">annotationProcessor</span> <span class="s1">&#39;com.google.dagger:dagger-android-processor:2.x&#39;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="何时注入">何时注入</h3>
+<blockquote>
+<p>Constructor injection is preferred whenever possible because javac will ensure that no field is referenced before it has been set, which helps avoid NullPointerExceptions. When members injection is required (as discussed above), prefer to inject as early as possible. For this reason, DaggerActivity calls AndroidInjection.inject() immediately in onCreate(), before calling super.onCreate(), and DaggerFragment does the same in onAttach(), which also prevents inconsistencies if the Fragment is reattached.</p>
+</blockquote>
+<p>只要有可能，构造函数注入是首选，因为javac将确保没有字段在被设置之前被引用，这有助于避免NullPointerException。 当需要成员注射（如上所述）时，倾向于尽早注射。 出于这个原因，DaggerActivity在调用<code>super.onCreate()</code>之前立即在<code>onCreate()</code>中调用AndroidInjection.inject()，并且DaggerFragment在onAttach()中也是这样做的，这也可以防止在重新连接片段时出现不一致。</p>
+<blockquote>
+<p>It is crucial to call AndroidInjection.inject() before super.onCreate() in an Activity, since the call to super attaches Fragments from the previous activity instance during configuration change, which in turn injects the Fragments. In order for the Fragment injection to succeed, the Activity must already be injected. For users of ErrorProne, it is a compiler error to call AndroidInjection.inject() after super.onCreate().</p>
+</blockquote>
+<p>在Activity中的super.onCreate()之前调用AndroidInjection.inject()是非常重要的，因为超级调用在配置更改期间将前一个活动实例的碎片连接到Fragments，而这又会导致碎片。 为了使片段注入成功，该活动必须已经被注入。 对于ErrorProne的用户，在super.onCreate()之后调用AndroidInjection.inject()是一个编译器错误。</p>
+<h3 id="常见问题">常见问题</h3>
+<blockquote>
+<p>AndroidInjector.Factory is intended to be a stateless interface so that implementors don’t have to worry about managing state related to the object which will be injected. When DispatchingAndroidInjector requests a AndroidInjector.Factory, it does so through a Provider so that it doesn’t explicitly retain any instances of the factory. Because the AndroidInjector.Builder implementation that is generated by Dagger does retain an instance of the Activity/Fragment/etc that is being injected, it is a compile-time error to apply a scope to the methods which provide them. If you are positive that your AndroidInjector.Factory does not retain an instance to the injected object, you may suppress this error by applying @SuppressWarnings(&ldquo;dagger.android.ScopedInjectoryFactory&rdquo;) to your module method.</p>
+</blockquote>
+<p>AndroidInjector.Factory旨在成为无状态接口，以便实现者不必担心管理与将被注入的对象相关的状态。 当DispatchingAndroidInjector请求一个AndroidInjector.Factory时，它通过一个Provider来这样做，以便它不明确地保留工厂的任何实例。 由于由Dagger生成的AndroidInjector.Builder实现确实保留了正在被注入的Activity / Fragment /等的实例，因此将范围应用于提供它们的方法时发生编译时错误。 如果你肯定你的AndroidInjector.Factory没有为注入对象保留一个实例，你可以通过在模块方法中应用@SuppressWarnings（“dagger.android.ScopedInjectoryFactory”）来消除这个错误。</p>
+<h3 id="有用链接">有用链接</h3>
+<ul>
+<li><a href="https://medium.com/@iammert/new-android-injector-with-dagger-2-part-1-8baa60152abe">New Android Injector with Dagger 2 — part 1</a></li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">malinkang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-07-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/kotlin-functions/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Kotlin函数</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/navigation-implementing/">
+            <span class="next-text nav-default">实现navigation</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'malinkang-cn';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/malinkang" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/malinkang" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/malinkang" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://malinkang.cn/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">malinkang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

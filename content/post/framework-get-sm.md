@@ -2,7 +2,6 @@
 title: 获取ServiceManager
 date: 2020-02-08 09:44:44
 tags: ["源码分析"]
-cover: https://images.unsplash.com/photo-1613470790260-582059be2d4d?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDZ8Ym84alFLVGFFMFl8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60
 ---
 
 `ServiceManager`的`addService`和`getService`方法都会首先调用`getIServiceManager`来获取`ServiceManager`。

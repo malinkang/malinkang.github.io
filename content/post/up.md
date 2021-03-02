@@ -1,7 +1,7 @@
 ---
 title: "关于自我提升的思考"
 date: 2019-01-05T09:54:09+08:00
-draft: false
+draft: true
 ---
 
 

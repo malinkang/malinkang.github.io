@@ -5,6 +5,7 @@ tags: ["源码分析"]
 ---
 
 <!--more-->
+
 ## ServiceManager
 
 ### addService
@@ -567,25 +568,7 @@ out:
 
 ## 流程图
 
-{% plantuml %}
 
---> IServiceManager: getService
-
-IServiceManager --> ServiceManagerProxy:getService
-
-ServiceManagerProxy --> BinderProxy:transact
-
-BinderProxy --> android_util_Binder:transact
-
-BinderProxy --> BpBinder: transact
-
-BpBinder --> IPCThreadState: transact
-
-IPCThreadState --> IPCThreadState: waitForResponse
-
-IPCThreadState --> IPCThreadState: talkWithDriver
-
-{% endplantuml %}
 
 ## 参考
 

@@ -124,44 +124,6 @@ static public IActivityManager asInterface(IBinder obj) {
 
 ```
 
-{% plantuml %}
-
-class Binder{
-
-}
-
-interface IActivityManager{
-
-}
-
-abstract class ActivityManagerNative{
-
-}
-
-class ActivityManagerService{
-
-}
-
-abstract class SystemService{
-
-}
-
-IActivityManager <|.. ActivityManagerNative
-
-Binder<|-- ActivityManagerNative
-
-ActivityManagerNative <|-- ActivityManagerService
-
-ActivityManagerService +-- Lifecycle
-
-SystemService <|-- Lifecycle
-
-IActivityManager <|.. ActivityManagerProxy
-
-
-
-{% endplantuml %}
-
 
 
 

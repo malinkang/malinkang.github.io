@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,112 +109,95 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-garbage-collection/">《深入理解JVM》第3章垃圾收集器</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-general-programming/">《Effective Java》第9章通用程序设计</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-08-13 </span>
+      <span class="post-time"> 2016-02-20 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还“存活”着，哪些已经“死去”了。</p>
+      第45条：将局部变量的作用域最小化 要使局部变量的作用域最小化，最有力的方法就是在第一次使用它的地方声明。 循环中提供了特殊的机会来将变量的作用
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-garbage-collection/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-general-programming/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-runtime-data-areas/">《深入理解JVM》第2章Java运行时数据区</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-methods/">《Effective Java》第8章方法</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-08-06 </span>
+      <span class="post-time"> 2016-02-13 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。根据《Java虚拟机规范》的规定，Java虚拟机所管理的内存将会包括以下几个运行时数据区域，如图所示。</p>
+      第38条：检查参数的有效性 对于公有的方法，要用Javadoc的@throws标签在文档中说明违反参数值会抛出的异常。一旦在文档中记录了对于方
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-runtime-data-areas/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-methods/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/dagger-guide/">Dagger使用指南</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-lambdas-and-streams/">《Effective Java》第7章lambda表达式和流</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-07-25 </span>
+      <span class="post-time"> 2016-02-06 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>任何应用程序中最好的类是那些做事情的类：<code>BarcodeDecoder</code>，<code>KoopaPhysicsEngine</code>和<code>AudioStreamer</code>。 这些类具有依赖性; 也许是一个<code>BarcodeCameraFinder</code>，<code>DefaultPhysicsEngine</code>和一个<code>HttpStreamer</code>。</p>
+      
     </div>
     <div class="read-more">
-      <a href="/post/dagger-guide/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-lambdas-and-streams/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/java-threadpool/">Java线程池</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-enums-and-annotations/">《Effective Java》第6章枚举和注解</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-07-15 </span>
+      <span class="post-time"> 2016-01-30 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      线程池介绍 合理利用线程池能够带来三个好处： 第一：降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。 第二：提高响应速度。当任
+      第30条：用enum代替int常量 在编程语言中还没有引入枚举类型之前，表示枚举类型的常量模式是声明一组具名的int常量，每个类型成员一个常量
     </div>
     <div class="read-more">
-      <a href="/post/java-threadpool/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-enums-and-annotations/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/android-bitmap/">Android Bitmap使用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-generics/">《Effective Java》第5章泛型</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-06-24 </span>
+      <span class="post-time"> 2016-01-23 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <!-- raw HTML omitted -->
-<h3 id="bitmap占用内存计算">Bitmap占用内存计算</h3>
-<p>Android的Bitmap对象提供了方法<code>getByteCount</code>来获取Bitmap的字节数。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">getByteCount</span><span class="o">()</span> <span class="o">{</span>
-        <span class="c1">// int result permits bitmaps up to 46,340 x 46,340
-</span><span class="c1"></span>        <span class="k">return</span> <span class="n">getRowBytes</span><span class="o">()</span> <span class="o">*</span> <span class="n">getHeight</span><span class="o">();</span>
-    <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><code>getRowBytes()</code>方法用来获取每行的字节数，内部调用一个native方法。</p>
+      第26条：请不要在新代码中使用原生态类型 声明中具有一个或者多个类型参数（type parameter）的类或者接口就是泛型类或者接口。泛型类和
     </div>
     <div class="read-more">
-      <a href="/post/android-bitmap/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-generics/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

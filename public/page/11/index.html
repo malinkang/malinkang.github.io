@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,95 +109,100 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/kotlin-in-action-chapter5/">《Kotlin实战》读书笔记 第5章 Lambda编程</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/livedata-overview/">LiveData概述</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-09-04 </span>
+      <span class="post-time"> 2018-05-18 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      5.1 Lambda表达式和成员引用 5.1.1 Lambda简介：作为函数参数的代码块 1 2 3 4 5 6 button.setOnClickLisener(new OnClickListener(){ @Override public void onClick(View view){ //点击后执行的动作 } } 1 button.se
+      <p><code>LiveData</code>是一个可观察的数据持有者类。与常规可观察性不同，<code>LiveData</code>具有生命周期感知能力，这意味着它遵守其他应用程序组件（例如<code>activity</code>，<code>fragment</code>或<code>service</code>）的生命周期。 这确保<code>LiveData</code>只更新处于活动生命周期状态的应用程序组件观察者。</p>
     </div>
     <div class="read-more">
-      <a href="/post/kotlin-in-action-chapter5/" class="read-more-link">阅读更多</a>
+      <a href="/post/livedata-overview/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/kotlin-in-action-chapter4/">《Kotlin实战》读书笔记 第4章 类对象和接口</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/generated-binding-classes/">生成绑定类</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-08-28 </span>
+      <span class="post-time"> 2017-06-19 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      4.1 定义类继承结构 4.1.1 Kotlin中的接口 1 2 3 4 5 6 7 8 //接口定义 interface Clickable { fun click() } //实现接口 class Button:Clickable{ override fun click() = println(&#34;I was clicked&#34;) } 接口的方法可以有一个默认实现。
+      <p>数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自<code>ViewDataBinding</code>类。</p>
     </div>
     <div class="read-more">
-      <a href="/post/kotlin-in-action-chapter4/" class="read-more-link">阅读更多</a>
+      <a href="/post/generated-binding-classes/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/kotlin-basic/">kotlin基础</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/binding-adapters/">绑定适配器使用</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-08-25 </span>
+      <span class="post-time"> 2017-06-13 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      2.1 基础要素：函数和变量 2.1.1 Hello,world! 1 2 3 fun main(args: Array&lt;String&gt;) { println(&#34;Hello, world!&#34;) } 2.1.2 函数 1 2 3 4 5 6 7 fun main(args: Array&lt;String&gt;) { println(max(1,2)) } fun max(a:Int,b:Int):Int{ return if(a&gt;b) a else b } 表达式函数体 函数体由单个表达式构成的，可以用这
+      <p>绑定适配器负责对设置值进行适当的框架调用。一个例子是设置一个属性值，如调用<code>setText()</code>方法。另一个例子是设置一个事件监听器，如调用<code>setOnClickListener()</code>方法。</p>
     </div>
     <div class="read-more">
-      <a href="/post/kotlin-basic/" class="read-more-link">阅读更多</a>
+      <a href="/post/binding-adapters/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/kotlin-in-action-chapter3/">《Kotlin实战》读书笔记 第3章 函数的定义与调用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/binding-expressions/">DataBinding绑定表达式使用</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-08-25 </span>
+      <span class="post-time"> 2017-06-11 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      3.1 在kotlin中创建集合 1 2 3 4 5 6 7 val set = hashSetOf(1, 7, 53) val list = arrayListOf(1, 7, 53) val map = hashMapOf(1 to &#34;one&#34;, 7 to &#34;seven&#34;, 53 to &#34;fifty-three&#34;) //kotlin的javaClass等价于Java的
+      <p>表达式语言允许您编写处理<code>View</code>分发的事件的表达式。数据绑定库自动生成将布局中的<code>View</code>与数据对象绑定所需的类。</p>
     </div>
     <div class="read-more">
-      <a href="/post/kotlin-in-action-chapter3/" class="read-more-link">阅读更多</a>
+      <a href="/post/binding-expressions/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/paging-library-overview/">Paging 库概述</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-custom-attribute/">Android自定义属性</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-07-27 </span>
+      <span class="post-time"> 2017-03-21 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>分页库可帮助您一次加载和显示小块数据。按需加载部分数据可减少网络带宽和系统资源的使用。</p>
+      <p>创建自定义属性需要以下步骤：</p>
+<ul>
+<li>创建一个自定义View。</li>
+<li>创建values/attrs.xml文件，并定义属性。</li>
+<li>在View中获取属性值并使用。</li>
+</ul>
     </div>
     <div class="read-more">
-      <a href="/post/paging-library-overview/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-custom-attribute/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,96 +109,96 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-methods-common-to-all-objects/">《Effective Java》第3章对于所有对象都通用的方法</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-cancellation-and-shutdown/">《Java并发编程实战》第7章取消与关闭</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-01-09 </span>
+      <span class="post-time"> 2015-10-15 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第8条：覆盖equals时请遵守通用约定 在覆盖equals方法的时候，你必须要遵守它的通用约定。 自反性（reflexive）。对于任何非nu
+      <p>任务和线程的启动很容易，在大多数时候，我们都会让它们运行直到结束，或者让它们自行停止。然后，有时候我们希望提前结束任务或线程，或许是因为用户取消了操作，或者应用程序需要被快速关闭。</p>
+<p>要使任务和线程能安全、快速、可靠地停止下来，并不是一件容易的事。Java没有提供任何机制来安全地终止线程。但它提供了中断（Interruption），这是一种协作机制，能够使一个线程终止另一个线程的当前工作。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-methods-common-to-all-objects/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-cancellation-and-shutdown/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-creating-and-destroying-objects/">《Effective Java》第2章创建和销毁对象</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-building-blocks/">《Java并发编程实战》第5章基础构建模块</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-01-02 </span>
+      <span class="post-time"> 2015-10-08 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第1条：考虑用静态工厂方法替代构造器 创建类实例最常用的方法就是提供一个公有的构造器。此外，还可以提供一个公有的静态工厂方法（static factory m
+      <p><code>Java</code>平台类库包含了丰富的并发基础构建模块，例如线程安全的容器类以及各种用于协调多个相互协作的线程控制流的同步工具类（Synchronizer）。本章将介绍其中一些最有用的开发构建模块，特别是在Java5.0和Java6中引入的一些新模块，以及在使用这些模块来构造并发应用程序时的一些常用模式。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-creating-and-destroying-objects/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-building-blocks/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/android-decompile/">android反编译</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-sharing-objects/">《Java并发编程实战》第3章对象的共享</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2015-12-07 </span>
+      <span class="post-time"> 2015-10-01 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <h3 id="apktool">Apktool</h3>
-<p>Apktool 能够从APK中解析出资源文件，xml文件以及生成smail文件。</p>
+      <p>我们已经知道了同步代码块和同步方法可以确保以原子的方式执行操作，但一种常见的误解是，认为关键字<code>synchronized</code>只能用于实现原子性或者确定临界区。同步还有另一个重要的方面：内存可见性（Memory Visibility）。我们不仅希望防止某个线程正在使用对象状态而另一个线程在同时修改该状态，而且希望确保当一个线程修改了对象状态后，其他线程能够看到发生的状态变化。如果没有同步，那么这种情况就无法实现。你可以通过显式的同步或者类库中内置的同步来保证对象被安全地发布。</p>
     </div>
     <div class="read-more">
-      <a href="/post/android-decompile/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-sharing-objects/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-the-java-momory-model/">《Java并发编程实战》第16章Java内存模型</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-thread-safety/">《Java并发编程实战》第2章线程安全性</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2015-11-19 </span>
+      <span class="post-time"> 2015-09-24 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>本章将介绍Java内存模型的底层需求以及锁提供的保证，此外还将介绍在本书给出的一些高层设计原则背后的原理。</p>
+      <p>一个对象是否需要是线程安全的，取决于它是否被多个线程访问。这指的是在程序中访问对象的方式，而不是对象要实现的功能。要使得对象时线程安全的，需要采用同步机制来协同对对象可变状态的访问。如果无法实现协同，那么可能会导致数据破坏以及其他不该出现的结果。</p>
     </div>
     <div class="read-more">
-      <a href="/post/java-currency-in-practice-the-java-momory-model/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-thread-safety/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-atomic-variables-and-nonblocking-synchronization/">《Java并发编程实战》第15章原子变量与非阻塞同步机制</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-dynamic-proxy/">Java动态代理</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2015-11-12 </span>
+      <span class="post-time"> 2014-11-29 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>在<code>java.util.concurrent</code>包的许多类中，例如<code>Semaphore</code>和<code>ConcurrentLinkedQueue</code>，都提供了比<code>synchronized</code>机制更高的性能和可伸缩性。</p>
+      代理是基本的设计模式之一，它是你为了提供额外的或不同的操作，而插入的用来代替”实际“对象的对象。这些操作通常涉及与“实际”对象的通信，因此代
     </div>
     <div class="read-more">
-      <a href="/post/java-currency-in-practice-atomic-variables-and-nonblocking-synchronization/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-dynamic-proxy/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

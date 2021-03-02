@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,9 +109,9 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-error-handling-with-exceptions/">《Java编程思想》第12章通过异常处理错误</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-operators/">《Java编程思想》第3章操作符</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-05-28 </span>
+      <span class="post-time"> 2013-03-26 </span>
       
     </div>
   </header>
@@ -121,83 +121,64 @@
       
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-error-handling-with-exceptions/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-operators/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-holding-your-objects/">《Java编程思想》第11章持有对象</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-everything-is-an-object/">《Java编程思想》第2章一切都是对象</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-05-21 </span>
+      <span class="post-time"> 2013-03-19 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第11章 持有对象 1.泛型和类型安全的容器 Apple和Orange都放置在了容器中，然后将它们取出。正常情况下，Java编译器会报告警告信息，
+      2.2 必须由你创建所有对象 2.2.1 存储到什么地方 2.2.2 特例：基本类型 在程序设计中经常用到一系列类型，它们需要特殊对待。可以把它们想象成“基本”类型。之所以
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-holding-your-objects/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-everything-is-an-object/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-inner-classes/">《Java编程思想》第10章内部类</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/framework-bind-service/">bindService流程分析</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-05-14 </span>
+      <span class="post-time"> 0001-01-01 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      1.创建内部类 创建内部类的方式就是把类的定义置于外围类的里面。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 public class Parcel1 { class Contents
+      ContextWrapper bindService 1 2 3 4 5 //frameworks/base/core/java/android/content/ContextWrapper.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { return mBase.bindService(service, conn, flags); } ContextImpl bindService 1 2 3 4 5 6 7 8 //frameworks/base/core/java/android/app/ContextImpl.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { warnIfCallingFromSystemProcess(); return bindServiceCommon(service, conn, flags, mMainThread.getHandler(), Process.myUserHandle()); } bindServiceCommon 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-inner-classes/" class="read-more-link">阅读更多</a>
+      <a href="/post/framework-bind-service/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-interfaces/">《Java编程思想》第9章接口</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/retrofit-source-analysis/">Retrofit源码分析</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-05-07 </span>
+      <span class="post-time"> 0001-01-01 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      1.抽象类和抽象方法 2.接口 3.完全解耦 4.Java的多重继承 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 public interface CanFight { void fight(); }
+      Retrofit源码分析 流程分析 Retrofit执行流程可以分为两部分： 创建ServiceMethod。 调用ServiceMethod的in
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-interfaces/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-polymorphism/">《Java编程思想》第8章多态</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2013-04-30 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      8.1 再论向上转型 对某个对象的引用视为对其基类型的引用的做法被称作向上转型。 单独创建一个奏乐符（Note）类： 1 2 3 4 5 6 7 //: polymorphism/music/Note.java // Notes to play on musical instruments. package
-    </div>
-    <div class="read-more">
-      <a href="/post/thinking-in-java-polymorphism/" class="read-more-link">阅读更多</a>
+      <a href="/post/retrofit-source-analysis/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -209,10 +190,7 @@
         <i class="iconfont icon-left"></i>
         <span class="prev-text">上一页</span>
       </a>
-    <a class="next" href="/page/24/">
-        <span class="next-text">下一页</span>
-        <i class="iconfont icon-right"></i>
-      </a>
+    
   </nav>
         </div>
         

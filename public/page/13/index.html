@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,100 +109,95 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/generated-binding-classes/">生成绑定类</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-class-file-structure/">《深入理解JVM》第6章类文件结构</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2017-06-19 </span>
+      <span class="post-time"> 2016-08-20 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>数据绑定库生成用于访问布局的变量和视图的绑定类。生成的绑定类将布局变量与布局中的视图链接起来。绑定类的名称和包可以自定义。所有生成的绑定类都继承自<code>ViewDataBinding</code>类。</p>
+      <p>Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何分隔符，这使得整个Class文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
     </div>
     <div class="read-more">
-      <a href="/post/generated-binding-classes/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-class-file-structure/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/binding-adapters/">绑定适配器使用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-garbage-collection/">《深入理解JVM》第3章垃圾收集器</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2017-06-13 </span>
+      <span class="post-time"> 2016-08-13 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>绑定适配器负责对设置值进行适当的框架调用。一个例子是设置一个属性值，如调用<code>setText()</code>方法。另一个例子是设置一个事件监听器，如调用<code>setOnClickListener()</code>方法。</p>
+      <p>垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还“存活”着，哪些已经“死去”了。</p>
     </div>
     <div class="read-more">
-      <a href="/post/binding-adapters/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-garbage-collection/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/binding-expressions/">DataBinding绑定表达式使用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-runtime-data-areas/">《深入理解JVM》第2章Java运行时数据区</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2017-06-11 </span>
+      <span class="post-time"> 2016-08-06 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>表达式语言允许您编写处理<code>View</code>分发的事件的表达式。数据绑定库自动生成将布局中的<code>View</code>与数据对象绑定所需的类。</p>
+      <p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。根据《Java虚拟机规范》的规定，Java虚拟机所管理的内存将会包括以下几个运行时数据区域，如图所示。</p>
     </div>
     <div class="read-more">
-      <a href="/post/binding-expressions/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-runtime-data-areas/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/android-custom-attribute/">Android自定义属性</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/dagger-guide/">Dagger使用指南</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2017-03-21 </span>
+      <span class="post-time"> 2016-07-25 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>创建自定义属性需要以下步骤：</p>
-<ul>
-<li>创建一个自定义View。</li>
-<li>创建values/attrs.xml文件，并定义属性。</li>
-<li>在View中获取属性值并使用。</li>
-</ul>
+      <p>任何应用程序中最好的类是那些做事情的类：<code>BarcodeDecoder</code>，<code>KoopaPhysicsEngine</code>和<code>AudioStreamer</code>。 这些类具有依赖性; 也许是一个<code>BarcodeCameraFinder</code>，<code>DefaultPhysicsEngine</code>和一个<code>HttpStreamer</code>。</p>
     </div>
     <div class="read-more">
-      <a href="/post/android-custom-attribute/" class="read-more-link">阅读更多</a>
+      <a href="/post/dagger-guide/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/git-usage/">Git使用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-threadpool/">Java线程池</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-11-25 </span>
+      <span class="post-time"> 2016-07-15 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      git remote 1 2 3 git remote add origin git@gitee.com:malinkang/learngit.git #添加远程仓库 git remote remove origin #删除远程仓库 git remote -v #查看远程仓库地址 分支 1 2 3 4 5 6 7 git checkout -b v2.0.0 #创建分支 git checkout v1.0.0 #切换分支 git merge v1.0.0 #
+      线程池介绍 合理利用线程池能够带来三个好处： 第一：降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。 第二：提高响应速度。当任
     </div>
     <div class="read-more">
-      <a href="/post/git-usage/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-threadpool/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

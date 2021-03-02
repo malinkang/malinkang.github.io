@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="malinkang" /><meta name="description" content="{%plantuml%} &amp;ndash;&amp;gt; ContextWrapper: bindService ContextWrapper&amp;ndash;&amp;gt; ContextImpl: bindService ContextImpl&amp;ndash;&amp;gt; ContextImpl: bindServiceCommon ContextImpl&amp;ndash;&amp;gt; LoadedApk: getServiceDispatcher LoadedApk&amp;ndash;&amp;gt; ServiceDispatcher: 创建ServiceDispatcher ServiceDispatcher&amp;ndash;&amp;gt; InnerConnection: 创建InnerConnection LoadedApk&amp;ndash;&amp;gt; ContextImpl: 返回ServiceDispat" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="malinkang" /><meta name="description" content="ContextWrapper bindService 1 2 3 4 5 //frameworks/base/core/java/android/content/ContextWrapper.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { return mBase.bindService(service, conn, flags); } ContextImpl bindService 1 2 3 4 5 6 7 8 //frameworks/base/core/java/android/app/ContextImpl.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { warnIfCallingFromSystemProcess(); return bindServiceCommon(service, conn, flags, mMainThread.getHandler(), Process.myUserHandle()); } bindServiceCommon 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,21 +40,21 @@
 
 
 <meta property="og:title" content="bindService流程分析" />
-<meta property="og:description" content="{%plantuml%} &ndash;&gt; ContextWrapper: bindService ContextWrapper&ndash;&gt; ContextImpl: bindService ContextImpl&ndash;&gt; ContextImpl: bindServiceCommon ContextImpl&ndash;&gt; LoadedApk: getServiceDispatcher LoadedApk&ndash;&gt; ServiceDispatcher: 创建ServiceDispatcher ServiceDispatcher&ndash;&gt; InnerConnection: 创建InnerConnection LoadedApk&ndash;&gt; ContextImpl: 返回ServiceDispat" />
+<meta property="og:description" content="ContextWrapper bindService 1 2 3 4 5 //frameworks/base/core/java/android/content/ContextWrapper.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { return mBase.bindService(service, conn, flags); } ContextImpl bindService 1 2 3 4 5 6 7 8 //frameworks/base/core/java/android/app/ContextImpl.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { warnIfCallingFromSystemProcess(); return bindServiceCommon(service, conn, flags, mMainThread.getHandler(), Process.myUserHandle()); } bindServiceCommon 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://malinkang.cn/post/framework-bind-service/" />
 
 <meta itemprop="name" content="bindService流程分析">
-<meta itemprop="description" content="{%plantuml%} &ndash;&gt; ContextWrapper: bindService ContextWrapper&ndash;&gt; ContextImpl: bindService ContextImpl&ndash;&gt; ContextImpl: bindServiceCommon ContextImpl&ndash;&gt; LoadedApk: getServiceDispatcher LoadedApk&ndash;&gt; ServiceDispatcher: 创建ServiceDispatcher ServiceDispatcher&ndash;&gt; InnerConnection: 创建InnerConnection LoadedApk&ndash;&gt; ContextImpl: 返回ServiceDispat">
+<meta itemprop="description" content="ContextWrapper bindService 1 2 3 4 5 //frameworks/base/core/java/android/content/ContextWrapper.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { return mBase.bindService(service, conn, flags); } ContextImpl bindService 1 2 3 4 5 6 7 8 //frameworks/base/core/java/android/app/ContextImpl.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { warnIfCallingFromSystemProcess(); return bindServiceCommon(service, conn, flags, mMainThread.getHandler(), Process.myUserHandle()); } bindServiceCommon 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19">
 
-<meta itemprop="wordCount" content="5965">
+<meta itemprop="wordCount" content="5800">
 
 
 
 <meta itemprop="keywords" content="源码分析," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="bindService流程分析"/>
-<meta name="twitter:description" content="{%plantuml%} &ndash;&gt; ContextWrapper: bindService ContextWrapper&ndash;&gt; ContextImpl: bindService ContextImpl&ndash;&gt; ContextImpl: bindServiceCommon ContextImpl&ndash;&gt; LoadedApk: getServiceDispatcher LoadedApk&ndash;&gt; ServiceDispatcher: 创建ServiceDispatcher ServiceDispatcher&ndash;&gt; InnerConnection: 创建InnerConnection LoadedApk&ndash;&gt; ContextImpl: 返回ServiceDispat"/>
+<meta name="twitter:description" content="ContextWrapper bindService 1 2 3 4 5 //frameworks/base/core/java/android/content/ContextWrapper.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { return mBase.bindService(service, conn, flags); } ContextImpl bindService 1 2 3 4 5 6 7 8 //frameworks/base/core/java/android/app/ContextImpl.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { warnIfCallingFromSystemProcess(); return bindServiceCommon(service, conn, flags, mMainThread.getHandler(), Process.myUserHandle()); } bindServiceCommon 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -196,31 +196,7 @@
   </div>
 </div>
     <div class="post-content">
-      <p>{%plantuml%}</p>
-<p>&ndash;&gt; ContextWrapper: bindService</p>
-<p>ContextWrapper&ndash;&gt; ContextImpl: bindService</p>
-<p>ContextImpl&ndash;&gt; ContextImpl: bindServiceCommon</p>
-<p>ContextImpl&ndash;&gt; LoadedApk: getServiceDispatcher</p>
-<p>LoadedApk&ndash;&gt; ServiceDispatcher: 创建ServiceDispatcher</p>
-<p>ServiceDispatcher&ndash;&gt; InnerConnection: 创建InnerConnection</p>
-<p>LoadedApk&ndash;&gt; ContextImpl: 返回ServiceDispatcher</p>
-<p>ContextImpl&ndash;&gt;ActivityManagerNative: getDefault</p>
-<p>ActivityManagerNative&ndash;&gt; ActivityManagerProxy: 获取</p>
-<p>ActivityManagerNative&ndash;&gt;ContextImpl: 返回ActivityManagerProxy</p>
-<p>ContextImpl&ndash;&gt;ActivityManagerProxy: bindService</p>
-<p>ActivityManagerProxy &ndash;&gt; ActivityManagerService: 跨进程调用bindService</p>
-<p>ActivityManagerService &ndash;&gt; ActiveServices: bindServiceLocked</p>
-<p>ActiveServices &ndash;&gt; ActiveServices: retrieveServiceLocked</p>
-<p>ActiveServices &ndash;&gt; ActiveServices: bringUpServiceLocked</p>
-<p>ActiveServices &ndash;&gt; ActiveServices: realStartServiceLocked</p>
-<p>ActiveServices &ndash;&gt; ApplicationThread: scheduleCreateService</p>
-<p>ApplicationThread &ndash;&gt; ActivityThread: handleCreateService</p>
-<p>ActiveServices &ndash;&gt; ActiveServices: requestServiceBindingsLocked</p>
-<p>ActiveServices &ndash;&gt; ActiveServices: requestServiceBindingLocked</p>
-<p>ActiveServices &ndash;&gt; ApplicationThread: scheduleBindService</p>
-<p>ApplicationThread &ndash;&gt; ActivityThread: handleBindService</p>
-<p>{%endplantuml%}</p>
-<h2 id="contextwrapper">ContextWrapper</h2>
+      <h2 id="contextwrapper">ContextWrapper</h2>
 <h3 id="bindservice">bindService</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

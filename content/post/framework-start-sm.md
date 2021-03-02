@@ -2,7 +2,6 @@
 title: 启动ServiceManager
 date: 2020-02-01 22:07:20
 tags: ["源码分析"]
-cover: https://images.unsplash.com/photo-1612130679272-4b6a43e93311?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDN8Ym84alFLVGFFMFl8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60
 ---
 
 `ServiceManager`在`init.rc`中启动的。

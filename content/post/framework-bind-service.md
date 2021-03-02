@@ -3,58 +3,9 @@ layout: posts
 title: bindService流程分析
 date: 2020-2-29 19:18:41
 tags: ["源码分析"]
-cover: https://images.unsplash.com/photo-1613470790260-582059be2d4d?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDZ8Ym84alFLVGFFMFl8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60
 ---
 
 
-
-{%plantuml%}
-
---> ContextWrapper: bindService
-
-ContextWrapper--> ContextImpl: bindService
-
-ContextImpl--> ContextImpl: bindServiceCommon
-
-ContextImpl--> LoadedApk: getServiceDispatcher
-
-LoadedApk--> ServiceDispatcher: 创建ServiceDispatcher
-
-ServiceDispatcher--> InnerConnection: 创建InnerConnection
-
-LoadedApk--> ContextImpl: 返回ServiceDispatcher
-
-ContextImpl-->ActivityManagerNative: getDefault
-
-ActivityManagerNative--> ActivityManagerProxy: 获取
-
-ActivityManagerNative-->ContextImpl: 返回ActivityManagerProxy
-
-ContextImpl-->ActivityManagerProxy: bindService
-
-ActivityManagerProxy --> ActivityManagerService: 跨进程调用bindService
-
-ActivityManagerService --> ActiveServices: bindServiceLocked
-
-ActiveServices --> ActiveServices: retrieveServiceLocked
-
-ActiveServices --> ActiveServices: bringUpServiceLocked
-
-ActiveServices --> ActiveServices: realStartServiceLocked
-
-ActiveServices --> ApplicationThread: scheduleCreateService
-
-ApplicationThread --> ActivityThread: handleCreateService
-
-ActiveServices --> ActiveServices: requestServiceBindingsLocked
-
-ActiveServices --> ActiveServices: requestServiceBindingLocked
-
-ActiveServices --> ApplicationThread: scheduleBindService
-
-ApplicationThread --> ActivityThread: handleBindService
-
-{%endplantuml%}
 
 ## ContextWrapper
 

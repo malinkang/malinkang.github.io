@@ -1,41 +1,8 @@
 ---
-title: setContentView发生了什么
+title: WindowManagerService分析
 date: 2020-02-23 17:19:13
 tags: ["源码分析"]
-cover: https://images.unsplash.com/photo-1612130679272-4b6a43e93311?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDN8Ym84alFLVGFFMFl8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60
 ---
-
-
-
-```java
-frameworks/base/core/java/android/view/ViewManager.java
-frameworks/base/core/java/android/view/WindowManager.java
-frameworks/base/core/java/android/view/WindowManagerImpl.java
-```
-
-
-
-## 流程图
-
-### 创建Window和WindowManager的过程
-
-{% plantuml %}
-
--->Activity:attach()
-
-Activity-->Window: 创建Window
-
-Activity-->ContextImpl: getSystemService
-
-ContextImpl-->SystemServiceRegistry: getSystemService
-
-SystemServiceRegistry--> Activity: 返回WindowManagerImpl
-
-Activity--> Window:将WindowManager传递给Window
-
-{% endplantuml %}
-
-
 
 ## Window
 
@@ -44,6 +11,8 @@ Activity--> Window:将WindowManager传递给Window
 > Abstract base class for a top-level window look and behavior policy.  An instance of this class should be used as the top-level view added to the window manager. It provides standard UI policies such as a background, title area, default key processing, etc.
 >
 > The only existing implementation of this abstract class is android.view.PhoneWindow, which you should instantiate when needing a Window.
+
+<!--more-->
 
 顶层窗口外观和行为策略的抽象基类。 该类的一个实例应被用作添加到窗口管理器的顶层视图。它提供了标准的UI策略，如背景、标题区域、默认键处理等。
 
@@ -103,6 +72,8 @@ private Activity performLaunchActivity(ActivityClientRecord r, Intent customInte
 }
 ```
 
+### Activity#attach
+
 `Activity`的`attach`方法会创建`PhoneWindow`对象，并创建一个`WindowManager`对象。
 
 ```java
@@ -131,7 +102,7 @@ final void attach(Context context, ActivityThread aThread,
 }
 ```
 
-### setContentView分析
+### Activity#setContentView
 
 `Activity`的`setContentView`方法，实际上是调用的`PhoneWindow`的`setContentView`方法。
 
@@ -143,6 +114,10 @@ public void setContentView(@LayoutRes int layoutResID) {
 ```
 
 `PhoneWindow`的`setContentView`方法会调用`installDecor`创建`mDecor`和`mContentParent`。并把传入的`View`添加到`mContentParent`中
+
+## PhoneWindow
+
+### setContentView
 
 ```java
 //frameworks/base/core/java/com/android/internal/policy/PhoneWindow.java
@@ -174,6 +149,8 @@ public void setContentView(int layoutResID) {
 }
 ```
 
+### installDecor
+
 `installDecor`创建`mDecor`和`mContentParent`.
 
 ```java
@@ -197,6 +174,8 @@ private void installDecor() {
 }
 ```
 
+### generateDecor
+
 ```java
 protected DecorView generateDecor(int featureId) {
     //...
@@ -204,6 +183,8 @@ protected DecorView generateDecor(int featureId) {
     return new DecorView(context, featureId, this, getAttributes());
 }
 ```
+
+### generateLayout
 
 ```java
 //创建ViewGroup
@@ -283,6 +264,8 @@ protected ViewGroup generateLayout(DecorView decor) {
 
 `setContentView`方法通过`PhoneWindow`创建`DecorView`，并通过`findViewById`获取到`DecorView`的子View`mContentParent`，并把传入的`View`添加到`mContentParent`中。
 
+### AT#handleResumeActivity
+
 在`ActivityThread`的`handleResumeActivity`方法中，会调用`WindowManager`的`addView`方法添加`DecorView`。
 
 ```java
@@ -344,7 +327,7 @@ public interface ViewManager
 }
 ```
 
-### WindowManager创建过程
+### WM创建过程
 
 在`Activity`的`attach`方法会调用`ContextImpl`的`getSystemService`方法获取`WindowManager`。
 
@@ -436,7 +419,7 @@ public WindowManagerImpl createLocalWindowManager(Window parentWindow) {
 }
 ```
 
-### addView分析
+### addView
 
 在`WindowManagerImpl`中有一个`WindowManagerGlobal`实例`mGlobal`。`WindowManagerImpl`的`addView`方法调用的是`WindowManagerGlobal`的`addView`方法。
 

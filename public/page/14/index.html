@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,95 +109,113 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-thread-safe-and-lock-optimization/">《深入理解JVM》第13章线程安全和锁优化</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-bitmap/">Android Bitmap使用</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-09-17 </span>
+      <span class="post-time"> 2016-06-24 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      
+      <!-- raw HTML omitted -->
+<h3 id="bitmap占用内存计算">Bitmap占用内存计算</h3>
+<p>Android的Bitmap对象提供了方法<code>getByteCount</code>来获取Bitmap的字节数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">getByteCount</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// int result permits bitmaps up to 46,340 x 46,340
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">getRowBytes</span><span class="o">()</span> <span class="o">*</span> <span class="n">getHeight</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>getRowBytes()</code>方法用来获取每行的字节数，内部调用一个native方法。</p>
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-thread-safe-and-lock-optimization/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-bitmap/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-java-memory-model-and-thread/">《深入理解Java虚拟机》第12章内存模型与线程</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-studio-template/">创建 Android Studio Template</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-09-10 </span>
+      <span class="post-time"> 2016-06-15 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      
+      <p>AndroidStudio 为我们提供了很多创建Activity以及其他类和文件夹的Template。</p>
+<p><img src="/images/android-studio-template-1.png" alt=""></p>
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-java-memory-model-and-thread/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-studio-template/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-compilation-optimization/">《深入理解JVM》第10章编译期优化</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-serialization/">《Effective Java》第12章序列化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-09-03 </span>
+      <span class="post-time"> 2016-03-12 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第10章 Java内存区域与内存溢出 10.1 概述 10.2 Javac编译器 10.2.1 Javac的源码与调试 从Sun Javac的代码来看，编译过程大致可以分为3个过程
+      对象序列化（object serialization）API，提供了一个框架，用来将对象编码成字节流，并从字节流编码中重新构建对象。“将一个对
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-compilation-optimization/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-serialization/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-class-loader/">《深入理解JVM》第7章类加载器</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-concurrency/">《Effective Java》第11章并发</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-08-27 </span>
+      <span class="post-time"> 2016-03-05 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>一个完整的 Java 程序是由多个 .class 文件组成的，在程序运行过程中，需要将这些 .class 文件加载到 JVM 中才可以使用。而负责加载这些 .class 文件的就是类加载器（ClassLoader）。</p>
+      
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-class-loader/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-concurrency/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-class-file-structure/">《深入理解JVM》第6章类文件结构</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/effective-java-exceptions/">《Effective Java》第10章异常</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-08-20 </span>
+      <span class="post-time"> 2016-02-27 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何分隔符，这使得整个Class文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
+      
     </div>
     <div class="read-more">
-      <a href="/post/understanding-the-jvm-class-file-structure/" class="read-more-link">阅读更多</a>
+      <a href="/post/effective-java-exceptions/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

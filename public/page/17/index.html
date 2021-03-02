@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,95 +109,96 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-methods/">《Effective Java》第8章方法</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-atomic-variables-and-nonblocking-synchronization/">《Java并发编程实战》第15章原子变量与非阻塞同步机制</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-02-13 </span>
+      <span class="post-time"> 2015-11-12 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第38条：检查参数的有效性 对于公有的方法，要用Javadoc的@throws标签在文档中说明违反参数值会抛出的异常。一旦在文档中记录了对于方
+      <p>在<code>java.util.concurrent</code>包的许多类中，例如<code>Semaphore</code>和<code>ConcurrentLinkedQueue</code>，都提供了比<code>synchronized</code>机制更高的性能和可伸缩性。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-methods/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-atomic-variables-and-nonblocking-synchronization/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-lambdas-and-streams/">《Effective Java》第7章lambda表达式和流</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-building-custom-synchronizers/">《Java并发编程实战》第14章构建自定义的同步工具</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-02-06 </span>
+      <span class="post-time"> 2015-11-05 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      
+      <p>类库包含了许多存在状态依赖性的类，例如<code>FutureTask</code>、<code>Semaphore</code>和<code>BlockingQueue</code>等。在这些类的一些操作中有着基于状态的前提条件，例如，不能从一个空的队列中删除元素，或者获取一个尚未结束的任务的计算结果，在这些操作可以执行之前，必须等到队列进入“非空”状态，或者任务进入“已完成”状态。</p>
+<p>创建状态依赖类的最简单方法通常是在类库中现有状态依赖类的基础上进行构造。如果类库没有提供你需要的功能，那么还可以使用<code>Java</code>语言和类库提供的底层机制来构造自己的同步机制，包括内置的条件队列、显式的<code>Condition</code>对象以及<code>AbstractQueuedSynchronizer</code>框架。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-lambdas-and-streams/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-building-custom-synchronizers/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-enums-and-annotations/">《Effective Java》第6章枚举和注解</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-explicit-locks/">《Java并发编程实战》第13章显式锁</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-01-30 </span>
+      <span class="post-time"> 2015-10-29 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第30条：用enum代替int常量 在编程语言中还没有引入枚举类型之前，表示枚举类型的常量模式是声明一组具名的int常量，每个类型成员一个常量
+      <p>在<code>Java 5.0</code>之前，在协调对共享对象的访问时可以使用的机制只有<code>synchronized</code>和<code>volatile</code>。Java5.0增加了一种新的机制：<code>ReentrantLock</code>。<code>ReentrantLock</code>并不是一种替代内置锁的方法，而是当内置加锁机制不适用时，作为一种可选择的高级功能。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-enums-and-annotations/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-explicit-locks/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-generics/">《Effective Java》第5章泛型</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-applying-thread-pools/">《Java并发编程实战》第8章线程池的使用</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-01-23 </span>
+      <span class="post-time"> 2015-10-22 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第26条：请不要在新代码中使用原生态类型 声明中具有一个或者多个类型参数（type parameter）的类或者接口就是泛型类或者接口。泛型类和
+      <p>本章将介绍对线程池进行配置与调优的一些高级选项，并分析在使用任务执行框架时需要注意的各种危险，以及一些使用<code>Executor</code>的高级示例。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-generics/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-applying-thread-pools/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/effective-java-classes-and-interfaces/">《Effective Java》第4章类和接口</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java-currency-in-practice-task-execution/">《Java并发编程实战》第6章执行任务</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2016-01-16 </span>
+      <span class="post-time"> 2015-10-15 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第13条：使类和成员的可访问性最小化 区分一个组件设计得好不好，唯一重要的因素在于，它对于外部的其他组件而言，是否隐藏了其内部数据和其他实现细
+      <p>大多数并发应用程序都是围绕“任务执行”来构造的，任务通常是一些抽象的且离散的工作单元。通过把应用程序的工作分解到多个任务中，可以简化程序的组织结构，提供一种自然的事务边界来优化错误恢复过程，以及提供一种自然的并行工作结构来提升并发性。</p>
     </div>
     <div class="read-more">
-      <a href="/post/effective-java-classes-and-interfaces/" class="read-more-link">阅读更多</a>
+      <a href="/post/java-currency-in-practice-task-execution/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

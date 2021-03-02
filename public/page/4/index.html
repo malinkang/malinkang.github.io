@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,88 +109,6 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/framework-wms/">wms</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-03-16 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Window WindowManagerService 1 2 3 4 5 6 7 8 9 //frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java public static WindowManagerService main(final Context context, final InputManagerService im, final boolean haveInputMethods, final boolean showBootMsgs, final boolean onlyCore, WindowManagerPolicy policy) { DisplayThread.getHandler().runWithScissors(() -&gt; sInstance = new WindowManagerService(context, im, haveInputMethods, showBootMsgs, onlyCore, policy), 0); return sInstance; } 1 2 3 4 5 6 7 8 //frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java public IWindowSession openSession(IWindowSessionCallback callback, IInputMethodClient client, IInputContext inputContext) { if (client == null)
-    </div>
-    <div class="read-more">
-      <a href="/post/framework-wms/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/start-activity/">startActivity流程分析</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-02-27 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>Activity的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/start-activity/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/create-application-process/">创建应用程序进程</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-02-27 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>一个App打开另一个App的Activity或者绑定另外一个App的服务的过程，如果另外一个App的进程不存在，都会先创建另外一个App的进程，再执行后续操作。</p>
-<p>应用程序进程创建过程可以分为以下几部分：</p>
-<ol>
-<li>AMS发送启动应用程序进程请求</li>
-<li>Zygote接收请求并创建应用程序进程。</li>
-<li>ActivityThread初始化</li>
-</ol>
-    </div>
-    <div class="read-more">
-      <a href="/post/create-application-process/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/framework-setcontentview/">setContentView发生了什么</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-02-23 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      1 2 3 frameworks/base/core/java/android/view/ViewManager.java frameworks/base/core/java/android/view/WindowManager.java frameworks/base/core/java/android/view/WindowManagerImpl.java 流程图 创建Window和WindowManager的过程 {% plantuml %} &ndash;&gt;Activity:attach() Activity&ndash;&gt;Window: 创建Window Activity&ndash;&gt;ContextImpl: getSystemService ContextImpl&ndash;&gt;SystemServiceRegistry: getSystemService SystemServiceRegistry&ndash;&gt; Activity: 返回WindowManagerIm
-    </div>
-    <div class="read-more">
-      <a href="/post/framework-setcontentview/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/framework-ams/">AMS分析</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2020-02-22 </span>
@@ -204,6 +122,112 @@
     </div>
     <div class="read-more">
       <a href="/post/framework-ams/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/framework-add-and-get-service/">添加和获取服务</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-02-15 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      
+    </div>
+    <div class="read-more">
+      <a href="/post/framework-add-and-get-service/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/framework-get-sm/">获取ServiceManager</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-02-08 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p><code>ServiceManager</code>的<code>addService</code>和<code>getService</code>方法都会首先调用<code>getIServiceManager</code>来获取<code>ServiceManager</code>。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/framework-get-sm/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/framework-start-sm/">启动ServiceManager</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-02-01 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p><code>ServiceManager</code>在<code>init.rc</code>中启动的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//system/core/rootdir/init.rc
+</span><span class="c1"></span><span class="n">service</span> <span class="n">servicemanager</span> <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">servicemanager</span>
+    <span class="kd">class</span> <span class="nc">core</span>
+    <span class="n">user</span> <span class="n">system</span>
+    <span class="n">group</span> <span class="n">system</span>
+    <span class="n">critical</span>
+    <span class="n">onrestart</span> <span class="n">restart</span> <span class="n">healthd</span>
+    <span class="n">onrestart</span> <span class="n">restart</span> <span class="n">zygote</span>
+    <span class="n">onrestart</span> <span class="n">restart</span> <span class="n">media</span>
+    <span class="n">onrestart</span> <span class="n">restart</span> <span class="n">surfaceflinger</span>
+    <span class="n">onrestart</span> <span class="n">restart</span> <span class="n">drm</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+    <div class="read-more">
+      <a href="/post/framework-start-sm/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/framework-systemserver/">SystemServer启动流程</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-01-18 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p><code>SystemServer</code>进程主要用于创建系统服务，我们熟知的AMS、WMS和PMS都是由它来创建的。</p>
+<p>一旦在<code>init.rc</code>中为<code>Zygote</code>制定了启动参数<code>--start-system-server</code>，那么<code>ZygoteInit</code>就会调用<code>startSystemServer</code>来启动<code>SystemServer</code>集成。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/framework-systemserver/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

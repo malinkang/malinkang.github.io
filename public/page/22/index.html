@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,95 +109,95 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-containers-in-depth/">《Java编程思想》第17章容器深入研究</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-polymorphism/">《Java编程思想》第8章多态</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-07-02 </span>
+      <span class="post-time"> 2013-04-30 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      1.完整的容器分类法 2.填充容器 与Arrays版本一样，此fill()方法也是只复制同一个对象引用来填充整个容器的，并且只对List对象有用
+      8.1 再论向上转型 对某个对象的引用视为对其基类型的引用的做法被称作向上转型。 单独创建一个奏乐符（Note）类： 1 2 3 4 5 6 7 //: polymorphism/music/Note.java // Notes to play on musical instruments. package
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-containers-in-depth/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-polymorphism/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-arrays/">《Java编程思想》第16章数组</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-reusing-classes/">《Java编程思想》第7章复用类</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-06-25 </span>
+      <span class="post-time"> 2013-04-23 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      1.数组为什么特殊 数组与其他种类的容器之间的区别有三方面：效率、类型和保存基本类型的能力。在Java中，数组是一种效率最高的存储和随机访问对
+      7.1 组合语法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 //: reusing/SprinklerSystem.java // Composition for code reuse. class WaterSource { private String s; WaterSource() { System.out.println(&#34;WaterSource()&#34;); s = &#34;Constructed&#34;; } public String toString() { return s; } } public class
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-arrays/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-reusing-classes/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-generics/">《Java编程思想》第15章泛型</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-access-control/">《Java编程思想》第6章访问权限控制</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-06-18 </span>
+      <span class="post-time"> 2013-04-16 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      一般的类和方法，只能使用具体的类型：要么是基本类型，要么是自定义的类。如果要编写可以应用于多种类型的代码，这种刻板的限制对代码的束缚就会很大
+      
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-generics/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-access-control/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-type-information/">《Java编程思想》第14章类型信息</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-initialization-and-cleanup/">《Java编程思想》第5章初始化与清理</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-06-11 </span>
+      <span class="post-time"> 2013-04-09 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      14.1 为什么需要RTTI 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 abstract class Shape{ void draw(){ System.out.println(this + &#34;.draw()&#34;); } abstract public String toString(); } class Circle extends Shape{ public String
+      随着计算机革命的发展，“不安全”的编程方式已逐渐成为编程代价高昂的主因之一。 初始化和清理（cleanup）正是涉及安全的两个问题。C++引入
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-type-information/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-initialization-and-cleanup/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-strings/">《Java编程思想》第13章字符串</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/thinking-in-java-controlling-execution/">《Java编程思想》第4章控制流程</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2013-06-04 </span>
+      <span class="post-time"> 2013-04-02 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      第13章 字符串 13.1 不可变String 1 2 3 4 5 6 7 8 9 10 11 12 13 public class Immutable { public static String upcase(String s){ return s.toUpperCase(); } public static void main(String[] args) { String q = &#34;howdy&#34;; System.out.println(q); String qq = upcase(q); System.out.println(qq); System.out.println(q); } } 当把q传给upca
+      
     </div>
     <div class="read-more">
-      <a href="/post/thinking-in-java-strings/" class="read-more-link">阅读更多</a>
+      <a href="/post/thinking-in-java-controlling-execution/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

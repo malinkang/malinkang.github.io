@@ -2,49 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://malinkang.cn/tags/android/</loc>
+    <lastmod>2020-12-14T19:18:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://malinkang.cn/post/</loc>
-    <lastmod>2021-01-30T15:12:35+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/</loc>
-    <lastmod>2021-01-30T15:12:35+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/post/doc-generator/</loc>
-    <lastmod>2021-01-30T15:12:35+00:00</lastmod>
+    <lastmod>2020-12-14T19:18:41+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://malinkang.cn/tags/</loc>
-    <lastmod>2021-01-19T09:21:04+00:00</lastmod>
+    <lastmod>2020-12-14T19:18:41+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://malinkang.cn/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2021-01-19T09:21:04+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/post/deskclock-analysis/</loc>
-    <lastmod>2021-01-19T09:21:04+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/tags/android/</loc>
+    <loc>https://malinkang.cn/</loc>
     <lastmod>2020-12-14T19:18:41+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -59,6 +38,13 @@
   
   <url>
     <loc>https://malinkang.cn/post/workmanager-source-analysis/</loc>
+    <lastmod>2020-12-07T20:40:56+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
     <lastmod>2020-12-07T20:40:56+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -142,20 +128,6 @@
   </url>
   
   <url>
-    <loc>https://malinkang.cn/post/what-is-reactive-programming/</loc>
-    <lastmod>2020-07-28T10:44:19+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/post/framework-wms/</loc>
-    <lastmod>2020-03-16T15:16:23+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://malinkang.cn/post/start-activity/</loc>
     <lastmod>2020-02-27T16:07:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -177,7 +149,7 @@
   </url>
   
   <url>
-    <loc>https://malinkang.cn/post/framework-setcontentview/</loc>
+    <loc>https://malinkang.cn/post/windowmanagerservice/</loc>
     <lastmod>2020-02-23T17:19:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -186,13 +158,6 @@
   <url>
     <loc>https://malinkang.cn/post/framework-ams/</loc>
     <lastmod>2020-02-22T14:48:10+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/post/framework-parcel/</loc>
-    <lastmod>2020-02-20T15:11:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -219,13 +184,6 @@
   </url>
   
   <url>
-    <loc>https://malinkang.cn/post/framework-binder-driver/</loc>
-    <lastmod>2020-01-25T09:44:44+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://malinkang.cn/post/framework-systemserver/</loc>
     <lastmod>2020-01-18T14:04:10+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -235,34 +193,6 @@
   <url>
     <loc>https://malinkang.cn/post/framework-zygote/</loc>
     <lastmod>2020-01-11T15:01:48+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/post/epoxy-models/</loc>
-    <lastmod>2020-01-05T15:52:23+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/tags/java/</loc>
-    <lastmod>2020-01-05T15:52:23+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2020-01-05T15:52:23+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://malinkang.cn/post/framework-init/</loc>
-    <lastmod>2020-01-04T15:01:48+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -401,13 +331,6 @@
   </url>
   
   <url>
-    <loc>https://malinkang.cn/post/up/</loc>
-    <lastmod>2019-01-05T09:54:09+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://malinkang.cn/post/runtime-permissions/</loc>
     <lastmod>2018-12-24T20:25:35+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -423,6 +346,13 @@
   
   <url>
     <loc>https://malinkang.cn/post/kotlin-in-action-chapter8/</loc>
+    <lastmod>2018-09-12T12:26:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2018-09-12T12:26:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -809,6 +739,13 @@
   <url>
     <loc>https://malinkang.cn/post/java-currency-in-practice-thread-safety/</loc>
     <lastmod>2015-09-24T10:53:22+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://malinkang.cn/tags/java/</loc>
+    <lastmod>2014-11-29T17:36:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

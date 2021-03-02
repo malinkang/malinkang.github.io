@@ -50,7 +50,7 @@
 <meta itemprop="description" content="Activity的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。">
 <meta itemprop="datePublished" content="2020-02-27T16:07:48+08:00" />
 <meta itemprop="dateModified" content="2020-02-27T16:07:48+08:00" />
-<meta itemprop="wordCount" content="8103">
+<meta itemprop="wordCount" content="8363">
 
 
 
@@ -132,18 +132,19 @@
   <ul>
     <li><a href="#launcher请求ams过程">Launcher请求AMS过程</a>
       <ul>
-        <li><a href="#startactivity">startActivity()</a></li>
-        <li><a href="#startactivityforresult">startActivityForResult()</a></li>
-        <li><a href="#execstartactivity">execStartActivity()</a></li>
+        <li><a href="#activitystartactivity">Activity#startActivity</a></li>
+        <li><a href="#activitystartactivityforresult">Activity#startActivityForResult</a></li>
+        <li><a href="#instrumentationexecstartactivity">Instrumentation#execStartActivity</a></li>
+        <li><a href="#instrumentationcheckstartactivityresult">Instrumentation#checkStartActivityResult</a></li>
         <li><a href="#getservice">getService()</a></li>
       </ul>
     </li>
-    <li><a href="#activitytaskmanagerservice-到applicationthread的调用过程">ActivityTaskManagerService 到ApplicationThread的调用过程</a>
+    <li><a href="#atms到at的调用过程">ATMS到AT的调用过程</a>
       <ul>
-        <li><a href="#startactivity-1">startActivity()</a></li>
+        <li><a href="#startactivity">startActivity()</a></li>
         <li><a href="#startactivityasuser">startActivityAsUser()</a></li>
         <li><a href="#execute">execute()</a></li>
-        <li><a href="#startactivity-2">startActivity()</a></li>
+        <li><a href="#activitystarterstartactivity">ActivityStarter#startActivity</a></li>
         <li><a href="#startactivityunchecked">startActivityUnchecked()</a></li>
         <li><a href="#resumefocusedstackstopactivities">resumeFocusedStacksTopActivities()</a></li>
         <li><a href="#resumetopactivityuncheckedlocked">resumeTopActivityUncheckedLocked()</a></li>
@@ -172,7 +173,7 @@
   </div>
 </div>
     <div class="post-content">
-      <p>Activity的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。</p>
+      <p><code>Activity</code>的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。</p>
 <p>Activity的启动过程比较复杂，因此这里分为3个部分来讲，分别是</p>
 <ol>
 <li>Launcher请求AMS过程</li>
@@ -209,10 +210,9 @@
 </span><span class="lnt">22
 </span><span class="lnt">23
 </span><span class="lnt">24
-</span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//Launcher的startActivitySafely方法
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//packages/apps/Launcher3/src/com/android/launcher3/Launcher.java
 </span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startActivitySafely</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="n">ItemInfo</span> <span class="n">item</span><span class="o">,</span>
         <span class="nd">@Nullable</span> <span class="n">String</span> <span class="n">sourceContainer</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(!</span><span class="n">hasBeenResumed</span><span class="o">())</span> <span class="o">{</span>
@@ -224,7 +224,6 @@
         <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     <span class="o">}</span>
     <span class="c1">//这里调用的是BaseDraggingActivity的startActivitySafely
-</span><span class="c1"></span>    <span class="c1">//①
 </span><span class="c1"></span>    <span class="kt">boolean</span> <span class="n">success</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">startActivitySafely</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">intent</span><span class="o">,</span> <span class="n">item</span><span class="o">,</span> <span class="n">sourceContainer</span><span class="o">);</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">success</span> <span class="o">&amp;&amp;</span> <span class="n">v</span> <span class="k">instanceof</span> <span class="n">BubbleTextView</span><span class="o">)</span> <span class="o">{</span>
         <span class="c1">// This is set to the view that launched the activity that navigated the user away
@@ -239,7 +238,7 @@
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>BaseDraggingActivity的startActivitySafely方法</p>
+</div><p><code>BaseDraggingActivity</code>的<code>startActivitySafely</code>方法</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -287,9 +286,11 @@
 </span><span class="lnt">43
 </span><span class="lnt">44
 </span><span class="lnt">45
+</span><span class="lnt">46
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startActivitySafely</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">ItemInfo</span> <span class="n">item</span><span class="o">,</span>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//packages/apps/Launcher3/src/com/android/launcher3/BaseDraggingActivity.java
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startActivitySafely</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">ItemInfo</span> <span class="n">item</span><span class="o">,</span>
         <span class="nd">@Nullable</span> <span class="n">String</span> <span class="n">sourceContainer</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">mIsSafeModeEnabled</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">PackageManagerHelper</span><span class="o">.</span><span class="na">isSystemApp</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">intent</span><span class="o">))</span> <span class="o">{</span>
         <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">safemode_shortcut_error</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
@@ -315,7 +316,7 @@
 </span><span class="c1"></span>            <span class="n">startShortcutIntentSafely</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">optsBundle</span><span class="o">,</span> <span class="n">item</span><span class="o">,</span> <span class="n">sourceContainer</span><span class="o">);</span>
         <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">user</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">Process</span><span class="o">.</span><span class="na">myUserHandle</span><span class="o">()))</span> <span class="o">{</span>
             <span class="c1">// Could be launching some bookkeeping activity
-</span><span class="c1"></span>            <span class="c1">//②
+</span><span class="c1"></span>            <span class="c1">//调用Activity的startActivity方法
 </span><span class="c1"></span>            <span class="n">startActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">optsBundle</span><span class="o">);</span>
             <span class="n">AppLaunchTracker</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">onStartApp</span><span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">getComponent</span><span class="o">(),</span>
                     <span class="n">Process</span><span class="o">.</span><span class="na">myUserHandle</span><span class="o">(),</span> <span class="n">sourceContainer</span><span class="o">);</span>
@@ -337,7 +338,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>在①处将Flag设置为Intent.FLAG_ACTIVITY_NEW_TASK，这样根Activity会在新的任务栈中启动。在②处会调用startActivity方法。</p>
-<h3 id="startactivity">startActivity()</h3>
+<h3 id="activitystartactivity">Activity#startActivity</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -365,7 +366,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>在startActivity 方法中会调用startActivityForResult 方法，它的第二个参数为-1，表示Launcher不需要知道Activity启动的结果。</p>
-<h3 id="startactivityforresult">startActivityForResult()</h3>
+<h3 id="activitystartactivityforresult">Activity#startActivityForResult</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -400,8 +401,8 @@
 </span><span class="c1"></span><span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>mParent是Activity类型的，表示当前Activity的父类。因为目前根Activity还没有创建出来，因此，mParent==null成立。接着调用Instrumentation的execStartActivity方法，Instrumentation 主要用来监控应用程序和系统的交互。</p>
-<h3 id="execstartactivity">execStartActivity()</h3>
+</div><p>mParent是Activity类型的，表示当前Activity的父类。因为目前根Activity还没有创建出来，因此，mParent==null成立。接着调用<code>Instrumentation</code>的<code>execStartActivity</code>方法，Instrumentation 主要用来监控应用程序和系统的交互。</p>
+<h3 id="instrumentationexecstartactivity">Instrumentation#execStartActivity</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -421,21 +422,25 @@
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">ActivityResult</span> <span class="nf">execStartActivity</span><span class="o">(</span>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//frameworks/base/core/java/android/app/Instrumentation.java
+</span><span class="c1"></span><span class="kd">public</span> <span class="n">ActivityResult</span> <span class="nf">execStartActivity</span><span class="o">(</span>
         <span class="n">Context</span> <span class="n">who</span><span class="o">,</span> <span class="n">IBinder</span> <span class="n">contextThread</span><span class="o">,</span> <span class="n">IBinder</span> <span class="n">token</span><span class="o">,</span> <span class="n">Activity</span> <span class="n">target</span><span class="o">,</span>
         <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">options</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">try</span> <span class="o">{</span>
         <span class="n">intent</span><span class="o">.</span><span class="na">migrateExtraStreamToClipData</span><span class="o">();</span>
         <span class="n">intent</span><span class="o">.</span><span class="na">prepareToLeaveProcess</span><span class="o">(</span><span class="n">who</span><span class="o">);</span>
-        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ActivityTaskManager</span><span class="o">.</span><span class="na">getService</span><span class="o">()</span>
+        <span class="c1">//远程调用ATMS的startActivity方法
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ActivityTaskManager</span><span class="o">.</span><span class="na">getService</span><span class="o">()</span>
             <span class="o">.</span><span class="na">startActivity</span><span class="o">(</span><span class="n">whoThread</span><span class="o">,</span> <span class="n">who</span><span class="o">.</span><span class="na">getBasePackageName</span><span class="o">(),</span> <span class="n">intent</span><span class="o">,</span>
                     <span class="n">intent</span><span class="o">.</span><span class="na">resolveTypeIfNeeded</span><span class="o">(</span><span class="n">who</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">()),</span>
                     <span class="n">token</span><span class="o">,</span> <span class="n">target</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">target</span><span class="o">.</span><span class="na">mEmbeddedID</span> <span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
                     <span class="n">requestCode</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
-        <span class="n">checkStartActivityResult</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">intent</span><span class="o">);</span>
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">RemoteException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkStartActivityResult</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">intent</span><span class="o">);</span><span class="c1">//校验返回结果
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">RemoteException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Failure from system&#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
     <span class="o">}</span>
     <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
@@ -443,7 +448,108 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>首先调用<code>ActivityTaskManager</code>的<code>getService</code>方法来获取<code>IActivityTaskManager</code>的代理对象，接着调用它的<code>startActivity</code>方法。</p>
-<h3 id="getservice">getService()</h3>
+<h3 id="instrumentationcheckstartactivityresult">Instrumentation#checkStartActivityResult</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkStartActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">res</span><span class="o">,</span> <span class="n">Object</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">ActivityManager</span><span class="o">.</span><span class="na">isStartResultFatalError</span><span class="o">(</span><span class="n">res</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">switch</span> <span class="o">(</span><span class="n">res</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_INTENT_NOT_RESOLVED</span><span class="o">:</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_CLASS_NOT_FOUND</span><span class="o">:</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">intent</span> <span class="k">instanceof</span> <span class="n">Intent</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">Intent</span><span class="o">)</span><span class="n">intent</span><span class="o">).</span><span class="na">getComponent</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="n">ActivityNotFoundException</span><span class="o">(</span>
+                        <span class="s">&#34;Unable to find explicit activity class &#34;</span>
+                        <span class="o">+</span> <span class="o">((</span><span class="n">Intent</span><span class="o">)</span><span class="n">intent</span><span class="o">).</span><span class="na">getComponent</span><span class="o">().</span><span class="na">toShortString</span><span class="o">()</span>
+                        <span class="o">+</span> <span class="s">&#34;; have you declared this activity in your AndroidManifest.xml?&#34;</span><span class="o">);</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">ActivityNotFoundException</span><span class="o">(</span>
+                    <span class="s">&#34;No Activity found to handle &#34;</span> <span class="o">+</span> <span class="n">intent</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_PERMISSION_DENIED</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">SecurityException</span><span class="o">(</span><span class="s">&#34;Not allowed to start activity &#34;</span>
+                    <span class="o">+</span> <span class="n">intent</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_FORWARD_AND_REQUEST_CONFLICT</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">AndroidRuntimeException</span><span class="o">(</span>
+                    <span class="s">&#34;FORWARD_RESULT_FLAG used while also requesting a result&#34;</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_NOT_ACTIVITY</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span>
+                    <span class="s">&#34;PendingIntent is not an activity&#34;</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_NOT_VOICE_COMPATIBLE</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">SecurityException</span><span class="o">(</span>
+                    <span class="s">&#34;Starting under voice control not allowed for: &#34;</span> <span class="o">+</span> <span class="n">intent</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_VOICE_NOT_ACTIVE_SESSION</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+                    <span class="s">&#34;Session calling startVoiceActivity does not match active session&#34;</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_VOICE_HIDDEN_SESSION</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+                    <span class="s">&#34;Cannot start voice activity on a hidden session&#34;</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_ASSISTANT_NOT_ACTIVE_SESSION</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+                    <span class="s">&#34;Session calling startAssistantActivity does not match active session&#34;</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_ASSISTANT_HIDDEN_SESSION</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+                    <span class="s">&#34;Cannot start assistant activity on a hidden session&#34;</span><span class="o">);</span>
+        <span class="k">case</span> <span class="n">ActivityManager</span><span class="o">.</span><span class="na">START_CANCELED</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">AndroidRuntimeException</span><span class="o">(</span><span class="s">&#34;Activity could not be started for &#34;</span>
+                    <span class="o">+</span> <span class="n">intent</span><span class="o">);</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">AndroidRuntimeException</span><span class="o">(</span><span class="s">&#34;Unknown error code &#34;</span>
+                    <span class="o">+</span> <span class="n">res</span> <span class="o">+</span> <span class="s">&#34; when starting &#34;</span> <span class="o">+</span> <span class="n">intent</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="getservice">getService()</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -480,10 +586,10 @@
         <span class="o">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="activitytaskmanagerservice-到applicationthread的调用过程">ActivityTaskManagerService 到ApplicationThread的调用过程</h2>
-<p>Launcher请求ActivityTaskManagerService后，代码逻辑已经进入ActivityTaskManagerService中，接着是AMS到ApplicationThread的调用流程，时序图如图所示</p>
+</div><h2 id="atms到at的调用过程">ATMS到AT的调用过程</h2>
+<p>Launcher请求ActivityTaskManagerService后，代码逻辑已经进入ATMS中，接着是AMS到ApplicationThread的调用流程，时序图如图所示</p>
 <p><img src="../../.gitbook/assets/image%20%2864%29.png" alt=""></p>
-<h3 id="startactivity-1">startActivity()</h3>
+<h3 id="startactivity">startActivity()</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -500,8 +606,8 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//继承IActivityTaskManager.Stub 实现startActivity方法
-</span><span class="c1">//frameworks/base/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//frameworks/base/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
+</span><span class="c1">//继承IActivityTaskManager.Stub 实现startActivity方法
 </span><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ActivityTaskManagerService</span> <span class="kd">extends</span> <span class="n">IActivityTaskManager</span><span class="o">.</span><span class="na">Stub</span><span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">startActivity</span><span class="o">(</span><span class="n">IApplicationThread</span> <span class="n">caller</span><span class="o">,</span> <span class="n">String</span> <span class="n">callingPackage</span><span class="o">,</span>
@@ -593,13 +699,67 @@
             <span class="o">.</span><span class="na">setStartFlags</span><span class="o">(</span><span class="n">startFlags</span><span class="o">)</span>
             <span class="o">.</span><span class="na">setProfilerInfo</span><span class="o">(</span><span class="n">profilerInfo</span><span class="o">)</span>
             <span class="o">.</span><span class="na">setActivityOptions</span><span class="o">(</span><span class="n">bOptions</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">setMayWait</span><span class="o">(</span><span class="n">userId</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+            <span class="o">.</span><span class="na">setMayWait</span><span class="o">(</span><span class="n">userId</span><span class="o">)</span><span class="c1">//设置MayWait为true
+</span><span class="c1"></span>            <span class="o">.</span><span class="na">execute</span><span class="o">();</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>在注释1处判断调用者进程是否被隔离，如果被隔离则抛出SecurityException异常，在注释2处检查调用者是否有权限，如果没有权限也会抛出SecurityException异常。最后调用了ActivityStarter的execute 方法。</p>
 <h3 id="execute">execute()</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//frameworks/base/services/core/java/com/android/server/wm/ActivityStarter.java
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">// TODO(b/64750076): Look into passing request directly to these methods to allow
+</span><span class="c1"></span>        <span class="c1">// for transactional diffs and preprocessing.
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">mRequest</span><span class="o">.</span><span class="na">mayWait</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">startActivityMayWait</span><span class="o">(</span><span class="n">mRequest</span><span class="o">.</span><span class="na">caller</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">callingUid</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">callingPackage</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">realCallingPid</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">realCallingUid</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">intent</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">resolvedType</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">voiceSession</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">voiceInteractor</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">resultTo</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">resultWho</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">requestCode</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">startFlags</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">profilerInfo</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">waitResult</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">globalConfig</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">activityOptions</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">ignoreTargetSecurity</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">userId</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">inTask</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">reason</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">allowPendingRemoteAnimationRegistryLookup</span><span class="o">,</span>
+                    <span class="n">mRequest</span><span class="o">.</span><span class="na">originatingPendingIntent</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">allowBackgroundActivityStart</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="c1">//...
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">onExecutionComplete</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>ActivityStarter是Android 7.0中新加入的类，它是加载Activity的控制类，会收集所有的逻辑来决定如何将Intent和Flags转换为Activity，并将Activity和Task以及Stack相关联。</p>
+<h3 id="activitystarterstartactivity">ActivityStarter#startActivity</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -633,104 +793,38 @@
 </span><span class="lnt">29
 </span><span class="lnt">30
 </span><span class="lnt">31
-</span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//frameworks/base/services/core/java/com/android/server/wm/ActivityStarter.java
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">try</span> <span class="o">{</span>
-        <span class="c1">// TODO(b/64750076): Look into passing request directly to these methods to allow
-</span><span class="c1"></span>        <span class="c1">// for transactional diffs and preprocessing.
-</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">mRequest</span><span class="o">.</span><span class="na">mayWait</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">startActivityMayWait</span><span class="o">(</span><span class="n">mRequest</span><span class="o">.</span><span class="na">caller</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">callingUid</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">callingPackage</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">realCallingPid</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">realCallingUid</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">intent</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">resolvedType</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">voiceSession</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">voiceInteractor</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">resultTo</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">resultWho</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">requestCode</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">startFlags</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">profilerInfo</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">waitResult</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">globalConfig</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">activityOptions</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">ignoreTargetSecurity</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">userId</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">inTask</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">reason</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">allowPendingRemoteAnimationRegistryLookup</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">originatingPendingIntent</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">allowBackgroundActivityStart</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">startActivity</span><span class="o">(</span><span class="n">mRequest</span><span class="o">.</span><span class="na">caller</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">intent</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">ephemeralIntent</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">resolvedType</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">activityInfo</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">resolveInfo</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">voiceSession</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">voiceInteractor</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">resultTo</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">resultWho</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">requestCode</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">callingPid</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">callingUid</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">callingPackage</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">realCallingPid</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">realCallingUid</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">startFlags</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">activityOptions</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">ignoreTargetSecurity</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">componentSpecified</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">outActivity</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">inTask</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">reason</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">allowPendingRemoteAnimationRegistryLookup</span><span class="o">,</span>
-                    <span class="n">mRequest</span><span class="o">.</span><span class="na">originatingPendingIntent</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">allowBackgroundActivityStart</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-        <span class="n">onExecutionComplete</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>ActivityStarter是Android 7.0中新加入的类，它是加载Activity的控制类，会收集所有的逻辑来决定如何将Intent和Flags转换为Activity，并将Activity和Task以及Stack相关联。</p>
-<h3 id="startactivity-2">startActivity()</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">startActivity</span><span class="o">(</span><span class="n">IApplicationThread</span> <span class="n">caller</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">ephemeralIntent</span><span class="o">,</span>
-        <span class="n">String</span> <span class="n">resolvedType</span><span class="o">,</span> <span class="n">ActivityInfo</span> <span class="n">aInfo</span><span class="o">,</span> <span class="n">ResolveInfo</span> <span class="n">rInfo</span><span class="o">,</span>
-        <span class="n">IVoiceInteractionSession</span> <span class="n">voiceSession</span><span class="o">,</span> <span class="n">IVoiceInteractor</span> <span class="n">voiceInteractor</span><span class="o">,</span>
-        <span class="n">IBinder</span> <span class="n">resultTo</span><span class="o">,</span> <span class="n">String</span> <span class="n">resultWho</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">callingPid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">callingUid</span><span class="o">,</span>
-        <span class="n">String</span> <span class="n">callingPackage</span><span class="o">,</span> <span class="kt">int</span> <span class="n">realCallingPid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">realCallingUid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">startFlags</span><span class="o">,</span>
-        <span class="n">SafeActivityOptions</span> <span class="n">options</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">ignoreTargetSecurity</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">componentSpecified</span><span class="o">,</span>
-        <span class="n">ActivityRecord</span><span class="o">[]</span> <span class="n">outActivity</span><span class="o">,</span> <span class="n">TaskRecord</span> <span class="n">inTask</span><span class="o">,</span> <span class="n">String</span> <span class="n">reason</span><span class="o">,</span>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">startActivityMayWait</span><span class="o">(</span><span class="n">IApplicationThread</span> <span class="n">caller</span><span class="o">,</span> <span class="kt">int</span> <span class="n">callingUid</span><span class="o">,</span>
+        <span class="n">String</span> <span class="n">callingPackage</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestRealCallingPid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestRealCallingUid</span><span class="o">,</span>
+        <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="n">String</span> <span class="n">resolvedType</span><span class="o">,</span> <span class="n">IVoiceInteractionSession</span> <span class="n">voiceSession</span><span class="o">,</span>
+        <span class="n">IVoiceInteractor</span> <span class="n">voiceInteractor</span><span class="o">,</span> <span class="n">IBinder</span> <span class="n">resultTo</span><span class="o">,</span> <span class="n">String</span> <span class="n">resultWho</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span>
+        <span class="kt">int</span> <span class="n">startFlags</span><span class="o">,</span> <span class="n">ProfilerInfo</span> <span class="n">profilerInfo</span><span class="o">,</span> <span class="n">WaitResult</span> <span class="n">outResult</span><span class="o">,</span>
+        <span class="n">Configuration</span> <span class="n">globalConfig</span><span class="o">,</span> <span class="n">SafeActivityOptions</span> <span class="n">options</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">ignoreTargetSecurity</span><span class="o">,</span>
+        <span class="kt">int</span> <span class="n">userId</span><span class="o">,</span> <span class="n">TaskRecord</span> <span class="n">inTask</span><span class="o">,</span> <span class="n">String</span> <span class="n">reason</span><span class="o">,</span>
         <span class="kt">boolean</span> <span class="n">allowPendingRemoteAnimationRegistryLookup</span><span class="o">,</span>
         <span class="n">PendingIntentRecord</span> <span class="n">originatingPendingIntent</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">allowBackgroundActivityStart</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">reason</span><span class="o">))</span> <span class="o">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Need to specify a reason.&#34;</span><span class="o">);</span>
+    <span class="c1">//解析Intent
+</span><span class="c1"></span>    <span class="n">ResolveInfo</span> <span class="n">rInfo</span> <span class="o">=</span> <span class="n">mSupervisor</span><span class="o">.</span><span class="na">resolveIntent</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">resolvedType</span><span class="o">,</span> <span class="n">userId</span><span class="o">,</span>
+            <span class="n">0</span> <span class="cm">/* matchFlags */</span><span class="o">,</span>
+                    <span class="n">computeResolveFilterUid</span><span class="o">(</span>
+                            <span class="n">callingUid</span><span class="o">,</span> <span class="n">realCallingUid</span><span class="o">,</span> <span class="n">mRequest</span><span class="o">.</span><span class="na">filterCallingUid</span><span class="o">));</span>
+    <span class="c1">//...
+</span><span class="c1"></span>    <span class="c1">// Collect information about the target of the Intent.
+</span><span class="c1"></span>    <span class="n">ActivityInfo</span> <span class="n">aInfo</span> <span class="o">=</span> <span class="n">mSupervisor</span><span class="o">.</span><span class="na">resolveActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">rInfo</span><span class="o">,</span> <span class="n">startFlags</span><span class="o">,</span> <span class="n">profilerInfo</span><span class="o">);</span>
+
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">mService</span><span class="o">.</span><span class="na">mGlobalLock</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//调用startActivity
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">startActivity</span><span class="o">(</span><span class="n">caller</span><span class="o">,</span> <span class="n">intent</span><span class="o">,</span> <span class="n">ephemeralIntent</span><span class="o">,</span> <span class="n">resolvedType</span><span class="o">,</span> <span class="n">aInfo</span><span class="o">,</span> <span class="n">rInfo</span><span class="o">,</span>
+                <span class="n">voiceSession</span><span class="o">,</span> <span class="n">voiceInteractor</span><span class="o">,</span> <span class="n">resultTo</span><span class="o">,</span> <span class="n">resultWho</span><span class="o">,</span> <span class="n">requestCode</span><span class="o">,</span> <span class="n">callingPid</span><span class="o">,</span>
+                <span class="n">callingUid</span><span class="o">,</span> <span class="n">callingPackage</span><span class="o">,</span> <span class="n">realCallingPid</span><span class="o">,</span> <span class="n">realCallingUid</span><span class="o">,</span> <span class="n">startFlags</span><span class="o">,</span> <span class="n">options</span><span class="o">,</span>
+                <span class="n">ignoreTargetSecurity</span><span class="o">,</span> <span class="n">componentSpecified</span><span class="o">,</span> <span class="n">outRecord</span><span class="o">,</span> <span class="n">inTask</span><span class="o">,</span> <span class="n">reason</span><span class="o">,</span>
+                <span class="n">allowPendingRemoteAnimationRegistryLookup</span><span class="o">,</span> <span class="n">originatingPendingIntent</span><span class="o">,</span>
+                <span class="n">allowBackgroundActivityStart</span><span class="o">);</span>
+        <span class="c1">//...
+</span><span class="c1"></span>        <span class="c1">//...
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="n">mLastStartReason</span> <span class="o">=</span> <span class="n">reason</span><span class="o">;</span>
-    <span class="n">mLastStartActivityTimeMs</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
-    <span class="n">mLastStartActivityRecord</span><span class="o">[</span><span class="n">0</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-    <span class="c1">//调用重载方法
-</span><span class="c1"></span>    <span class="n">mLastStartActivityResult</span> <span class="o">=</span> <span class="n">startActivity</span><span class="o">(</span><span class="n">caller</span><span class="o">,</span> <span class="n">intent</span><span class="o">,</span> <span class="n">ephemeralIntent</span><span class="o">,</span> <span class="n">resolvedType</span><span class="o">,</span>
-            <span class="n">aInfo</span><span class="o">,</span> <span class="n">rInfo</span><span class="o">,</span> <span class="n">voiceSession</span><span class="o">,</span> <span class="n">voiceInteractor</span><span class="o">,</span> <span class="n">resultTo</span><span class="o">,</span> <span class="n">resultWho</span><span class="o">,</span> <span class="n">requestCode</span><span class="o">,</span>
-            <span class="n">callingPid</span><span class="o">,</span> <span class="n">callingUid</span><span class="o">,</span> <span class="n">callingPackage</span><span class="o">,</span> <span class="n">realCallingPid</span><span class="o">,</span> <span class="n">realCallingUid</span><span class="o">,</span> <span class="n">startFlags</span><span class="o">,</span>
-            <span class="n">options</span><span class="o">,</span> <span class="n">ignoreTargetSecurity</span><span class="o">,</span> <span class="n">componentSpecified</span><span class="o">,</span> <span class="n">mLastStartActivityRecord</span><span class="o">,</span>
-            <span class="n">inTask</span><span class="o">,</span> <span class="n">allowPendingRemoteAnimationRegistryLookup</span><span class="o">,</span> <span class="n">originatingPendingIntent</span><span class="o">,</span>
-            <span class="n">allowBackgroundActivityStart</span><span class="o">);</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">outActivity</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// mLastStartActivityRecord[0] is set in the call to startActivity above.
-</span><span class="c1"></span>        <span class="n">outActivity</span><span class="o">[</span><span class="n">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">mLastStartActivityRecord</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">getExternalResult</span><span class="o">(</span><span class="n">mLastStartActivityResult</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -2231,9 +2325,9 @@
 <footer class="post-footer">
       
       <nav class="post-nav">
-        <a class="prev" href="/post/framework-wms/">
+        <a class="prev" href="/post/recyclerview-analysis-1/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">wms</span>
+            <span class="prev-text nav-default">Recyclerview源码分析一</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/create-application-process/">

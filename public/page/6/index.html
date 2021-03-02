@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,102 +109,95 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/framework-systemserver/">SystemServer启动流程</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-handler/">Handler的使用和原理分析</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2020-01-18 </span>
+      <span class="post-time"> 2019-04-26 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p><code>SystemServer</code>进程主要用于创建系统服务，我们熟知的AMS、WMS和PMS都是由它来创建的。</p>
-<p>一旦在<code>init.rc</code>中为<code>Zygote</code>制定了启动参数<code>--start-system-server</code>，那么<code>ZygoteInit</code>就会调用<code>startSystemServer</code>来启动<code>SystemServer</code>集成。</p>
+      使用Handler 每个应用程序都有自己的特殊线程来运行UI对象，例如View对象;这个线程称为UI线程。在Android中，不允许非UI线程
     </div>
     <div class="read-more">
-      <a href="/post/framework-systemserver/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-handler/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/framework-zygote/">Zygote进程启动流程</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/flutter-widget-column/">Column和Row详解</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2020-01-11 </span>
+      <span class="post-time"> 2019-03-19 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>在Android系统中，应用程序进程以及运行系统的关键服务的<code>SystemServer</code>进程都是由<code>Zygote</code>进程来创建的，我们也将它称为孵化器。它通过<code>fork</code>（复制进程）的形式来创建应用程序进程和<code>SystemServer</code>进程。</p>
+      MainAxisAlignment 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69
     </div>
     <div class="read-more">
-      <a href="/post/framework-zygote/" class="read-more-link">阅读更多</a>
+      <a href="/post/flutter-widget-column/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/epoxy-models/">Epoxy Models</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-build/">Android Build</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2020-01-05 </span>
+      <span class="post-time"> 2019-03-14 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      概览（Overview） Epoxy uses EpoxyModel objects to decide which views to display and how to bind data to them. This is similar to the popular ViewModel pattern. Models also allow you to control other aspects of the view, such as the grid span size, id, and saved state. Epoxy使用Epoxy
+      D8 Android Studio 3.0 推出了d8，并在3.1正式成为默认工具。它的作用是将“.class”文件编译为Dex文件，取代之前的dx工具。 R8 R8 在 Android Studio 3.1 中引入，志
     </div>
     <div class="read-more">
-      <a href="/post/epoxy-models/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-build/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/framework-init/">init启动流程分析</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-dynamic/">Android动态化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2020-01-04 </span>
+      <span class="post-time"> 2019-03-14 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      
+      移动互联网已经发展十年了，随着业务成熟和功能的相对稳定，整体重心开始偏向运营，强烈的运营需求对客户端架构和发布模式都提出了更高的要求。如果每
     </div>
     <div class="read-more">
-      <a href="/post/framework-init/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-dynamic/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/improve-app-performance-with-kotlin-coroutines/">Improve App Performance With Kotlin Coroutines</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-network-performance/">Android网络优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-10-15 </span>
+      <span class="post-time"> 2019-03-08 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p><a href="https://developer.android.com/kotlin/coroutines">原文</a></p>
-<p>协程是一种并发设计模式，您可以在<code>Android</code>上使用它来简化异步执行的代码。 <code>Coroutines</code>在版本1.3中添加到<code>Kotlin</code>，并基于其他语言的既定概念。</p>
-<p>在<code>Android</code>上，协同程序有助于解决两个主要问题：</p>
-<ul>
-<li>管理长时间运行的任务，否则可能会阻止主线程并导致应用冻结。</li>
-<li>提供主安全性，或从主线程安全地调用网络或磁盘操作。</li>
-</ul>
+      在讲怎么去优化网络之前，我想先明确一下所谓的网络优化，究竟指的是什么？在我看来，核心内容有以下三个： 速度。在网络正常或者良好的时候，怎样更好
     </div>
     <div class="read-more">
-      <a href="/post/improve-app-performance-with-kotlin-coroutines/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-network-performance/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

@@ -6,25 +6,7 @@
     <description>Recent content on 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Jan 2021 15:12:35 +0000</lastBuildDate><atom:link href="https://malinkang.cn/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>文档生成工具</title>
-      <link>https://malinkang.cn/post/doc-generator/</link>
-      <pubDate>Sat, 30 Jan 2021 15:12:35 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/doc-generator/</guid>
-      <description>MkDocs MkDocs Material for MkDocs 1 2 3 4 5 pip install mkdocs #安装 mkdocs --version #查看版本号 pip3 install mkdocs-material #安装主题 mkdocs new docs #创建 mkdocs serve 配置： 1 2 3 4 5 6 7 8 site_name: tpln theme: name: material features: - navigation.sections - navigation.tabs nav: - Home: index.md</description>
-    </item>
-    
-    <item>
-      <title>系统闹钟源码分析</title>
-      <link>https://malinkang.cn/post/deskclock-analysis/</link>
-      <pubDate>Tue, 19 Jan 2021 09:21:04 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/deskclock-analysis/</guid>
-      <description>核心类 UI部分 DeskClock：主界面，由ViewPager实现。 DeskClockFragment：首页四个Fragment的基类。 Al</description>
-    </item>
-    
+    <lastBuildDate>Mon, 14 Dec 2020 19:18:41 +0000</lastBuildDate><atom:link href="https://malinkang.cn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>绑定服务</title>
       <link>https://malinkang.cn/post/bound-services/</link>
@@ -134,31 +116,12 @@
     </item>
     
     <item>
-      <title>什么是响应式编程</title>
-      <link>https://malinkang.cn/post/what-is-reactive-programming/</link>
-      <pubDate>Tue, 28 Jul 2020 10:44:19 +0800</pubDate>
-      
-      <guid>https://malinkang.cn/post/what-is-reactive-programming/</guid>
-      <description>&lt;p&gt;最近被人问起什么是响应式编程，虽然使用&lt;code&gt;RxJava&lt;/code&gt;已经五六年了，但真正让我用一句话来概括什么是响应式编程还真有点困难。打开google，搜索什么是函数编程，看了几遍文章也没有明确的答案，这里谈谈自己的理解。&lt;/p&gt;
-&lt;p&gt;响应式编程一个核心的概念是流（stream）。可以基于任何东西创建数据流。流非常轻便，并且无处不在，任何东西都可以是一个流：变量，用户输入，属性，缓存，数据结构等等。除此之外，我们有很多功能强大的函数，可以对这些流进行合并、过滤、转变等。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>wms</title>
-      <link>https://malinkang.cn/post/framework-wms/</link>
-      <pubDate>Mon, 16 Mar 2020 15:16:23 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/framework-wms/</guid>
-      <description>Window WindowManagerService 1 2 3 4 5 6 7 8 9 //frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java public static WindowManagerService main(final Context context, final InputManagerService im, final boolean haveInputMethods, final boolean showBootMsgs, final boolean onlyCore, WindowManagerPolicy policy) { DisplayThread.getHandler().runWithScissors(() -&amp;gt; sInstance = new WindowManagerService(context, im, haveInputMethods, showBootMsgs, onlyCore, policy), 0); return sInstance; } 1 2 3 4 5 6 7 8 //frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java public IWindowSession openSession(IWindowSessionCallback callback, IInputMethodClient client, IInputContext inputContext) { if (client == null)</description>
-    </item>
-    
-    <item>
       <title>startActivity流程分析</title>
       <link>https://malinkang.cn/post/start-activity/</link>
       <pubDate>Thu, 27 Feb 2020 16:07:48 +0800</pubDate>
       
       <guid>https://malinkang.cn/post/start-activity/</guid>
-      <description>&lt;p&gt;Activity的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;code&gt;Activity&lt;/code&gt;的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -177,12 +140,17 @@
     </item>
     
     <item>
-      <title>setContentView发生了什么</title>
-      <link>https://malinkang.cn/post/framework-setcontentview/</link>
+      <title>WindowManagerService分析</title>
+      <link>https://malinkang.cn/post/windowmanagerservice/</link>
       <pubDate>Sun, 23 Feb 2020 17:19:13 +0000</pubDate>
       
-      <guid>https://malinkang.cn/post/framework-setcontentview/</guid>
-      <description>1 2 3 frameworks/base/core/java/android/view/ViewManager.java frameworks/base/core/java/android/view/WindowManager.java frameworks/base/core/java/android/view/WindowManagerImpl.java 流程图 创建Window和WindowManager的过程 {% plantuml %} &amp;ndash;&amp;gt;Activity:attach() Activity&amp;ndash;&amp;gt;Window: 创建Window Activity&amp;ndash;&amp;gt;ContextImpl: getSystemService ContextImpl&amp;ndash;&amp;gt;SystemServiceRegistry: getSystemService SystemServiceRegistry&amp;ndash;&amp;gt; Activity: 返回WindowManagerIm</description>
+      <guid>https://malinkang.cn/post/windowmanagerservice/</guid>
+      <description>&lt;h2 id=&#34;window&#34;&gt;Window&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Window&lt;/code&gt;字面意思为窗口，是一个抽象类，负责管理&lt;code&gt;View&lt;/code&gt;，它的唯一子类为&lt;code&gt;PhoneWindow&lt;/code&gt;。它的官方定义如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Abstract base class for a top-level window look and behavior policy.  An instance of this class should be used as the top-level view added to the window manager. It provides standard UI policies such as a background, title area, default key processing, etc.&lt;/p&gt;
+&lt;p&gt;The only existing implementation of this abstract class is android.view.PhoneWindow, which you should instantiate when needing a Window.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -192,15 +160,6 @@
       
       <guid>https://malinkang.cn/post/framework-ams/</guid>
       <description>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 public void setSystemProcess() { try { ServiceManager.addService(Context.ACTIVITY_SERVICE, this, /*</description>
-    </item>
-    
-    <item>
-      <title>Parcel源码分析</title>
-      <link>https://malinkang.cn/post/framework-parcel/</link>
-      <pubDate>Thu, 20 Feb 2020 15:11:27 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/framework-parcel/</guid>
-      <description></description>
     </item>
     
     <item>
@@ -260,15 +219,6 @@
     </item>
     
     <item>
-      <title>Binder驱动分析</title>
-      <link>https://malinkang.cn/post/framework-binder-driver/</link>
-      <pubDate>Sat, 25 Jan 2020 09:44:44 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/framework-binder-driver/</guid>
-      <description>参考 理解Android Binder机制(1/3)：驱动篇</description>
-    </item>
-    
-    <item>
       <title>SystemServer启动流程</title>
       <link>https://malinkang.cn/post/framework-systemserver/</link>
       <pubDate>Sat, 18 Jan 2020 14:04:10 +0000</pubDate>
@@ -285,24 +235,6 @@
       
       <guid>https://malinkang.cn/post/framework-zygote/</guid>
       <description>&lt;p&gt;在Android系统中，应用程序进程以及运行系统的关键服务的&lt;code&gt;SystemServer&lt;/code&gt;进程都是由&lt;code&gt;Zygote&lt;/code&gt;进程来创建的，我们也将它称为孵化器。它通过&lt;code&gt;fork&lt;/code&gt;（复制进程）的形式来创建应用程序进程和&lt;code&gt;SystemServer&lt;/code&gt;进程。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Epoxy Models</title>
-      <link>https://malinkang.cn/post/epoxy-models/</link>
-      <pubDate>Sun, 05 Jan 2020 15:52:23 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/epoxy-models/</guid>
-      <description>概览（Overview） Epoxy uses EpoxyModel objects to decide which views to display and how to bind data to them. This is similar to the popular ViewModel pattern. Models also allow you to control other aspects of the view, such as the grid span size, id, and saved state. Epoxy使用Epoxy</description>
-    </item>
-    
-    <item>
-      <title>init启动流程分析</title>
-      <link>https://malinkang.cn/post/framework-init/</link>
-      <pubDate>Sat, 04 Jan 2020 15:01:48 +0000</pubDate>
-      
-      <guid>https://malinkang.cn/post/framework-init/</guid>
-      <description></description>
     </item>
     
     <item>
@@ -489,15 +421,6 @@
       
       <guid>https://malinkang.cn/post/flutter-widget-container/</guid>
       <description>Container是一个拥有绘制、定位、调整大小的widget。 padding和margin padding和margin分别设置Contai</description>
-    </item>
-    
-    <item>
-      <title>关于自我提升的思考</title>
-      <link>https://malinkang.cn/post/up/</link>
-      <pubDate>Sat, 05 Jan 2019 09:54:09 +0800</pubDate>
-      
-      <guid>https://malinkang.cn/post/up/</guid>
-      <description>从12年算起，自己也在软件开发这个行业已经近7年。自己也一直在从事Android移动开发。回顾自己的这7年，对自己是非常失望的。自己一直从事</description>
     </item>
     
     <item>
@@ -1208,7 +1131,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://malinkang.cn/post/framework-bind-service/</guid>
-      <description>{%plantuml%} &amp;ndash;&amp;gt; ContextWrapper: bindService ContextWrapper&amp;ndash;&amp;gt; ContextImpl: bindService ContextImpl&amp;ndash;&amp;gt; ContextImpl: bindServiceCommon ContextImpl&amp;ndash;&amp;gt; LoadedApk: getServiceDispatcher LoadedApk&amp;ndash;&amp;gt; ServiceDispatcher: 创建ServiceDispatcher ServiceDispatcher&amp;ndash;&amp;gt; InnerConnection: 创建InnerConnection LoadedApk&amp;ndash;&amp;gt; ContextImpl: 返回ServiceDispat</description>
+      <description>ContextWrapper bindService 1 2 3 4 5 //frameworks/base/core/java/android/content/ContextWrapper.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { return mBase.bindService(service, conn, flags); } ContextImpl bindService 1 2 3 4 5 6 7 8 //frameworks/base/core/java/android/app/ContextImpl.java @Override public boolean bindService(Intent service, ServiceConnection conn,int flags) { warnIfCallingFromSystemProcess(); return bindServiceCommon(service, conn, flags, mMainThread.getHandler(), Process.myUserHandle()); } bindServiceCommon 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19</description>
     </item>
     
     <item>

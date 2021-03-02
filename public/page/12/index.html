@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,96 +109,95 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/kotlin-scope-functions/">Kotlin作用域函数</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/git-usage/">Git使用</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-07-27 </span>
+      <span class="post-time"> 2016-11-25 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p><code>Kotlin</code>标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个<code>lambda</code>表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：<code>let</code>、<code>run</code>、<code>with</code>、<code>apply</code> 以及<code>also</code>。</p>
-<p>这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表达式的结果是什么。</p>
+      git remote 1 2 3 git remote add origin git@gitee.com:malinkang/learngit.git #添加远程仓库 git remote remove origin #删除远程仓库 git remote -v #查看远程仓库地址 分支 1 2 3 4 5 6 7 git checkout -b v2.0.0 #创建分支 git checkout v1.0.0 #切换分支 git merge v1.0.0 #
     </div>
     <div class="read-more">
-      <a href="/post/kotlin-scope-functions/" class="read-more-link">阅读更多</a>
+      <a href="/post/git-usage/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/kotlin-functions/">Kotlin函数</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-thread-safe-and-lock-optimization/">《深入理解JVM》第13章线程安全和锁优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-07-27 </span>
+      <span class="post-time"> 2016-09-17 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      函数声明 Kotlin中的函数使用fun关键字声明： 1 2 3 fun double(x: Int): Int { return 2 * x } 函数调用 调用函数使用传统的方法： 1 val result = double(2) 调用成员函数使用点表示
+      
     </div>
     <div class="read-more">
-      <a href="/post/kotlin-functions/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-thread-safe-and-lock-optimization/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/dagger-android/">Dagger2在Android中的使用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-java-memory-model-and-thread/">《深入理解Java虚拟机》第12章内存模型与线程</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-07-25 </span>
+      <span class="post-time"> 2016-09-10 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>与其他大多数依赖注入框架相比，<code>Dagger2</code>的主要优点之一是其严格生成的实现（无反射）意味着它可以在<code>Android</code>应用程序中使用。但是，在<code>Android</code>应用程序中使用<code>Dagger</code>时仍有一些注意事项。</p>
+      
     </div>
     <div class="read-more">
-      <a href="/post/dagger-android/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-java-memory-model-and-thread/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/navigation-implementing/">实现navigation</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-compilation-optimization/">《深入理解JVM》第10章编译期优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-06-07 </span>
+      <span class="post-time"> 2016-09-03 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>导航体系结构组件简化了应用程序中目标之间导航的实现。目的地是应用中的特定屏幕。默认情况下，导航体系结构组件包括支持<code>fragment</code>和<code>activity</code>作为目标，但您也可以添加对新类型目标的支持。一组目的地组成一个应用程序的“导航图”。</p>
+      第10章 Java内存区域与内存溢出 10.1 概述 10.2 Javac编译器 10.2.1 Javac的源码与调试 从Sun Javac的代码来看，编译过程大致可以分为3个过程
     </div>
     <div class="read-more">
-      <a href="/post/navigation-implementing/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-compilation-optimization/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/livedata-overview/">LiveData概述</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/understanding-the-jvm-class-loader/">《深入理解JVM》第7章类加载器</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2018-05-18 </span>
+      <span class="post-time"> 2016-08-27 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p><code>LiveData</code>是一个可观察的数据持有者类。与常规可观察性不同，<code>LiveData</code>具有生命周期感知能力，这意味着它遵守其他应用程序组件（例如<code>activity</code>，<code>fragment</code>或<code>service</code>）的生命周期。 这确保<code>LiveData</code>只更新处于活动生命周期状态的应用程序组件观察者。</p>
+      <p>一个完整的 Java 程序是由多个 .class 文件组成的，在程序运行过程中，需要将这些 .class 文件加载到 JVM 中才可以使用。而负责加载这些 .class 文件的就是类加载器（ClassLoader）。</p>
     </div>
     <div class="read-more">
-      <a href="/post/livedata-overview/" class="read-more-link">阅读更多</a>
+      <a href="/post/understanding-the-jvm-class-loader/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

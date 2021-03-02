@@ -42,9 +42,7 @@ sequenceDiagrams:
 
 
 
-
-
-Activity的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。
+`Activity`的启动过程分为两种，一种是根Activity的启动过程，另一种是普通Activity的启动过程。根Activity指的是应用程序启动的第一个Activity，因此根Activity的启动过程一般情况下也可以理解为应用程序的启动过程。普通Activity指的是除应用程序启动的第一个Activity之外的其他Activity。
 
 
 <!--more-->
@@ -63,7 +61,7 @@ Launcher请求AMS的时序图如图所示
 当我们点击应用程序的快捷图标时，就会调用Launcher的startActivitySafely方法，如下所示：
 
 ```java
-//Launcher的startActivitySafely方法
+//packages/apps/Launcher3/src/com/android/launcher3/Launcher.java
 public boolean startActivitySafely(View v, Intent intent, ItemInfo item,
         @Nullable String sourceContainer) {
     if (!hasBeenResumed()) {
@@ -75,7 +73,6 @@ public boolean startActivitySafely(View v, Intent intent, ItemInfo item,
         return true;
     }
     //这里调用的是BaseDraggingActivity的startActivitySafely
-    //①
     boolean success = super.startActivitySafely(v, intent, item, sourceContainer);
     if (success && v instanceof BubbleTextView) {
         // This is set to the view that launched the activity that navigated the user away
@@ -90,9 +87,10 @@ public boolean startActivitySafely(View v, Intent intent, ItemInfo item,
 }
 ```
 
-BaseDraggingActivity的startActivitySafely方法
+`BaseDraggingActivity`的`startActivitySafely`方法
 
 ```java
+//packages/apps/Launcher3/src/com/android/launcher3/BaseDraggingActivity.java
 public boolean startActivitySafely(View v, Intent intent, @Nullable ItemInfo item,
         @Nullable String sourceContainer) {
     if (mIsSafeModeEnabled && !PackageManagerHelper.isSystemApp(this, intent)) {
@@ -119,7 +117,7 @@ public boolean startActivitySafely(View v, Intent intent, @Nullable ItemInfo ite
             startShortcutIntentSafely(intent, optsBundle, item, sourceContainer);
         } else if (user == null || user.equals(Process.myUserHandle())) {
             // Could be launching some bookkeeping activity
-            //②
+            //调用Activity的startActivity方法
             startActivity(intent, optsBundle);
             AppLaunchTracker.INSTANCE.get(this).onStartApp(intent.getComponent(),
                     Process.myUserHandle(), sourceContainer);
@@ -142,7 +140,7 @@ public boolean startActivitySafely(View v, Intent intent, @Nullable ItemInfo ite
 
 在①处将Flag设置为Intent.FLAG\_ACTIVITY\_NEW\_TASK，这样根Activity会在新的任务栈中启动。在②处会调用startActivity方法。
 
-### startActivity\(\)
+### Activity#startActivity
 
 ```java
 @Override
@@ -159,7 +157,7 @@ public void startActivity(Intent intent, @Nullable Bundle options) {
 
 在startActivity 方法中会调用startActivityForResult 方法，它的第二个参数为-1，表示Launcher不需要知道Activity启动的结果。
 
-### startActivityForResult\(\)
+### Activity#startActivityForResult
 
 ```java
 Activity mParent;
@@ -178,23 +176,25 @@ public void startActivityForResult(@RequiresPermission Intent intent, int reques
 }
 ```
 
-mParent是Activity类型的，表示当前Activity的父类。因为目前根Activity还没有创建出来，因此，mParent==null成立。接着调用Instrumentation的execStartActivity方法，Instrumentation 主要用来监控应用程序和系统的交互。
+mParent是Activity类型的，表示当前Activity的父类。因为目前根Activity还没有创建出来，因此，mParent==null成立。接着调用`Instrumentation`的`execStartActivity`方法，Instrumentation 主要用来监控应用程序和系统的交互。
 
-### execStartActivity\(\)
+### Instrumentation#execStartActivity
 
 ```java
+//frameworks/base/core/java/android/app/Instrumentation.java
 public ActivityResult execStartActivity(
         Context who, IBinder contextThread, IBinder token, Activity target,
         Intent intent, int requestCode, Bundle options) {
     try {
         intent.migrateExtraStreamToClipData();
         intent.prepareToLeaveProcess(who);
+        //远程调用ATMS的startActivity方法
         int result = ActivityTaskManager.getService()
             .startActivity(whoThread, who.getBasePackageName(), intent,
                     intent.resolveTypeIfNeeded(who.getContentResolver()),
                     token, target != null ? target.mEmbeddedID : null,
                     requestCode, 0, null, options);
-        checkStartActivityResult(result, intent);
+        checkStartActivityResult(result, intent);//校验返回结果
     } catch (RemoteException e) {
         throw new RuntimeException("Failure from system", e);
     }
@@ -203,6 +203,62 @@ public ActivityResult execStartActivity(
 ```
 
 首先调用`ActivityTaskManager`的`getService`方法来获取`IActivityTaskManager`的代理对象，接着调用它的`startActivity`方法。
+
+### Instrumentation#checkStartActivityResult
+
+```java
+public static void checkStartActivityResult(int res, Object intent) {
+    if (!ActivityManager.isStartResultFatalError(res)) {
+        return;
+    }
+
+    switch (res) {
+        case ActivityManager.START_INTENT_NOT_RESOLVED:
+        case ActivityManager.START_CLASS_NOT_FOUND:
+            if (intent instanceof Intent && ((Intent)intent).getComponent() != null)
+                throw new ActivityNotFoundException(
+                        "Unable to find explicit activity class "
+                        + ((Intent)intent).getComponent().toShortString()
+                        + "; have you declared this activity in your AndroidManifest.xml?");
+            throw new ActivityNotFoundException(
+                    "No Activity found to handle " + intent);
+        case ActivityManager.START_PERMISSION_DENIED:
+            throw new SecurityException("Not allowed to start activity "
+                    + intent);
+        case ActivityManager.START_FORWARD_AND_REQUEST_CONFLICT:
+            throw new AndroidRuntimeException(
+                    "FORWARD_RESULT_FLAG used while also requesting a result");
+        case ActivityManager.START_NOT_ACTIVITY:
+            throw new IllegalArgumentException(
+                    "PendingIntent is not an activity");
+        case ActivityManager.START_NOT_VOICE_COMPATIBLE:
+            throw new SecurityException(
+                    "Starting under voice control not allowed for: " + intent);
+        case ActivityManager.START_VOICE_NOT_ACTIVE_SESSION:
+            throw new IllegalStateException(
+                    "Session calling startVoiceActivity does not match active session");
+        case ActivityManager.START_VOICE_HIDDEN_SESSION:
+            throw new IllegalStateException(
+                    "Cannot start voice activity on a hidden session");
+        case ActivityManager.START_ASSISTANT_NOT_ACTIVE_SESSION:
+            throw new IllegalStateException(
+                    "Session calling startAssistantActivity does not match active session");
+        case ActivityManager.START_ASSISTANT_HIDDEN_SESSION:
+            throw new IllegalStateException(
+                    "Cannot start assistant activity on a hidden session");
+        case ActivityManager.START_CANCELED:
+            throw new AndroidRuntimeException("Activity could not be started for "
+                    + intent);
+        default:
+            throw new AndroidRuntimeException("Unknown error code "
+                    + res + " when starting " + intent);
+    }
+}
+```
+
+
+
+
 
 ### getService\(\)
 
@@ -226,19 +282,19 @@ private static final Singleton<IActivityTaskManager> IActivityTaskManagerSinglet
 
 
 
-## ActivityTaskManagerService 到ApplicationThread的调用过程
+## ATMS到AT的调用过程
 
 
 
-Launcher请求ActivityTaskManagerService后，代码逻辑已经进入ActivityTaskManagerService中，接着是AMS到ApplicationThread的调用流程，时序图如图所示
+Launcher请求ActivityTaskManagerService后，代码逻辑已经进入ATMS中，接着是AMS到ApplicationThread的调用流程，时序图如图所示
 
 ![](../../.gitbook/assets/image%20%2864%29.png)
 
 ### startActivity\(\)
 
 ```java
-//继承IActivityTaskManager.Stub 实现startActivity方法
 //frameworks/base/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
+//继承IActivityTaskManager.Stub 实现startActivity方法
 public class ActivityTaskManagerService extends IActivityTaskManager.Stub{
     @Override
     public final int startActivity(IApplicationThread caller, String callingPackage,
@@ -291,7 +347,7 @@ int startActivityAsUser(IApplicationThread caller, String callingPackage,
             .setStartFlags(startFlags)
             .setProfilerInfo(profilerInfo)
             .setActivityOptions(bOptions)
-            .setMayWait(userId)
+            .setMayWait(userId)//设置MayWait为true
             .execute();
 }
 ```
@@ -319,16 +375,7 @@ int execute() {
                     mRequest.allowPendingRemoteAnimationRegistryLookup,
                     mRequest.originatingPendingIntent, mRequest.allowBackgroundActivityStart);
         } else {
-            return startActivity(mRequest.caller, mRequest.intent, mRequest.ephemeralIntent,
-                    mRequest.resolvedType, mRequest.activityInfo, mRequest.resolveInfo,
-                    mRequest.voiceSession, mRequest.voiceInteractor, mRequest.resultTo,
-                    mRequest.resultWho, mRequest.requestCode, mRequest.callingPid,
-                    mRequest.callingUid, mRequest.callingPackage, mRequest.realCallingPid,
-                    mRequest.realCallingUid, mRequest.startFlags, mRequest.activityOptions,
-                    mRequest.ignoreTargetSecurity, mRequest.componentSpecified,
-                    mRequest.outActivity, mRequest.inTask, mRequest.reason,
-                    mRequest.allowPendingRemoteAnimationRegistryLookup,
-                    mRequest.originatingPendingIntent, mRequest.allowBackgroundActivityStart);
+          //...
         }
     } finally {
         onExecutionComplete();
@@ -338,36 +385,39 @@ int execute() {
 
 ActivityStarter是Android 7.0中新加入的类，它是加载Activity的控制类，会收集所有的逻辑来决定如何将Intent和Flags转换为Activity，并将Activity和Task以及Stack相关联。
 
-### startActivity\(\)
+### ActivityStarter#startActivity
 
 ```java
-private int startActivity(IApplicationThread caller, Intent intent, Intent ephemeralIntent,
-        String resolvedType, ActivityInfo aInfo, ResolveInfo rInfo,
-        IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,
-        IBinder resultTo, String resultWho, int requestCode, int callingPid, int callingUid,
-        String callingPackage, int realCallingPid, int realCallingUid, int startFlags,
-        SafeActivityOptions options, boolean ignoreTargetSecurity, boolean componentSpecified,
-        ActivityRecord[] outActivity, TaskRecord inTask, String reason,
+private int startActivityMayWait(IApplicationThread caller, int callingUid,
+        String callingPackage, int requestRealCallingPid, int requestRealCallingUid,
+        Intent intent, String resolvedType, IVoiceInteractionSession voiceSession,
+        IVoiceInteractor voiceInteractor, IBinder resultTo, String resultWho, int requestCode,
+        int startFlags, ProfilerInfo profilerInfo, WaitResult outResult,
+        Configuration globalConfig, SafeActivityOptions options, boolean ignoreTargetSecurity,
+        int userId, TaskRecord inTask, String reason,
         boolean allowPendingRemoteAnimationRegistryLookup,
         PendingIntentRecord originatingPendingIntent, boolean allowBackgroundActivityStart) {
-    if (TextUtils.isEmpty(reason)) {
-        throw new IllegalArgumentException("Need to specify a reason.");
+    //解析Intent
+    ResolveInfo rInfo = mSupervisor.resolveIntent(intent, resolvedType, userId,
+            0 /* matchFlags */,
+                    computeResolveFilterUid(
+                            callingUid, realCallingUid, mRequest.filterCallingUid));
+    //...
+    // Collect information about the target of the Intent.
+    ActivityInfo aInfo = mSupervisor.resolveActivity(intent, rInfo, startFlags, profilerInfo);
+
+    synchronized (mService.mGlobalLock) {
+        //调用startActivity
+        int res = startActivity(caller, intent, ephemeralIntent, resolvedType, aInfo, rInfo,
+                voiceSession, voiceInteractor, resultTo, resultWho, requestCode, callingPid,
+                callingUid, callingPackage, realCallingPid, realCallingUid, startFlags, options,
+                ignoreTargetSecurity, componentSpecified, outRecord, inTask, reason,
+                allowPendingRemoteAnimationRegistryLookup, originatingPendingIntent,
+                allowBackgroundActivityStart);
+        //...
+        //...
+        return res;
     }
-    mLastStartReason = reason;
-    mLastStartActivityTimeMs = System.currentTimeMillis();
-    mLastStartActivityRecord[0] = null;
-    //调用重载方法
-    mLastStartActivityResult = startActivity(caller, intent, ephemeralIntent, resolvedType,
-            aInfo, rInfo, voiceSession, voiceInteractor, resultTo, resultWho, requestCode,
-            callingPid, callingUid, callingPackage, realCallingPid, realCallingUid, startFlags,
-            options, ignoreTargetSecurity, componentSpecified, mLastStartActivityRecord,
-            inTask, allowPendingRemoteAnimationRegistryLookup, originatingPendingIntent,
-            allowBackgroundActivityStart);
-    if (outActivity != null) {
-        // mLastStartActivityRecord[0] is set in the call to startActivity above.
-        outActivity[0] = mLastStartActivityRecord[0];
-    }
-    return getExternalResult(mLastStartActivityResult);
 }
 ```
 

@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,44 +109,6 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/doc-generator/">文档生成工具</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-01-30 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      MkDocs MkDocs Material for MkDocs 1 2 3 4 5 pip install mkdocs #安装 mkdocs --version #查看版本号 pip3 install mkdocs-material #安装主题 mkdocs new docs #创建 mkdocs serve 配置： 1 2 3 4 5 6 7 8 site_name: tpln theme: name: material features: - navigation.sections - navigation.tabs nav: - Home: index.md
-    </div>
-    <div class="read-more">
-      <a href="/post/doc-generator/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/deskclock-analysis/">系统闹钟源码分析</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-01-19 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      核心类 UI部分 DeskClock：主界面，由ViewPager实现。 DeskClockFragment：首页四个Fragment的基类。 Al
-    </div>
-    <div class="read-more">
-      <a href="/post/deskclock-analysis/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/bound-services/">绑定服务</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2020-12-14 </span>
@@ -198,6 +160,44 @@
     </div>
     <div class="read-more">
       <a href="/post/butterknife-source-analysis/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/rxjava-source-analysis/">RxJava源码分析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-11-27 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      RxJava创建过程 create() 调用create()创建Observable。 1 2 3 4 5 6 7 8 9 10 11 Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() { @Override public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; emitter) throws Throwable { emitter.onNext(2); } }).subscribe(new Consumer&lt;Integer&gt;() { @Override public void accept(Integer integer) throws Throwable {
+    </div>
+    <div class="read-more">
+      <a href="/post/rxjava-source-analysis/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/leakcanary-source-analysis/">Leakcanary源码分析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-11-25 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      
+    </div>
+    <div class="read-more">
+      <a href="/post/leakcanary-source-analysis/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

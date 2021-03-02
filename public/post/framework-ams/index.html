@@ -49,7 +49,7 @@
 <meta itemprop="description" content="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 public void setSystemProcess() { try { ServiceManager.addService(Context.ACTIVITY_SERVICE, this, /*">
 <meta itemprop="datePublished" content="2020-02-22T14:48:10+00:00" />
 <meta itemprop="dateModified" content="2020-02-22T14:48:10+00:00" />
-<meta itemprop="wordCount" content="432">
+<meta itemprop="wordCount" content="392">
 
 
 
@@ -352,25 +352,7 @@
 
 </code></pre></td></tr></table>
 </div>
-</div><p>{% plantuml %}</p>
-<p>class Binder{</p>
-<p>}</p>
-<p>interface IActivityManager{</p>
-<p>}</p>
-<p>abstract class ActivityManagerNative{</p>
-<p>}</p>
-<p>class ActivityManagerService{</p>
-<p>}</p>
-<p>abstract class SystemService{</p>
-<p>}</p>
-<p>IActivityManager &lt;|.. ActivityManagerNative</p>
-<p>Binder&lt;|&ndash; ActivityManagerNative</p>
-<p>ActivityManagerNative &lt;|&ndash; ActivityManagerService</p>
-<p>ActivityManagerService +&ndash; Lifecycle</p>
-<p>SystemService &lt;|&ndash; Lifecycle</p>
-<p>IActivityManager &lt;|.. ActivityManagerProxy</p>
-<p>{% endplantuml %}</p>
-
+</div>
     </div>
 
     <div class="post-copyright">
@@ -393,13 +375,13 @@
           <a href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/framework-setcontentview/">
+        <a class="prev" href="/post/windowmanagerservice/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">setContentView发生了什么</span>
+            <span class="prev-text nav-default">WindowManagerService分析</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
-        <a class="next" href="/post/framework-parcel/">
-            <span class="next-text nav-default">Parcel源码分析</span>
+        <a class="next" href="/post/framework-add-and-get-service/">
+            <span class="next-text nav-default">添加和获取服务</span>
             <span class="next-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>

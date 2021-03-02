@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://malinkang.cn/" />
-<meta property="og:updated_time" content="2021-01-30T15:12:35+00:00" />
+<meta property="og:updated_time" content="2020-12-14T19:18:41+00:00" />
 <meta itemprop="name" content="人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -109,122 +109,95 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/dex-file-format/">Dex文件格式分析</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-webview-performance/">Android优化之WebView优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-09-27 </span>
+      <span class="post-time"> 2019-03-07 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>在刚学习Java的时候我们都会写一个<code>HelloWorld</code>的示例。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span><span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hello,world!&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>然后通过<code>javac</code>命令编译成字节码，然后调用<code>java</code>命令机执行字节码。我们如何像<code>java</code>一样在命令行里直接在命令行输出<code>Hello,world!</code>呢。具体要执行如下操作：</p>
+      百度APP-Android H5首屏优化实践
     </div>
     <div class="read-more">
-      <a href="/post/dex-file-format/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-webview-performance/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/android-activity-launch-process/">Activity的启动流程</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-battery-performance/">Android电池优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-09-24 </span>
+      <span class="post-time"> 2019-03-07 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>App启动的整体流程分为以下7个阶段。</p>
-<ol>
-<li><code>Launcher</code>通知AMS，要启动<code>App</code>，而且指定要启动<code>App</code>的哪个页面（也就是首页）。</li>
-<li><code>AMS</code>通知Launcher, “好了我知道了，没你什么事了”。同时，把要启动的首页记下来。</li>
-<li>Launcher当前页面进入Paused状态，然后通知AMS, “我睡了，你可以去找App了”。</li>
-<li>AMS检查App是否已经启动了。是，则唤起App即可。否，就要启动一个新的进程。AMS在新进程中创建一个ActivityThread对象，启动其中的main函数。</li>
-<li>App启动后，通知AMS, “我启动好了”。</li>
-<li>AMS翻出之前在2中存的值，告诉App，启动哪个页面。</li>
-<li>App启动首页，创建Context并与首页Activity关联。然后调用首页<code>Activity</code>的onCreate函数。</li>
-</ol>
-<p>至此启动流程完成，可分成两部分：第1～3阶段，Launcher和AMS相互通信；第4～7阶段，App和AMS相互通信。</p>
+      耗电的背景知识 1.电池技术 手机电池的一些关键指标： 电池容量 充电时间 寿命 安全性 2.电量和硬件 3.电量和应用程序 Android耗电的演进历程 1.
     </div>
     <div class="read-more">
-      <a href="/post/android-activity-launch-process/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-battery-performance/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/9-ways-to-avoid-memory-leaks-in-android/">【译】避免Android中内存泄漏的9种方法</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-reduce-apk-size/">Android优化之安装包大小优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-06-10 </span>
+      <span class="post-time"> 2019-03-05 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      原文，本文介绍了，引发内存泄露的常见情况，并给出了对应的修复方法。 I have been an android developer for quite some time now. And I realised（意识到） that most of that time, I tend to spend on adding
+      1.为什么要优化包体积 下载转化率 推广成本 应用市场 2.包体积与应用性能 包体积除了转化率的影响，它对我们应用性能还有哪些影响呢？ 安装时间。文件拷
     </div>
     <div class="read-more">
-      <a href="/post/9-ways-to-avoid-memory-leaks-in-android/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-reduce-apk-size/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/android-handler/">Handler的使用和原理分析</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-start-performance/">Android启动优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-04-26 </span>
+      <span class="post-time"> 2019-03-05 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      使用Handler 每个应用程序都有自己的特殊线程来运行UI对象，例如View对象;这个线程称为UI线程。在Android中，不允许非UI线程
+      
     </div>
     <div class="read-more">
-      <a href="/post/android-handler/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-start-performance/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/flutter-widget-column/">Column和Row详解</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/android-memory-performance/">Android优化之内存优化</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2019-03-19 </span>
+      <span class="post-time"> 2019-03-05 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      MainAxisAlignment 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69
+      目录 使用内存效率更高的代码结构 谨慎使用服务 使用经过优化的数据容器 谨慎对待代码抽象 针对序列化数据使用精简版-protobuf 避免内存抖动 移除会
     </div>
     <div class="read-more">
-      <a href="/post/flutter-widget-column/" class="read-more-link">阅读更多</a>
+      <a href="/post/android-memory-performance/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

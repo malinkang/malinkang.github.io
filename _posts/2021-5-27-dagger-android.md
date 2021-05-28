@@ -1,7 +1,8 @@
 ---
 title: "Dagger2在Android中的使用"
 date: 2018-07-25T11:56:12+08:00
-draft: false
+tags: [Dagger]
+toc: true
 ---
 
 与其他大多数依赖注入框架相比，`Dagger2`的主要优点之一是其严格生成的实现（无反射）意味着它可以在`Android`应用程序中使用。但是，在`Android`应用程序中使用`Dagger`时仍有一些注意事项。

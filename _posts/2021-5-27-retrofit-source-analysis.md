@@ -1,5 +1,4 @@
 ---
-layout: posts
 title: Retrofit源码分析
 date: 2017-7-25 20:07:22
 tags: ["源码分析"]

@@ -3,7 +3,6 @@ title: LiveData概述
 date: 2018-05-18 16:47:47
 toc: true
 tags:
-draft: flase
 ---
 
 `LiveData`是一个可观察的数据持有者类。与常规可观察性不同，`LiveData`具有生命周期感知能力，这意味着它遵守其他应用程序组件（例如`activity`，`fragment`或`service`）的生命周期。 这确保`LiveData`只更新处于活动生命周期状态的应用程序组件观察者。

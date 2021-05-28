@@ -15,9 +15,9 @@ timezone: Asia/Shanghai
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # --------------------------
-title: Chirpy                          # the main title
+title: malinkang                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline: 人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, portfolio, sidebar,

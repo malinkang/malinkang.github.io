@@ -2,7 +2,7 @@
 title: 《Java并发编程实战》第7章取消与关闭
 date: 2015-10-15 10:53:22
 tags: ["Java并发编程实战"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字03.png
+categories: ["Java"]
 ---
 
 任务和线程的启动很容易，在大多数时候，我们都会让它们运行直到结束，或者让它们自行停止。然后，有时候我们希望提前结束任务或线程，或许是因为用户取消了操作，或者应用程序需要被快速关闭。

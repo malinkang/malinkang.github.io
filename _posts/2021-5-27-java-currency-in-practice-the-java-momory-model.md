@@ -2,7 +2,7 @@
 title: 《Java并发编程实战》第16章Java内存模型
 date: 2015-11-19 10:53:22
 tags: ["Java并发编程实战"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻02.png
+categories: ["Java"]
 ---
 
 本章将介绍Java内存模型的底层需求以及锁提供的保证，此外还将介绍在本书给出的一些高层设计原则背后的原理。

@@ -2,6 +2,7 @@
 title: 《Java并发编程实战》第15章原子变量与非阻塞同步机制
 date: 2015-11-12 10:53:22
 tags: ["Java并发编程实战"]
+categories: ["Java"]
 ---
 
 在`java.util.concurrent`包的许多类中，例如`Semaphore`和`ConcurrentLinkedQueue`，都提供了比`synchronized`机制更高的性能和可伸缩性。

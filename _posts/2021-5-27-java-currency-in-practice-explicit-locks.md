@@ -2,7 +2,7 @@
 title: 《Java并发编程实战》第13章显式锁
 date: 2015-10-29 10:53:22
 tags: ["Java并发编程实战"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字03.png
+categories: ["Java"]
 ---
 
 在`Java 5.0`之前，在协调对共享对象的访问时可以使用的机制只有`synchronized`和`volatile`。Java5.0增加了一种新的机制：`ReentrantLock`。`ReentrantLock`并不是一种替代内置锁的方法，而是当内置加锁机制不适用时，作为一种可选择的高级功能。

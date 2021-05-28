@@ -1,5 +1,4 @@
 ---
-layout: posts
 title: Android运行时权限
 date: 2018-12-24 20:25:35
 tags: ["Android"]

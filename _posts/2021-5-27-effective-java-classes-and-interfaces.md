@@ -2,7 +2,7 @@
 title: 《Effective Java》第4章类和接口
 date: 2016-01-16 17:34:17
 tags: ["Effective Java"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字50.png
+categories: ["Java"]
 ---
 
 ## 第13条：使类和成员的可访问性最小化

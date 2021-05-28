@@ -1,5 +1,4 @@
 ---
-layout: posts
 title: Java动态代理
 date: 2014-11-29 17:36:33
 tags: ["Java"]

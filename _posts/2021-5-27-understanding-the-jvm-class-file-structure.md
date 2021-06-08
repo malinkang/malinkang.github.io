@@ -2,7 +2,6 @@
 title: 《深入理解JVM》第6章类文件结构
 date: 2016-08-20 13:39:36
 tags: [深入理解JVM]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字12.png
 ---
 
 

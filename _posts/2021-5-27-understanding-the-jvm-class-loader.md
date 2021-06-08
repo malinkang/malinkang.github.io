@@ -2,7 +2,6 @@
 title: 《深入理解JVM》第7章类加载器
 date: 2016-08-27 13:39:36
 tags: [深入理解JVM]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字40.png
 ---
 一个完整的 Java 程序是由多个 .class 文件组成的，在程序运行过程中，需要将这些 .class 文件加载到 JVM 中才可以使用。而负责加载这些 .class 文件的就是类加载器（ClassLoader）。
 

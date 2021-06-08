@@ -2,7 +2,6 @@
 title: 《深入理解JVM》第3章垃圾收集器
 date: 2016-08-13 13:39:36
 tags: [深入理解JVM]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/你的名字53.png
 ---
 
 

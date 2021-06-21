@@ -78,3 +78,8 @@ public interface ReadWriteLock{
 与`ReentrantLock`类似的是，`ReentrantReadWriteLock`中的写入锁只能有唯一的所有者，并且只能由获得该锁的线程来释放。在Java5.0中，读取锁的行为更类似于`Semaphore`而不是锁，它只维护活跃的读线程的数量，而不考虑它们的标识。在Java6中修改了这个行为：记录哪些线程已经获得了读者锁。
 
 当锁的持有时间较长并且大部分操作都不会修改被守护的资源时，那么读-写锁能提高并发性。
+
+## 参考
+
+* [从ReentrantLock的实现看AQS的原理及应用](https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html)
+

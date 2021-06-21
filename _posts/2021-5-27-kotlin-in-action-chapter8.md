@@ -1,8 +1,7 @@
 ---
 title: 《Kotlin实战》读书笔记 第8章 Lambda作为形参和返回值
 date: 2018-09-12 12:26:55
-tags: ["Kotlin", "读书笔记"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻10.png
+tags: ["Kotlin"]
 ---
 
 ## 8.1 声明高阶函数

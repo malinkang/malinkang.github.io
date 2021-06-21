@@ -1,8 +1,7 @@
 ---
-title: 《Kotlin实战》读书笔记 第7章 运算符重载及其他约定
+title: 《Kotlin实战》第7章 运算符重载及其他约定
 date: 2018-09-09 12:26:55
-tags: ["Kotlin", "读书笔记"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/千与千寻09.png
+tags: ["Kotlin"]
 ---
 
 

@@ -2,9 +2,10 @@
 title: 《Java编程思想》第16章数组
 date: 2013-06-25 13:39:36
 tags: [Thinking in Java]
+categories: [Java,Thinking in Java]
 ---
 
-## 1.数组为什么特殊
+## 数组为什么特殊
 
 数组与其他种类的容器之间的区别有三方面：效率、类型和保存基本类型的能力。在`Java`中，数组是一种效率最高的存储和随机访问对象引用序列的方式。数组就是一个简单的线性序列，这使得元素访问非常快速。但是为这种速度所付出的代价是数组对象的大小被固定，并且在其生命周期中不可改变。
 
@@ -50,7 +51,7 @@ Sphere 9
  */
 ```
 
-## 2.数组是第一级对象
+## 数组是第一级对象
 
 无论使用哪种类型的数组，数组标识符其实只是一个引用，指向在堆中创建的一个真实对象，**这个对象用以保存指向其他对象的引用**。
 
@@ -115,7 +116,7 @@ e.length = 2
  */
 ```
 
-## 3.返回一个数组
+## 返回一个数组
 
 ```java
 public class IceCream {
@@ -160,7 +161,7 @@ public class IceCream {
  */
 ```
 
-## 4.多维数组
+## 多维数组
 
 ```java
 public class MultidimensionalPrimitiveArray {
@@ -287,7 +288,7 @@ public class AssemblingMultidimensionalArrays {
 ```
 
 
-## 5.数组与泛型
+## 数组与泛型
 
 通常，数组与泛型不能很好地结合。你不能实例化具有参数化类型的数组：
 
@@ -369,11 +370,11 @@ public class ArrayOfGenericType<T> {
 }
 ```
 
-## 6.创建测试数据
+## 创建测试数据
 
 通常，在试验数组和程序时，能够很方便地生成填充了测试数据的数组，将会很有帮助。
 
-### 6.1 Arrays.fill\(\)
+### Arrays.fill\(\)
 
 Java标准类库`Arrays`有一个作用十分有限的`fill()`方法：只能用同一个值填充各个位置，而针对对象而言，就是复制同一个引用进行填充。
 
@@ -428,7 +429,7 @@ a9 = [Hello, Hello, Hello, World, World, Hello]
  */
 ```
 
-### 6.2 数据生成器
+### 数据生成器
 
 ```java
 public interface Generator<T>  {
@@ -655,9 +656,9 @@ Boolean:false true true true true false false true true false
  */
 ```
 
-### 6.3 从Generator中创建数组
+### 从Generator中创建数组
 
-## 7.Arrays实用功能
+## Arrays实用功能
 
 在`java.util`类库中可以找到`Arrays`类，它有一套用于数组的`static`实用方法，其中有6个基本方法：
 
@@ -670,7 +671,7 @@ Boolean:false true true true true false false true true false
 
 此外，`Arrays.asList()`接受任意的序列或数组作为其参数，并将其转变为`List`容器。
 
-### 7.1复制数组
+### 复制数组
 
 `Java`标准类库提供有`static`方法`System.arraycopy()`，用它复制数组比用`for`循环复制要快很多。`System.arraycopy()`针对所有类型做了重载。
 
@@ -728,7 +729,7 @@ u = [47, 47, 47, 47, 47, 99, 99, 99, 99, 99]
 
 `Syste.arraycopy()`不会执行自动包装和自动拆包，两个数组必须具有相同的确切类型。
 
-### 7.2数组的比较
+### 数组的比较
 
 `Arrays`类提供了重载后的`equals`方法，用来比较整个数组。同样，此方法针对所有基本类型与`Object`都做了重载。数组相等的条件是元素个数必须相等，并且对应位置的元素也相等，这可以通过对每个元素使用`equals()`作比较来判断，对于基本类型，需要使用基本类型的包装器类的`equals()`方法。
 
@@ -758,7 +759,7 @@ true
  */
 ```
 
-### 7.3数组元素的比较
+### 数组元素的比较
 
 排序必须根据对象的实际类型执行比较操作。一种自然的解决方案是位每种不同的类型各编写一个不同的排序方法，但是这样的代码难以被新的类型所复用。
 
@@ -766,11 +767,24 @@ true
 
 也可以编写自己的`Comparator`。
 
-### 7.4数组排序
+### 数组排序
 
 使用内置的排序方法，就可以对任意的基本类型数组排序；也可以对任意的对象数组进行排序，只要该对象实现了`Comparable`接口或具有相关联的`Comparator`。
 
-### 7.5 在已排序的数组中查找
+### 在已排序的数组中查找
 
 如果数组已经排好序了，就可以使用`Arrays.binarySearch()`执行快速查找。如果要对未排序的数组使用`binarySearch()`，那么将产生不可预料的结果。
 
+
+## 数组的最大长度
+
+
+```java
+//没有问题
+byte[] bytes = new byte[Integer.MAX_VALUE-2];
+//抛出异常  Requested array size exceeds VM limit
+byte[] bytes = new byte[Integer.MAX_VALUE-1]; 
+```
+
+* [Java 数组有最大长度吗？](https://www.zhihu.com/question/31809233)
+* [Do Java arrays have a maximum size?](https://stackoverflow.com/questions/3038392/do-java-arrays-have-a-maximum-size)

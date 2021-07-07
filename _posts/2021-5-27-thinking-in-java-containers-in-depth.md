@@ -2,13 +2,10 @@
 title: 《Java编程思想》第17章容器深入研究
 date: 2013-07-02 13:39:36
 tags: [Thinking in Java]
+categories: [Java,Thinking in Java]
 ---
 
-## 1.完整的容器分类法
-
-![Imgur](https://i.imgur.com/OqAEdC5.png)
-
-## 2.填充容器
+## 填充容器
 
 与`Arrays`版本一样，此`fill()`方法也是只复制同一个对象引用来填充整个容器的，并且只对`List`对象有用，但是所产生的列表可以传递给构造器或`addAll()`方法：
 
@@ -41,7 +38,7 @@ public class FillingLists {
 
 这个示例展示了两种用对单个对象的引用来填充`Collection`的方式，第一种是使用`Collection.nCopies()`创建传递给构造器的`List`，这里填充的是`ArrayList`。第二种使用的`fill()`方法的用处更有限，因为它只能替换已经在`List`中存在的元素，而不能添加新的元素。
 
-### 2.1 一种Generator解决方案
+### 一种Generator解决方案
 
 ```java
 //: net/mindview/util/CollectionData.java
@@ -136,7 +133,7 @@ public class CollectionDataGeneration {
 *///:~
 ```
 
-### 2.2 Map生成器
+### Map生成器
 
 定义第一个`Pair`类。
 
@@ -262,7 +259,7 @@ public class MapDataTest {
 *///:~
 ```
 
-### 2.3 使用Abstract类
+### 使用Abstract类
 
 ```java
 //: net/mindview/util/Countries.java
@@ -551,101 +548,42 @@ public class CountingMapData extends AbstractMap<Integer,String> {
 *///:~
 ```
 
-## 3.Collection的功能方法
+## Collection的功能方法
 
 `Collection`所有操作：
 
-* boolean add\(T\)
-* boolean addAll\(Collection&lt;? extends T&gt;\)
-* void clear\(\)
-* boolean contains\(T\)
-* boolean isEmpty\(\)
-* Iterator iterator\(\)
-* boolean remove\(Object\)
-* boolean removeAll\(Collection&lt;?&gt;\)
-* boolean retainAll\(Collection&lt;?&gt;\)：交集
-* int size\(\)
-* Object\[\] toArray\(\)：
-* T\[\] toArray\(T\[\] a\)
+| boolean add\(T)                             |                                                              |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| boolean addAll\(Collection&lt;? extends T>) |                                                              |
+| void clear\(\)                              |                                                              |
+| boolean contains\(T\)                       |                                                              |
+| boolean isEmpty\(\)                         |                                                              |
+| Iterator iterator\(\)                       |                                                              |
+| boolean remove\(Object\)                    |                                                              |
+| boolean removeAll\(Collection&lt;?&gt;\)    |                                                              |
+| boolean retainAll\(Collection&lt;?>)        | 只保留这个列表中包含在指定集合中的元素。换句话说，从这个列表中删除所有不包含在指定集合中的元素。如果这个列表改变，则为true。 |
+| int size\(\)                                |                                                              |
+| Object\[\] toArray\(\)：                    |                                                              |
+| T\[\] toArray\(T\[\] a\)                    |                                                              |
+|                                             |                                                              |
+
+### retainAll()
 
 ```java
-//: containers/CollectionMethods.java
-// Things you can do with all Collections.
-import java.util.*;
-import net.mindview.util.*;
-import static net.mindview.util.Print.*;
-
-public class CollectionMethods {
-  public static void main(String[] args) {
-    Collection<String> c = new ArrayList<String>();
-    c.addAll(Countries.names(6));
-    c.add("ten");
-    c.add("eleven");
-    print(c);
-    // Make an array from the List:
-    Object[] array = c.toArray();
-    // Make a String array from the List:
-    String[] str = c.toArray(new String[0]);
-    // Find max and min elements; this means
-    // different things depending on the way
-    // the Comparable interface is implemented:
-    print("Collections.max(c) = " + Collections.max(c));
-    print("Collections.min(c) = " + Collections.min(c));
-    // Add a Collection to another Collection
-    Collection<String> c2 = new ArrayList<String>();
-    c2.addAll(Countries.names(6));
-    c.addAll(c2);
-    print(c);
-    c.remove(Countries.DATA[0][0]);
-    print(c);
-    c.remove(Countries.DATA[1][0]);
-    print(c);
-    // Remove all components that are
-    // in the argument collection:
-    c.removeAll(c2);
-    print(c);
-    c.addAll(c2);
-    print(c);
-    // Is an element in this Collection?
-    String val = Countries.DATA[3][0];
-    print("c.contains(" + val  + ") = " + c.contains(val));
-    // Is a Collection in this Collection?
-    print("c.containsAll(c2) = " + c.containsAll(c2));
-    Collection<String> c3 =
-      ((List<String>)c).subList(3, 5);
-    // Keep all the elements that are in both
-    // c2 and c3 (an intersection of sets):
-    c2.retainAll(c3);
-    print(c2);
-    // Throw away all the elements
-    // in c2 that also appear in c3:
-    c2.removeAll(c3);
-    print("c2.isEmpty() = " +  c2.isEmpty());
-    c = new ArrayList<String>();
-    c.addAll(Countries.names(6));
-    print(c);
-    c.clear(); // Remove all elements
-    print("after c.clear():" + c);
-  }
-} /* Output:
-[ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO, ten, eleven]
-Collections.max(c) = ten
-Collections.min(c) = ALGERIA
-[ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO, ten, eleven, ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO]
-[ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO, ten, eleven, ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO]
-[BENIN, BOTSWANA, BULGARIA, BURKINA FASO, ten, eleven, ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO]
-[ten, eleven]
-[ten, eleven, ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO]
-c.contains(BOTSWANA) = true
-c.containsAll(c2) = true
-[ANGOLA, BENIN]
-c2.isEmpty() = true
-[ALGERIA, ANGOLA, BENIN, BOTSWANA, BULGARIA, BURKINA FASO]
-after c.clear():[]
-*///:~
+ArrayList<Integer> list1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+List<Integer> list2 = new ArrayList<>(Arrays.asList(3, 4, 5, 6, 7));
+List<Integer> list3 = new ArrayList<>(Arrays.asList(1, 2, 3));
+List<Integer> list4 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+System.out.println(list1.retainAll(list1)); //false
+System.out.println(list1.retainAll(list2)); //true
+System.out.println("list1 = " + list1); //list1 = [3, 4, 5]
+System.out.println(list3.retainAll(list4)); //false
+System.out.println("list3 = " + list3); //list3 = [1, 2, 3]
+System.out.println(list4.retainAll(list3)); //true
+System.out.println("list4 = " + list4); //list4 = [1, 2, 3]
 ```
 
-## 4.可选操作
+## 可选操作
 
 最常见的未获支持的操作，都来源于背后由固定尺寸的数据结构支持的容器。当你用`Arrays.asList()`将数组转换为`List`时，就会得到这样的容器。
 
@@ -718,137 +656,26 @@ List.set(): java.lang.UnsupportedOperationException
 
 把`Arrays.asList()`的结果作为构造器的参数传递给任何`Collection`，这样可以生成允许使用所有的方法的普通容器
 
-## 5.List的功能方法
+## List的功能方法
+
+| int indexOf(Object o);                       |      |
+| -------------------------------------------- | ---- |
+| int lastIndexOf(Object o);                   |      |
+| ListIterator<E> listIterator();              |      |
+| ListIterator<E> listIterator(int index);     |      |
+| List<E> subList(int fromIndex, int toIndex); |      |
+
+### listIterator()
 
 ```java
-//: containers/Lists.java
-// Things you can do with Lists.
-import java.util.*;
-import net.mindview.util.*;
-import static net.mindview.util.Print.*;
-
-public class Lists {
-  private static boolean b;
-  private static String s;
-  private static int i;
-  private static Iterator<String> it;
-  private static ListIterator<String> lit;
-  public static void basicTest(List<String> a) {
-    a.add(1, "x"); // Add at location 1
-    a.add("x"); // Add at end
-    // Add a collection:
-    a.addAll(Countries.names(25));
-    // Add a collection starting at location 3:
-    a.addAll(3, Countries.names(25));
-    b = a.contains("1"); // Is it in there?
-    // Is the entire collection in there?
-    b = a.containsAll(Countries.names(25));
-    // Lists allow random access, which is cheap
-    // for ArrayList, expensive for LinkedList:
-    s = a.get(1); // Get (typed) object at location 1
-    i = a.indexOf("1"); // Tell index of object
-    b = a.isEmpty(); // Any elements inside?
-    it = a.iterator(); // Ordinary Iterator
-    lit = a.listIterator(); // ListIterator
-    lit = a.listIterator(3); // Start at loc 3
-    i = a.lastIndexOf("1"); // Last match
-    a.remove(1); // Remove location 1
-    a.remove("3"); // Remove this object
-    a.set(1, "y"); // Set location 1 to "y"
-    // Keep everything that's in the argument
-    // (the intersection of the two sets):
-    a.retainAll(Countries.names(25));
-    // Remove everything that's in the argument:
-    a.removeAll(Countries.names(25));
-    i = a.size(); // How big is it?
-    a.clear(); // Remove all elements
-  }
-  public static void iterMotion(List<String> a) {
-    ListIterator<String> it = a.listIterator();
-    b = it.hasNext();
-    b = it.hasPrevious();
-    s = it.next();
-    i = it.nextIndex();
-    s = it.previous();
-    i = it.previousIndex();
-  }
-  public static void iterManipulation(List<String> a) {
-    ListIterator<String> it = a.listIterator();
-    it.add("47");
-    // Must move to an element after add():
-    it.next();
-    // Remove the element after the newly produced one:
-    it.remove();
-    // Must move to an element after remove():
-    it.next();
-    // Change the element after the deleted one:
-    it.set("47");
-  }
-  public static void testVisual(List<String> a) {
-    print(a);
-    List<String> b = Countries.names(25);
-    print("b = " + b);
-    a.addAll(b);
-    a.addAll(b);
-    print(a);
-    // Insert, remove, and replace elements
-    // using a ListIterator:
-    ListIterator<String> x = a.listIterator(a.size()/2);
-    x.add("one");
-    print(a);
-    print(x.next());
-    x.remove();
-    print(x.next());
-    x.set("47");
-    print(a);
-    // Traverse the list backwards:
-    x = a.listIterator(a.size());
-    while(x.hasPrevious())
-      printnb(x.previous() + " ");
-    print();
-    print("testVisual finished");
-  }
-  // There are some things that only LinkedLists can do:
-  public static void testLinkedList() {
-    LinkedList<String> ll = new LinkedList<String>();
-    ll.addAll(Countries.names(25));
-    print(ll);
-    // Treat it like a stack, pushing:
-    ll.addFirst("one");
-    ll.addFirst("two");
-    print(ll);
-    // Like "peeking" at the top of a stack:
-    print(ll.getFirst());
-    // Like popping a stack:
-    print(ll.removeFirst());
-    print(ll.removeFirst());
-    // Treat it like a queue, pulling elements
-    // off the tail end:
-    print(ll.removeLast());
-    print(ll);
-  }
-  public static void main(String[] args) {
-    // Make and fill a new list each time:
-    basicTest(
-      new LinkedList<String>(Countries.names(25)));
-    basicTest(
-      new ArrayList<String>(Countries.names(25)));
-    iterMotion(
-      new LinkedList<String>(Countries.names(25)));
-    iterMotion(
-      new ArrayList<String>(Countries.names(25)));
-    iterManipulation(
-      new LinkedList<String>(Countries.names(25)));
-    iterManipulation(
-      new ArrayList<String>(Countries.names(25)));
-    testVisual(
-      new LinkedList<String>(Countries.names(25)));
-    testLinkedList();
-  }
-} /* (Execute to see output) *///:~
+ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+ListIterator<Integer> iterator = list.listIterator(5);
+while (iterator.hasPrevious()) {
+    System.out.print(iterator.previous()+","); //5,4,3,2,1,
+}
 ```
 
-## 6.Set和存储顺序
+## Set和存储顺序
 
 * Set\(interface\)：存入`Set`的每个元素都必须是唯一的，因为`Set`不保存重复元素，加入`Set`的元素必须定义`equals()`方法以确保对象的唯一性。`Set`与`Collection`有完全一样的接口。`Set`接口不保证维护元素的次序。
 * HashSet：为快速查找而设计的`Set`，存入`HashSet`的元素必须定义`hasCode()`。
@@ -934,7 +761,7 @@ java.lang.ClassCastException: HashType cannot be cast to java.lang.Comparable
 
 对于没有重新定义`hashCode()`方法的`SetType`或`TreeType`，如果将它们放置到任何散列实现中都会产生重复值，这样就违反了`Set`的基本契约。如果尝试着在`TreeSet`中使用没有实现`Comparable`的类型，将会抛出一个异常。
 
-### 6.1 SortedSet
+### SortedSet
 
 * Object first\(\)：返回容器中的第一个元素
 * Object last\(\)：返回容器中的最末一个元素
@@ -983,51 +810,39 @@ two
 *///:~
 ```
 
-## 7.队列
+## 队列
+
+| boolean add(E e);   | add 方法是往队列里添加一个元素，如果队列满了，就会抛出异常来提示队列已满。 |
+| ------------------- | ------------------------------------------------------------ |
+| boolean offer(E e); | offer 方法用来插入一个元素，并用返回值来提示插入是否成功。如果添加成功会返回 true，而如果队列已经满了，此时继续调用 offer 方法的话，它不会抛出异常。 |
+| E remove();         | remove 方法的作用是删除元素，如果我们删除的队列是空的，那么 remove 方法就会抛出异常。 |
+| E poll();           |                                                              |
+| E element();        | element 方法是返回队列的头部节点，但是并不删除。队列是空的就会抛出异常。 |
+| E peek();           |                                                              |
+
+### 添加
 
 ```java
-//: containers/QueueBehavior.java
-// Compares the behavior of some of the queues
-import java.util.concurrent.*;
-import java.util.*;
-import net.mindview.util.*;
-
-public class QueueBehavior {
-  private static int count = 10;
-  static <T> void test(Queue<T> queue, Generator<T> gen) {
-    for(int i = 0; i < count; i++)
-      queue.offer(gen.next());
-    while(queue.peek() != null)
-      System.out.print(queue.remove() + " ");
-    System.out.println();
-  }
-  static class Gen implements Generator<String> {
-    String[] s = ("one two three four five six seven " +
-      "eight nine ten").split(" ");
-    int i;
-    public String next() { return s[i++]; }
-  }
-  public static void main(String[] args) {
-    test(new LinkedList<String>(), new Gen());
-    test(new PriorityQueue<String>(), new Gen());
-    test(new ArrayBlockingQueue<String>(count), new Gen());
-    test(new ConcurrentLinkedQueue<String>(), new Gen());
-    test(new LinkedBlockingQueue<String>(), new Gen());
-    test(new PriorityBlockingQueue<String>(), new Gen());
-  }
-} /* Output:
-one two three four five six seven eight nine ten
-eight five four nine one seven six ten three two
-one two three four five six seven eight nine ten
-one two three four five six seven eight nine ten
-one two three four five six seven eight nine ten
-eight five four nine one seven six ten three two
-*///:~
+BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(2);
+queue.add(1);
+queue.add(2);
+//queue.add(3); // Queue full
+System.out.println(queue);//[1, 2]
 ```
+
+```java
+BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(2);
+queue.offer(1);
+System.out.println(queue.offer(2));//true
+System.out.println(queue.offer(3));//false
+System.out.println(queue);
+```
+
+
 
 除了优先级队列，`Queue`将精确地按照元素被置于`Queue`中的顺序产生它们。
 
-### 7.1 优先级队列
+### 优先级队列
 
 ```java
 //: containers/ToDoList.java
@@ -1083,61 +898,24 @@ C4: Empty trash
 *///:~
 ```
 
-### 7.2双向队列
+### 双向队列
 
-在`LinkedList`中包含支持双向队列的方法，但是在`Java`标准类库中没有任何显式的用于双向队列的接口（本书基于JavaSE5，JavaSE6增加了`Deque`的接口）。
-
-```java
-//: net/mindview/util/Deque.java
-// Creating a Deque from a LinkedList.
-package net.mindview.util;
-import java.util.*;
-
-public class Deque<T> {
-  private LinkedList<T> deque = new LinkedList<T>();
-  public void addFirst(T e) { deque.addFirst(e); }
-  public void addLast(T e) { deque.addLast(e); }
-  public T getFirst() { return deque.getFirst(); }
-  public T getLast() { return deque.getLast(); }
-  public T removeFirst() { return deque.removeFirst(); }
-  public T removeLast() { return deque.removeLast(); }
-  public int size() { return deque.size(); }
-  public String toString() { return deque.toString(); }
-  // And other methods as necessary...
-} ///:~
-```
+在`LinkedList`中包含支持双向队列的方法。
 
 ```java
-//: containers/DequeTest.java
-import net.mindview.util.*;
-import static net.mindview.util.Print.*;
-
-public class DequeTest {
-  static void fillTest(Deque<Integer> deque) {
-    for(int i = 20; i < 27; i++)
-      deque.addFirst(i);
-    for(int i = 50; i < 55; i++)
-      deque.addLast(i);
-  }
-  public static void main(String[] args) {
-    Deque<Integer> di = new Deque<Integer>();
-    fillTest(di);
-    print(di);
-    while(di.size() != 0)
-      printnb(di.removeFirst() + " ");
-    print();
-    fillTest(di);
-    while(di.size() != 0)
-      printnb(di.removeLast() + " ");
-  }
-} /* Output:
-[26, 25, 24, 23, 22, 21, 20, 50, 51, 52, 53, 54]
-26 25 24 23 22 21 20 50 51 52 53 54
-54 53 52 51 50 20 21 22 23 24 25 26
-*///:~
+LinkedList<Integer> deque = new LinkedList<>();
+deque.add(1);
+deque.addLast(2);
+deque.addFirst(3);
+System.out.println(deque); //[3, 1, 2]
+System.out.println(deque.peek());//3
+deque.remove();
+System.out.println(deque); //[1, 2]
+deque.removeLast();
+System.out.println(deque);//[1]
 ```
 
-## 8.Map
+## Map
 
 ![Imgur](https://i.imgur.com/iwoHbui.png)
 
@@ -1204,7 +982,7 @@ dancing
 *///:~
 ```
 
-### 8.1 性能
+### 性能
 
 * HashMap：`Map`基于散列表的实现（它取代了Hashtable），插入和查询键值对的开销是固定的。可以通过构造器设置`容量`和`负载因子`，以调整容器的性能。
 * LinkedHashMap：类似于`HashMap`，但是迭代遍历的顺序是插入次序，或者是**最近最少使用（LRU）**的次序。只比`HashMap`慢一点，而在迭代访问时反而更快，因为它使用链表维护内部次序。
@@ -1278,7 +1056,7 @@ map.isEmpty(): true
 *///:~
 ```
 
-### 8.2 SortedMap
+### SortedMap
 
 使用`SortedMap`，可以确保键处于排序状态。
 
@@ -1329,7 +1107,7 @@ public class SortedMapDemo {
 *///:~
 ```
 
-### 8.3 LinkedHashMap
+### LinkedHashMap
 
 `LinkedHashMap`散列化所有的元素，但是在遍历键值对时，却又以元素的插入顺序返回键值对。此外，可以在构造器中设定`LinkedHashMap`，使之采用基于访问的`最近最少使用（LRU）`算法，于是没有被访问过的元素就会出现在队列的前面。
 
@@ -1362,7 +1140,7 @@ public class LinkedHashMapDemo {
 *///:~
 ```
 
-## 9.散列和散列码
+## 散列和散列码
 
 ```java
 //: containers/Groundhog.java
@@ -1457,7 +1235,7 @@ Early Spring!
 *///:~
 ```
 
-### 9.1 理解hashCode\(\)
+###  理解hashCode\(\)
 
 ```java
 //: containers/SlowMap.java
@@ -1540,7 +1318,7 @@ public class MapEntry<K,V> implements Map.Entry<K,V> {
 } ///:~
 ```
 
-### 9.2 为速度而散列
+### 为速度而散列
 
 散列将键保存在某处，以便能够很快找到。存储一组元素最快的数据结构是数组，所以使用它来表示键的信息。数组并不保存键本来。而是通过键对象生成一个数字，将其作为数组的下标。这个数字就是散列码，由定义在`Object`中的，且可能由你的类覆盖的`hashCode()`方法生成。
 
@@ -1618,7 +1396,7 @@ Asmara
 
 由于散列表中“槽位”通常称为`桶位（bucket）`，因此我们将表示实际散列表的数组命名为`bucket`，为使散列分布均匀，桶的数量通常使用质数。注意，为了能够自动处理冲突，使用一个`LinkedList`的数组；每一个新的元素只是直接添加到list末尾的某个特定桶位中。
 
-### 9.3 覆盖hashCode\(\)
+### 覆盖hashCode\(\)
 
 首先，你无法控制`bucket`数组的下标值的产生。这个值依赖于具体的`HashMap`对象的容量，而容量的改变与容器的充满程度和负载因子有关。`hashCode()`生成的结果，经过处理后成为桶位的下标。
 

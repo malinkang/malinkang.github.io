@@ -4,13 +4,12 @@ date: 2018-07-25T11:56:12+08:00
 tags: [Dagger]
 toc: true
 ---
+* [原文](https://google.github.io/dagger/android)
 
 与其他大多数依赖注入框架相比，`Dagger2`的主要优点之一是其严格生成的实现（无反射）意味着它可以在`Android`应用程序中使用。但是，在`Android`应用程序中使用`Dagger`时仍有一些注意事项。
 
-<!--more-->
 
-原文：https://google.github.io/dagger/android
-
+## 为什么Android上的Dagger很难
 
 使用`Dagger`编写`Android`应用程序的主要困难之一是很多`Android`框架类都是由操作系统本身实例化的，例如`Activity`和`Fragment`，但是如果`Dagger`可以创建所有注入的对象，则`Dagger`的效果最好。相反，您必须在生命周期方法中执行成员注入。这意味着许多类最终看起来像：
 
@@ -33,32 +32,17 @@ public class FrombulationActivity extends Activity {
 }
 ```
 
+这有几个问题：
+
+* 复制粘贴代码使得以后很难再进行重构。随着越来越多的开发者复制粘贴该块，越来越少的人知道它到底是做什么的。
+
+* 更根本的是，它要求请求注入的类型（FrombulationActivity）知道其注入器。即使这是通过接口而不是具体类型来完成的，它也打破了依赖注入的核心原则：一个类不应该知道它是如何被注入的。
+
 ### 注入Activity对象
 
 
 
 1. 在您的应用程序组件中安装`AndroidInjectionModule`以确保这些基本类型所需的所有绑定都可用。
-
-```java
-@Singleton
-@Component(
-    modules = [
-        AndroidInjectionModule::class, //安装AndroidInjectionModule
-        AppModule::class,
-        MainActivityModule::class]
-)
-interface AppComponent {
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: Application): Builder
-
-        fun build(): AppComponent
-    }
-    //注入App
-    fun inject(githubApp: GithubApp)
-}
-```
 
 2. 首先编写一个实现`AndroidInjector<YourActivity>`的`@Subcomponent`和一个继承`AndroidInjector.Builder<YourActivity>`的`@Subcomponent.Builder`。
 
@@ -89,7 +73,7 @@ interface YourApplicationComponent {}
 
 
 
-专业提示：如果您的子组件及其构建器没有第2步中提到的其他方法或超类型，您可以使用`@ContributesAndroidInjector`为您生成它们。添加一个抽象模块方法，该方法返回您的活动，使用@ContributesAndroidInjector对其进行注释，并指定要安装到子组件中的模块，而不是步骤2和3。如果子组件需要作用域，则也可以将范围注释应用于该方法。
+专业提示：如果您的子组件及其构建器没有第2步中提到的其他方法或超类型，您可以使用`@ContributesAndroidInjector`为您生成它们。添加一个抽象模块方法，该方法返回您的`activity`，使用`@ContributesAndroidInjector`对其进行注释，并指定要安装到子组件中的模块，而不是步骤2和3。如果子组件需要作用域，则也可以将范围注释应用于该方法。
 
 ```java
 @ActivityScope

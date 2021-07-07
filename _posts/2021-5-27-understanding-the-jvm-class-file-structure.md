@@ -2,12 +2,12 @@
 title: 《深入理解JVM》第6章类文件结构
 date: 2016-08-20 13:39:36
 tags: [深入理解JVM]
+categories: [Java,JVM]
 ---
 
+`Class`文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何分隔符，这使得整个Class文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。
 
-Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何分隔符，这使得整个Class文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储。
 
-<!--more-->
 
 
 根据Java虚拟机规范的规定，Class文件格式采用一种类似于C语言结构体的伪结构来存储数据，这种伪结构中只有两种数据类型：无符号数和表：
@@ -18,7 +18,7 @@ Class文件是一组以8位字节为基础单位的二进制流，各个数据�
 
 * 表是由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性地以“_info”结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上就是一张表。
 
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c3aae0ad9dae466bbb09a756cc9f5876~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/c3aae0ad9dae466bbb09a756cc9f5876~tplv-k3u1fbpfcp-zoom-1.image)
 
 编译下面代码输出Class文件：
 
@@ -35,19 +35,19 @@ vscode安装一个hexdump for VSCode插件，然后打开Class文件。
 
 ## 魔数
 
-![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1d027160d7c743ef89da02a2b6adc10d~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/1d027160d7c743ef89da02a2b6adc10d~tplv-k3u1fbpfcp-zoom-1.image)
 
-每个Class文件的头4个字节称为魔数（Magic Number），它的唯一作用是确定这个文件是否为一个能被虚拟机接受的Class文件。很多文件存储标准中都使用魔数来进行身份识别，譬如图片格式，如gif或者jpeg等在文件头中都存有魔数。使用魔数而不是扩展名来进行识别主要是基于安全方面的考虑，因为文件扩展名可以随意地改动。文件格式的制定者可以自由地选择魔数值，只要这个魔数值还没有被广泛采用过同时又不会引起混淆即可。Class文件的魔数值为：`0xCAFEBABE`。
+每个Class文件的头4个字节称为`魔数（Magic Number）`，它的唯一作用是确定这个文件是否为一个能被虚拟机接受的Class文件。很多文件存储标准中都使用魔数来进行身份识别，譬如图片格式，如gif或者jpeg等在文件头中都存有魔数。使用魔数而不是扩展名来进行识别主要是基于安全方面的考虑，因为文件扩展名可以随意地改动。文件格式的制定者可以自由地选择魔数值，只要这个魔数值还没有被广泛采用过同时又不会引起混淆即可。Class文件的魔数值为：`0xCAFEBABE`。
 
 ## 次版本号
 
-![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb5cd1bb02ef4a229422126816399394~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/eb5cd1bb02ef4a229422126816399394~tplv-k3u1fbpfcp-zoom-1.image)
 
 代表次版本号的第5个和第6个字节值为`0x0000`。
 
 ## 主版本号
 
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/699f06cc9bba4a858275dfaf27fdb5bc~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/699f06cc9bba4a858275dfaf27fdb5bc~tplv-k3u1fbpfcp-zoom-1.image)
 
 而主版本号的值为`0x0034`,也就是十进制的53。
 
@@ -61,7 +61,7 @@ vscode安装一个hexdump for VSCode插件，然后打开Class文件。
 
 由于常量池中常量的数量是不固定的，所以在常量池的入口需要放置一项u2类型的数据，代表常量池容量计数（constant_pool_count）。与Java中语言习惯不一样的是，这个容量计数是从1而不是0开始的。
 
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/68bb2269137d4868925852e22043f6c4~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/68bb2269137d4868925852e22043f6c4~tplv-k3u1fbpfcp-zoom-1.image)
 
 如上图所示，常量池容量为十六进制数0x0013，即十进制的19，这就代表常量池中有18项常量，索引值范围为1~18。在Class文件格式规范制定之时，设计者将第0项常量空出来是有特殊考虑的，这样做的目的在于满足后面某些指向常量池的索引值的数据在特定情况下需要表达“不引用任何一个常量池项目”的含义，这种情况就可以把索引值置为0来表示。Class文件结构中只有常量池的容量计数是从1开始，对于其他集合类型，包括接口索引集合、字段表集合、方法表集合等的容量计数都与一般习惯相同，是从0开始的。
 
@@ -79,28 +79,28 @@ Java代码在进行Javac编译的时候，并不像C和C++那样有“连接”�
 
 截至JDK 13，常量表中分别有17种不同类型的常量。这17类表都有一个共同的特点，表结构起始的第一位是个u1类型的标志位，代表着当前常量属于哪种常量类型。17种常量类型所代表的具体含义如表所示。
 
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d2ea14a984342e9af8a103230964dd8~tplv-k3u1fbpfcp-zoom-1.image)
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92cd07347e524ac796f14d38046bddb7~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/2d2ea14a984342e9af8a103230964dd8~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/92cd07347e524ac796f14d38046bddb7~tplv-k3u1fbpfcp-zoom-1.image)
 ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fc0be94e90ea4c5b8b8c6731148ef9b6~tplv-k3u1fbpfcp-zoom-1.image)
 
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc23765e40be40bf868b2134496bf972~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/cc23765e40be40bf868b2134496bf972~tplv-k3u1fbpfcp-zoom-1.image)
 
 常量池的第一项常量，标志位是`0A`，查表可知这个常量属于`CONSTANT_Methodref_info`类型。
 
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f61d67bb7c04910a448c6bec7d5d783~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/3f61d67bb7c04910a448c6bec7d5d783~tplv-k3u1fbpfcp-zoom-1.image)
 常量池的第二项常量，标志位是`09`，查表可知这个常量属于`CONSTANT_Fieldref_info`类型。
 
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6cd7358c344f49deb2fd5a4779a614ae~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/6cd7358c344f49deb2fd5a4779a614ae~tplv-k3u1fbpfcp-zoom-1.image)
 
 第三项和第四项标识为都是`07`，属于`CONSTANT_Class_info`。
 
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/462c9f66d7aa4325989614b9b98bf642~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/462c9f66d7aa4325989614b9b98bf642~tplv-k3u1fbpfcp-zoom-1.image)
 
 第五项`CONSTANT_Utf8_info`。占用字节数为`1`,`6D`即十进制的109，对应ASCII值`m`。
 
 * [ASCII对照表](https://tool.oschina.net/commons?type=4)
 
-![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c6d7279733de48559e291b2c857ef2b6~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/jvm/c6d7279733de48559e291b2c857ef2b6~tplv-k3u1fbpfcp-zoom-1.image)
 
 第六项`CONSTANT_Utf8_info`。占用字节数为`1`,`6D`即十进制的73，对应ASCII值`I`。
 
@@ -468,7 +468,7 @@ package_count是package_index数组的计数器，package_index中每个元素�
 
   ### 14．运行时注解相关属性
 
-  早在JDK 5时期，Java语言的语法进行了多项增强，其中之一是提供了对注解（Annotation）的支持。为了存储源码中注解信息，Class文件同步增加了RuntimeVisibleAnnotations、RuntimeInvisibleAnnotations、RuntimeVisibleParameterAnnotations和RuntimeInvisibleParameter-Annotations四个属性。到了JDK 8时期，进一步加强了Java语言的注解使用范围，又新增类型注解（JSR 308），所以Class文件中也同步增加了RuntimeVisibleTypeAnnotations和RuntimeInvisibleTypeAnnotations两个属性。由于这六个属性不论结构还是功能都比较雷同，因此我们把它们合并到一起，以RuntimeVisibleAnnotations为代表进行介绍。
+ 早在JDK 5时期，Java语言的语法进行了多项增强，其中之一是提供了对注解（Annotation）的支持。为了存储源码中注解信息，Class文件同步增加了RuntimeVisibleAnnotations、RuntimeInvisibleAnnotations、RuntimeVisibleParameterAnnotations和RuntimeInvisibleParameter-Annotations四个属性。到了JDK 8时期，进一步加强了Java语言的注解使用范围，又新增类型注解（JSR 308），所以Class文件中也同步增加了RuntimeVisibleTypeAnnotations和RuntimeInvisibleTypeAnnotations两个属性。由于这六个属性不论结构还是功能都比较雷同，因此我们把它们合并到一起，以RuntimeVisibleAnnotations为代表进行介绍。
 
   RuntimeVisibleAnnotations是一个变长属性，它记录了类、字段或方法的声明上记录运行时可见注解，当我们使用反射API来获取类、字段或方法上的注解时，返回值就是通过这个属性来取到的。RuntimeVisibleAnnotations属性的结构如表所示。
 

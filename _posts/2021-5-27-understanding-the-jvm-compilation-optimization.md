@@ -1,7 +1,8 @@
 ---
 title: 《深入理解JVM》第10章编译期优化
-date: 2016-09-03 09:09:28
+date: 2016-09-10 09:09:28
 tags: [深入理解JVM]
+categories: [Java,JVM]
 ---
 # 第10章 Java内存区域与内存溢出
 

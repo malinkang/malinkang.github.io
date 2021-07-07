@@ -2,7 +2,6 @@
 title: Retrofit源码分析
 date: 2017-7-25 20:07:22
 tags: ["源码分析"]
-cover: https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/飞屋环游记.webp
 ---
 
 # Retrofit源码分析
@@ -769,7 +768,7 @@ OkHttpCall(
   this.requestFactory = requestFactory;
   this.args = args;
   this.callFactory = callFactory;
-  this.responseConverter = responseConverter;
+  this.responseConverter = responseConverter;//转换器
 }
 ```
 
@@ -860,13 +859,367 @@ Response<T> parseResponse(okhttp3.Response rawResponse) throws IOException {
   }
   ExceptionCatchingResponseBody catchingBody = new ExceptionCatchingResponseBody(rawBody);
   try {
-    T body = responseConverter.convert(catchingBody);
-    return Response.success(body, rawResponse);
+    T body = responseConverter.convert(catchingBody); //调用converter的convert方法解析json
+    return Response.success(body, rawResponse); //解析的body赋值给Response的Body
   } catch (RuntimeException e) {
     // If the underlying source threw an exception, propagate that rather than indicating it was
     // a runtime exception.
     catchingBody.throwIfCaught();
     throw e;
+  }
+}
+```
+
+## CallAdapter
+
+RxJavaCallAdapterFactory
+
+Single类和Observable对象类似，只不过Single只能发送单个值，并且Single只能发出一个错误或成功的值，不能发送onComplete通知。
+
+Single的just方法。
+
+```java
+public static <T> Single<T> just(final T value) {
+    return ScalarSynchronousSingle.create(value);
+}
+```
+
+```java
+Single.create(new Single.OnSubscribe<Object>() {
+    @Override
+    public void call(SingleSubscriber<? super Object> singleSubscriber) {
+      //SingleSubscriber没有onComplete方法
+    }
+});
+```
+
+Completable也和Observable类似，但是Completable不发送值，值发送错误和完成。
+
+```java
+Completable.create(new Completable.CompletableOnSubscribe() {
+    @Override
+    public void call(Completable.CompletableSubscriber completableSubscriber) {
+        //CompletableSubscriber 没有onNext方法
+    }
+});
+```
+
+当我们的请求不需要处理返回值的时候我们可以让该请求返回Completable。
+
+```java
+public final class RxJavaCallAdapterFactory extends CallAdapter.Factory {
+  /**
+   * Returns an instance which creates synchronous observables that do not operate on any scheduler
+   * by default.
+   */
+  public static RxJavaCallAdapterFactory create() {
+    return new RxJavaCallAdapterFactory(null);
+  }
+
+  /**
+   * Returns an instance which creates synchronous observables that
+   * {@linkplain Observable#subscribeOn(Scheduler) subscribe on} {@code scheduler} by default.
+   */
+  public static RxJavaCallAdapterFactory createWithScheduler(Scheduler scheduler) {
+    if (scheduler == null) throw new NullPointerException("scheduler == null");
+    return new RxJavaCallAdapterFactory(scheduler);
+  }
+
+  private final Scheduler scheduler;
+
+  private RxJavaCallAdapterFactory(Scheduler scheduler) {
+    this.scheduler = scheduler;
+  }
+
+  @Override
+  public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    Class<?> rawType = getRawType(returnType);
+    boolean isSingle = rawType == Single.class;//判断返回值是否是Single.class
+    boolean isCompletable = "rx.Completable".equals(rawType.getCanonicalName());
+    if (rawType != Observable.class && !isSingle && !isCompletable) {
+      return null;
+    }
+
+    if (isCompletable) {
+      return new RxJavaCallAdapter(Void.class, scheduler, false, true, false, true);
+    }
+
+    boolean isResult = false;
+    boolean isBody = false;
+    Type responseType;
+    if (!(returnType instanceof ParameterizedType)) {
+      String name = isSingle ? "Single" : "Observable";
+      throw new IllegalStateException(name + " return type must be parameterized"
+          + " as " + name + "<Foo> or " + name + "<? extends Foo>");
+    }
+
+    Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
+    Class<?> rawObservableType = getRawType(observableType);
+    if (rawObservableType == Response.class) {
+      if (!(observableType instanceof ParameterizedType)) {
+        throw new IllegalStateException("Response must be parameterized"
+            + " as Response<Foo> or Response<? extends Foo>");
+      }
+      responseType = getParameterUpperBound(0, (ParameterizedType) observableType);
+    } else if (rawObservableType == Result.class) {
+      if (!(observableType instanceof ParameterizedType)) {
+        throw new IllegalStateException("Result must be parameterized"
+            + " as Result<Foo> or Result<? extends Foo>");
+      }
+      responseType = getParameterUpperBound(0, (ParameterizedType) observableType);
+      isResult = true;
+    } else {
+      responseType = observableType;
+      isBody = true;
+    }
+
+    return new RxJavaCallAdapter(responseType, scheduler, isResult, isBody, isSingle, false);
+  }
+}
+```
+
+RxJavaCallAdapter的adapt方法
+
+```java
+ @Override public Object adapt(Call<R> call) {
+    OnSubscribe<Response<R>> callFunc = new CallOnSubscribe<>(call);//创建CallOnSubscribe
+
+    //获取OnSubscribe对象
+    OnSubscribe<?> func;
+    if (isResult) {
+      func = new ResultOnSubscribe<>(callFunc);
+    } else if (isBody) {
+      func = new BodyOnSubscribe<>(callFunc);
+
+    } else {
+      func = callFunc;
+    }
+    Observable<?> observable = Observable.create(func);
+
+    if (scheduler != null) {
+      observable = observable.subscribeOn(scheduler);
+    }
+
+    if (isSingle) {
+      return observable.toSingle();//Observable转换为Single
+    }
+    if (isCompletable) {
+      return CompletableHelper.toCompletable(observable);//Observable转换为Completable
+    }
+    return observable;
+  }
+```
+
+CallOnSubscribe
+
+```java
+final class CallOnSubscribe<T> implements OnSubscribe<Response<T>> {
+  private final Call<T> originalCall;
+
+  CallOnSubscribe(Call<T> originalCall) {
+    this.originalCall = originalCall;
+  }
+
+  @Override public void call(Subscriber<? super Response<T>> subscriber) {
+    // Since Call is a one-shot type, clone it for each new subscriber.
+    Call<T> call = originalCall.clone();//clone 了原来的 call，因为 okhttp3.Call 是只能用一次的，所以每次都是新 clone 一个进行网络请求；
+    CallArbiter<T> arbiter = new CallArbiter<>(call, subscriber);
+    subscriber.add(arbiter);
+    subscriber.setProducer(arbiter);//调用producer的request方法
+    Response<T> response;
+    try {
+      response = call.execute();//调用OkHttpCall的execute()方法返回Response
+    } catch (Throwable t) {
+      Exceptions.throwIfFatal(t);
+      arbiter.emitError(t);//发送错误
+      return;
+    }
+    arbiter.emitResponse(response);//发送response
+  }
+
+  static final class CallArbiter<T> extends AtomicInteger implements Subscription, Producer {
+    private static final int STATE_WAITING = 0;
+    private static final int STATE_REQUESTED = 1;
+    private static final int STATE_HAS_RESPONSE = 2;
+    private static final int STATE_TERMINATED = 3;
+
+    private final Call<T> call;
+    private final Subscriber<? super Response<T>> subscriber;
+
+    private volatile Response<T> response;
+
+    CallArbiter(Call<T> call, Subscriber<? super Response<T>> subscriber) {
+      super(STATE_WAITING);
+
+      this.call = call;
+      this.subscriber = subscriber;
+    }
+
+    @Override public void unsubscribe() {
+      call.cancel();
+    }
+
+    @Override public boolean isUnsubscribed() {
+      return call.isCanceled();
+    }
+
+    @Override public void request(long amount) {
+
+      if (amount == 0) {
+        return;
+      }
+      while (true) {
+        int state = get();
+        switch (state) {
+          case STATE_WAITING:
+            if (compareAndSet(STATE_WAITING, STATE_REQUESTED)) {
+              return;
+            }
+            break; // State transition failed. Try again.
+
+          case STATE_HAS_RESPONSE:
+            if (compareAndSet(STATE_HAS_RESPONSE, STATE_TERMINATED)) {
+              deliverResponse(response);
+              return;
+            }
+            break; // State transition failed. Try again.
+
+          case STATE_REQUESTED:
+          case STATE_TERMINATED:
+            return; // Nothing to do.
+
+          default:
+            throw new IllegalStateException("Unknown state: " + state);
+        }
+      }
+    }
+
+    void emitResponse(Response<T> response) {
+      while (true) {
+        int state = get();//获取当前值
+        switch (state) {
+          case STATE_WAITING:
+            this.response = response;
+            if (compareAndSet(STATE_WAITING, STATE_HAS_RESPONSE)) {//如果当前值==STATE_WAITING,设置值为STATE_HAS_RESPONSE
+              return;
+            }
+            break; //状态改变失败重试
+
+          case STATE_REQUESTED:
+            if (compareAndSet(STATE_REQUESTED, STATE_TERMINATED)) {
+              deliverResponse(response);
+              return;
+            }
+            break; // State transition failed. Try again.
+
+          case STATE_HAS_RESPONSE:
+          case STATE_TERMINATED:
+            throw new AssertionError();
+          default:
+            throw new IllegalStateException("Unknown state: " + state);
+        }
+      }
+    }
+
+    private void deliverResponse(Response<T> response) {
+      try {
+        if (!isUnsubscribed()) {
+          subscriber.onNext(response);
+        }
+      } catch (Throwable t) {
+        Exceptions.throwIfFatal(t);
+        try {
+          subscriber.onError(t);
+        } catch (Throwable inner) {
+          Exceptions.throwIfFatal(inner);
+          CompositeException composite = new CompositeException(t, inner);
+          RxJavaPlugins.getInstance().getErrorHandler().handleError(composite);
+        }
+        return;
+      }
+      try {
+        subscriber.onCompleted();//发送完成
+      } catch (Throwable t) {
+        Exceptions.throwIfFatal(t);
+        RxJavaPlugins.getInstance().getErrorHandler().handleError(t);
+      }
+    }
+
+    void emitError(Throwable t) {
+      set(STATE_TERMINATED);
+
+      if (!isUnsubscribed()) {
+        try {
+          subscriber.onError(t);
+        } catch (Throwable inner) {
+          Exceptions.throwIfFatal(inner);
+          CompositeException composite = new CompositeException(t, inner);
+          RxJavaPlugins.getInstance().getErrorHandler().handleError(composite);
+        }
+      }
+    }
+  }
+}
+```
+
+BodyOnSubscribe
+
+```java
+final class BodyOnSubscribe<T> implements OnSubscribe<T> {
+  private final OnSubscribe<Response<T>> upstream;
+
+  BodyOnSubscribe(OnSubscribe<Response<T>> upstream) {
+    this.upstream = upstream;
+  }
+
+  @Override public void call(Subscriber<? super T> subscriber) {
+    upstream.call(new BodySubscriber<>(subscriber));
+  }
+
+  private static class BodySubscriber<R> extends Subscriber<Response<R>> {
+    private final Subscriber<? super R> subscriber;
+    /** Indicates whether a terminal event has been sent to {@link #subscriber}. */
+    private boolean subscriberTerminated;
+
+    BodySubscriber(Subscriber<? super R> subscriber) {
+      super(subscriber);
+      this.subscriber = subscriber;
+    }
+
+    @Override public void onNext(Response<R> response) {
+      if (response.isSuccessful()) {
+        subscriber.onNext(response.body());//获取response的body
+      } else {
+        subscriberTerminated = true;
+        Throwable t = new HttpException(response);
+        try {
+          subscriber.onError(t);
+        } catch (Throwable inner) {
+          Exceptions.throwIfFatal(inner);
+          CompositeException composite = new CompositeException(t, inner);
+          RxJavaPlugins.getInstance().getErrorHandler().handleError(composite);
+        }
+      }
+    }
+
+    @Override public void onError(Throwable throwable) {
+      if (!subscriberTerminated) {
+        subscriber.onError(throwable);
+      } else {
+        // This should never happen! onNext handles and forwards errors automatically.
+        Throwable broken = new AssertionError(
+            "This should never happen! Report as a Retrofit bug with the full stacktrace.");
+        //noinspection UnnecessaryInitCause Two-arg AssertionError constructor is 1.7+ only.
+        broken.initCause(throwable);
+        RxJavaPlugins.getInstance().getErrorHandler().handleError(broken);
+      }
+    }
+
+    @Override public void onCompleted() {
+      if (!subscriberTerminated) {
+        subscriber.onCompleted();
+      }
+    }
   }
 }
 ```

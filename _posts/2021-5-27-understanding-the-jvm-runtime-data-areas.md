@@ -2,6 +2,7 @@
 title: 《深入理解JVM》第2章Java内存区域与内存溢出异常
 date: 2016-08-06 13:39:36
 tags: [深入理解JVM]
+categories: [Java,JVM]
 ---
 ## 运行时数据区域
 

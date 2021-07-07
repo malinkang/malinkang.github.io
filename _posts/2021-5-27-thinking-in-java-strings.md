@@ -1,6 +1,7 @@
 ---
 title: 《Java编程思想》第13章字符串
 date: 2013-06-04 13:39:36
+categories: [Java,Thinking in Java]
 tags: [Thinking in Java]
 ---
 # 第13章 字符串

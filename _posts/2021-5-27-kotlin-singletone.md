@@ -119,3 +119,9 @@ class Singleton private constructor(a:Int) {
   }
 }
 ```
+
+## 参考
+
+* [Kotlin下的5种单例模式](https://juejin.cn/post/6844903590545326088)
+* [Kotlin singletons with argument](https://bladecoder.medium.com/kotlin-singletons-with-argument-194ef06edd9e)
+* [单例](https://www.liaoxuefeng.com/wiki/1252599548343744/1281319214514210)

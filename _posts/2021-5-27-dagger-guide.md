@@ -1,15 +1,13 @@
 ---
 title: "Dagger使用指南"
 date: 2016-07-25T09:47:31+08:00
-draft: false
-toc: true
+tags: [Dagger]
 ---
 
 
 
 任何应用程序中最好的类是那些做事情的类：`BarcodeDecoder`，`KoopaPhysicsEngine`和`AudioStreamer`。 这些类具有依赖性; 也许是一个`BarcodeCameraFinder`，`DefaultPhysicsEngine`和一个`HttpStreamer`。
 
-<!--more-->
 
 相比之下，任何应用程序中最糟糕的类是那些占用空间而又没有做太多事情类：`BarcodeDecoderFactory`，`CameraServiceLoader`和`MutableContextWrapper`。 这些类是将有趣的东西连接在一起。
 
@@ -25,7 +23,7 @@ toc: true
 
 # 使用Dagger
 
-我们将通过构建咖啡机来演示依赖注入和Dagger。 有关可以编译和运行的完整示例代码，请参阅Dagger的[coffee example](https://github.com/google/dagger/tree/master/examples/simple/src/main/java/coffee).
+我们将通过构建咖啡机来演示依赖注入和Dagger。 有关可以编译和运行的完整示例代码，请参阅Dagger的[coffee example](https://github.com/google/dagger/tree/master/examples/maven/coffee/src/main/java/example/dagger).
 
 ## 声明依赖
 
@@ -70,9 +68,9 @@ Dagger也支持方法注入，虽然通常建议使用构造函数或字段注�
 * 第三方类不能被注解。
 * 必须配置可配置的对象
 
-对于`@Inject`不够或不方便的情况，请使用 [`@Provides`](https://dagger.dev/api/latest/dagger/Provides.html)注解方法来满足依赖关系。 该方法的返回类型定义了它满足哪个依赖关系。
+对于`@Inject`满足或不适合的情况，请使用 [`@Provides`](https://dagger.dev/api/latest/dagger/Provides.html)注解方法来满足依赖关系。 该方法的返回类型定义了它满足哪个依赖关系。
 
-例如，只要需要加热器，就调用`provideHeater()`：
+例如，只要需要一个`Heater`，就调用`provideHeater()`：
 
 ```java
 @Provides static Heater provideHeater() {
@@ -80,34 +78,35 @@ Dagger也支持方法注入，虽然通常建议使用构造函数或字段注�
 }
 ```
 
-`@Provides`方法有可能拥有自己的依赖关系。 无论何时需要`Pump`，该设备都会返回`Thermosiphon`：
+`@Provides`方法有可能拥有自己的依赖关系。例如，由于ElectricHeater有一个@Inject构造函数，上面的方法可以改写为：
 
 ```java
-@Provides static Pump providePump(Thermosiphon pump) {
-  return pump;
+@Provides static Heater provideHeater(ElectricHeater heater) {
+  return heater;
 }
 ```
 
+这样Dagger就负责实例化ElectricHeater，而@Provides方法只用来将其别名为Heater类型。
 
+在这种特殊情况下，我们可以使用@Binds方法来定义别名，从而进一步简化事情。与@Provides不同，@Binds方法是抽象的，并且没有实现。
+
+```java
+@Binds Heater bindHeater(ElectricHeater impl);
+```
 
 所有`@Provides`方法都必须属于一个模块。 这些只是具有`@Module`注释的类。
 
+
 ```java
 @Module
-class DripCoffeeModule {
-  @Provides static Heater provideHeater() {
-    return new ElectricHeater();
-  }
-
-  @Provides static Pump providePump(Thermosiphon pump) {
-    return pump;
-  }
+interface HeaterModule {
+  @Binds Heater bindHeater(ElectricHeater impl);
 }
 ```
 
 
 
-按照惯例，`@Provides`方法以`provide`为前缀命名，模块类以`Module`为后缀命名。
+按照惯例，`@Provides`方法以`provide`为前缀命名，`@Binds`方法以`bind`为前缀命名，模块类以`Module`为后缀命名。
 
 ## 构建图
 

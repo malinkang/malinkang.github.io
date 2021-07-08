@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="zh-CN" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="《Kotlin实战》第5章 Lambda编程" /><meta property="og:locale" content="zh_CN" /><meta name="description" content="5.1 Lambda表达式和成员引用" /><meta property="og:description" content="5.1 Lambda表达式和成员引用" /><link rel="canonical" href="https://malinkang.cn/posts/kotlin-in-action-chapter5/" /><meta property="og:url" content="https://malinkang.cn/posts/kotlin-in-action-chapter5/" /><meta property="og:site_name" content="malinkang" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2018-09-04T20:26:55+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="《Kotlin实战》第5章 Lambda编程" /><meta name="twitter:site" content="@malinkang" /><meta name="google-site-verification" content="google_meta_tag_verification" /> <script type="application/ld+json"> {"description":"5.1 Lambda表达式和成员引用","headline":"《Kotlin实战》第5章 Lambda编程","dateModified":"2021-07-07T14:54:59+08:00","url":"https://malinkang.cn/posts/kotlin-in-action-chapter5/","datePublished":"2018-09-04T20:26:55+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://malinkang.cn/posts/kotlin-in-action-chapter5/"},"@context":"https://schema.org"}</script><title>《Kotlin实战》第5章 Lambda编程 | malinkang</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="malinkang"><meta name="application-name" content="malinkang"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/lozad/dist/lozad.min.js,npm/magnific-popup@1/dist/jquery.magnific-popup.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id="></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', ''); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" alt="avatar" class="mx-auto"> <img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/avatar.jpeg" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">malinkang</a></div><div class="site-subtitle font-italic">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>分类</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>标签</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>归档</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>关于</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center"> <a href="https://github.com/malinkang" aria-label="github" class="order-3" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/malinkang" aria-label="twitter" class="order-4" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['linkang.ma','gmail.com'].join('@')" aria-label="email" class="order-5" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" class="order-6" > <i class="fas fa-rss"></i> </a> <span class="icon-border order-2"></span> <span id="mode-toggle-wrapper" class="order-1"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>《Kotlin实战》第5章 Lambda编程</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>《Kotlin实战》第5章 Lambda编程</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="semi-bold"> malinkang </span> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Tue, Sep 4, 2018, 8:26 PM +0800" prep="on" > Sep 4, 2018 <i class="unloaded">2018-09-04T20:26:55+08:00</i> </span></div><div> <span> <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Wed, Jul 7, 2021, 2:54 PM +0800" prefix="Updated " > Jul 7 <i class="unloaded">2021-07-07T14:54:59+08:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="1987 words">11 min</span></div></div><div class="post-content"><h2 id="51-lambda表达式和成员引用">5.1 Lambda表达式和成员引用</h2><h3 id="511-lambda简介作为函数参数的代码块">5.1.1 Lambda简介：作为函数参数的代码块</h3><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="n">button</span><span class="o">.</span><span class="na">setOnClickLisener</span><span class="o">(</span><span class="k">new</span> <span class="nc">OnClickListener</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">){</span>
+        <span class="c1">//点击后执行的动作</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">button</span><span class="p">.</span><span class="nf">setOnClickListener</span><span class="p">(</span><span class="cm">/*点击后执行的动作*/</span><span class="p">)</span>
+</pre></table></code></div></div><h3 id="512-lambda和集合">5.1.2 Lambda和集合</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="kd">data class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span><span class="nc">String</span><span class="p">,</span><span class="kd">val</span> <span class="py">age</span><span class="p">:</span><span class="nc">Int</span><span class="p">)</span>
+
+<span class="k">fun</span> <span class="nf">findTheOldest</span><span class="p">(</span><span class="n">people</span><span class="p">:</span><span class="nc">List</span><span class="p">&lt;</span><span class="nc">Person</span><span class="p">&gt;){</span>
+    <span class="kd">var</span> <span class="py">maxAge</span> <span class="p">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="py">theOldest</span><span class="p">:</span><span class="nc">Person</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">person</span> <span class="k">in</span> <span class="n">people</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">age</span> <span class="p">&gt;</span> <span class="n">maxAge</span><span class="p">){</span>
+            <span class="n">maxAge</span> <span class="p">=</span> <span class="n">person</span><span class="p">.</span><span class="n">age</span>
+            <span class="n">theOldest</span> <span class="p">=</span> <span class="n">person</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nf">println</span><span class="p">(</span><span class="n">theOldest</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="kd">var</span> <span class="py">people</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="nc">Person</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span><span class="mi">29</span><span class="p">),</span><span class="nc">Person</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">,</span><span class="mi">31</span><span class="p">))</span>
+<span class="nf">findTheOldest</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="kd">var</span> <span class="py">people</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="nc">Person</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span><span class="mi">29</span><span class="p">),</span><span class="nc">Person</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">,</span><span class="mi">31</span><span class="p">))</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">})</span>
+</pre></table></code></div></div><h3 id="513-lambda表达式的语法">5.1.3 Lambda表达式的语法</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="../.gitbook/assets/image%20%282%29.png" alt="" /></p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">sum</span> <span class="p">=</span> <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">-&gt;</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span> <span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="p">{</span> <span class="nf">println</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="p">}()</span> <span class="c1">//直接调用lambda表达式</span>
+<span class="nf">run</span> <span class="p">{</span> <span class="nf">println</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="p">}</span> <span class="c1">//使用库函数run来执行lambda</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="c1">//不用任何简明语法来重写这个例子</span>
+<span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span><span class="p">({</span><span class="n">p</span><span class="p">:</span><span class="nc">Person-</span><span class="p">&gt;</span><span class="n">p</span><span class="p">.</span><span class="n">age</span><span class="p">})</span>
+<span class="c1">//如果lambda表达式是函数调用的最后一个实参，可以放到括号的外边</span>
+<span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span><span class="p">(){</span><span class="n">p</span><span class="p">:</span><span class="nc">Person-</span><span class="p">&gt;</span><span class="n">p</span><span class="p">.</span><span class="n">age</span><span class="p">}</span>
+<span class="c1">//当lambda是唯一的实参时，还可以去掉调用代码中的空括号对</span>
+<span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span> <span class="p">{</span> <span class="n">p</span><span class="p">:</span><span class="nc">Person-</span><span class="p">&gt;</span><span class="n">p</span><span class="p">.</span><span class="n">age</span> <span class="p">}</span>
+</pre></table></code></div></div><p>和局部变量一样，如果lambda参数的类型可以被推倒出来，你就不需要显式地指定它。以这里的maxBy函数为例，其参数类型始终和集合的元素类型相同。编译器知道你是对一个Person对象的集合调用maxBy函数，所以它能推断lambda参数也会是Person类型。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span> <span class="p">{</span> <span class="n">p-</span><span class="p">&gt;</span><span class="n">p</span><span class="p">.</span><span class="n">age</span> <span class="p">}</span> <span class="c1">//推导出参数类型</span>
+<span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span><span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">}</span>
+</pre></table></code></div></div><p>如果当前上下文期望的是只有一个参数的Lambda切这个参数的类型可以推断出来，就会生成it这个名称。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">sum</span> <span class="p">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="nc">Int</span><span class="p">,</span><span class="n">y</span><span class="p">:</span><span class="nc">Int-</span><span class="p">&gt;</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"Computing the sum of $x and $y..."</span><span class="p">)</span>
+    <span class="n">x</span> <span class="p">+</span> <span class="n">y</span>
+<span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> 
+<span class="c1">//Computing the sum of 1 and 2...</span>
+<span class="c1">//3</span>
+</pre></table></code></div></div><h3 id="514-在作用域中访问变量">5.1.4 在作用域中访问变量</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">printMessagePrefix</span><span class="p">(</span><span class="n">messages</span><span class="p">:</span> <span class="nc">Collection</span><span class="p">&lt;</span><span class="nc">String</span><span class="p">&gt;,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">messages</span><span class="p">.</span><span class="nf">forEach</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$prefix $it"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">val</span> <span class="py">errors</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"403 Forbidden"</span><span class="p">,</span> <span class="s">"404 Not Found"</span><span class="p">)</span>
+<span class="nf">printMessagePrefix</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="s">"Error:"</span><span class="p">)</span>
+<span class="c1">//Error: 403 Forbidden</span>
+<span class="c1">//Error: 404 Not Found</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">printProblemCounts</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nc">Collection</span><span class="p">&lt;</span><span class="nc">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="py">clientErrors</span> <span class="p">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="py">serverErrors</span> <span class="p">=</span> <span class="mi">0</span>
+    <span class="n">response</span><span class="p">.</span><span class="nf">forEach</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="s">"4"</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">clientErrors</span><span class="p">++</span> <span class="c1">//在lambda中修改变量</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="s">"5"</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">serverErrors</span><span class="p">++</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"$clientErrors client errors,$serverErrors server errors"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">val</span> <span class="py">responses</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"200 OK"</span><span class="p">,</span> <span class="s">"418 I'm a teapot"</span><span class="p">,</span> <span class="s">"500 Internal Server Error"</span><span class="p">)</span>
+<span class="nf">printProblemCounts</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+</pre></table></code></div></div><p>和Java不一样，Kotlin允许在lambda内部访问非final变量甚至修改它们。从lambda内访问外部变量，我们称这些变量被lambda捕捉。</p><h3 id="515-成员引用">5.1.5 成员引用</h3><p>kotlin和Java8一样，如果把函数转换成一个值，你就可以传递他。使用::元素安抚来转换。</p><div class="language-text highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>val getAge = Person::age
+</pre></table></code></div></div><p>这种表达式称为<code class="language-plaintext highlighter-rouge">成员引用</code>，它提供了简明语法，来创建一个调用单个方法或者访问单个属性的函数值。</p><p>成员引用和调用该函数的lambda具有一样的类型，可以互换使用：</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">people</span><span class="p">.</span><span class="nf">maxBy</span> <span class="p">(</span> <span class="nc">Person</span><span class="o">::</span><span class="n">age</span> <span class="p">)</span>
+</pre></table></code></div></div><p>还可以引用顶层函数</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">salute</span><span class="p">()</span> <span class="p">=</span> <span class="nf">println</span><span class="p">(</span><span class="s">"Salute!"</span><span class="p">)</span>
+<span class="nf">run</span><span class="p">(</span><span class="o">::</span><span class="n">salute</span><span class="p">)</span>
+</pre></table></code></div></div><p>可以用<code class="language-plaintext highlighter-rouge">构造方法引用</code>存储或者延期执行创建类实例的动作。构造方法引用的形式是在双冒号后执行类名称：</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">createPerson</span> <span class="p">=</span> <span class="o">::</span><span class="nc">Person</span> <span class="c1">//创建Person实例的动作被保存成了值</span>
+<span class="kd">val</span> <span class="py">p</span> <span class="p">=</span> <span class="nf">createPerson</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span><span class="mi">29</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></table></code></div></div><p>还可以用同样的方式引用扩展函数：</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">isAdult</span><span class="p">()</span> <span class="p">=</span> <span class="n">age</span> <span class="p">&gt;=</span> <span class="mi">18</span>
+<span class="kd">val</span> <span class="py">predicate</span> <span class="p">=</span> <span class="nc">Person</span><span class="o">::</span><span class="n">isAdult</span>
+</pre></table></code></div></div><h2 id="52-集合的函数式api">5.2 集合的函数式API</h2><h3 id="521-基础filter和map">5.2.1 基础：filter和map</h3><p>filter和map函数形成了集合操作的基础，很多集合操作都是借助它们来表达的。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">list</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="nf">filter</span> <span class="p">{</span> <span class="n">it</span> <span class="p">%</span> <span class="mi">2</span> <span class="p">==</span> <span class="mi">0</span> <span class="p">})</span> <span class="c1">//[2, 4]</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">list</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="n">it</span> <span class="p">*</span> <span class="n">it</span> <span class="p">})</span> <span class="c1">//[1, 4, 9, 16]</span>
+</pre></table></code></div></div><h3 id="522-all-any-count-和-find对集合应用判断式">5.2.2 “all” “any” “count” 和 “find”：对集合应用判断式</h3><p>all函数判断是否所有元素都满足判断式。</p><p>any函数判断是否至少存在一个匹配的元素。</p><p>count函数返回满足判断式元素的个数。</p><p>find函数找到满足判断的元素。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nf">println</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="nf">all</span><span class="p">(</span><span class="n">canBeInClude27</span><span class="p">))</span> <span class="c1">//false</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="nf">any</span><span class="p">(</span><span class="n">canBeInClude27</span><span class="p">))</span> <span class="c1">//true</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">canBeInClude27</span><span class="p">))</span> <span class="c1">//1</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">canBeInClude27</span><span class="p">))</span> <span class="c1">//Person(name=Alice, age=27)</span>
+</pre></table></code></div></div><h3 id="523-groupby把列表转换成分组的map">5.2.3 groupBy：把列表转换成分组的map</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">people</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="nc">Person</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"Carol"</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="nf">groupBy</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">})</span>
+<span class="c1">//{27=[Person(name=Alice, age=27)], 31=[Person(name=Bob, age=31), Person(name=Carol, age=31)]}</span>
+</pre></table></code></div></div><h3 id="524-flatmap和flatten处理嵌套集合中的元素">5.2.4 flatMap和flatten：处理嵌套集合中的元素</h3><p>flatMap函数做了两件事情：首先根据作为实参给定的函数对集合中的每个元素做变换，然后把多个列表合并成一个列表。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">strings</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"abc"</span><span class="p">,</span><span class="s">"def"</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">strings</span><span class="p">.</span><span class="nf">flatMap</span><span class="p">(</span><span class="nc">String</span><span class="o">::</span><span class="n">toList</span><span class="p">))</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">books</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="nc">Book</span><span class="p">(</span><span class="s">"Thursday Next"</span><span class="p">,</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"Jasper Fforde"</span><span class="p">)),</span>
+                   <span class="nc">Book</span><span class="p">(</span><span class="s">"Mort"</span><span class="p">,</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"Terry Pratchett"</span><span class="p">)),</span>
+                   <span class="nc">Book</span><span class="p">(</span><span class="s">"Good Omens"</span><span class="p">,</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"Terry Pratchett"</span><span class="p">,</span> <span class="s">"Neil Gaiman"</span><span class="p">)))</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">books</span><span class="p">.</span><span class="nf">flatMap</span><span class="p">(</span><span class="nc">Book</span><span class="o">::</span><span class="n">authors</span><span class="p">).</span><span class="nf">toSet</span><span class="p">())</span> <span class="c1">// toSet去重</span>
+<span class="c1">//[Jasper Fforde, Terry Pratchett, Neil Gaiman]</span>
+</pre></table></code></div></div><h2 id="53-惰性集合操作序列">5.3 惰性集合操作：序列</h2><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">people</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nc">Person</span><span class="o">::</span><span class="n">name</span><span class="p">).</span><span class="nf">filter</span><span class="p">{</span><span class="n">it</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="s">"A"</span><span class="p">)}</span>
+</pre></table></code></div></div><p>Kotlin标准库参考文档有说明，filter和map都会返回一个列表。这意味着上面例子中的链式调用会创建两个列表：一个保存filter函数的结果，另一个保存map函数的结果。如果源列表只有两个元素，这不是什么问题，但是如果有一百万个元素，调用就会变得十分低效。</p><p>为了提高效率，可以把操作变成使用序列，而不是直接使用。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>    <span class="n">people</span><span class="p">.</span><span class="nf">asSequence</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nc">Person</span><span class="o">::</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">filter</span><span class="p">{</span><span class="n">it</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="s">"A"</span><span class="p">)}</span>
+            <span class="p">.</span><span class="nf">toList</span><span class="p">()</span>
+</pre></table></code></div></div><p>Sequence接口的强大之处在于其操作的实现方式。序列中的元素求值是惰性的。因此可以使用序列更高效地对集合元素执行链式操作，而不需要创建额外的集合来保存过程中产生的中间结果。</p><p>可以调用扩展函数asSequence把任意集合转换成序列，调用toList来做反向的转换。</p><h3 id="531-执行序列操作中间和末端操作">5.3.1 执行序列操作：中间和末端操作</h3><p>中间操作始终是惰性的。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>    <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">asSequence</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"map($it) "</span><span class="p">);</span><span class="n">it</span> <span class="p">*</span> <span class="n">it</span> <span class="p">}</span>
+            <span class="p">.</span><span class="nf">filter</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"filter($it) "</span><span class="p">);</span><span class="n">it</span> <span class="p">%</span> <span class="mi">2</span> <span class="p">==</span> <span class="mi">0</span> <span class="p">}</span>
+</pre></table></code></div></div><p>执行这段代码并不会在控制台上输出任何内容。这意味着map和filter变换被延期了，它们只有在获取结果的时候才会被应用。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>    <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">asSequence</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"map($it) "</span><span class="p">);</span><span class="n">it</span> <span class="p">*</span> <span class="n">it</span> <span class="p">}</span>
+            <span class="p">.</span><span class="nf">filter</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"filter($it) "</span><span class="p">);</span><span class="n">it</span> <span class="p">%</span> <span class="mi">2</span> <span class="p">==</span> <span class="mi">0</span> <span class="p">}</span>
+            <span class="p">.</span><span class="nf">toList</span><span class="p">()</span>
+    <span class="c1">//map(1) filter(1) map(2) filter(4) map(3) filter(9) map(4) filter(16)</span>
+</pre></table></code></div></div><p>末端操作触发执行了所有的延期计算。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nf">println</span><span class="p">(</span><span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">asSequence</span><span class="p">()</span>
+        <span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="n">it</span> <span class="p">*</span> <span class="n">it</span> <span class="p">}</span>
+        <span class="p">.</span><span class="nf">find</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&gt;</span> <span class="mi">3</span> <span class="p">})</span>
+</pre></table></code></div></div><p></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="../.gitbook/assets/image%20%283%29.png" alt="&#x53CA;&#x65E9;&#x6C42;&#x503C;&#x5728;&#x6574;&#x4E2A;&#x96C6;&#x5408;&#x4E0A;&#x6267;&#x884C;&#x6BCF;&#x4E2A;&#x64CD;&#x4F5C;&#xFF1B;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x5219;&#x9010;&#x4E2A;&#x5904;&#x7406;&#x5143;&#x7D20;" /></p><h3 id="532-创建序列">5.3.2 创建序列</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">naturalNumbers</span> <span class="p">=</span> <span class="nf">generateSequence</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span> <span class="p">+</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="kd">val</span> <span class="py">numbersTo100</span> <span class="p">=</span> <span class="n">naturalNumbers</span><span class="p">.</span><span class="nf">takeWhile</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&lt;=</span> <span class="mi">100</span> <span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">numbersTo100</span><span class="p">.</span><span class="nf">sum</span><span class="p">())</span>
+</pre></table></code></div></div><h2 id="54-使用java函数式接口">5.4 使用Java函数式接口</h2><h3 id="541-把lambda当做参数传递给java方法">5.4.1 把lambda当做参数传递给Java方法</h3><h3 id="542-sam构造方法显式地把lambda转换成函数式接口">5.4.2 SAM构造方法：显式地把lambda转换成函数式接口</h3><h2 id="55-带接收者的lambdawith与apply">5.5 带接收者的lambda：“with”与“apply”</h2><h3 id="551-with函数">5.5.1 “with”函数</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">alphabet</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">result</span> <span class="p">=</span> <span class="nc">StringBuilder</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">'A'</span><span class="o">..</span><span class="sc">'Z'</span><span class="p">){</span>
+        <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="s">"\nNow I know the alphabet!"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="nf">toString</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>调用result实例上好几个不同的方法，而且每次调用都要重复result这个名称。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">alphabet</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">result</span> <span class="p">=</span> <span class="nc">StringBuilder</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nf">with</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">'A'</span><span class="o">..</span><span class="sc">'Z'</span><span class="p">){</span>
+            <span class="nf">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="nf">append</span><span class="p">(</span><span class="s">"\nNow I know the alphabet!"</span><span class="p">)</span>
+        <span class="nf">toString</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>进一步重构alphabet函数，去掉额外的StringBuilder变量。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">alphabet</span><span class="p">()</span> <span class="p">=</span> <span class="nf">with</span><span class="p">(</span><span class="nc">StringBuffer</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">'A'</span><span class="o">..</span><span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">append</span><span class="p">(</span><span class="s">"\nNow I know the alphabet!"</span><span class="p">)</span>
+    <span class="nf">toString</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h3 id="552-apply函数">5.5.2 “apply”函数</h3><p>apply函数几乎和with函数一模一样，唯一的区别是apply始终会返回作为实参传递给它的对象。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">alphabet</span><span class="p">()</span> <span class="p">=</span> <span class="nc">StringBuilder</span><span class="p">().</span><span class="nf">apply</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">'A'</span><span class="o">..</span><span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">append</span><span class="p">(</span><span class="s">"\nNow I know the alphabet"</span><span class="p">)</span>
+<span class="p">}.</span><span class="nf">toString</span><span class="p">()</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">createViewWithCustomAttributes</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="nc">Context</span><span class="p">)</span> <span class="p">=</span> 
+    <span class="nc">TextView</span><span class="p">(</span><span class="n">context</span><span class="p">).</span><span class="nf">apply</span><span class="p">{</span>
+        <span class="n">text</span> <span class="p">=</span> <span class="s">"Sample Text"</span>
+        <span class="n">textSize</span> <span class="p">=</span> <span class="mf">20.0</span>
+        <span class="nf">setPadding</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></table></code></div></div><p>标准库函数buildString负责创建StringBuilder并调用toString。buildString的实参是一个带接收者的lambda，接收者就是StringBuilder。</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">alphabet</span><span class="p">()</span> <span class="p">=</span>  <span class="nf">buildString</span><span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">'A'</span><span class="o">..</span><span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">append</span><span class="p">(</span><span class="s">"\nNow I know the alphabet"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/kotlin/" class="post-tag no-text-decoration" >Kotlin</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=《Kotlin实战》第5章 Lambda编程 - malinkang&url=https://malinkang.cn/posts/kotlin-in-action-chapter5/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=《Kotlin实战》第5章 Lambda编程 - malinkang&u=https://malinkang.cn/posts/kotlin-in-action-chapter5/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=《Kotlin实战》第5章 Lambda编程 - malinkang&url=https://malinkang.cn/posts/kotlin-in-action-chapter5/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/dagger-guide/">Dagger使用指南</a><li><a href="/posts/understanding-the-jvm-runtime-data-areas/">《深入理解JVM》第2章Java内存区域与内存溢出异常</a><li><a href="/posts/understanding-the-jvm-garbage-collection/">《深入理解JVM》第3章垃圾收集器</a><li><a href="/posts/understanding-the-jvm-class-file-structure/">《深入理解JVM》第6章类文件结构</a><li><a href="/posts/understanding-the-jvm-class-loader/">《深入理解JVM》第7章虚拟机类加载机制</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a> <a class="post-tag" href="/tags/thinking-in-java/">Thinking in Java</a> <a class="post-tag" href="/tags/android/">Android</a> <a class="post-tag" href="/tags/effective-java/">Effective Java</a> <a class="post-tag" href="/tags/kotlin/">Kotlin</a> <a class="post-tag" href="/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">Java并发编程实战</a> <a class="post-tag" href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm/">深入理解JVM</a> <a class="post-tag" href="/tags/android/">android</a> <a class="post-tag" href="/tags/databinding/">databinding</a> <a class="post-tag" href="/tags/recyclerview/">RecyclerView</a></div></div></div><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/kotlin-lambda-md/"><div class="card-body"> <span class="timeago small" > Aug 2, 2017 <i class="unloaded">2017-08-02T21:47:12+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Kotlin 高阶函数和lambda表达式</h3><div class="text-muted small"><p> 高阶函数 高阶函数是将函数用作参数或返回值的函数。 这种函数的一个很好的例子是 lock()，它接受一个锁对象和一个函数，获取锁，运行函数并释放锁： fun &lt;T&gt; lock(lock: Lock, body: () -&gt; T): T { lock.lock() try { return body() } finally ...</p></div></div></a></div><div class="card"> <a href="/posts/kotlin-functions/"><div class="card-body"> <span class="timeago small" > Jul 27, 2018 <i class="unloaded">2018-07-27T15:05:51+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Kotlin函数</h3><div class="text-muted small"><p> 函数声明 Kotlin中的函数使用fun关键字声明： fun double(x: Int): Int { return 2 * x } 函数调用 调用函数使用传统的方法： val result = double(2) 调用成员函数使用点表示法： Stream().read() // 创建类 Stream 实例并调用 read() 参数 函数参数使用Pascal表示法...</p></div></div></a></div><div class="card"> <a href="/posts/kotlin-scope-functions/"><div class="card-body"> <span class="timeago small" > Jul 27, 2018 <i class="unloaded">2018-07-27T15:05:51+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Kotlin作用域函数</h3><div class="text-muted small"><p> Kotlin标准库包含几个函数，它们的唯一目的是在对象的上下文中执行代码块。当对一个对象调用这样的函数并提供一个lambda表达式时，它会形成一个临时作用域。在此作用域中，可以访问该对象而无需其名称。这些函数称为作用域函数。共有以下五种：let、run、with、apply 以及also。 这些函数基本上做了同样的事情：在一个对象上执行一个代码块。不同的是这个对象在块中如何使用，以及整个表...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/kotlin-singletone/" class="btn btn-outline-primary" prompt="Older"><p>Kotlin实现单例</p></a> <a href="/posts/kotlin-in-action-chapter6/" class="btn btn-outline-primary" prompt="Newer"><p>《Kotlin实战》第6章 Kotlin的类型系统</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="text-center text-muted small pb-5"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> const options = { scriptUrl: '//malinkang-cn.disqus.com/embed.js', disqusConfig: function() { this.page.title = '《Kotlin实战》第5章 Lambda编程'; this.page.url = 'https://malinkang.cn/posts/kotlin-in-action-chapter5/'; this.page.identifier = '/posts/kotlin-in-action-chapter5/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://twitter.com/malinkang">malinkang</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a> <a class="post-tag" href="/tags/thinking-in-java/">Thinking in Java</a> <a class="post-tag" href="/tags/android/">Android</a> <a class="post-tag" href="/tags/effective-java/">Effective Java</a> <a class="post-tag" href="/tags/kotlin/">Kotlin</a> <a class="post-tag" href="/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">Java并发编程实战</a> <a class="post-tag" href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm/">深入理解JVM</a> <a class="post-tag" href="/tags/android/">android</a> <a class="post-tag" href="/tags/databinding/">databinding</a> <a class="post-tag" href="/tags/recyclerview/">RecyclerView</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://malinkang.cn{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script>

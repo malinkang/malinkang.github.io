@@ -1,0 +1,775 @@
+<!DOCTYPE html><html lang="zh-CN" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="系统闹钟源码分析" /><meta property="og:locale" content="zh_CN" /><meta name="description" content="核心类" /><meta property="og:description" content="核心类" /><link rel="canonical" href="https://malinkang.cn/posts/deskclock-analysis/" /><meta property="og:url" content="https://malinkang.cn/posts/deskclock-analysis/" /><meta property="og:site_name" content="malinkang" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-01-19T17:21:04+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="系统闹钟源码分析" /><meta name="twitter:site" content="@malinkang" /><meta name="google-site-verification" content="google_meta_tag_verification" /> <script type="application/ld+json"> {"description":"核心类","headline":"系统闹钟源码分析","dateModified":"2021-01-19T17:21:04+08:00","url":"https://malinkang.cn/posts/deskclock-analysis/","datePublished":"2021-01-19T17:21:04+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://malinkang.cn/posts/deskclock-analysis/"},"@context":"https://schema.org"}</script><title>系统闹钟源码分析 | malinkang</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="malinkang"><meta name="application-name" content="malinkang"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/lozad/dist/lozad.min.js,npm/magnific-popup@1/dist/jquery.magnific-popup.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id="></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', ''); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" alt="avatar" class="mx-auto"> <img src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/images/avatar.jpeg" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">malinkang</a></div><div class="site-subtitle font-italic">人生最可悲的事情，莫过于胸怀大志，却又虚度光阴。</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>分类</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>标签</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>归档</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>关于</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center"> <a href="https://github.com/malinkang" aria-label="github" class="order-3" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/malinkang" aria-label="twitter" class="order-4" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['linkang.ma','gmail.com'].join('@')" aria-label="email" class="order-5" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" class="order-6" > <i class="fas fa-rss"></i> </a> <span class="icon-border order-2"></span> <span id="mode-toggle-wrapper" class="order-1"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>系统闹钟源码分析</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>系统闹钟源码分析</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="semi-bold"> malinkang </span> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Tue, Jan 19, 2021, 5:21 PM +0800" prep="on" > Jan 19 <i class="unloaded">2021-01-19T17:21:04+08:00</i> </span></div><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="2252 words">12 min</span></div></div><div class="post-content"><h2 id="核心类">核心类</h2><ul><li><p>UI部分</p><ul><li>DeskClock：主界面，由ViewPager实现。<li>DeskClockFragment：首页四个Fragment的基类。<li>AlarmClockFragment：闹钟Fragment<li>ClockFragment：时钟Fragment<li>StopwatchFragment：秒表Fragment<li>TimerFragment：定时器Fragment</ul><li><p>数据</p><ul><li>ClockDatabaseHelper：数据库Helper，闹钟应用创建了两表，表<code class="language-plaintext highlighter-rouge">alarm_templates</code>存储所有的闹钟，<code class="language-plaintext highlighter-rouge">alarm_instances</code>存储了开启的闹钟。<li>ClockProvider：ContentProvider<li>Alarm：闹钟实体Bean，与<code class="language-plaintext highlighter-rouge">alarm_templates</code>对应，定义了对<code class="language-plaintext highlighter-rouge">alarm_templates</code>表增删改查的静态方法<li>AlarmInstance：闹钟实体Bean，与<code class="language-plaintext highlighter-rouge">alarm_instances</code>对应，定义了对<code class="language-plaintext highlighter-rouge">alarm_instances</code>表增删改查的静态方法。</ul><li><p>AlarmStateManager：闹钟状态管理类</p><li><p>AlarmService：负责计时完成显示通知和铃声、以及关闭通知和铃声。</p></ul><h2 id="闹钟的工作流程">闹钟的工作流程</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/image-20210120194327601.png" alt="image-20210120194327601" /></p><h2 id="数据库设计">数据库设计</h2><h3 id="clockdatabasehelper">ClockDatabaseHelper</h3><p><code class="language-plaintext highlighter-rouge">alarm_templates</code>表结构</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/cover/image-20210119173719416.png" alt="image-20210119173719416" /></p><p><code class="language-plaintext highlighter-rouge">alarm_instances</code>表结构</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/image-20210119173836511.png" alt="image-20210119173836511" /></p><h2 id="查询">查询</h2><h3 id="alarmgetalarmscursorloader">Alarm#getAlarmsCursorLoader()</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre><span class="c1">//Alarm</span>
+<span class="k">fun</span> <span class="nf">getAlarmsCursorLoader</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="nc">Context</span><span class="p">):</span> <span class="nc">CursorLoader</span> <span class="p">{</span>
+    <span class="c1">//从ContentProvider中获取</span>
+    <span class="k">return</span> <span class="kd">object</span> <span class="err">: </span><span class="nc">CursorLoader</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nc">AlarmsColumns</span><span class="p">.</span><span class="nc">ALARMS_WITH_INSTANCES_URI</span><span class="p">,</span><span class="c1">//uri</span>
+            <span class="nc">QUERY_ALARMS_WITH_INSTANCES_COLUMNS</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="nc">DEFAULT_SORT_ORDER</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">onContentChanged</span><span class="p">()</span> <span class="p">{</span>
+            <span class="c1">// There is a bug in Loader which can result in stale data if a loader is stopped</span>
+            <span class="c1">// immediately after a call to onContentChanged. As a workaround we stop the</span>
+            <span class="c1">// loader before delivering onContentChanged to ensure mContentChanged is set to</span>
+            <span class="c1">// true before forceLoad is called.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">isStarted</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">isAbandoned</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nf">stopLoading</span><span class="p">()</span>
+                <span class="k">super</span><span class="p">.</span><span class="nf">onContentChanged</span><span class="p">()</span>
+                <span class="nf">startLoading</span><span class="p">()</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">super</span><span class="p">.</span><span class="nf">onContentChanged</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">loadInBackground</span><span class="p">():</span> <span class="nc">Cursor</span><span class="p">?</span> <span class="p">{</span>
+            <span class="c1">// Prime the ringtone title cache for later access. Most alarms will refer to</span>
+            <span class="c1">// system ringtones.</span>
+            <span class="nc">DataModel</span><span class="p">.</span><span class="n">dataModel</span><span class="p">.</span><span class="nf">loadRingtoneTitles</span><span class="p">()</span>
+            <span class="k">return</span> <span class="k">super</span><span class="p">.</span><span class="nf">loadInBackground</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h3 id="clockproviderquery">ClockProvider#query()</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+</pre><td class="rouge-code"><pre><span class="k">override</span> <span class="k">fun</span> <span class="nf">query</span><span class="p">(</span>
+    <span class="n">uri</span><span class="p">:</span> <span class="nc">Uri</span><span class="p">,</span>
+    <span class="n">projectionIn</span><span class="p">:</span> <span class="nc">Array</span><span class="p">&lt;</span><span class="nc">String</span><span class="err">?</span><span class="p">&gt;?,</span>
+    <span class="n">selection</span><span class="p">:</span> <span class="nc">String</span><span class="p">?,</span>
+    <span class="n">selectionArgs</span><span class="p">:</span> <span class="nc">Array</span><span class="p">&lt;</span><span class="nc">String</span><span class="err">?</span><span class="p">&gt;?,</span>
+    <span class="n">sort</span><span class="p">:</span> <span class="nc">String</span><span class="p">?</span>
+<span class="p">):</span> <span class="nc">Cursor</span><span class="p">?</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">qb</span> <span class="p">=</span> <span class="nc">SQLiteQueryBuilder</span><span class="p">()</span>
+    <span class="kd">val</span> <span class="py">db</span><span class="p">:</span> <span class="nc">SQLiteDatabase</span> <span class="p">=</span> <span class="n">mOpenHelper</span><span class="p">.</span><span class="n">readableDatabase</span>
+    <span class="c1">// Generate the body of the query</span>
+    <span class="k">when</span> <span class="p">(</span><span class="n">sURIMatcher</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nc">ALARMS</span> <span class="p">-&gt;</span> <span class="n">qb</span><span class="p">.</span><span class="n">tables</span> <span class="p">=</span> <span class="nc">ALARMS_TABLE_NAME</span>
+        <span class="nc">ALARMS_ID</span> <span class="p">-&gt;</span> <span class="p">{</span>
+            <span class="n">qb</span><span class="p">.</span><span class="n">tables</span> <span class="p">=</span> <span class="nc">ALARMS_TABLE_NAME</span>
+            <span class="n">qb</span><span class="p">.</span><span class="nf">appendWhere</span><span class="p">(</span><span class="nc">BaseColumns</span><span class="p">.</span><span class="n">_ID</span> <span class="p">+</span> <span class="s">"="</span><span class="p">)</span>
+            <span class="n">qb</span><span class="p">.</span><span class="nf">appendWhere</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="n">lastPathSegment</span><span class="o">!!</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="nc">INSTANCES</span> <span class="p">-&gt;</span> <span class="n">qb</span><span class="p">.</span><span class="n">tables</span> <span class="p">=</span> <span class="nc">INSTANCES_TABLE_NAME</span>
+        <span class="nc">INSTANCES_ID</span> <span class="p">-&gt;</span> <span class="p">{</span>
+            <span class="n">qb</span><span class="p">.</span><span class="n">tables</span> <span class="p">=</span> <span class="nc">INSTANCES_TABLE_NAME</span>
+            <span class="n">qb</span><span class="p">.</span><span class="nf">appendWhere</span><span class="p">(</span><span class="nc">BaseColumns</span><span class="p">.</span><span class="n">_ID</span> <span class="p">+</span> <span class="s">"="</span><span class="p">)</span>
+            <span class="n">qb</span><span class="p">.</span><span class="nf">appendWhere</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="n">lastPathSegment</span><span class="o">!!</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="nc">ALARMS_WITH_INSTANCES</span> <span class="p">-&gt;</span> <span class="p">{</span> <span class="c1">//匹配到这里</span>
+            <span class="n">qb</span><span class="p">.</span><span class="n">tables</span> <span class="p">=</span> <span class="nc">ALARM_JOIN_INSTANCE_TABLE_STATEMENT</span> <span class="c1">//表</span>
+            <span class="n">qb</span><span class="p">.</span><span class="nf">appendWhere</span><span class="p">(</span><span class="nc">ALARM_JOIN_INSTANCE_WHERE_STATEMENT</span><span class="p">)</span>
+            <span class="n">qb</span><span class="p">.</span><span class="n">projectionMap</span> <span class="p">=</span> <span class="n">sAlarmsWithInstancesProjection</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">-&gt;</span> <span class="k">throw</span> <span class="nc">IllegalArgumentException</span><span class="p">(</span><span class="s">"Unknown URI $uri"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="kd">val</span> <span class="py">ret</span><span class="p">:</span> <span class="nc">Cursor</span><span class="p">?</span> <span class="p">=</span> <span class="n">qb</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">projectionIn</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">selectionArgs</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">e</span><span class="p">(</span><span class="s">"Alarms.query: failed"</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">ret</span><span class="p">.</span><span class="nf">setNotificationUri</span><span class="p">(</span><span class="n">context</span><span class="o">!!</span><span class="p">.</span><span class="n">contentResolver</span><span class="p">,</span> <span class="n">uri</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ret</span>
+<span class="p">}</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">private</span> <span class="k">const</span> <span class="kd">val</span> <span class="py">ALARM_JOIN_INSTANCE_TABLE_STATEMENT</span> <span class="p">=</span>
+        <span class="nc">ALARMS_TABLE_NAME</span> <span class="p">+</span> <span class="s">" LEFT JOIN "</span> <span class="p">+</span>
+                <span class="nc">INSTANCES_TABLE_NAME</span> <span class="p">+</span> <span class="s">" ON ("</span> <span class="p">+</span>
+                <span class="nc">ALARMS_TABLE_NAME</span> <span class="p">+</span> <span class="s">"."</span> <span class="p">+</span>
+                <span class="nc">BaseColumns</span><span class="p">.</span><span class="n">_ID</span> <span class="p">+</span> <span class="s">" = "</span> <span class="p">+</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">ALARM_ID</span> <span class="p">+</span> <span class="s">")"</span>
+<span class="c1">//等价 select * from alarm_templates left join alarm_instances on( alarm_templates._id = alarm_instances.alarm_id)</span>
+</pre></table></code></div></div><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://malinkang-1253444926.cos.ap-beijing.myqcloud.com/blog/images/image-20210119191935953.png" alt="image-20210119191935953" /></p><h3 id="onloadfinished">onLoadFinished()</h3><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="n">override</span> <span class="n">fun</span> <span class="nf">onLoadFinished</span><span class="o">(</span><span class="nl">cursorLoader:</span> <span class="nc">Loader</span><span class="o">&lt;</span><span class="nc">Cursor</span><span class="o">&gt;,</span> <span class="nl">data:</span> <span class="nc">Cursor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="nl">itemHolders:</span> <span class="nc">MutableList</span><span class="o">&lt;</span><span class="nc">AlarmItemHolder</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nc">ArrayList</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">count</span><span class="o">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="na">moveToFirst</span><span class="o">()</span>
+    <span class="k">while</span> <span class="o">(!</span><span class="n">data</span><span class="o">.</span><span class="na">isAfterLast</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">alarm</span> <span class="o">=</span> <span class="nc">Alarm</span><span class="o">(</span><span class="n">data</span><span class="o">)</span><span class="c1">//Cursor转换为Alarm对象</span>
+        <span class="n">val</span> <span class="n">alarmInstance</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">alarm</span><span class="o">.</span><span class="na">canPreemptivelyDismiss</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">AlarmInstance</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">joinedTable</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span><span class="c1">//创建AlarmInstance</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="kc">null</span>
+        <span class="o">}</span>
+        <span class="n">val</span> <span class="n">itemHolder</span> <span class="o">=</span> <span class="nc">AlarmItemHolder</span><span class="o">(</span><span class="n">alarm</span><span class="o">,</span> <span class="n">alarmInstance</span><span class="o">,</span> <span class="n">mAlarmTimeClickHandler</span><span class="o">)</span>
+        <span class="n">itemHolders</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">itemHolder</span><span class="o">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="na">moveToNext</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">setAdapterItems</span><span class="o">(</span><span class="n">itemHolders</span><span class="o">,</span> <span class="nc">SystemClock</span><span class="o">.</span><span class="na">elapsedRealtime</span><span class="o">())</span> <span class="c1">//设置adapter</span>
+<span class="o">}</span>
+</pre></table></code></div></div><h2 id="插入">插入</h2><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="n">override</span> <span class="n">fun</span> <span class="nf">onTimeSet</span><span class="o">(</span><span class="nl">fragment:</span> <span class="nc">TimePickerDialogFragment</span><span class="o">?,</span> <span class="nl">hourOfDay:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">minute:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mAlarmTimeClickHandler</span><span class="o">.</span><span class="na">onTimeSet</span><span class="o">(</span><span class="n">hourOfDay</span><span class="o">,</span> <span class="n">minute</span><span class="o">)</span> <span class="c1">//设置时间</span>
+<span class="o">}</span>
+</pre></table></code></div></div><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">onTimeSet</span><span class="o">(</span><span class="nl">hourOfDay:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">minute:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mSelectedAlarm</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//如果闹钟对象为空，说明是新建不是修改</span>
+        <span class="c1">// If mSelectedAlarm is null then we're creating a new alarm.</span>
+        <span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="nc">Alarm</span><span class="o">()</span>
+        <span class="n">a</span><span class="o">.</span><span class="na">hour</span> <span class="o">=</span> <span class="n">hourOfDay</span>
+        <span class="n">a</span><span class="o">.</span><span class="na">minutes</span> <span class="o">=</span> <span class="n">minute</span>
+        <span class="n">a</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">//默认闹钟打开</span>
+        <span class="n">mAlarmUpdateHandler</span><span class="o">.</span><span class="na">asyncAddAlarm</span><span class="o">(</span><span class="n">a</span><span class="o">)</span><span class="c1">//异步添加闹钟</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">mSelectedAlarm</span><span class="o">!!.</span><span class="na">hour</span> <span class="o">=</span> <span class="n">hourOfDay</span>
+        <span class="n">mSelectedAlarm</span><span class="o">!!.</span><span class="na">minutes</span> <span class="o">=</span> <span class="n">minute</span>
+        <span class="n">mSelectedAlarm</span><span class="o">!!.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">mScrollHandler</span><span class="o">.</span><span class="na">setSmoothScrollStableId</span><span class="o">(</span><span class="n">mSelectedAlarm</span><span class="o">!!.</span><span class="na">id</span><span class="o">)</span>
+        <span class="n">mAlarmUpdateHandler</span>
+                <span class="o">.</span><span class="na">asyncUpdateAlarm</span><span class="o">(</span><span class="n">mSelectedAlarm</span><span class="o">!!,</span> <span class="n">popToast</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">minorUpdate</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+        <span class="n">mSelectedAlarm</span> <span class="o">=</span> <span class="kc">null</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></table></code></div></div><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">asyncAddAlarm</span><span class="o">(</span><span class="nl">alarm:</span> <span class="nc">Alarm</span><span class="o">?)</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="nl">updateTask:</span> <span class="nc">AsyncTask</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">,</span> <span class="nc">Void</span><span class="o">,</span> <span class="nc">AlarmInstance</span><span class="o">&gt;</span> <span class="o">=</span>
+            <span class="n">object</span> <span class="o">:</span> <span class="nc">AsyncTask</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">,</span> <span class="nc">Void</span><span class="o">,</span> <span class="nc">AlarmInstance</span><span class="o">&gt;()</span> <span class="o">{</span>
+        <span class="n">override</span> <span class="n">fun</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">vararg</span> <span class="nl">parameters:</span> <span class="nc">Void</span><span class="o">):</span> <span class="nc">AlarmInstance</span><span class="o">?</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">alarm</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">Events</span><span class="o">.</span><span class="na">sendAlarmEvent</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">action_create</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">label_deskclock</span><span class="o">)</span>
+                <span class="n">val</span> <span class="nl">cr:</span> <span class="nc">ContentResolver</span> <span class="o">=</span> <span class="n">mAppContext</span><span class="o">.</span><span class="na">contentResolver</span>
+                <span class="c1">// Add alarm to db</span>
+                <span class="n">val</span> <span class="n">newAlarm</span> <span class="o">=</span> <span class="nc">Alarm</span><span class="o">.</span><span class="na">addAlarm</span><span class="o">(</span><span class="n">cr</span><span class="o">,</span> <span class="n">alarm</span><span class="o">)</span> <span class="c1">//添加闹钟</span>
+                <span class="c1">// Be ready to scroll to this alarm on UI later.</span>
+                <span class="n">mScrollHandler</span><span class="o">?.</span><span class="na">setSmoothScrollStableId</span><span class="o">(</span><span class="n">newAlarm</span><span class="o">.</span><span class="na">id</span><span class="o">)</span>
+                <span class="c1">// Create and add instance to db</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">newAlarm</span><span class="o">.</span><span class="na">enabled</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//如果enable = true 设置闹钟实例</span>
+                    <span class="k">return</span> <span class="nf">setupAlarmInstance</span><span class="o">(</span><span class="n">newAlarm</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">null</span>
+        <span class="o">}</span>
+        <span class="n">override</span> <span class="n">fun</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="nl">instance:</span> <span class="nc">AlarmInstance</span><span class="o">?)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">AlarmUtils</span><span class="o">.</span><span class="na">popAlarmSetSnackbar</span><span class="o">(</span><span class="n">mSnackbarAnchor</span><span class="o">!!,</span>
+                        <span class="n">instance</span><span class="o">.</span><span class="na">alarmTime</span><span class="o">.</span><span class="na">timeInMillis</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">updateTask</span><span class="o">.</span><span class="na">execute</span><span class="o">()</span> <span class="c1">//执行任务</span>
+<span class="o">}</span>
+</pre></table></code></div></div><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="kd">private</span> <span class="n">fun</span> <span class="nf">setupAlarmInstance</span><span class="o">(</span><span class="nl">alarm:</span> <span class="nc">Alarm</span><span class="o">):</span> <span class="nc">AlarmInstance</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="nl">cr:</span> <span class="nc">ContentResolver</span> <span class="o">=</span> <span class="n">mAppContext</span><span class="o">.</span><span class="na">contentResolver</span>
+    <span class="kt">var</span> <span class="n">newInstance</span> <span class="o">=</span> <span class="n">alarm</span><span class="o">.</span><span class="na">createInstanceAfter</span><span class="o">(</span><span class="nc">Calendar</span><span class="o">.</span><span class="na">getInstance</span><span class="o">())</span> <span class="c1">//创建AlarmInstance</span>
+    <span class="n">newInstance</span> <span class="o">=</span> <span class="nc">AlarmInstance</span><span class="o">.</span><span class="na">addInstance</span><span class="o">(</span><span class="n">cr</span><span class="o">,</span> <span class="n">newInstance</span><span class="o">)</span> <span class="c1">//添加实例</span>
+    <span class="c1">// Register instance to state manager</span>
+    <span class="nc">AlarmStateManager</span><span class="o">.</span><span class="na">registerInstance</span><span class="o">(</span><span class="n">mAppContext</span><span class="o">,</span> <span class="n">newInstance</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="k">return</span> <span class="n">newInstance</span>
+<span class="o">}</span>
+</pre></table></code></div></div><h2 id="alarmstatemanager">AlarmStateManager</h2><h3 id="registerinstance">registerInstance()</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+</pre><td class="rouge-code"><pre> <span class="nd">@JvmStatic</span>
+ <span class="k">fun</span> <span class="nf">registerInstance</span><span class="p">(</span>
+     <span class="n">context</span><span class="p">:</span> <span class="nc">Context</span><span class="p">,</span>
+     <span class="n">instance</span><span class="p">:</span> <span class="nc">AlarmInstance</span><span class="p">,</span>
+     <span class="n">updateNextAlarm</span><span class="p">:</span> <span class="nc">Boolean</span>
+ <span class="p">)</span> <span class="p">{</span>
+     <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">i</span><span class="p">(</span><span class="s">"Registering instance: "</span> <span class="p">+</span> <span class="n">instance</span><span class="p">.</span><span class="n">mId</span><span class="p">)</span>
+     <span class="kd">val</span> <span class="py">cr</span><span class="p">:</span> <span class="nc">ContentResolver</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">contentResolver</span>
+     <span class="kd">val</span> <span class="py">alarm</span> <span class="p">=</span> <span class="nc">Alarm</span><span class="p">.</span><span class="nf">getAlarm</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">instance</span><span class="p">.</span><span class="n">mAlarmId</span><span class="o">!!</span><span class="p">)</span>
+     <span class="kd">val</span> <span class="py">currentTime</span> <span class="p">=</span> <span class="n">currentTime</span>
+     <span class="kd">val</span> <span class="py">alarmTime</span><span class="p">:</span> <span class="nc">Calendar</span> <span class="p">=</span> <span class="n">instance</span><span class="p">.</span><span class="n">alarmTime</span>
+     <span class="kd">val</span> <span class="py">timeoutTime</span><span class="p">:</span> <span class="nc">Calendar</span><span class="p">?</span> <span class="p">=</span> <span class="n">instance</span><span class="p">.</span><span class="n">timeout</span>
+     <span class="kd">val</span> <span class="py">lowNotificationTime</span><span class="p">:</span> <span class="nc">Calendar</span> <span class="p">=</span> <span class="n">instance</span><span class="p">.</span><span class="n">lowNotificationTime</span>
+     <span class="kd">val</span> <span class="py">highNotificationTime</span><span class="p">:</span> <span class="nc">Calendar</span> <span class="p">=</span> <span class="n">instance</span><span class="p">.</span><span class="n">highNotificationTime</span>
+     <span class="kd">val</span> <span class="py">missedTTL</span><span class="p">:</span> <span class="nc">Calendar</span> <span class="p">=</span> <span class="n">instance</span><span class="p">.</span><span class="n">missedTimeToLive</span>
+     <span class="c1">// Handle special use cases here</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">==</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">DISMISSED_STATE</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// This should never happen, but add a quick check here</span>
+         <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">e</span><span class="p">(</span><span class="s">"Alarm Instance is dismissed, but never deleted"</span><span class="p">)</span>
+         <span class="nf">deleteInstanceAndUpdateParent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="k">return</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">==</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">FIRED_STATE</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Keep alarm firing, unless it should be timed out</span>
+         <span class="kd">val</span> <span class="py">hasTimeout</span> <span class="p">=</span> <span class="n">timeoutTime</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">currentTime</span><span class="p">.</span><span class="nf">after</span><span class="p">(</span><span class="n">timeoutTime</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(!</span><span class="n">hasTimeout</span><span class="p">)</span> <span class="p">{</span>
+             <span class="nf">setFiredState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+             <span class="k">return</span>
+         <span class="p">}</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">==</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">MISSED_STATE</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">before</span><span class="p">(</span><span class="n">alarmTime</span><span class="p">))</span> <span class="p">{</span>
+             <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmId</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">i</span><span class="p">(</span><span class="s">"Cannot restore missed instance for one-time alarm"</span><span class="p">)</span>
+                 <span class="c1">// This instance parent got deleted (ie. deleteAfterUse), so</span>
+                 <span class="c1">// we should not re-activate it.-</span>
+                 <span class="nf">deleteInstanceAndUpdateParent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+                 <span class="k">return</span>
+             <span class="p">}</span>
+             <span class="c1">// TODO: This will re-activate missed snoozed alarms, but will</span>
+             <span class="c1">// use our normal notifications. This is not ideal, but very rare use-case.</span>
+             <span class="c1">// We should look into fixing this in the future.</span>
+             <span class="c1">// Make sure we re-enable the parent alarm of the instance</span>
+             <span class="c1">// because it will get activated by by the below code</span>
+             <span class="n">alarm</span><span class="o">!!</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span>
+             <span class="nc">Alarm</span><span class="p">.</span><span class="nf">updateAlarm</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">alarm</span><span class="p">)</span>
+         <span class="p">}</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">==</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">PREDISMISSED_STATE</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">before</span><span class="p">(</span><span class="n">alarmTime</span><span class="p">))</span> <span class="p">{</span>
+             <span class="nf">setPreDismissState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+             <span class="nf">deleteInstanceAndUpdateParent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="p">}</span>
+         <span class="k">return</span>
+     <span class="p">}</span>
+     <span class="c1">// Fix states that are time sensitive</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">after</span><span class="p">(</span><span class="n">missedTTL</span><span class="p">))</span> <span class="p">{</span>
+         <span class="c1">// Alarm is so old, just dismiss it</span>
+         <span class="nf">deleteInstanceAndUpdateParent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">after</span><span class="p">(</span><span class="n">alarmTime</span><span class="p">))</span> <span class="p">{</span>
+         <span class="c1">// There is a chance that the TIME_SET occurred right when the alarm should go off,</span>
+         <span class="c1">// so we need to add a check to see if we should fire the alarm instead of marking</span>
+         <span class="c1">// it missed.</span>
+         <span class="kd">val</span> <span class="py">alarmBuffer</span> <span class="p">=</span> <span class="nc">Calendar</span><span class="p">.</span><span class="nf">getInstance</span><span class="p">()</span>
+         <span class="n">alarmBuffer</span><span class="p">.</span><span class="n">time</span> <span class="p">=</span> <span class="n">alarmTime</span><span class="p">.</span><span class="n">time</span>
+         <span class="n">alarmBuffer</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">Calendar</span><span class="p">.</span><span class="nc">SECOND</span><span class="p">,</span> <span class="nc">ALARM_FIRE_BUFFER</span><span class="p">)</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">before</span><span class="p">(</span><span class="n">alarmBuffer</span><span class="p">))</span> <span class="p">{</span>
+             <span class="nf">setFiredState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+             <span class="nf">setMissedState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="p">}</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">==</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">SNOOZE_STATE</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// We only want to display snooze notification and not update the time,</span>
+         <span class="c1">// so handle showing the notification directly</span>
+         <span class="nc">AlarmNotifications</span><span class="p">.</span><span class="nf">showSnoozeNotification</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="nf">scheduleInstanceStateChange</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">.</span><span class="n">alarmTime</span><span class="p">,</span>
+                 <span class="n">instance</span><span class="p">,</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">FIRED_STATE</span><span class="p">)</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">after</span><span class="p">(</span><span class="n">highNotificationTime</span><span class="p">))</span> <span class="p">{</span>
+         <span class="nf">setHighNotificationState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span><span class="p">.</span><span class="nf">after</span><span class="p">(</span><span class="n">lowNotificationTime</span><span class="p">))</span> <span class="p">{</span>
+         <span class="c1">// Only show low notification if it wasn't hidden in the past</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">==</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">HIDE_NOTIFICATION_STATE</span><span class="p">)</span> <span class="p">{</span>
+             <span class="nf">setHideNotificationState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+             <span class="nf">setLowNotificationState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+         <span class="p">}</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="c1">// Alarm is still active, so initialize as a silent alarm</span>
+         <span class="nf">setSilentState</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+     <span class="p">}</span>
+     <span class="c1">// The caller prefers to handle updateNextAlarm for optimization</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">updateNextAlarm</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nf">updateNextAlarm</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="k">private</span> <span class="k">fun</span> <span class="nf">setSilentState</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="nc">Context</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="nc">AlarmInstance</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">i</span><span class="p">(</span><span class="s">"Setting silent state to instance "</span> <span class="p">+</span> <span class="n">instance</span><span class="p">.</span><span class="n">mId</span><span class="p">)</span>
+    <span class="c1">// Update alarm in db</span>
+    <span class="kd">val</span> <span class="py">contentResolver</span><span class="p">:</span> <span class="nc">ContentResolver</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">contentResolver</span>
+    <span class="n">instance</span><span class="p">.</span><span class="n">mAlarmState</span> <span class="p">=</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">SILENT_STATE</span>
+    <span class="nc">AlarmInstance</span><span class="p">.</span><span class="nf">updateInstance</span><span class="p">(</span><span class="n">contentResolver</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+    <span class="c1">// Setup instance notification and scheduling timers</span>
+    <span class="nc">AlarmNotifications</span><span class="p">.</span><span class="nf">clearNotification</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span> <span class="c1">//清除通知</span>
+    <span class="c1">//执行实例状态改变</span>
+    <span class="nf">scheduleInstanceStateChange</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">.</span><span class="n">lowNotificationTime</span><span class="p">,</span>
+            <span class="n">instance</span><span class="p">,</span> <span class="nc">InstancesColumns</span><span class="p">.</span><span class="nc">LOW_NOTIFICATION_STATE</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></table></code></div></div><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="kd">private</span> <span class="kt">var</span> <span class="nl">sStateChangeScheduler:</span> <span class="nc">StateChangeScheduler</span> <span class="o">=</span> <span class="nc">AlarmManagerStateChangeScheduler</span><span class="o">()</span>
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">scheduleInstanceStateChange</span><span class="o">(</span>
+    <span class="nl">ctx:</span> <span class="nc">Context</span><span class="o">,</span>
+    <span class="nl">time:</span> <span class="nc">Calendar</span><span class="o">,</span>
+    <span class="nl">instance:</span> <span class="nc">AlarmInstance</span><span class="o">,</span>
+    <span class="nl">newState:</span> <span class="nc">Int</span>
+<span class="o">)</span> <span class="o">{</span>
+    <span class="n">sStateChangeScheduler</span><span class="o">.</span><span class="na">scheduleInstanceStateChange</span><span class="o">(</span><span class="n">ctx</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">instance</span><span class="o">,</span> <span class="n">newState</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></table></code></div></div><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+</pre><td class="rouge-code"><pre><span class="k">private</span> <span class="kd">class</span> <span class="nc">AlarmManagerStateChangeScheduler</span> <span class="p">:</span> <span class="nc">StateChangeScheduler</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">scheduleInstanceStateChange</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">:</span> <span class="nc">Context</span><span class="p">,</span>
+            <span class="n">time</span><span class="p">:</span> <span class="nc">Calendar</span><span class="p">,</span>
+            <span class="n">instance</span><span class="p">:</span> <span class="nc">AlarmInstance</span><span class="p">,</span>
+            <span class="n">newState</span><span class="p">:</span> <span class="nc">Int</span>
+        <span class="p">)</span> <span class="p">{</span>
+            <span class="kd">val</span> <span class="py">timeInMillis</span> <span class="p">=</span> <span class="n">time</span><span class="p">.</span><span class="n">timeInMillis</span>
+            <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">i</span><span class="p">(</span><span class="s">"Scheduling state change %d to instance %d at %s (%d)"</span><span class="p">,</span> <span class="n">newState</span><span class="p">,</span>
+                    <span class="n">instance</span><span class="p">.</span><span class="n">mId</span><span class="p">,</span> <span class="nc">AlarmUtils</span><span class="p">.</span><span class="nf">getFormattedTime</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">time</span><span class="p">),</span> <span class="n">timeInMillis</span><span class="p">)</span>
+            <span class="kd">val</span> <span class="py">stateChangeIntent</span><span class="p">:</span> <span class="nc">Intent</span> <span class="p">=</span>
+                    <span class="nf">createStateChangeIntent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nc">ALARM_MANAGER_TAG</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">newState</span><span class="p">)</span>
+            <span class="c1">// Treat alarm state change as high priority, use foreground broadcasts</span>
+            <span class="n">stateChangeIntent</span><span class="p">.</span><span class="nf">addFlags</span><span class="p">(</span><span class="nc">Intent</span><span class="p">.</span><span class="nc">FLAG_RECEIVER_FOREGROUND</span><span class="p">)</span>
+            <span class="c1">//创建pendingIntent</span>
+            <span class="kd">val</span> <span class="py">pendingIntent</span><span class="p">:</span> <span class="nc">PendingIntent</span> <span class="p">=</span>
+                    <span class="nc">PendingIntent</span><span class="p">.</span><span class="nf">getService</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">.</span><span class="nf">hashCode</span><span class="p">(),</span>
+                    <span class="n">stateChangeIntent</span><span class="p">,</span> <span class="nc">PendingIntent</span><span class="p">.</span><span class="nc">FLAG_UPDATE_CURRENT</span><span class="p">)</span>
+						<span class="c1">//创建AlarmManager</span>
+            <span class="kd">val</span> <span class="py">am</span><span class="p">:</span> <span class="nc">AlarmManager</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="nf">getSystemService</span><span class="p">(</span><span class="nc">ALARM_SERVICE</span><span class="p">)</span> <span class="k">as</span> <span class="nc">AlarmManager</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nc">Utils</span><span class="p">.</span><span class="n">isMOrLater</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//大于等于6.0</span>
+                <span class="c1">// Ensure the alarm fires even if the device is dozing.</span>
+                <span class="n">am</span><span class="p">.</span><span class="nf">setExactAndAllowWhileIdle</span><span class="p">(</span><span class="nc">AlarmManager</span><span class="p">.</span><span class="nc">RTC_WAKEUP</span><span class="p">,</span> <span class="n">timeInMillis</span><span class="p">,</span> <span class="n">pendingIntent</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">am</span><span class="p">.</span><span class="nf">setExact</span><span class="p">(</span><span class="nc">AlarmManager</span><span class="p">.</span><span class="nc">RTC_WAKEUP</span><span class="p">,</span> <span class="n">timeInMillis</span><span class="p">,</span> <span class="n">pendingIntent</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">cancelScheduledInstanceStateChange</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="nc">Context</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="nc">AlarmInstance</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">v</span><span class="p">(</span><span class="s">"Canceling instance "</span> <span class="p">+</span> <span class="n">instance</span><span class="p">.</span><span class="n">mId</span> <span class="p">+</span> <span class="s">" timers"</span><span class="p">)</span>
+
+            <span class="c1">// Create a PendingIntent that will match any one set for this instance</span>
+            <span class="kd">val</span> <span class="py">pendingIntent</span><span class="p">:</span> <span class="nc">PendingIntent</span><span class="p">?</span> <span class="p">=</span>
+                    <span class="nc">PendingIntent</span><span class="p">.</span><span class="nf">getService</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">.</span><span class="nf">hashCode</span><span class="p">(),</span>
+                    <span class="nf">createStateChangeIntent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nc">ALARM_MANAGER_TAG</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="k">null</span><span class="p">),</span>
+                    <span class="nc">PendingIntent</span><span class="p">.</span><span class="nc">FLAG_NO_CREATE</span><span class="p">)</span>
+
+            <span class="n">pendingIntent</span><span class="o">?.</span><span class="nf">let</span> <span class="p">{</span>
+                <span class="kd">val</span> <span class="py">am</span><span class="p">:</span> <span class="nc">AlarmManager</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="nf">getSystemService</span><span class="p">(</span><span class="nc">ALARM_SERVICE</span><span class="p">)</span> <span class="k">as</span> <span class="nc">AlarmManager</span>
+                <span class="n">am</span><span class="p">.</span><span class="nf">cancel</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+                <span class="n">it</span><span class="p">.</span><span class="nf">cancel</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></table></code></div></div><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">createStateChangeIntent</span><span class="o">(</span>
+    <span class="nl">context:</span> <span class="nc">Context</span><span class="o">?,</span>
+    <span class="nl">tag:</span> <span class="nc">String</span><span class="o">?,</span>
+    <span class="nl">instance:</span> <span class="nc">AlarmInstance</span><span class="o">,</span>
+    <span class="nl">state:</span> <span class="nc">Int</span><span class="o">?</span>
+<span class="o">):</span> <span class="nc">Intent</span> <span class="o">{</span>
+    <span class="c1">// This intent is directed to AlarmService, though the actual handling of it occurs here</span>
+    <span class="c1">// in AlarmStateManager. The reason is that evidence exists showing the jump between the</span>
+    <span class="c1">// broadcast receiver (AlarmStateManager) and service (AlarmService) can be thwarted by</span>
+    <span class="c1">// the Out Of Memory killer. If clock is killed during that jump, firing an alarm can</span>
+    <span class="c1">// fail to occur. To be safer, the call begins in AlarmService, which has the power to</span>
+    <span class="c1">// display the firing alarm if needed, so no jump is needed.</span>
+    <span class="c1">//闹钟完成，启动Service</span>
+    <span class="n">val</span> <span class="nl">intent:</span> <span class="nc">Intent</span> <span class="o">=</span>
+            <span class="nc">AlarmInstance</span><span class="o">.</span><span class="na">createIntent</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="nl">AlarmService:</span><span class="o">:</span><span class="kd">class</span><span class="err">.</span><span class="nc">java</span><span class="o">,</span> <span class="n">instance</span><span class="o">.</span><span class="na">mId</span><span class="o">)</span>
+    <span class="n">intent</span><span class="o">.</span><span class="na">action</span> <span class="o">=</span> <span class="no">CHANGE_STATE_ACTION</span>
+    <span class="n">intent</span><span class="o">.</span><span class="na">addCategory</span><span class="o">(</span><span class="n">tag</span><span class="o">)</span>
+    <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="no">ALARM_GLOBAL_ID_EXTRA</span><span class="o">,</span> <span class="nc">DataModel</span><span class="o">.</span><span class="na">dataModel</span><span class="o">.</span><span class="na">globalIntentId</span><span class="o">)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">state</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="no">ALARM_STATE_EXTRA</span><span class="o">,</span> <span class="n">state</span><span class="o">.</span><span class="na">toInt</span><span class="o">())</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">intent</span>
+<span class="o">}</span>
+</pre></table></code></div></div><h3 id="unregisterinstance">unregisterInstance()</h3><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">unregisterInstance</span><span class="o">(</span><span class="nl">context:</span> <span class="nc">Context</span><span class="o">,</span> <span class="nl">instance:</span> <span class="nc">AlarmInstance</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">LogUtils</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="s">"Unregistering instance "</span> <span class="o">+</span> <span class="n">instance</span><span class="o">.</span><span class="na">mId</span><span class="o">)</span>
+    <span class="c1">// Stop alarm if this instance is firing it</span>
+    <span class="nc">AlarmService</span><span class="o">.</span><span class="na">stopAlarm</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">instance</span><span class="o">)</span>
+    <span class="nc">AlarmNotifications</span><span class="o">.</span><span class="na">clearNotification</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">instance</span><span class="o">)</span>
+    <span class="n">cancelScheduledInstanceStateChange</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">instance</span><span class="o">)</span>
+    <span class="n">setDismissState</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">instance</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></table></code></div></div><h2 id="alarmservice">AlarmService</h2><h3 id="onstartcommand">onStartCommand()</h3><div class="language-java highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre><td class="rouge-code"><pre><span class="n">override</span> <span class="n">fun</span> <span class="nf">onStartCommand</span><span class="o">(</span><span class="nl">intent:</span> <span class="nc">Intent</span><span class="o">?,</span> <span class="nl">flags:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">startId:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="nc">LogUtils</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">"AlarmService.onStartCommand() with %s"</span><span class="o">,</span> <span class="n">intent</span><span class="o">)</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">intent</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">Service</span><span class="o">.</span><span class="na">START_NOT_STICKY</span>
+        <span class="o">}</span>
+
+        <span class="n">val</span> <span class="n">instanceId</span> <span class="o">=</span> <span class="nc">AlarmInstance</span><span class="o">.</span><span class="na">getId</span><span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">data</span><span class="o">!!)</span>
+        <span class="n">when</span> <span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">action</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">AlarmStateManager</span><span class="o">.</span><span class="na">CHANGE_STATE_ACTION</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="c1">//状态改变</span>
+                <span class="nc">AlarmStateManager</span><span class="o">.</span><span class="na">handleIntent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">intent</span><span class="o">)</span>
+
+                <span class="c1">// If state is changed to firing, actually fire the alarm!</span>
+                <span class="n">val</span> <span class="nl">alarmState:</span> <span class="nc">Int</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getIntExtra</span><span class="o">(</span><span class="nc">AlarmStateManager</span><span class="o">.</span><span class="na">ALARM_STATE_EXTRA</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">alarmState</span> <span class="o">==</span> <span class="nc">InstancesColumns</span><span class="o">.</span><span class="na">FIRED_STATE</span><span class="o">)</span> <span class="o">{</span><span class="c1">//如果当前状态是FIRED_STATE</span>
+                    <span class="n">val</span> <span class="nl">cr:</span> <span class="nc">ContentResolver</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">contentResolver</span>
+                    <span class="n">val</span> <span class="nl">instance:</span> <span class="nc">AlarmInstance</span><span class="o">?</span> <span class="o">=</span> <span class="nc">AlarmInstance</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">cr</span><span class="o">,</span> <span class="n">instanceId</span><span class="o">)</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nc">LogUtils</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"No instance found to start alarm: %d"</span><span class="o">,</span> <span class="n">instanceId</span><span class="o">)</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentAlarm</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="c1">// Only release lock if we are not firing alarm</span>
+                            <span class="nc">AlarmAlertWakeLock</span><span class="o">.</span><span class="na">releaseCpuLock</span><span class="o">()</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentAlarm</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mCurrentAlarm</span><span class="o">!!.</span><span class="na">mId</span> <span class="o">==</span> <span class="n">instanceId</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nc">LogUtils</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"Alarm already started for instance: %d"</span><span class="o">,</span> <span class="n">instanceId</span><span class="o">)</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="n">startAlarm</span><span class="o">(</span><span class="n">instance</span><span class="o">)</span> <span class="c1">//开始闹钟</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="no">STOP_ALARM_ACTION</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="c1">//停止闹钟</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">mCurrentAlarm</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mCurrentAlarm</span><span class="o">!!.</span><span class="na">mId</span> <span class="o">!=</span> <span class="n">instanceId</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="nc">LogUtils</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"Can't stop alarm for instance: %d because current alarm is: %d"</span><span class="o">,</span>
+                            <span class="n">instanceId</span><span class="o">,</span> <span class="n">mCurrentAlarm</span><span class="o">!!.</span><span class="na">mId</span><span class="o">)</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">stopCurrentAlarm</span><span class="o">()</span>
+                    <span class="n">stopSelf</span><span class="o">()</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="nc">Service</span><span class="o">.</span><span class="na">START_NOT_STICKY</span>
+    <span class="o">}</span>
+</pre></table></code></div></div><h3 id="startalarm">startAlarm()</h3><div class="language-kotlin highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">private</span> <span class="k">fun</span> <span class="nf">startAlarm</span><span class="p">(</span><span class="n">instance</span><span class="p">:</span> <span class="nc">AlarmInstance</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">LogUtils</span><span class="p">.</span><span class="nf">v</span><span class="p">(</span><span class="s">"AlarmService.start with instance: "</span> <span class="p">+</span> <span class="n">instance</span><span class="p">.</span><span class="n">mId</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mCurrentAlarm</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nc">AlarmStateManager</span><span class="p">.</span><span class="nf">setMissedState</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">mCurrentAlarm</span><span class="o">!!</span><span class="p">)</span>
+        <span class="nf">stopCurrentAlarm</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="nc">AlarmAlertWakeLock</span><span class="p">.</span><span class="nf">acquireCpuWakeLock</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+    <span class="n">mCurrentAlarm</span> <span class="p">=</span> <span class="n">instance</span>
+      <span class="c1">//显示Notification</span>
+      <span class="nc">AlarmNotifications</span><span class="p">.</span><span class="nf">showAlarmNotification</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">mCurrentAlarm</span><span class="o">!!</span><span class="p">)</span>
+    <span class="n">mTelephonyManager</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="n">mPhoneStateListener</span><span class="p">.</span><span class="nf">init</span><span class="p">(),</span> <span class="nc">PhoneStateListener</span><span class="p">.</span><span class="nc">LISTEN_CALL_STATE</span><span class="p">)</span>
+    <span class="nc">AlarmKlaxon</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">mCurrentAlarm</span><span class="o">!!</span><span class="p">)</span>
+    <span class="nf">sendBroadcast</span><span class="p">(</span><span class="nc">Intent</span><span class="p">(</span><span class="nc">ALARM_ALERT_ACTION</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h2 id="参考">参考</h2><ul><li><a href="https://developer.android.com/training/scheduling/alarms#kotlin">设置重复闹铃时间</a></ul></div><div class="post-tail-wrapper text-muted"><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="post-tag no-text-decoration" >源码分析</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=系统闹钟源码分析 - malinkang&url=https://malinkang.cn/posts/deskclock-analysis/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=系统闹钟源码分析 - malinkang&u=https://malinkang.cn/posts/deskclock-analysis/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=系统闹钟源码分析 - malinkang&url=https://malinkang.cn/posts/deskclock-analysis/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/dagger-guide/">Dagger使用指南</a><li><a href="/posts/understanding-the-jvm-runtime-data-areas/">《深入理解JVM》第2章Java内存区域与内存溢出异常</a><li><a href="/posts/understanding-the-jvm-garbage-collection/">《深入理解JVM》第3章垃圾收集器</a><li><a href="/posts/understanding-the-jvm-class-file-structure/">《深入理解JVM》第6章类文件结构</a><li><a href="/posts/understanding-the-jvm-class-loader/">《深入理解JVM》第7章虚拟机类加载机制</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a> <a class="post-tag" href="/tags/thinking-in-java/">Thinking in Java</a> <a class="post-tag" href="/tags/android/">Android</a> <a class="post-tag" href="/tags/effective-java/">Effective Java</a> <a class="post-tag" href="/tags/kotlin/">Kotlin</a> <a class="post-tag" href="/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">Java并发编程实战</a> <a class="post-tag" href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm/">深入理解JVM</a> <a class="post-tag" href="/tags/android/">android</a> <a class="post-tag" href="/tags/databinding/">databinding</a> <a class="post-tag" href="/tags/recyclerview/">RecyclerView</a></div></div></div><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/arouter-source-analysis/"><div class="card-body"> <span class="timeago small" > Nov 24, 2020 <i class="unloaded">2020-11-24T19:14:29+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>ARouter源码分析</h3><div class="text-muted small"><p> ARouter原理如下 编译期，会扫描@Route注解，将注解里的信息封装成一个RouteMeta对象。并生成一个辅助类ARouter$$Group$$groupName，groupName即分组的名字，这也意味着同一个group只会生成一个辅助类。该类继承自IRouteGroup，有一个loadInto()方法。在运行时，调用loadInto()方法，将@Route中的path作为k...</p></div></div></a></div><div class="card"> <a href="/posts/okhttp-source-analysis/"><div class="card-body"> <span class="timeago small" > Nov 26, 2020 <i class="unloaded">2020-11-26T04:01:47+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Okhttp源码分析</h3><div class="text-muted small"><p> Okhttp基本流程分析 基本流程 创建RequestBody 创建Request 创建OkhttpClient 调用newCall创建Call对象 执行异步或同步操作。 创建Socket连接 发送请求并处理返回结果 创建RequestBody RequestBody主要通过writeTo方法将请求内容写入到BufferedSink。RequestBo...</p></div></div></a></div><div class="card"> <a href="/posts/retrofit-source-analysis/"><div class="card-body"> <span class="timeago small" > Jul 26, 2017 <i class="unloaded">2017-07-26T04:07:22+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Retrofit源码分析</h3><div class="text-muted small"><p> Retrofit源码分析 流程分析 Retrofit执行流程可以分为两部分： 创建ServiceMethod。 调用ServiceMethod的invoke()。 下图中，黑线部分是创建ServiceMethod的过程，红线部分是invoke()的调用过程。 ServiceMethod创建过程： 通过动态代理，获取到我们定义的接口里的所有Method，调用S...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/bound-services/" class="btn btn-outline-primary" prompt="Older"><p>绑定服务</p></a> <span class="btn btn-outline-primary disabled" prompt="Newer"><p>-</p></span></div><div id="disqus" class="pt-2 pb-2"><p class="text-center text-muted small pb-5"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> const options = { scriptUrl: '//malinkang-cn.disqus.com/embed.js', disqusConfig: function() { this.page.title = '系统闹钟源码分析'; this.page.url = 'https://malinkang.cn/posts/deskclock-analysis/'; this.page.identifier = '/posts/deskclock-analysis/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://twitter.com/malinkang">malinkang</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a> <a class="post-tag" href="/tags/thinking-in-java/">Thinking in Java</a> <a class="post-tag" href="/tags/android/">Android</a> <a class="post-tag" href="/tags/effective-java/">Effective Java</a> <a class="post-tag" href="/tags/kotlin/">Kotlin</a> <a class="post-tag" href="/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">Java并发编程实战</a> <a class="post-tag" href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm/">深入理解JVM</a> <a class="post-tag" href="/tags/android/">android</a> <a class="post-tag" href="/tags/databinding/">databinding</a> <a class="post-tag" href="/tags/recyclerview/">RecyclerView</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://malinkang.cn{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script>
